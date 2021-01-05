@@ -1,0 +1,10 @@
+{
+	"auth": {
+		"skilltrain29df1b78": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false
+		}
+	}
+}

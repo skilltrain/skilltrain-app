@@ -1,0 +1,20 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-skilltrain-dev-154146-authRole",
+            "UnauthRoleArn": "arn:aws:iam::958561750757:role/amplify-skilltrain-dev-154146-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::958561750757:role/amplify-skilltrain-dev-154146-authRole",
+            "Region": "ap-northeast-1",
+            "DeploymentBucketName": "amplify-skilltrain-dev-154146-deployment",
+            "UnauthRoleName": "amplify-skilltrain-dev-154146-unauthRole",
+            "StackName": "amplify-skilltrain-dev-154146",
+            "StackId": "arn:aws:cloudformation:ap-northeast-1:958561750757:stack/amplify-skilltrain-dev-154146/16d05840-4f21-11eb-a7dd-0eaa2c042eed",
+            "AmplifyAppId": "d368dc2wgft6ol"
+        },
+        "categories": {
+            "auth": {
+                "skilltrain29df1b78": {}
+            }
+        }
+    }
+}
