@@ -1,17 +1,9 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/material.dart';
-
-/*
-IMPORTANT - THIS LINE WILL NOT COMPILE
-That is intentional
-You need to generate your own amplifyconfiguration.dart
-for accessing your own AWS resources.
-You will use the Amplify CLI tool for that.  Please read the
-README.md contained within the root of this project to learn
-about what you'll need to do.
- */
+import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'amplifyconfiguration.dart';
+import './sign_up.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,51 +11,73 @@ void main() {
 
 class MyApp extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _MyAppState();
+  _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  Amplify amplify = Amplify();
-  bool _isAmplifyConfigured = false;
+  bool _amplifyConfigured = false;
+
+  // Instantiate Amplify
+  Amplify amplifyInstance = Amplify();
 
   @override
-  initState() {
+  void initState() {
     super.initState();
-    _initAmplifyFlutter();
+    _configureAmplify();
   }
 
-  void _initAmplifyFlutter() async {
-    AmplifyAuthCognito auth = AmplifyAuthCognito();
+  void _configureAmplify() async {
+    if (!mounted) return;
 
-    amplify.addPlugin(
-      authPlugins: [auth],
-    );
+    // Add Pinpoint and Cognito Plugins
+    AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
+    AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
+    amplifyInstance.addPlugin(authPlugins: [authPlugin]);
+    amplifyInstance.addPlugin(analyticsPlugins: [analyticsPlugin]);
 
-    // Initialize AmplifyFlutter
-    await amplify.configure(amplifyconfig);
-
-    setState(() {
-      _isAmplifyConfigured = true;
-    });
+    // Once Plugins are added, configure Amplify
+    await amplifyInstance.configure(amplifyconfig);
+    try {
+      setState(() {
+        _amplifyConfigured = true;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
-  // This widget is the root of your application.
+  void _recordEvent() async {
+    AnalyticsEvent event = AnalyticsEvent("test");
+    event.properties.addBoolProperty("boolKey", true);
+    event.properties.addDoubleProperty("doubleKey", 10.0);
+    event.properties.addIntProperty("intKey", 10);
+    event.properties.addStringProperty("stringKey", "stringValue");
+    Amplify.Analytics.recordEvent(event: event);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Amplify App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Welcome to Flutter'),
-        ),
-        body: Center(
-          child: Text('Hello World'),
-        ),
-      ),
-    );
+        title: "cyaaant",
+        theme: ThemeData(visualDensity: VisualDensity.adaptivePlatformDensity),
+        home: Navigator(
+          pages: [MaterialPage(child: SignUpPage())],
+          onPopPage: (route, result) => route.didPop(result),
+        ));
+    // home: Scaffold(
+    //     appBar: AppBar(
+    //       title: const Text('Amplify Core example app'),
+    //     ),
+    //     body: ListView(padding: EdgeInsets.all(10.0), children: <Widget>[
+    //       Center(
+    //         child: Column(children: [
+    //           const Padding(padding: EdgeInsets.all(5.0)),
+    //           Text(_amplifyConfigured ? "configured" : "not configured"),
+    //           RaisedButton(
+    //               onPressed: _amplifyConfigured ? _recordEvent : null,
+    //               child: const Text('record event'))
+    //         ]),
+    //       )
+    //     ])));
   }
 }
