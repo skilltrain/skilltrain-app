@@ -1,13 +1,13 @@
 {
-    "projectName": "skillTrain",
-    "version": "3.0",
-    "frontend": "flutter",
-    "flutter": {
-        "config": {
-            "ResDir": "./lib/"
-        }
-    },
-    "providers": [
-        "awscloudformation"
-    ]
+  "providers": [
+    "awscloudformation"
+  ],
+  "projectName": "skillTrain",
+  "version": "3.0",
+  "frontend": "flutter",
+  "flutter": {
+    "config": {
+      "ResDir": "./lib/"
+    }
+  }
 }

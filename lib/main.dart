@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'amplifyconfiguration.dart';
-import './sign_up.dart';
+import './signup.dart';
+import './login.dart';
+import './auth_service.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +18,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _amplifyConfigured = false;
-
+  final _authService = AuthService();
   // Instantiate Amplify
   Amplify amplifyInstance = Amplify();
 
@@ -24,6 +26,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _configureAmplify();
+    _authService.showLogin();
   }
 
   void _configureAmplify() async {
@@ -58,26 +61,29 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: "cyaaant",
+        title: "skillTrain",
         theme: ThemeData(visualDensity: VisualDensity.adaptivePlatformDensity),
-        home: Navigator(
-          pages: [MaterialPage(child: SignUpPage())],
-          onPopPage: (route, result) => route.didPop(result),
-        ));
-    // home: Scaffold(
-    //     appBar: AppBar(
-    //       title: const Text('Amplify Core example app'),
-    //     ),
-    //     body: ListView(padding: EdgeInsets.all(10.0), children: <Widget>[
-    //       Center(
-    //         child: Column(children: [
-    //           const Padding(padding: EdgeInsets.all(5.0)),
-    //           Text(_amplifyConfigured ? "configured" : "not configured"),
-    //           RaisedButton(
-    //               onPressed: _amplifyConfigured ? _recordEvent : null,
-    //               child: const Text('record event'))
-    //         ]),
-    //       )
-    //     ])));
+        home: StreamBuilder<AuthState>(
+            stream: _authService.authStateController.stream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Navigator(
+                  pages: [
+                    if (snapshot.data.authFlowStatus == AuthFlowStatus.login)
+                      MaterialPage(
+                          child: LoginPage(
+                              shouldShowSignUp: _authService.showSignUp)),
+                    if (snapshot.data.authFlowStatus == AuthFlowStatus.signUp)
+                      MaterialPage(child: SignUpPage())
+                  ],
+                  onPopPage: (route, result) => route.didPop(result),
+                );
+              } else {
+                return Container(
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }));
   }
 }
