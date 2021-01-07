@@ -2,6 +2,7 @@ import 'dart:async';
 import 'auth_credentials.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
+import 'package:flutter/services.dart';
 
 // 1
 enum AuthFlowStatus { login, signUp, verification, session }
@@ -31,11 +32,6 @@ class AuthService {
     authStateController.add(state);
   }
 
-  void showSession() {
-    final state = AuthState(authFlowStatus: AuthFlowStatus.session);
-    authStateController.add(state);
-  }
-
   // 1
   void loginWithCredentials(AuthCredentials credentials) async {
     try {
@@ -59,23 +55,21 @@ class AuthService {
 // 1
   void signUpWithCredentials(SignUpCredentials credentials) async {
     try {
+      // 2
       final userAttributes = {'email': credentials.email};
 
+      // 3
       final result = await Amplify.Auth.signUp(
           username: credentials.username,
           password: credentials.password,
           options: CognitoSignUpOptions(userAttributes: userAttributes));
 
-      if (result.isSignUpComplete) {
-        // loginWithCredentials(credentials);
-        final state = AuthState(authFlowStatus: AuthFlowStatus.verification);
-        authStateController.add(state);
-      }
-    } on AuthError catch (authError) {
-      print(authError.exceptionList[0].exception);
-      print(authError.exceptionList[1].exception);
-      print(authError.exceptionList[2].exception);
+      this._credentials = credentials;
+      final state = AuthState(authFlowStatus: AuthFlowStatus.verification);
+      authStateController.add(state);
 
+      // 7
+    } on AuthError catch (authError) {
       print('Failed to sign up - ${authError.cause}');
     }
   }
@@ -91,8 +85,8 @@ class AuthService {
       if (result.isSignUpComplete) {
         loginWithCredentials(_credentials);
       } else {
-        final state = AuthState(authFlowStatus: AuthFlowStatus.verification);
-        authStateController.add(state);
+        // 4
+        // Follow more steps
       }
     } on AuthError catch (authError) {
       print('Could not verify code - ${authError.cause}');
@@ -103,9 +97,10 @@ class AuthService {
     try {
       // 1
       await Amplify.Auth.signOut();
+      final state = AuthState(authFlowStatus: AuthFlowStatus.login);
+      authStateController.add(state);
 
       // 2
-      showLogin();
     } on AuthError catch (authError) {
       print('Could not log out - ${authError.cause}');
     }
@@ -113,11 +108,12 @@ class AuthService {
 
   void checkAuthStatus() async {
     try {
-      await Amplify.Auth.fetchAuthSession();
+      CognitoAuthSession res = await Amplify.Auth.fetchAuthSession(
+          options: CognitoSessionOptions(getAWSCredentials: true));
 
       final state = AuthState(authFlowStatus: AuthFlowStatus.session);
       authStateController.add(state);
-    } catch (_) {
+    } on AuthError catch (e) {
       final state = AuthState(authFlowStatus: AuthFlowStatus.login);
       authStateController.add(state);
     }
