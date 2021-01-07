@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './instructor_bio.dart';
+import './session.dart';
 
 class HomePage extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -32,6 +33,12 @@ class _HomePageState extends State<HomePage> {
             onTap: () => {
               // Update the state of the app.
               // ...
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => sessionList(),
+                ),
+              )
             },
           ),
           ListTile(
