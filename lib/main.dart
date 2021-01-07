@@ -7,6 +7,7 @@ import './signup.dart';
 import './login.dart';
 import './auth_service.dart';
 import './verification_page.dart';
+import './home_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,11 +29,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     _configureAmplify();
 
-    // This has been turned off so that Yuta can access the session
-    // _authService.checkAuthStatus();
-
-//This
-    _authService.showSession();
+    _authService.checkAuthStatus();
   }
 
   void _configureAmplify() async {
@@ -59,6 +56,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final a = _authService;
     return MaterialApp(
         title: "skillTrain",
         theme: ThemeData(visualDensity: VisualDensity.adaptivePlatformDensity),
@@ -68,12 +66,6 @@ class _MyAppState extends State<MyApp> {
               if (snapshot.hasData) {
                 return Navigator(
                   pages: [
-                    if (snapshot.data.authFlowStatus == AuthFlowStatus.session)
-                      MaterialPage(
-                          child: LoginPage(
-                              didProvideCredentials:
-                                  _authService.loginWithCredentials,
-                              shouldShowSignUp: _authService.showSignUp)),
                     if (snapshot.data.authFlowStatus == AuthFlowStatus.login)
                       MaterialPage(
                           child: LoginPage(
@@ -91,7 +83,10 @@ class _MyAppState extends State<MyApp> {
                       MaterialPage(
                           child: VerificationPage(
                               didProvideVerificationCode:
-                                  _authService.verifyCode))
+                                  _authService.verifyCode)),
+                    if (snapshot.data.authFlowStatus == AuthFlowStatus.session)
+                      MaterialPage(
+                          child: HomePage(shouldLogOut: _authService.logOut)),
                   ],
                   onPopPage: (route, result) => route.didPop(result),
                 );
