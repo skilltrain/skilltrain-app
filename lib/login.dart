@@ -1,10 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'auth_credentials.dart';
 
 class LoginPage extends StatefulWidget {
-  final ValueChanged<LoginCredentials> didProvideCredentials;
-  final VoidCallback shouldShowSignUp;
+  // I am not sure what deleting ValueChanged here breaks, but I need to return a list from didProvideCredentials to
+  // print the error message here
+  // final ValueChanged<LoginCredentials> didProvideCredentials;
 
+  // This is the replacement for ValueChanged, I do not know if this will break things later - Eliot
+  Future<List> Function(AuthCredentials login) didProvideCredentials;
+
+  final VoidCallback shouldShowSignUp;
   LoginPage({Key key, this.didProvideCredentials, this.shouldShowSignUp})
       : super(key: key);
 
@@ -64,15 +70,43 @@ class _LoginPageState extends State<LoginPage> {
 
         // Login Button
         FlatButton(
-            onPressed: _login,
+            onPressed: () {
+              _login();
+            },
             child: Text('Login'),
             color: Theme.of(context).accentColor)
       ],
     );
   }
 
-  // 7
-  void _login() {
+  void showAlertDialog(BuildContext context, String errorMessage) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Error"),
+      content: Text(errorMessage),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void _login() async {
     final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
 
@@ -81,6 +115,13 @@ class _LoginPageState extends State<LoginPage> {
 
     final credentials =
         LoginCredentials(username: username, password: password);
-    widget.didProvideCredentials(credentials);
+
+    // This is a custom object (list) with a boolean at index 0 to indicate whether or not the login was unsuccessful
+    // If the login was unsuccessful, the boolean is 'true' and there are error messages at indexes 1,2,3 etc.
+    final loginResponse = await widget.didProvideCredentials(credentials);
+    print(loginResponse);
+    if (loginResponse[0] == "errors") {
+      showAlertDialog(context, loginResponse[1]);
+    }
   }
 }
