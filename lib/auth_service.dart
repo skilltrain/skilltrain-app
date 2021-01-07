@@ -18,6 +18,7 @@ class AuthService {
   // 4
   final authStateController = StreamController<AuthState>();
   AuthCredentials _credentials;
+
   // 5
   void showSignUp() {
     final state = AuthState(authFlowStatus: AuthFlowStatus.signUp);
@@ -30,7 +31,12 @@ class AuthService {
     authStateController.add(state);
   }
 
-// 1
+  void showSession() {
+    final state = AuthState(authFlowStatus: AuthFlowStatus.session);
+    authStateController.add(state);
+  }
+
+  // 1
   void loginWithCredentials(AuthCredentials credentials) async {
     try {
       // 2
@@ -53,10 +59,8 @@ class AuthService {
 // 1
   void signUpWithCredentials(SignUpCredentials credentials) async {
     try {
-      // 2
       final userAttributes = {'email': credentials.email};
 
-      // 3
       final result = await Amplify.Auth.signUp(
           username: credentials.username,
           password: credentials.password,
@@ -67,10 +71,7 @@ class AuthService {
         final state = AuthState(authFlowStatus: AuthFlowStatus.verification);
         authStateController.add(state);
       }
-
-      // 7
     } on AuthError catch (authError) {
-      print(authError);
       print(authError.exceptionList[0].exception);
       print(authError.exceptionList[1].exception);
       print(authError.exceptionList[2].exception);
