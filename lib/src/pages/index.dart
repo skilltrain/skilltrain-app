@@ -69,18 +69,18 @@ class IndexState extends State<IndexPage> {
                       },
                     ),
                   ),
-                  ListTile(
-                    title: Text(ClientRole.Audience.toString()),
-                    leading: Radio(
-                      value: ClientRole.Audience,
-                      groupValue: _role,
-                      onChanged: (ClientRole value) {
-                        setState(() {
-                          _role = value;
-                        });
-                      },
-                    ),
-                  )
+                  // ListTile(
+                  //   title: Text(ClientRole.Audience.toString()),
+                  //   leading: Radio(
+                  //     value: ClientRole.Audience,
+                  //     groupValue: _role,
+                  //     onChanged: (ClientRole value) {
+                  //       setState(() {
+                  //         _role = value;
+                  //       });
+                  //     },
+                  //   ),
+                  // )
                 ],
               ),
               Padding(
