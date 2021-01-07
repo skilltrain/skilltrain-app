@@ -26,7 +26,12 @@
         "email"
     ],
     "userpoolClientReadAttributes": [
+<<<<<<< HEAD
         "email"
+=======
+        "email",
+        "email_verified"
+>>>>>>> ae5729b050b5f5f9bb8b35133274fbe7b2caf0de
     ],
     "userpoolClientLambdaRole": "skillt92edfd63_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
