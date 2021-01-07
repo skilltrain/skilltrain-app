@@ -10,33 +10,11 @@ import './auth_service.dart';
 import './verification_page.dart';
 import './home_page.dart';
 
-void main() {
+void main() async {
+  await DotEnv().load('.env');
+  // final APP_ID = DotEnv().env['appId'];
   runApp(MyApp());
 }
-
-//////////////////added by hide
-class DotenvApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Dotenv App"),
-        ),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              Text(
-                'dotenv values: ${DotEnv().env["appId"]}',
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-//////////////////added by hide
 
 class MyApp extends StatefulWidget {
   @override

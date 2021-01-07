@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 /// Define App ID and Token
-const APP_ID = 'a0036bfcb28b475a8bba0eba3ff90e43';
+final APP_ID = DotEnv().env['appId'];
 // const Token = '';

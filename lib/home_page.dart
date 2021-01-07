@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             title: Text('Booking status'),
-            onTap: () {
+            onTap: () => {
               // Update the state of the app.
               // ...
             },
