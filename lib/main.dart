@@ -8,6 +8,7 @@ import './login.dart';
 import './auth_service.dart';
 import './verification_page.dart';
 import './home_page.dart';
+import './tutorial.dart';
 
 void main() {
   runApp(MyApp());
@@ -56,8 +57,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         title: "skillTrain",
         theme: ThemeData(
-          primarySwatch: Colors.purple,
-          visualDensity: VisualDensity.adaptivePlatformDensity),
+            primarySwatch: Colors.purple,
+            visualDensity: VisualDensity.adaptivePlatformDensity),
         home: StreamBuilder<AuthState>(
             stream: _authService.authStateController.stream,
             builder: (context, snapshot) {
@@ -82,6 +83,8 @@ class _MyAppState extends State<MyApp> {
                           child: VerificationPage(
                               didProvideVerificationCode:
                                   _authService.verifyCode)),
+                    if (snapshot.data.authFlowStatus == AuthFlowStatus.tutorial)
+                      MaterialPage(child: tutorial()),
                     if (snapshot.data.authFlowStatus == AuthFlowStatus.session)
                       MaterialPage(
                           child: HomePage(shouldLogOut: _authService.logOut)),

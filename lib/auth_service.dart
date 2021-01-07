@@ -1,50 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'auth_credentials.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 
-enum AuthFlowStatus { login, signUp, verification, session }
-
-// ignore: must_be_immutable
-// class BlurryDialog extends StatelessWidget {
-//   String title;
-//   String content;
-//   VoidCallback continueCallBack;
-
-//   BlurryDialog(this.title, this.content, this.continueCallBack);
-//   TextStyle textStyle = TextStyle(color: Colors.black);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BackdropFilter(
-//         filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-//         child: AlertDialog(
-//           title: new Text(
-//             title,
-//             style: textStyle,
-//           ),
-//           content: new Text(
-//             content,
-//             style: textStyle,
-//           ),
-//           actions: <Widget>[
-//             new FlatButton(
-//               child: new Text("Continue"),
-//               onPressed: () {
-//                 continueCallBack();
-//               },
-//             ),
-//             new FlatButton(
-//               child: Text("Cancel"),
-//               onPressed: () {
-//                 Navigator.of(context).pop();
-//               },
-//             ),
-//           ],
-//         ));
-//   }
-// }
+enum AuthFlowStatus { login, signUp, verification, tutorial, session }
 
 class AuthState {
   final AuthFlowStatus authFlowStatus;
@@ -113,7 +74,9 @@ class AuthService {
       final result = await Amplify.Auth.confirmSignUp(
           username: _credentials.username, confirmationCode: verificationCode);
       if (result.isSignUpComplete) {
-        loginWithCredentials(_credentials);
+        final response = await loginWithCredentials(_credentials);
+        final state = AuthState(authFlowStatus: AuthFlowStatus.tutorial);
+        authStateController.add(state);
       } else {}
     } on AuthError catch (authError) {
       print('Could not verify code - ${authError.cause}');
