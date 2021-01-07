@@ -19,7 +19,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool _amplifyConfigured = false;
   final _authService = AuthService();
   // Instantiate Amplify
   Amplify amplifyInstance = Amplify();
@@ -44,9 +43,7 @@ class _MyAppState extends State<MyApp> {
     // Once Plugins are added, configure Amplify
     await amplifyInstance.configure(amplifyconfig);
     try {
-      setState(() {
-        _amplifyConfigured = true;
-      });
+      setState(() {});
       print('Successfully configured Amplify 🎉');
     } catch (e) {
       print('Could not configure Amplify ☠️');
@@ -56,7 +53,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final a = _authService;
     return MaterialApp(
         title: "skillTrain",
         theme: ThemeData(visualDensity: VisualDensity.adaptivePlatformDensity),
