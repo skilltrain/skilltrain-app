@@ -13,7 +13,6 @@ import './tutorial.dart';
 
 void main() async {
   await DotEnv().load('.env');
-  // final APP_ID = DotEnv().env['appId'];
   runApp(MyApp());
 }
 
