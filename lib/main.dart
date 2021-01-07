@@ -59,7 +59,9 @@ class _MyAppState extends State<MyApp> {
     final a = _authService;
     return MaterialApp(
         title: "skillTrain",
-        theme: ThemeData(visualDensity: VisualDensity.adaptivePlatformDensity),
+        theme: ThemeData(
+          primarySwatch: Colors.purple,
+          visualDensity: VisualDensity.adaptivePlatformDensity),
         home: StreamBuilder<AuthState>(
             stream: _authService.authStateController.stream,
             builder: (context, snapshot) {
