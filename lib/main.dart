@@ -7,9 +7,9 @@ import 'amplifyconfiguration.dart';
 import './signup.dart';
 import './login.dart';
 import './auth_service.dart';
-import './src/pages/index.dart';
+import './instructor_bio.dart';
 
-var listSample = [
+var listSample2 = [
   {
     "id": 1,
     "portrait":
@@ -116,8 +116,7 @@ var listSample = [
   },
 ];
 
-void main() async {
-  await DotEnv().load('.env');
+void main() {
   runApp(MyApp());
 }
 
@@ -172,115 +171,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class booking extends StatelessWidget {
-  int index;
-  booking({this.index});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("booking"),
-        ),
-        body: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                  child: Row(children: <Widget>[
-                Text("sample schedule",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                    )),
-                new Spacer(),
-                RaisedButton(
-                  onPressed: () {},
-                  textColor: Colors.white,
-                  padding: const EdgeInsets.all(0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: <Color>[
-                          Colors.pink[300],
-                          Colors.purple[500],
-                          Colors.purple[700],
-                        ],
-                      ),
-                    ),
-                    padding: const EdgeInsets.all(15),
-                    child: const Text('booking now'),
-                  ),
-                ),
-              ]));
-            },
-            itemCount: 10));
-  }
-}
-
-class instructorBio extends StatelessWidget {
-  int index;
-  instructorBio({this.index});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("instructor bios"),
-      ),
-      body: Column(
-        children: <Widget>[
-          Image.network(listSample[index]["portrait"]),
-          Row(children: <Widget>[
-            Text(listSample[index]["instructor"],
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                )),
-            new Spacer(),
-          ]),
-          Text(
-            listSample[index]["bio"],
-            style: TextStyle(
-              fontSize: 15,
-            ),
-          ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => booking(index: index),
-                ),
-              );
-            },
-            textColor: Colors.white,
-            padding: const EdgeInsets.all(0),
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: <Color>[
-                    Colors.pink[300],
-                    Colors.purple[500],
-                    Colors.purple[700],
-                  ],
-                ),
-              ),
-              padding: const EdgeInsets.all(10),
-              child: const Text('check availability now! >>>',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                  )),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -299,48 +189,9 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-//listViewのテストエリア
-
-class HomeWidget extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return ListState();
-  }
-}
-
-class ListState extends State<HomeWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("List Test"),
-      ),
-      body: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return Text(index.toString());
-        },
-        itemCount: 10,
-      ),
-    );
-  }
-}
-
-//listViewのテストエリア
+//listView Code area
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -393,7 +244,6 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         centerTitle: true,
       ),
-
       body: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
           return Card(
@@ -409,7 +259,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                   child: Column(
                     children: <Widget>[
-                      Image.network(listSample[index]["classPhoto"]),
+                      Image.network(listSample2[index]["classPhoto"]),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -418,7 +268,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    listSample[index]["instructor"],
+                                    listSample2[index]["instructor"],
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -426,12 +276,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ),
                                   Text(
-                                    listSample[index]["genre"],
+                                    listSample2[index]["genre"],
                                     textAlign: TextAlign.left,
                                   ),
                                 ]),
                             new Spacer(),
-                            Text(listSample[index]["price"].toString(),
+                            Text(listSample2[index]["price"].toString(),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 35,
@@ -445,13 +295,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   )));
         },
-        itemCount: listSample.length,
+        itemCount: listSample2.length,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

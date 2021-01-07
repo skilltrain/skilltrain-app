@@ -1,7 +1,10 @@
 PODS:
+  - agora_rtc_engine (3.2.1):
+    - AgoraRtcEngine_iOS (= 3.2.1)
+    - Flutter
+  - AgoraRtcEngine_iOS (3.2.1)
   - Amplify (1.5.2):
     - Amplify/Default (= 1.5.2)
-  - Amplify/Default (1.5.2)
   - amplify_analytics_pinpoint (0.0.1):
     - Amplify
     - AmplifyPlugins/AWSPinpointAnalyticsPlugin
@@ -55,17 +58,22 @@ PODS:
   - integration_test (0.0.1):
     - Flutter
   - ObjectMapper (4.2.0)
+  - "permission_handler (5.0.1+1)":
+    - Flutter
   - Starscream (3.1.1)
 
 DEPENDENCIES:
+  - agora_rtc_engine (from `.symlinks/plugins/agora_rtc_engine/ios`)
   - amplify_analytics_pinpoint (from `.symlinks/plugins/amplify_analytics_pinpoint/ios`)
   - amplify_auth_cognito (from `.symlinks/plugins/amplify_auth_cognito/ios`)
   - amplify_core (from `.symlinks/plugins/amplify_core/ios`)
   - Flutter (from `Flutter`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
+  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
 
 SPEC REPOS:
   trunk:
+    - AgoraRtcEngine_iOS
     - Amplify
     - AmplifyPlugins
     - AppSyncRealTimeClient
@@ -80,6 +88,8 @@ SPEC REPOS:
     - Starscream
 
 EXTERNAL SOURCES:
+  agora_rtc_engine:
+    :path: ".symlinks/plugins/agora_rtc_engine/ios"
   amplify_analytics_pinpoint:
     :path: ".symlinks/plugins/amplify_analytics_pinpoint/ios"
   amplify_auth_cognito:
@@ -90,8 +100,12 @@ EXTERNAL SOURCES:
     :path: Flutter
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
+  permission_handler:
+    :path: ".symlinks/plugins/permission_handler/ios"
 
 SPEC CHECKSUMS:
+  agora_rtc_engine: b9eb6ee2b4dd6c3854c0d94b0691e7d041fb437e
+  AgoraRtcEngine_iOS: bf8ee53108d31dd9e3b7e448701b9098162c42c7
   Amplify: ab6311e55abba45613c3990e8233b5ffa965d556
   amplify_analytics_pinpoint: ed8e72e7c27d1ccd525eeba1b76c8b9487cb8ac7
   amplify_auth_cognito: 21e6e4acd861653d73875ee7d8ddce1a404e23cf
@@ -108,8 +122,9 @@ SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   integration_test: 6eb66a19f7104200dcfdd62bc0077e1b09686e4f
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
+  permission_handler: eac8e15b4a1a3fba55b761d19f3f4e6b005d15b6
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
 
-PODFILE CHECKSUM: 7368163408c647b7eb699d0d788ba6718e18fb8d
+PODFILE CHECKSUM: a75497545d4391e2d394c3668e20cfb1c2bbd4aa
 
 COCOAPODS: 1.10.0
