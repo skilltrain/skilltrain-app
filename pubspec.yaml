@@ -47,6 +47,9 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/signupgirl.jpg
+    - assets/images/browseImage.gif
+    - assets/images/biosImage.gif
+    - assets/images/biosImage.png
     - assets/data.JSON
 
 

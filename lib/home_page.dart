@@ -1,5 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:skilltrain/bookingStatus.dart';
+import 'package:skilltrain/tutorial.dart';
 import './instructor_bio.dart';
+
+//Page transition animation from left to right
+class SlideRightRoute extends PageRouteBuilder {
+  final Widget page;
+  SlideRightRoute({this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(1, 0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              ),
+        );
+}
+
+//Page transition animation from left to right
+class SlideLeftRoute extends PageRouteBuilder {
+  final Widget page;
+  SlideLeftRoute({this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(1, 0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              ),
+        );
+}
 
 class HomePage extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -28,9 +84,20 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             title: Text('Booking status'),
+            onTap: ()=> {
+              Navigator.push(
+                context,
+                SlideRightRoute(page:bookingStatus()),
+              )
+            },          
+            ),
+          ListTile(
+            title: Text('Tutorial'),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.push(
+                context,
+                SlideRightRoute(page:tutorial()),
+              );
             },
           ),
           ListTile(
@@ -66,9 +133,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () => {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => instructorBio(index: index),
-                          ),
+                          SlideLeftRoute(page: instructorBio(index: index)),
                         )
                       },
                   child: Column(
@@ -112,6 +177,12 @@ class _HomePageState extends State<HomePage> {
         itemCount: listSample2.length,
       ),
     );
+  }
+}
+
+class sample {
+
+  void main (){
   }
 }
 
