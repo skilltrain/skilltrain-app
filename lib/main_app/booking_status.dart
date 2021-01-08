@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './video_session/video_session.dart';
+import './home_page.dart';
+import './video_session/index.dart';
 
 class BookingStatus extends StatelessWidget {
   final int index;
@@ -38,12 +39,7 @@ class BookingStatus extends StatelessWidget {
                 new Spacer(),
                 RaisedButton(
                   onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SessionList(),
-                      ),
-                    )
+                    Navigator.push(context, SlideLeftRoute(page: IndexPage()))
                   },
                   textColor: Colors.white,
                   padding: const EdgeInsets.all(0),
