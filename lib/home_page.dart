@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:skilltrain/bookingStatus.dart';
 import 'package:skilltrain/tutorial.dart';
 import './instructor_bio.dart';
+import './session.dart';
 
 //Page transition animation from left to right
 class SlideRightRoute extends PageRouteBuilder {
@@ -21,12 +22,12 @@ class SlideRightRoute extends PageRouteBuilder {
             Widget child,
           ) =>
               SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(1, 0),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              ),
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
         );
 }
 
@@ -48,12 +49,12 @@ class SlideLeftRoute extends PageRouteBuilder {
             Widget child,
           ) =>
               SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(1, 0),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              ),
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
         );
 }
 
@@ -84,19 +85,19 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             title: Text('Booking status'),
-            onTap: ()=> {
+            onTap: () => {
               Navigator.push(
                 context,
-                SlideRightRoute(page:bookingStatus()),
+                SlideRightRoute(page: bookingStatus()),
               )
-            },          
-            ),
+            },
+          ),
           ListTile(
             title: Text('Tutorial'),
             onTap: () {
               Navigator.push(
                 context,
-                SlideRightRoute(page:tutorial()),
+                SlideRightRoute(page: tutorial()),
               );
             },
           ),
@@ -181,9 +182,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 class sample {
-
-  void main (){
-  }
+  void main() {}
 }
 
 var listSample2 = [
