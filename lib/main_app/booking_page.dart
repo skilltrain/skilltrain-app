@@ -1,33 +1,24 @@
 import 'package:flutter/material.dart';
 
-class bookingStatus extends StatelessWidget {
-  int index;
-  bookingStatus({this.index});
+class Booking extends StatelessWidget {
+  final int index;
+  Booking({this.index});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("booking status"),
+          title: Text("booking"),
         ),
         body: ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return Card(
-                child: Row(children: <Widget>[
-                Column(crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("sample schedule",
-                    textAlign: TextAlign.left,
+                  child: Row(children: <Widget>[
+                Text("sample schedule",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
                     )),
-                  Text("Instructor name",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                    fontSize: 25,
-                    )),
-                ]),
                 new Spacer(),
                 RaisedButton(
                   onPressed: () {},
@@ -44,7 +35,7 @@ class bookingStatus extends StatelessWidget {
                       ),
                     ),
                     padding: const EdgeInsets.all(15),
-                    child: const Text('see detail'),
+                    child: const Text('booking now'),
                   ),
                 ),
               ]));

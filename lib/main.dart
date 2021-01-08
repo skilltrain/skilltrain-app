@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'amplifyconfiguration.dart';
-import './signup.dart';
-import './login.dart';
-import './auth_service.dart';
-import './verification_page.dart';
-import './home_page.dart';
-import './tutorial.dart';
+import './authentication/signup_page.dart';
+import './authentication/login_page.dart';
+import './authentication/authentication_services/auth_service.dart';
+import './authentication/verification_page.dart';
+import './main_app/home_page.dart';
+import './main_app/tutorial_flow.dart';
 
 void main() {
   runApp(MyApp());
@@ -84,7 +84,7 @@ class _MyAppState extends State<MyApp> {
                               didProvideVerificationCode:
                                   _authService.verifyCode)),
                     if (snapshot.data.authFlowStatus == AuthFlowStatus.tutorial)
-                      MaterialPage(child: tutorial()),
+                      MaterialPage(child: Tutorial()),
                     if (snapshot.data.authFlowStatus == AuthFlowStatus.session)
                       MaterialPage(
                           child: HomePage(shouldLogOut: _authService.logOut)),

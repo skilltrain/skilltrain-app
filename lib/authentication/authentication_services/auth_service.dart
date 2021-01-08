@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:io';
-
-import 'auth_credentials.dart';
+import './auth_credentials.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 
+// Specify session flow
 enum AuthFlowStatus { login, signUp, verification, tutorial, session }
 
 class AuthState {
@@ -31,7 +30,6 @@ class AuthService {
     try {
       final result = await Amplify.Auth.signIn(
           username: credentials.username, password: credentials.password);
-
       if (result.isSignedIn) {
         final state = AuthState(authFlowStatus: AuthFlowStatus.session);
         authStateController.add(state);
@@ -74,7 +72,7 @@ class AuthService {
       final result = await Amplify.Auth.confirmSignUp(
           username: _credentials.username, confirmationCode: verificationCode);
       if (result.isSignUpComplete) {
-        final response = await loginWithCredentials(_credentials);
+        await loginWithCredentials(_credentials);
         final state = AuthState(authFlowStatus: AuthFlowStatus.tutorial);
         authStateController.add(state);
       } else {}

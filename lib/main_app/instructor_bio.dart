@@ -1,192 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:skilltrain/bookingStatus.dart';
-import 'package:skilltrain/tutorial.dart';
-import './instructor_bio.dart';
+import './booking_page.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:async';
+import 'dart:convert';
 
-//Page transition animation from left to right
-class SlideRightRoute extends PageRouteBuilder {
-  final Widget page;
-  SlideRightRoute({this.page})
-      : super(
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-          ) =>
-              page,
-          transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(1, 0),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              ),
-        );
-}
-
-//Page transition animation from left to right
-class SlideLeftRoute extends PageRouteBuilder {
-  final Widget page;
-  SlideLeftRoute({this.page})
-      : super(
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-          ) =>
-              page,
-          transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(1, 0),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              ),
-        );
-}
-
-class HomePage extends StatefulWidget {
-  final VoidCallback shouldLogOut;
-
-  HomePage({Key key, this.title, this.shouldLogOut}) : super(key: key);
-  final String title;
-  @override
-  _HomePageState createState() => _HomePageState();
-
-  // @override
-  // State<StatefulWidget> createState() => _LoginPageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(
-          child: ListView(
-        children: <Widget>[
-          DrawerHeader(
-            child: Text('Menu'),
-            decoration: BoxDecoration(
-              color: Colors.orange[50],
-            ),
-          ),
-          ListTile(
-            title: Text('Booking status'),
-            onTap: ()=> {
-              Navigator.push(
-                context,
-                SlideRightRoute(page:bookingStatus()),
-              )
-            },          
-            ),
-          ListTile(
-            title: Text('Tutorial'),
-            onTap: () {
-              Navigator.push(
-                context,
-                SlideRightRoute(page:tutorial()),
-              );
-            },
-          ),
-          ListTile(
-            title: Text('Sign up'),
-            onTap: () => {
-              // Eliot - not sure what this does
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => _MyApp(),
-              //   ),
-              // )
-            },
-          ),
-          ListTile(
-            title: Text('Log out'),
-            onTap: widget.shouldLogOut,
-          ),
-        ],
-      ) // Populate the Drawer in the next step.
-          ),
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text("skillTrain"),
-        centerTitle: true,
-      ),
-      body: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-              child: GestureDetector(
-                  //画面遷移
-                  onTap: () => {
-                        Navigator.push(
-                          context,
-                          SlideLeftRoute(page: instructorBio(index: index)),
-                        )
-                      },
-                  child: Column(
-                    children: <Widget>[
-                      Image.network(listSample2[index]["classPhoto"]),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    listSample2[index]["instructor"],
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  Text(
-                                    listSample2[index]["genre"],
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ]),
-                            new Spacer(),
-                            Text(listSample2[index]["price"].toString(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 35,
-                                )),
-                            Text("USD /h ",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                )),
-                          ]),
-                    ],
-                  )));
-        },
-        itemCount: listSample2.length,
-      ),
-    );
-  }
-}
-
-class sample {
-
-  void main (){
-  }
-}
-
-var listSample2 = [
+var listSample = [
   {
     "id": 1,
     "portrait":
@@ -292,3 +110,136 @@ var listSample2 = [
     "price": 40,
   },
 ];
+
+//Page transition animation from left to right
+class SlideRightRoute extends PageRouteBuilder {
+  final Widget page;
+  SlideRightRoute({this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
+        );
+}
+
+//Page transition animation from left to right
+class SlideLeftRoute extends PageRouteBuilder {
+  final Widget page;
+  SlideLeftRoute({this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
+        );
+}
+
+class InstructorBio extends StatelessWidget {
+  final int index;
+  InstructorBio({this.index});
+
+  Future<void> loadJsonAsset() async {
+    String extractedData = await rootBundle.loadString('assets/data.JSON');
+    //JSON file download and decode
+    // ignore: unused_local_variable
+    final listSampleAsync = await jsonDecode(extractedData);
+  }
+
+  void main() {
+    loadJsonAsset();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+//JSON file download and decode
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("instructor bios"),
+      ),
+      body: Column(
+        children: <Widget>[
+          Image.network(listSample[index]["portrait"]),
+          Row(children: <Widget>[
+            Text(listSample[index]["instructor"],
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                )),
+            new Spacer(),
+          ]),
+          Text(
+            listSample[index]["bio"],
+            style: TextStyle(
+              fontSize: 15,
+            ),
+          ),
+          RaisedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                SlideLeftRoute(
+                    page: Booking(
+                  index: index,
+                )),
+              );
+            },
+            textColor: Colors.white,
+            padding: const EdgeInsets.all(0),
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: <Color>[
+                    Colors.pink[300],
+                    Colors.purple[500],
+                    Colors.purple[700],
+                  ],
+                ),
+              ),
+              padding: const EdgeInsets.all(10),
+              child: const Text('check availability now! >>>',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  )),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

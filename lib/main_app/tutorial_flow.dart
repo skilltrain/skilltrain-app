@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skilltrain/main.dart';
 
-import 'auth_credentials.dart';
-
 //Page transition animation from left to right
 class SlideRightRoute extends PageRouteBuilder {
   final Widget page;
@@ -57,7 +55,7 @@ class SlideLeftRoute extends PageRouteBuilder {
         );
 }
 
-class tutorial extends StatelessWidget {
+class Tutorial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +81,7 @@ class tutorial extends StatelessWidget {
               new Spacer(),
               RaisedButton(
                 onPressed: () {
-                  Navigator.push(context, SlideRightRoute(page: tutorial2()));
+                  Navigator.push(context, SlideRightRoute(page: TutorialTwo()));
                 },
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0),
@@ -112,7 +110,7 @@ class tutorial extends StatelessWidget {
   }
 }
 
-class tutorial2 extends StatelessWidget {
+class TutorialTwo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,7 +136,8 @@ class tutorial2 extends StatelessWidget {
               new Spacer(),
               RaisedButton(
                 onPressed: () {
-                  Navigator.push(context, SlideRightRoute(page: tutorial3()));
+                  Navigator.push(
+                      context, SlideRightRoute(page: TutorialThree()));
                 },
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0),
@@ -167,7 +166,7 @@ class tutorial2 extends StatelessWidget {
   }
 }
 
-class tutorial3 extends StatelessWidget {
+class TutorialThree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
