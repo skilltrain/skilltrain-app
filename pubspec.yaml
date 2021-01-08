@@ -52,7 +52,12 @@ flutter:
     - assets/images/signupgirl.jpg
     - assets/images/browseImage.gif
     - assets/images/biosImage.gif
-    - assets/images/biosImage.png
+    - assets/images/bio.png
+    - assets/images/camera.png
+    - assets/images/pen.png
+    - assets/images/confirmation.png
+    - assets/images/classRegister.png
+
     - assets/sample_data/home_page_sample.json
 
     - .env
