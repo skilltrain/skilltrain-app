@@ -104,7 +104,7 @@ class SampleStart extends State<HomePage> {
               },
             ),
             ListTile(
-              title: Text('Instructor page'),
+              title: Text('Instructor page '),
               onTap: () {
 /*
                     Navigator.push(
