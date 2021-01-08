@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './booking.dart';
+import './booking_page.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:async';
 import 'dart:convert';
@@ -111,7 +111,6 @@ var listSample = [
   },
 ];
 
-
 //Page transition animation from left to right
 class SlideRightRoute extends PageRouteBuilder {
   final Widget page;
@@ -130,12 +129,12 @@ class SlideRightRoute extends PageRouteBuilder {
             Widget child,
           ) =>
               SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(1, 0),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              ),
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
         );
 }
 
@@ -157,36 +156,32 @@ class SlideLeftRoute extends PageRouteBuilder {
             Widget child,
           ) =>
               SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(1, 0),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              ),
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
         );
 }
 
-class instructorBio extends StatelessWidget {
-  int index;
-  instructorBio({this.index});
-
-  //JSON file download and decode
-  List listSample_async;
+class InstructorBio extends StatelessWidget {
+  final int index;
+  InstructorBio({this.index});
 
   Future<void> loadJsonAsset() async {
     String extractedData = await rootBundle.loadString('assets/data.JSON');
-    listSample_async = await jsonDecode(extractedData);
+    //JSON file download and decode
+    // ignore: unused_local_variable
+    final listSampleAsync = await jsonDecode(extractedData);
   }
 
   void main() {
     loadJsonAsset();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-
 //JSON file download and decode
 
     return Scaffold(
@@ -216,7 +211,10 @@ class instructorBio extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                SlideLeftRoute(page: booking(index: index,)),
+                SlideLeftRoute(
+                    page: Booking(
+                  index: index,
+                )),
               );
             },
             textColor: Colors.white,

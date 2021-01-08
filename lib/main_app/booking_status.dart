@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import './home_page.dart';
-import './src/pages/index.dart';
+import './video_session/index.dart';
 
-class bookingStatus extends StatelessWidget {
-  int index;
-  bookingStatus({this.index});
+class BookingStatus extends StatelessWidget {
+  final int index;
+  BookingStatus({this.index});
 
   @override
   Widget build(BuildContext context) {
