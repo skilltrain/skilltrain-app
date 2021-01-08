@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './video_session/video_session.dart';
 
 class BookingStatus extends StatelessWidget {
   final int index;
@@ -26,12 +27,24 @@ class BookingStatus extends StatelessWidget {
                       Text("Instructor name",
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 20,
+                          )),
+                      Text("XX:00 - XX:30",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 15,
                           )),
                     ]),
                 new Spacer(),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SessionList(),
+                      ),
+                    )
+                  },
                   textColor: Colors.white,
                   padding: const EdgeInsets.all(0),
                   child: Container(

@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         TextField(
           controller: _usernameController,
           decoration:
-              InputDecoration(icon: Icon(Icons.mail), labelText: 'Username'),
+              InputDecoration(icon: Icon(Icons.person), labelText: 'Username'),
         ),
         TextField(
           controller: _passwordController,

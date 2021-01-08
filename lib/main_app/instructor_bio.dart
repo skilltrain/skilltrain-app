@@ -206,6 +206,7 @@ class InstructorBio extends StatelessWidget {
               fontSize: 15,
             ),
           ),
+          new Spacer(),
           RaisedButton(
             onPressed: () {
               Navigator.push(
