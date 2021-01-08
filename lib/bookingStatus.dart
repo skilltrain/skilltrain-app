@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './session.dart';
+import './home_page.dart';
+import './src/pages/index.dart';
 
 class bookingStatus extends StatelessWidget {
   int index;
@@ -38,12 +39,7 @@ class bookingStatus extends StatelessWidget {
                 new Spacer(),
                 RaisedButton(
                   onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => sessionList(),
-                      ),
-                    )
+                    Navigator.push(context, SlideLeftRoute(page: IndexPage()))
                   },
                   textColor: Colors.white,
                   padding: const EdgeInsets.all(0),
