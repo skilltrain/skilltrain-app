@@ -19,6 +19,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  var isTrainer = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +68,7 @@ class _SignUpPageState extends State<SignUpPage> {
             onChanged: (SingingCharacter value) {
               setState(() {
                 _character = value;
+                isTrainer = false;
               });
             },
           ),
@@ -79,6 +81,7 @@ class _SignUpPageState extends State<SignUpPage> {
             onChanged: (SingingCharacter value) {
               setState(() {
                 _character = value;
+                isTrainer = true;
               });
             },
           ),
@@ -131,9 +134,13 @@ class _SignUpPageState extends State<SignUpPage> {
     print('username: $username');
     print('email: $email');
     print('password: $password');
+    print('isTrainer: $isTrainer');
 
-    final credentials =
-        SignUpCredentials(username: username, email: email, password: password);
+    final credentials = SignUpCredentials(
+        username: username,
+        email: email,
+        password: password,
+        isTrainer: isTrainer);
     widget.didProvideCredentials(credentials);
   }
 }
