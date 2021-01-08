@@ -1,6 +1,7 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter/material.dart';
 import 'package:amplify_core/amplify_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'amplifyconfiguration.dart';
 import './signup.dart';
@@ -8,8 +9,10 @@ import './login.dart';
 import './auth_service.dart';
 import './verification_page.dart';
 import './home_page.dart';
+import './tutorial.dart';
 
-void main() {
+void main() async {
+  await DotEnv().load('.env');
   runApp(MyApp());
 }
 
@@ -19,7 +22,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool _amplifyConfigured = false;
   final _authService = AuthService();
   // Instantiate Amplify
   Amplify amplifyInstance = Amplify();
@@ -44,9 +46,7 @@ class _MyAppState extends State<MyApp> {
     // Once Plugins are added, configure Amplify
     await amplifyInstance.configure(amplifyconfig);
     try {
-      setState(() {
-        _amplifyConfigured = true;
-      });
+      setState(() {});
       print('Successfully configured Amplify 🎉');
     } catch (e) {
       print('Could not configure Amplify ☠️');
@@ -56,12 +56,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final a = _authService;
     return MaterialApp(
         title: "skillTrain",
         theme: ThemeData(
-          primarySwatch: Colors.purple,
-          visualDensity: VisualDensity.adaptivePlatformDensity),
+            primarySwatch: Colors.purple,
+            visualDensity: VisualDensity.adaptivePlatformDensity),
         home: StreamBuilder<AuthState>(
             stream: _authService.authStateController.stream,
             builder: (context, snapshot) {
@@ -86,6 +85,8 @@ class _MyAppState extends State<MyApp> {
                           child: VerificationPage(
                               didProvideVerificationCode:
                                   _authService.verifyCode)),
+                    if (snapshot.data.authFlowStatus == AuthFlowStatus.tutorial)
+                      MaterialPage(child: tutorial()),
                     if (snapshot.data.authFlowStatus == AuthFlowStatus.session)
                       MaterialPage(
                           child: HomePage(shouldLogOut: _authService.logOut)),

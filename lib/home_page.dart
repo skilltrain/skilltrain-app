@@ -5,8 +5,9 @@ import 'dart:async';
 import 'dart:convert';//json file convert
 
 import 'package:skilltrain/instructor_bio.dart';
-import 'package:skilltrain/sample.dart';
 import 'package:skilltrain/tutorial.dart';
+import './instructor_bio.dart';
+import './session.dart';
 
 //Page transition animation from left to right
 class SlideRightRoute extends PageRouteBuilder {
@@ -26,12 +27,12 @@ class SlideRightRoute extends PageRouteBuilder {
             Widget child,
           ) =>
               SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(1, 0),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              ),
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
         );
 }
 

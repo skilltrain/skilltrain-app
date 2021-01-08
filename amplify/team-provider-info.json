@@ -13,7 +13,10 @@
     },
     "categories": {
       "auth": {
+<<<<<<< HEAD
+=======
         "skilltrain29df1b78": {},
+>>>>>>> ae5729b050b5f5f9bb8b35133274fbe7b2caf0de
         "skilltrain92edfd63": {}
       }
     }
