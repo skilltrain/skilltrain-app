@@ -8,7 +8,7 @@ class LoginPage extends StatefulWidget {
   // print the error message here
   // final ValueChanged<LoginCredentials> didProvideCredentials;
 
-  // This is the replacement for ValueChanged, I do not know if this will break things late
+  // This is the replacement for ValueChanged, I do not know if this will break things later
   final Future<List> Function(AuthCredentials login) didProvideCredentials;
   //////////////////////////////////////////
 

@@ -28,7 +28,7 @@ import './index.dart';
 //   }
 // }
 
-class sessionList extends StatelessWidget {
+class SessionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
