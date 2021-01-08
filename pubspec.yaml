@@ -53,8 +53,12 @@ flutter:
     - assets/images/browseImage.gif
     - assets/images/biosImage.gif
     - assets/images/biosImage.png
+    - assets/images/camera.png
+    - assets/images/bio.png
+    - assets/images/classRegister.png
+    - assets/images/confirmation.png
+    - assets/images/pen.png    
     - assets/data.JSON
-
     - .env
 
   # The following line ensures that the Material Icons font is

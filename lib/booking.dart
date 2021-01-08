@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class booking extends StatelessWidget {
+class Booking extends StatelessWidget {
   int index;
-  booking({this.index});
+  Booking({this.index});
 
   @override
   Widget build(BuildContext context) {

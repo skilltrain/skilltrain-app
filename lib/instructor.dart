@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import './booking.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:skilltrain/instructor-bio-update.dart';
+import 'package:skilltrain/instructor-course-register.dart';
 import 'dart:async';
 import 'dart:convert';
+
+import 'package:skilltrain/instructor-upcoming-sc.dart';
 
 var listSample = [
   {
@@ -166,16 +169,16 @@ class SlideLeftRoute extends PageRouteBuilder {
         );
 }
 
-class instructorBio extends StatelessWidget {
+class Instructor extends StatelessWidget {
   int index;
-  instructorBio({this.index});
+  Instructor({this.index});
 
   //JSON file download and decode
-  List listSample_async;
+  List ListSample_async;
 
   Future<void> loadJsonAsset() async {
     String extractedData = await rootBundle.loadString('assets/data.JSON');
-    listSample_async = await jsonDecode(extractedData);
+    ListSample_async = await jsonDecode(extractedData);
   }
 
   void main() {
@@ -191,58 +194,116 @@ class instructorBio extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("instructor bios"),
+        title: Text("instructor page"),
       ),
       body: Column(
         children: <Widget>[
-          Image.network(listSample[index]["portrait"]),
-          Row(children: <Widget>[
-            Text(listSample[index]["instructor"],
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                )),
-            new Spacer(),
-          ]),
-          Text(
-            listSample[index]["bio"],
-            style: TextStyle(
-              fontSize: 15,
-            ),
-          ),
-          new Spacer(),
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                SlideLeftRoute(page: Booking(index: index,)),
-              );
-            },
-            textColor: Colors.white,
-            padding: const EdgeInsets.all(0),
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: <Color>[
-                    Colors.pink[300],
-                    Colors.purple[500],
-                    Colors.purple[700],
-                  ],
-                ),
+          Expanded(child: 
+          Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[
+                  Colors.pink[300],
+                  Colors.purple[500],
+                  Colors.purple[700],
+                ],
               ),
-              padding: const EdgeInsets.all(10),
-              child: const Text('check availability now! >>>',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                  )),
+            ),
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: <Widget>[
+                new Spacer(),
+                InkWell(onTap: () => Navigator.push(
+                      context,
+                      SlideRightRoute(page: InstructorUpcomingSchedule()),
+                    ),
+                child: Container(
+                  padding: const EdgeInsets.all(10.0,),
+                  width: 400,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black54, width:3),
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white70,
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Image.asset('assets/images/confirmation.png',
+                      height: 150, fit: BoxFit.fill),
+                      Text("Upcoming schedule",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Colors.black54),
+                        )                      
+                          ],
+                  ),
+                ),
+                ),                
+                new Spacer(),
+                InkWell(onTap: () => Navigator.push(
+                  context,
+                  SlideRightRoute(page: CourseRegistration()),
+                ),
+                child:Container(
+                  padding: const EdgeInsets.all(10.0,),
+                  width: 400,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black54, width:3),
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white70,
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Image.asset('assets/images/classRegister.png',
+                      height: 150, fit: BoxFit.fill),
+                      Text("Course registration",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Colors.black54),
+                        )                      
+                          ],
+                  ),
+                ),
+                ),
+                new Spacer(),
+                InkWell(onTap: () => Navigator.push(
+                  context,
+                  SlideRightRoute(page: InstructorBioUpdate()),
+                ),
+                child: Container(
+                  padding: const EdgeInsets.all(10.0,),
+                  width: 400,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black54, width:3),
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white70,
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Image.asset('assets/images/bio.png',
+                      height: 150, fit: BoxFit.fill),
+                      Text("Update bios",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Colors.black54),
+                        )                      
+                          ],
+                  ),
+                ),
+                ),
+                new Spacer(),
+              ],
             ),
           ),
-        ],
-      ),
-    );
+      )
+          ]),
+        );
   }
 }

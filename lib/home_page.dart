@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:skilltrain/bookingStatus.dart';
+import 'package:skilltrain/instructor.dart';
 import 'dart:async'; 
 import 'dart:convert';//json file convert
 
@@ -106,15 +107,12 @@ class SampleStart extends State<HomePage> {
                   },          
                   ),
                   ListTile(
-                  title: Text('Json test page'),
+                  title: Text('Instructor page'),
                   onTap: () {
-
-/*
                     Navigator.push(
                       context,
-                      SlideLeftRoute(page: HomePageV2()),
+                      SlideLeftRoute(page: Instructor()),
                     );
-*/
                   },
                 ),
                 ListTile(
