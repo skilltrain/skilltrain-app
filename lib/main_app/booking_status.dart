@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import './session.dart';
+import './video_session/video_session.dart';
 
-class bookingStatus extends StatelessWidget {
-  int index;
-  bookingStatus({this.index});
+class BookingStatus extends StatelessWidget {
+  final int index;
+  BookingStatus({this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class bookingStatus extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => sessionList(),
+                        builder: (context) => SessionList(),
                       ),
                     )
                   },

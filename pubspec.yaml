@@ -53,7 +53,7 @@ flutter:
     - assets/images/browseImage.gif
     - assets/images/biosImage.gif
     - assets/images/biosImage.png
-    - assets/data.JSON
+    - assets/sample_data/home_page_sample.json
 
     - .env
 

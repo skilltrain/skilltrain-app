@@ -1,4 +1,4 @@
-// 1
+// Define basic credentials
 abstract class AuthCredentials {
   final String username;
   final String password;
@@ -6,13 +6,13 @@ abstract class AuthCredentials {
   AuthCredentials({this.username, this.password});
 }
 
-// 2
+// Define login credentials
 class LoginCredentials extends AuthCredentials {
   LoginCredentials({String username, String password})
       : super(username: username, password: password);
 }
 
-// 3
+// Define full credentials
 class SignUpCredentials extends AuthCredentials {
   final String email;
 

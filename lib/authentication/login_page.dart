@@ -1,14 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'auth_credentials.dart';
+import './authentication_services/auth_credentials.dart';
 
 class LoginPage extends StatefulWidget {
+  //////////////////Eliot///////////////////
   // I am not sure what deleting ValueChanged here breaks, but I need to return a list from didProvideCredentials to
   // print the error message here
   // final ValueChanged<LoginCredentials> didProvideCredentials;
 
-  // This is the replacement for ValueChanged, I do not know if this will break things later - Eliot
-  Future<List> Function(AuthCredentials login) didProvideCredentials;
+  // This is the replacement for ValueChanged, I do not know if this will break things later
+  final Future<List> Function(AuthCredentials login) didProvideCredentials;
+  //////////////////////////////////////////
 
   final VoidCallback shouldShowSignUp;
   LoginPage({Key key, this.didProvideCredentials, this.shouldShowSignUp})
@@ -19,24 +21,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // 1
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // 2
     return Scaffold(
-      // 3
       body: SafeArea(
           minimum: EdgeInsets.symmetric(horizontal: 40),
-          // 4
           child: Stack(children: [
-            // Login Form
             _loginForm(),
-
-            // 6
-            // Sign Up Button
             Container(
               alignment: Alignment.bottomCenter,
               child: FlatButton(
@@ -47,19 +41,15 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // 5
   Widget _loginForm() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // Username TextField
         TextField(
           controller: _usernameController,
           decoration:
               InputDecoration(icon: Icon(Icons.person), labelText: 'Username'),
         ),
-
-        // Password TextField
         TextField(
           controller: _passwordController,
           decoration: InputDecoration(
@@ -67,8 +57,6 @@ class _LoginPageState extends State<LoginPage> {
           obscureText: true,
           keyboardType: TextInputType.visiblePassword,
         ),
-
-        // Login Button
         FlatButton(
             onPressed: () {
               _login();
@@ -80,7 +68,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void showAlertDialog(BuildContext context, String errorMessage) {
-    // set up the button
     Widget okButton = FlatButton(
       child: Text("OK"),
       onPressed: () {
@@ -88,7 +75,6 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
 
-    // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Error"),
       content: Text(errorMessage),
@@ -97,7 +83,6 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
 
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -116,10 +101,9 @@ class _LoginPageState extends State<LoginPage> {
     final credentials =
         LoginCredentials(username: username, password: password);
 
-    // This is a custom object (list) with a boolean at index 0 to indicate whether or not the login was unsuccessful
-    // If the login was unsuccessful, the boolean is 'true' and there are error messages at indexes 1,2,3 etc.
+    // This is a custom object (list) with a string at index 0 to indicate whether or not the login was successful
+    // If the login was unsuccessful, index 0 is 'error' and there are error messages at indexes 1, 2, 3 etc.
     final loginResponse = await widget.didProvideCredentials(credentials);
-    print(loginResponse);
     if (loginResponse[0] == "errors") {
       showAlertDialog(context, loginResponse[1]);
     }
