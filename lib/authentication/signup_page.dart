@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import './authentication_services/auth_credentials.dart';
 
+enum SingingCharacter { lafayette, jefferson }
+SingingCharacter _character = SingingCharacter.lafayette;
+
 class SignUpPage extends StatefulWidget {
   final ValueChanged<SignUpCredentials> didProvideCredentials;
   final VoidCallback shouldShowLogin;
@@ -29,7 +32,7 @@ class _SignUpPageState extends State<SignUpPage> {
           backgroundColor: Colors.deepPurple),
       body: SafeArea(
           minimum: EdgeInsets.symmetric(horizontal: 40),
-          child: Stack(children: [
+          child: Column(children: [
             // Image of Fit Girl
 
             Container(
@@ -39,6 +42,9 @@ class _SignUpPageState extends State<SignUpPage> {
             // Sign Up Form
             _signUpForm(),
 
+            // Trainer of user radio button
+            Center(child: radioButton()),
+
             // Login Button
             Container(
               alignment: Alignment.bottomCenter,
@@ -47,6 +53,37 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Text('Already have an account? Login.')),
             )
           ])),
+    );
+  }
+
+  Widget radioButton() {
+    return Column(
+      children: <Widget>[
+        ListTile(
+          title: const Text('User'),
+          leading: Radio(
+            value: SingingCharacter.lafayette,
+            groupValue: _character,
+            onChanged: (SingingCharacter value) {
+              setState(() {
+                _character = value;
+              });
+            },
+          ),
+        ),
+        ListTile(
+          title: const Text('Trainer'),
+          leading: Radio(
+            value: SingingCharacter.jefferson,
+            groupValue: _character,
+            onChanged: (SingingCharacter value) {
+              setState(() {
+                _character = value;
+              });
+            },
+          ),
+        ),
+      ],
     );
   }
 
