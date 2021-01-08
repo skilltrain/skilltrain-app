@@ -15,7 +15,9 @@ class LoginCredentials extends AuthCredentials {
 // Define full credentials
 class SignUpCredentials extends AuthCredentials {
   final String email;
+  final bool isTrainer;
 
-  SignUpCredentials({String username, String password, this.email})
+  SignUpCredentials(
+      {String username, String password, this.email, this.isTrainer})
       : super(username: username, password: password);
 }

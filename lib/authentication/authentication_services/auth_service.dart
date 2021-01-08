@@ -2,6 +2,8 @@ import 'dart:async';
 import './auth_credentials.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 // Specify session flow
 enum AuthFlowStatus { login, signUp, verification, tutorial, session }
@@ -73,6 +75,7 @@ class AuthService {
           username: _credentials.username, confirmationCode: verificationCode);
       if (result.isSignUpComplete) {
         await loginWithCredentials(_credentials);
+        final response = await createUser(_credentials);
         final state = AuthState(authFlowStatus: AuthFlowStatus.tutorial);
         authStateController.add(state);
       } else {}
@@ -103,5 +106,27 @@ class AuthService {
       final state = AuthState(authFlowStatus: AuthFlowStatus.login);
       authStateController.add(state);
     }
+  }
+
+  Future<http.Response> createUser(SignUpCredentials credentials) {
+    var postUrl;
+    credentials.isTrainer
+        ? postUrl =
+            'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers'
+        : postUrl =
+            'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/users';
+
+    final date = DateTime.now().millisecondsSinceEpoch.toString();
+    return http.post(
+      postUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: convert.jsonEncode(<String, String>{
+        "id": date,
+        'username': credentials.username,
+        'email': credentials.email
+      }),
+    );
   }
 }
