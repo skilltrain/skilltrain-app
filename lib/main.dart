@@ -10,6 +10,7 @@ import './authentication/authentication_services/auth_service.dart';
 import './authentication/verification_page.dart';
 import './main_app/home_page.dart';
 import './main_app/tutorial_flow.dart';
+import 'package:stripe_payment/stripe_payment.dart';
 
 void main() async {
   await DotEnv().load('.env');

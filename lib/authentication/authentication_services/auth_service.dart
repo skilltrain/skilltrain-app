@@ -75,7 +75,7 @@ class AuthService {
           username: _credentials.username, confirmationCode: verificationCode);
       if (result.isSignUpComplete) {
         await loginWithCredentials(_credentials);
-        final response = await createUser(_credentials);
+        await createUser(_credentials);
         final state = AuthState(authFlowStatus: AuthFlowStatus.tutorial);
         authStateController.add(state);
       } else {}
