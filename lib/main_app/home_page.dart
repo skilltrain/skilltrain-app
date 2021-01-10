@@ -159,7 +159,7 @@ class SampleStart extends State<HomePage> {
                                   Navigator.push(
                                     context,
                                     SlideRightRoute(
-                                        page: InstructorBio(index: index)),
+                                        page: InstructorBio(data: snapshot.data[index],index: index)),
                                   )
                                 },
                             child: Column(
