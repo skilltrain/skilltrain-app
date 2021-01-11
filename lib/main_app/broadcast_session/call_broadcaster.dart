@@ -4,7 +4,6 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:flutter/material.dart';
-import 'package:agora_flutter_webrtc/agora_flutter_webrtc.dart';
 
 import './utils/settings.dart';
 
