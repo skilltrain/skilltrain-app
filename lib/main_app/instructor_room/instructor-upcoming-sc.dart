@@ -1,6 +1,93 @@
 import 'package:flutter/material.dart';
-import '../home_page.dart';
-import '../video_session/index_instructor.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert'; //json file convert
+
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_core/amplify_core.dart';
+import 'package:intl/intl.dart';
+
+String UserName = "";
+
+const sampleData = [
+  { 
+    "instructor":"Yuta",
+    "availability": [
+      {
+        "date": "2021-01-11",
+        "startTime": "09:00",
+        "endTime": "09:50",
+        "instructorName": "Yuta",
+        "studentName": "Hide",
+        "classRoom":"hogehoge",
+        "isClass":true
+      },
+      {
+        "date": "2021-01-11",
+        "startTime": "10:00",
+        "endTime": "10:50",
+        "instructorName": "Yuta",
+        "studentName": "Elliot",
+        "classRoom":"hogehoge"
+        
+      },
+      {
+        "date": "2021-01-12",
+        "startTime": "09:00",
+        "endTime": "10:50",
+        "instructorName": "Damina",
+        "studentName": "Hide",
+        "classRoom":"icecream"
+      },
+
+    ]
+  }
+];
+
+class InstructorUpcomingSchedule extends StatefulWidget {
+  final VoidCallback shouldLogOut;
+
+  InstructorUpcomingSchedule({Key key, this.shouldLogOut}) : super(key: key);
+
+  @override
+  SampleStart createState() => SampleStart();
+}
+
+//define date format
+DateFormat format = DateFormat('yyyy-MM-dd');
+
+class SampleStart extends State<InstructorUpcomingSchedule> {
+  Future<List> futureApiResults;
+  @override
+  void initState() {
+    super.initState();
+    futureApiResults = fetchApiResults();
+  }
+
+//calendar object
+  DateTime _date = new DateTime.now();//default date value
+  String StringDate = format.format(new DateTime.now());//default date value for card
+ 
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: _date,
+        firstDate: new DateTime(2016),
+        lastDate: new DateTime.now().add(new Duration(days: 360))
+    );
+
+
+  //Date format into String
+
+    if(picked != null) setState(() => {
+      _date = picked,
+      StringDate = format.format(_date),
+      print(_date),
+      print(StringDate)
+      });
+      
+  }
+//calendar object
 
 class InstructorUpcomingSchedule extends StatelessWidget {
   int index;
@@ -12,54 +99,7 @@ class InstructorUpcomingSchedule extends StatelessWidget {
         appBar: AppBar(
           title: Text("upcoming schedule"),
         ),
-        body: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                  child: Row(children: <Widget>[
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text("sample schedule",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                          )),
-                      Text("Instructor name",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 20,
-                          )),
-                      Text("XX:00 - XX:30",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 15,
-                          )),
-                    ]),
-                new Spacer(),
-                RaisedButton(
-                  onPressed: () => {
-                    Navigator.push(
-                        context, SlideLeftRoute(page: IndexPageForInstructor()))
-                  },
-                  textColor: Colors.white,
-                  padding: const EdgeInsets.all(0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: <Color>[
-                          Colors.pink[300],
-                          Colors.purple[500],
-                          Colors.purple[700],
-                        ],
-                      ),
-                    ),
-                    padding: const EdgeInsets.all(15),
-                    child: const Text('see detail'),
-                  ),
-                ),
-              ]));
-            },
-            itemCount: 10));
+      ),
+    );
   }
 }
