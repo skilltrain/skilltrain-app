@@ -1,12 +1,7 @@
 import 'dart:async';
 
-import 'package:agora_rtc_engine/rtc_engine.dart';
-import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
-import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:flutter/material.dart';
 import 'package:agora_flutter_webrtc/agora_flutter_webrtc.dart';
-
-import './utils/settings.dart';
 
 // *********** 1-to-1 VC session *********** //
 
@@ -296,44 +291,44 @@ class CallPageState extends State<CallPage> {
               ),
               Positioned(
                 child: mainStream != null
-                    ? Column(
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
+                          //Switch camera
                           mainStream.isLocal == true
-                              ? IconButton(
-                                  icon: Icon(Icons.switch_camera,
-                                      color: Colors.white),
-                                  tooltip: "switch camera",
+                              ? RawMaterialButton(
+                                  child: Icon(Icons.switch_camera,
+                                      color: Colors.blueGrey, size: 25.0),
                                   onPressed: () {
                                     mainStream.switchDevice();
                                   },
+                                  shape: CircleBorder(),
+                                  elevation: 2.0,
+                                  fillColor: Colors.white,
+                                  padding: const EdgeInsets.all(12.0),
                                 )
                               : Container(),
-                          // IconButton(
-                          //   icon: shareScreenStream == null
-                          //       ? Icon(Icons.screen_share, color: Colors.white)
-                          //       : Icon(Icons.stop_screen_share,
-                          //           color: Colors.white),
-                          //   tooltip: shareScreenStream == null
-                          //       ? 'start sharing screen'
-                          //       : 'stop sharing screen',
-                          //   onPressed: () {
-                          //     if (shareScreenStream == null) {
-                          //       startShareScreen(channel);
-                          //     } else {
-                          //       stopShareScreen();
-                          //       setState(() {
-                          //         shareScreenStream = null;
-                          //       });
-                          //     }
-                          //   },
-                          // ),
-                          IconButton(
-                            icon: mainStream.isAudioMuted
-                                ? Icon(Icons.volume_off, color: Colors.white)
-                                : Icon(Icons.volume_up, color: Colors.white),
-                            tooltip: mainStream.isAudioMuted
-                                ? 'unmute audio'
-                                : 'mute audio',
+
+                          // EndCall
+                          RawMaterialButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Icon(
+                              Icons.call_end,
+                              color: Colors.white,
+                              size: 30.0,
+                            ),
+                            shape: CircleBorder(),
+                            elevation: 2.0,
+                            fillColor: Colors.redAccent,
+                            padding: const EdgeInsets.all(15.0),
+                          ),
+                          // MuteAudio
+                          RawMaterialButton(
+                            child: mainStream.isAudioMuted
+                                ? Icon(Icons.volume_off,
+                                    color: Colors.blueGrey, size: 25.0)
+                                : Icon(Icons.volume_up,
+                                    color: Colors.blueGrey, size: 25.0),
                             onPressed: () {
                               if (mainStream.isAudioMuted) {
                                 setState(() {
@@ -345,31 +340,17 @@ class CallPageState extends State<CallPage> {
                                 });
                               }
                             },
-                          ),
-                          IconButton(
-                            icon: mainStream.isVideoMuted
-                                ? Icon(Icons.videocam_off, color: Colors.white)
-                                : Icon(Icons.videocam, color: Colors.white),
-                            tooltip: mainStream.isVideoMuted
-                                ? 'unmute video'
-                                : 'mute video',
-                            onPressed: () {
-                              if (mainStream.isVideoMuted) {
-                                setState(() {
-                                  mainStream.unmuteVideo();
-                                });
-                              } else {
-                                setState(() {
-                                  mainStream.muteVideo();
-                                });
-                              }
-                            },
+                            shape: CircleBorder(),
+                            elevation: 2.0,
+                            fillColor: Colors.white,
+                            padding: const EdgeInsets.all(12.0),
                           ),
                         ],
                       )
                     : Container(),
+                right: 0,
                 left: 0,
-                bottom: 0,
+                bottom: 30,
               ),
               Positioned(
                 child: (mainStream != null && mediaStats != null)
@@ -426,12 +407,7 @@ class CallPageState extends State<CallPage> {
                                 },
                               ),
                               IconButton(
-                                icon: stream.isVideoMuted
-                                    ? Icon(Icons.videocam_off)
-                                    : Icon(Icons.videocam),
-                                tooltip: stream.isVideoMuted
-                                    ? 'unmute video'
-                                    : 'mute video',
+                                icon: Icon(Icons.call_end),
                                 onPressed: () {
                                   print(stream.getId());
                                   if (stream.isVideoMuted) {
