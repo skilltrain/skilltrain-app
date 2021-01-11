@@ -1,10 +1,6 @@
-import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
-import '../booking_status.dart';
 import '../home_page.dart';
 
-import 'dart:async';
 import './call.dart';
 import './utils/settings.dart';
 
@@ -62,18 +58,13 @@ class IndexState extends State<IndexPage> {
             child: Column(
               children: <Widget>[
                 Expanded(
-                  child: Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 50),
-                      child: Text(
-                        "Agora",
+                  flex: 3,
+                  child: Container(
+                    child: Text('Join as : Trainee',
                         style: TextStyle(
-                          fontSize: 74.0,
-                          fontWeight: FontWeight.w900,
-                          // fontFamily: "Georgia",
-                        ),
-                      ),
-                    ),
+                            fontSize: 45.0,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.purple)),
                   ),
                 ),
                 Column(
