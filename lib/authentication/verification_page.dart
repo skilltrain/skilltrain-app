@@ -48,4 +48,6 @@ class _VerificationPageState extends State<VerificationPage> {
     final verificationCode = _verificationCodeController.text.trim();
     widget.didProvideVerificationCode(verificationCode);
   }
+
+  
 }
