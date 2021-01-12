@@ -61,6 +61,7 @@ flutter:
     - assets/images/pen.png
     - assets/images/confirmation.png
     - assets/images/classRegister.png
+    - assets/images/crossfit.jpg
 
     - assets/sample_data/home_page_sample.json
 
