@@ -116,6 +116,27 @@ class SampleStart extends State<CourseRegistration> {
   var _switchValue15 = false;
   var _switchValue16 = false;
 
+/*
+
+swtichValueArray
+[
+  {
+    "_switchVlue01":false
+  },
+  {
+    "_switchVlue01":false
+  },
+  ...
+]
+
+for (let i =0; i < shapshot.swtichValueArray.length, i++){
+for (let i =0; i < shapshot.data.length, i++){
+  if (fetcheData.status = true)
+  shapshot.swtichValueArray[i]["value"] = true;
+}
+
+  */
+
   var _switchTitle = 'Switch Test';
 
 /*
@@ -146,413 +167,394 @@ for (let i=0, i < snapshot.data.length, i++){
         primarySwatch: Colors.purple,
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('skillTrain'),
-          centerTitle: true,
-          automaticallyImplyLeading: true,
-          leading: IconButton(
-              onPressed: () => Navigator.pop(context, false),
-              icon: Icon(Icons.arrow_back_ios)),
-        ),
-        body: Column(
+          appBar: AppBar(
+            title: Text('skillTrain'),
+            centerTitle: true,
+            automaticallyImplyLeading: true,
+            leading: IconButton(
+                onPressed: () => Navigator.pop(context, false),
+                icon: Icon(Icons.arrow_back_ios)),
+          ),
+          body: Center(
+            child: Column(
 //          mainAxisSize: MainAxisSize.min,
 //          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            FutureBuilder<List>(
-              future: futureApiResults,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  for (int i = 0; i < sampleData.length; i++) {
+              children: <Widget>[
+                FutureBuilder<List>(
+                  future: futureApiResults,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      for (int i = 0; i < sampleData.length; i++) {
 //calendar object
-                    return Container(
-                      height: 678,
-                      width: double.infinity,
+                        return Container(
+                          height: 678,
+                          width: double.infinity,
 //                padding: const EdgeInsets.all(50.0),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: <Widget>[
-                            //check date value
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: <Widget>[
+                                //check date value
 //                      Center(child:Text("${_date}")),
 
-                            /*
+                                /*
                       new RaisedButton(onPressed: () => 
                       _selectDate(context), 
                       child: new Text('日付選択'),),
                     */
 
-                            RaisedButton(
-                              onPressed: () => {_selectDate(context)},
-                              textColor: Colors.white,
-                              padding: const EdgeInsets.all(0),
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: <Color>[
-                                      Colors.pink[300],
-                                      Colors.purple[500],
-                                      Colors.purple[700],
-                                    ],
+                                RaisedButton(
+                                  onPressed: () => {_selectDate(context)},
+                                  textColor: Colors.white,
+                                  padding: const EdgeInsets.all(0),
+                                  child: Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: <Color>[
+                                          Colors.pink[300],
+                                          Colors.purple[500],
+                                          Colors.purple[700],
+                                        ],
+                                      ),
+                                    ),
+                                    padding: const EdgeInsets.all(10),
+                                    child: const Text('check Calendar',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30,
+                                        )),
                                   ),
                                 ),
-                                padding: const EdgeInsets.all(10),
-                                child: const Text('check Calendar',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                    )),
-                              ),
-                            ),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue01,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('09:00 - 09:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue01 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue01,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('09:00 - 09:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue01 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue02,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('10:00 - 10:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue02 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue03,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('10:00 - 10:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue03 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue03,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('10:00 - 10:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue03 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue04,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('11:00 - 11:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue04 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue04,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('11:00 - 11:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue04 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue05,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('12:00 - 12:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue05 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue05,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('12:00 - 12:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue05 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue06,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('13:00 - 13:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue06 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue06,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('13:00 - 13:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue06 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue07,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('14:00 - 14:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue07 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue07,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('14:00 - 14:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue07 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue08,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('15:00 - 15:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue08 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue08,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('15:00 - 15:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue08 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue09,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('16:00 - 16:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue09 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue09,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('16:00 - 16:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue09 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue10,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('17:00 - 17:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue10 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue10,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('17:00 - 17:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue10 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue11,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('18:00 - 18:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue11 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue11,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('18:00 - 18:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue11 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue12,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('19:00 - 19:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue12 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue12,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('19:00 - 19:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue12 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue13,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('20:00 - 20:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue13 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue13,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('20:00 - 20:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue13 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue14,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('21:00 - 21:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue14 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue14,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('21:00 - 21:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue14 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue15,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('22:00 - 22:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue15 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue15,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('22:00 - 22:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue15 = value;
+                                Card(
+                                    child: Container(
+                                  width: double.infinity,
+                                  child: SwitchListTile(
+                                      value: _switchValue16,
+                                      title: Text(
+                                        StringDate,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      subtitle: Text('23:00 - 23:50'),
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          _switchValue16 = value;
 //                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
+                                        });
+                                      }),
+                                )),
 
-                            Card(
-                                child: Container(
-                              width: double.infinity,
-                              child: SwitchListTile(
-                                  value: _switchValue16,
-                                  title: Text(
-                                    StringDate,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  subtitle: Text('23:00 - 23:50'),
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue16 = value;
-//                          _switchTitle = StringDate;
-                                    });
-                                  }),
-                            )),
-
-                            RaisedButton(
-                              onPressed: () {},
-                              textColor: Colors.white,
-                              padding: const EdgeInsets.all(0),
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: <Color>[
-                                      Colors.pink[300],
-                                      Colors.purple[500],
-                                      Colors.purple[700],
-                                    ],
+                                RaisedButton(
+                                  onPressed: () {},
+                                  textColor: Colors.white,
+                                  padding: const EdgeInsets.all(0),
+                                  child: Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: <Color>[
+                                          Colors.pink[300],
+                                          Colors.purple[500],
+                                          Colors.purple[700],
+                                        ],
+                                      ),
+                                    ),
+                                    padding: const EdgeInsets.all(10),
+                                    child: const Text('Register',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30,
+                                        )),
                                   ),
                                 ),
-                                padding: const EdgeInsets.all(10),
-                                child: const Text('Register',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                    )),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    );
+                          ),
+                        );
 
 /*
                   child: Column(
@@ -596,21 +598,22 @@ for (let i=0, i < snapshot.data.length, i++){
                 )
                 */
 
-                    //)
-                  }
+                        //)
+                      }
 
 //calendar object
-                } else if (snapshot.connectionState != ConnectionState.done) {
-                  return CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-                return CircularProgressIndicator();
-              },
+                    } else if (snapshot.connectionState !=
+                        ConnectionState.done) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    return CircularProgressIndicator();
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          )),
     );
   }
 }
