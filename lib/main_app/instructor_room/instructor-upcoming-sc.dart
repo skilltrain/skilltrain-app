@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert'; //json file convert
-
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:intl/intl.dart';
@@ -34,7 +33,7 @@ const sampleData = [
     "end_time": "10:50",
   },
   {
-    "trainer_username": "hide_trainer",
+    "trainer_username": "athelian",
     "user_username": "Eliot",
     "date": "2021-01-12",
     "sessionCode": "test",
@@ -44,7 +43,7 @@ const sampleData = [
     "end_time": "09:50",
   },
   {
-    "trainer_username": "hide_trainer",
+    "trainer_username": "damian",
     "user_username": "John",
     "date": "2021-01-12",
     "sessionCode": "test",
@@ -173,8 +172,8 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                                                             ),
                                                           ),
                                                           Text(
-                                                            ClassArray[index]
-                                                                ["studentName"],
+                                                            ClassArray[index][
+                                                                "user_username"],
                                                             textAlign:
                                                                 TextAlign.left,
                                                           ),

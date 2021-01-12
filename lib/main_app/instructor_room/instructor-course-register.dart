@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert'; //json file convert
-
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:intl/intl.dart';
@@ -52,6 +51,28 @@ const sampleData = [
     ]
   }
 ];
+
+  var _switchValueArray = [
+    {"_switchValue1":false},
+    {"_switchValue2":false},
+    {"_switchValue3":false},
+    {"_switchValue4":false},
+    {"_switchValue5":false},
+    {"_switchValue6":false},
+    {"_switchValue7":false},
+    {"_switchValue8":false},
+    {"_switchValue9":false},
+    {"_switchValue10":false},
+    {"_switchValue11":false},
+    {"_switchValue12":false},
+    {"_switchValue13":false},
+    {"_switchValue14":false},
+    {"_switchValue15":false},
+    {"_switchValue16":false},
+  ];
+
+var JSONdata = [];
+
 
 class CourseRegistration extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -116,6 +137,8 @@ class SampleStart extends State<CourseRegistration> {
   var _switchValue15 = false;
   var _switchValue16 = false;
 
+
+
 /*
 
 swtichValueArray
@@ -138,26 +161,6 @@ for (let i =0; i < shapshot.data.length, i++){
   */
 
   //var _switchTitle = 'Switch Test';
-
-/*
-
-[
-  {
-    "_switchValue01":false
-  },
-  {
-    "_switchValue02":false
-  },
-]
-
-for (let i=0, i < snapshot.data.length, i++)
-
-for (let i=0, i < snapshot.data.length, i++){
-  if(fetchData.status = true)
-}
-
-
-*/
 
   @override
   Widget build(BuildContext context) {
@@ -189,18 +192,9 @@ for (let i=0, i < snapshot.data.length, i++){
                         return Container(
                           height: 678,
                           width: double.infinity,
-//                padding: const EdgeInsets.all(50.0),
                           child: SingleChildScrollView(
                             child: Column(
                               children: <Widget>[
-                                //check date value
-//                      Center(child:Text("${_date}")),
-
-                                /*
-                      new RaisedButton(onPressed: () => 
-                      _selectDate(context), 
-                      child: new Text('日付選択'),),
-                    */
 
                                 RaisedButton(
                                   onPressed: () => {_selectDate(context)},
@@ -528,7 +522,22 @@ for (let i=0, i < snapshot.data.length, i++){
                                 )),
 
                                 RaisedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+
+                                    //JSON data generate
+                                        for (var i = 0; i <_switchValueArray.length; i++){
+                                          var index = (i+1).toString();
+                                          var objectKey = "_switchValue" + index;
+                                          var newObject = {};
+                                          newObject[objectKey]=true;
+                                          JSONdata.add(newObject);
+                                          print(objectKey);
+                                          print(true);
+                                        }
+                                          print(JSONdata);
+                                    //////////////////////
+
+                                  },
                                   textColor: Colors.white,
                                   padding: const EdgeInsets.all(0),
                                   child: Container(
@@ -556,48 +565,6 @@ for (let i=0, i < snapshot.data.length, i++){
                           ),
                         );
 
-/*
-                  child: Column(
-                    children: <Widget>[
-                  SwitchListTile(
-                    value: _switchValue,
-                    title: Text(
-                    _switchTitle,
-                    style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Cursive',
-                  ),
-                  ),
-                  onChanged: (bool value) {
-                    setState(() {
-                      _switchValue = value;
-                      _switchTitle = 'Switch value = $_switchValue';
-                    });
-                  }
-                ),
-                    SwitchListTile(
-                    value: _switchValue,
-                    title: Text(
-                    _switchTitle,
-                    style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Cursive',
-                  ),
-                  ),
-                  onChanged: (bool value) {
-                    setState(() {
-                      _switchValue = value;
-                      _switchTitle = 'Switch value = $_switchValue';
-                    });
-                  }
-                ),
-
-                
-                ]
-                
-                )
-                */
-
                         //)
                       }
 
@@ -618,7 +585,6 @@ for (let i=0, i < snapshot.data.length, i++){
   }
 }
 
-// ignore: missing_return
 Future<List> fetchApiResults() async {
   try {
     AuthUser res = await Amplify.Auth.getCurrentUser();
