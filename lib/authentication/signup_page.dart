@@ -25,36 +25,34 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text(
-            'skillTrain',
-            style: TextStyle(
-                fontWeight: FontWeight.w900, fontSize: 40, letterSpacing: 20),
-          ),
-          backgroundColor: Colors.deepPurple),
-      body: SingleChildScrollView(
-      child: SafeArea(
-          minimum: EdgeInsets.symmetric(horizontal: 40),
-          child: Column(children: [
-            // Image of Fit Girl
+          title: const Text('skillTrain',),
+          centerTitle: true,
+          backgroundColor: Colors.purple),
+          body: SingleChildScrollView(
+          child: Container(
+            width: double.infinity,
+              child: Column(children: [
+                // Image of Fit Girl
 
-            Container(
-                alignment: Alignment.topCenter,
-                child: Image.asset('assets/images/signupgirl.jpg')),
+                Container(
+                    alignment: Alignment.topCenter,
+                    child: Image.asset('assets/images/signupgirl.jpg')),
 
-            // Sign Up Form
-            _signUpForm(),
+                // Sign Up Form
+                _signUpForm(),
 
-            // Trainer of user radio button
-            Center(child: radioButton()),
+                // Trainer of user radio button
+                Center(child: radioButton()),
 
-            // Login Button
-            Container(
-              alignment: Alignment.bottomCenter,
-              child: FlatButton(
-                  onPressed: widget.shouldShowLogin,
-                  child: Text('Already have an account? Login.')),
-            )
-          ])),
+                // Login Button
+                Container(
+                  alignment: Alignment.bottomCenter,
+                  child: FlatButton(
+                      onPressed: widget.shouldShowLogin,
+                      child: Text('Already have an account? Login.')),
+                )
+              ]),
+          )
     )
     );
   }
