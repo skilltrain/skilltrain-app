@@ -33,7 +33,7 @@ const sampleData = [
     "end_time": "10:50",
   },
   {
-    "trainer_username": "hide_trainer",
+    "trainer_username": "athelian",
     "user_username": "Eliot",
     "date": "2021-01-12",
     "sessionCode": "test",
@@ -43,7 +43,7 @@ const sampleData = [
     "end_time": "09:50",
   },
   {
-    "trainer_username": "hide_trainer",
+    "trainer_username": "damian",
     "user_username": "John",
     "date": "2021-01-12",
     "sessionCode": "test",
@@ -172,8 +172,8 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                                                             ),
                                                           ),
                                                           Text(
-                                                            ClassArray[index]
-                                                                ["studentName"],
+                                                            ClassArray[index][
+                                                                "user_username"],
                                                             textAlign:
                                                                 TextAlign.left,
                                                           ),
