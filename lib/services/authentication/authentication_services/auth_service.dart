@@ -125,7 +125,17 @@ class AuthService {
       body: convert.jsonEncode(<String, String>{
         "id": date,
         'username': credentials.username,
-        'email': credentials.email
+        'email': credentials.email,
+        'portrait':
+            'https://image.freepik.com/free-photo/side-view-of-fit-man-posing-while-wearing-tank-top-with-crossed-arms_23-2148700611.jpg',
+        'instructor': 'Evans Clark',
+        'classPhoto':
+            'https://www.sciencemag.org/sites/default/files/styles/article_main_large/public/1036780592-1280x720.jpg?itok=QykjHcAC',
+        'bio':
+            'As a physiologist and physician, I believe in integrating the scientific aspects of training with the joy and appreciation for the sport I’ve gained over thirty years of running and racing on trails, roads, and track.  My goal is to help build a varied, sensible training plan that fits into your busy lifestyle, and will help you reach the finish line happy, healthy, and enthusiastic for whatever challenges lie ahead.',
+        'price': '35',
+        'genre': 'Running',
+        'availability': '[]'
       }),
     );
   }
