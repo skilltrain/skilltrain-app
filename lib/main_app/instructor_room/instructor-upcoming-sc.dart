@@ -14,37 +14,44 @@ String UserName = "";
 
 const sampleData = [
   {
+    "trainer_username": "Hide_instructor",
+    "user_username": "Yuta",
     "date": "2021-01-11",
-    "startTime": "09:00",
-    "endTime": "09:50",
-    "instructorName": "Hide_instructor",
-    "studentName": "Hide",
-    "classRoom": "hogehoge",
-    "isClass": true
+    "sessionCode": "test",
+    "complete": "true",
+    "status": "true",
+    "start_time": "09:00",
+    "end_time": "09:50",
   },
   {
+    "trainer_username": "Hide_instructor",
+    "user_username": "Damian",
     "date": "2021-01-11",
-    "startTime": "10:00",
-    "endTime": "10:50",
-    "instructorName": "Hide_instructor",
-    "studentName": "Elliot",
-    "classRoom": "hogehoge"
+    "sessionCode": "test",
+    "complete": "true",
+    "status": "true",
+    "start_time": "10:00",
+    "end_time": "10:50",
   },
   {
+    "trainer_username": "Hide_instructor",
+    "user_username": "Eliot",
     "date": "2021-01-12",
-    "startTime": "09:00",
-    "endTime": "10:50",
-    "instructorName": "Hide_instructor",
-    "studentName": "Hide",
-    "classRoom": "icecream"
+    "sessionCode": "test",
+    "complete": "true",
+    "status": "true",
+    "start_time": "09:00",
+    "end_time": "09:50",
   },
   {
+    "trainer_username": "Hide_instructor",
+    "user_username": "John",
     "date": "2021-01-12",
-    "startTime": "11:11",
-    "endTime": "23:23",
-    "instructorName": "Hide_instructor",
-    "studentName": "Hide",
-    "classRoom": "potato"
+    "sessionCode": "test",
+    "complete": "true",
+    "status": "true",
+    "start_time": "10:00",
+    "end_time": "10:50",
   },
 ];
 
@@ -114,7 +121,7 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                   final List ClassArray = [];
                   for (int i = 0; i < sampleData.length; i++) {
                     print(sampleData.length);
-                    if (sampleData[i]["instructorName"] == UserName) {
+                    if (sampleData[i]["trainer_username"] == UserName) {
                       ClassArray.add(sampleData[i]);
                       print(ClassArray);
                     } else
@@ -169,8 +176,10 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                                                             ),
                                                           ),
                                                           Text(
-                                                            ClassArray[index]
-                                                                ["studentName"],
+                                                            "Student : " +
+                                                                ClassArray[
+                                                                        index][
+                                                                    "user_username"],
                                                             textAlign:
                                                                 TextAlign.left,
                                                           ),
