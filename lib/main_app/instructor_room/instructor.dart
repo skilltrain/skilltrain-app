@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import './instructor-bio-update.dart';
 import './instructor-course-register.dart';
-import 'dart:async';
-import 'dart:convert';
 
 import './instructor-upcoming-sc.dart';
 
@@ -170,7 +167,7 @@ class SlideLeftRoute extends PageRouteBuilder {
 }
 
 class Instructor extends StatelessWidget {
-  int index;
+  final int index;
   Instructor({this.index});
 
   //JSON file download and decode

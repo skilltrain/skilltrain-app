@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:convert'; //json file convert
 import './booking_status.dart';
 import './instructor_bio.dart';
-import './tutorial_flow.dart';
+
 import './instructor_room/instructor.dart';
 
 //Page transition animation from left to right
