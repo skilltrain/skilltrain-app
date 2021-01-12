@@ -72,7 +72,9 @@ const sampleData = [
     {"_switchValue16":false},
   ];
 
-var JSONdata = [];
+var JSONdata = [
+
+];
 
 
 class CourseRegistration extends StatefulWidget {
@@ -122,7 +124,7 @@ class SampleStart extends State<CourseRegistration> {
 
 //ToggleSwitch value
   var _switchValue01 = false;
-  //var _switchValue02 = false;
+  var _switchValue02 = false;
   var _switchValue03 = false;
   var _switchValue04 = false;
   var _switchValue05 = false;
@@ -226,7 +228,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue01,
+                                      value: _switchValueArray[0]["_switchValue1"],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -236,7 +238,9 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('09:00 - 09:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue01 = value;
+                                          print(value);
+                                          _switchValueArray[0]["_switchValue1"] = value;
+//                                          print(_switchValueArray);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -527,15 +531,18 @@ for (let i =0; i < shapshot.data.length, i++){
 
                                     //JSON data generate
                                         for (var i = 0; i <_switchValueArray.length; i++){
-                                          var index = (i+1).toString();
+                                          var index = (i).toString();
+                                          Map curerntObject =_switchValueArray[i];
                                           var objectKey = "_switchValue" + index;
                                           var newObject = {};
-                                          newObject[objectKey]=true;
-                                          JSONdata.add(newObject);
                                           print(objectKey);
-                                          print(true);
+                                          newObject[objectKey]=_switchValueArray[i][objectKey];
+                                          JSONdata.add(newObject);
+                                          print(curerntObject[objectKey]);
+                                          print(_switchValueArray[i]);
                                         }
-                                          print(JSONdata);
+                                          print(_switchValueArray);
+//                                          print(JSONdata);
                                     //////////////////////
 
                                   },
