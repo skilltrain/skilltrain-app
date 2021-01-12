@@ -110,7 +110,6 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 for (int i = 0; i < sampleData.length; i++){
-
                   if (sampleData[i]["instructor"]==UserName){
                     print("yes");
                     final List ClassArray = sampleData[i]["availability"];
