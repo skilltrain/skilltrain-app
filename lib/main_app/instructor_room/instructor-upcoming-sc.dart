@@ -176,13 +176,13 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                                                           ),
                                                         ]),
                                                     new Spacer(),
-                                                    Text("USD /h ",
-                                                        textAlign:
-                                                            TextAlign.right,
-                                                        style: TextStyle(
-                                                          fontSize: 20,
-                                                        )),
-                                                    new Spacer(),
+                                                    // Text("USD /h ",
+                                                    //     textAlign:
+                                                    //         TextAlign.right,
+                                                    //     style: TextStyle(
+                                                    //       fontSize: 20,
+                                                    //     )),
+                                                    // new Spacer(),
                                                     RaisedButton(
                                                         child: Icon(Icons
                                                             .video_call_rounded),
