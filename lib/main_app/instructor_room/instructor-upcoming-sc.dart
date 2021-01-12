@@ -52,6 +52,26 @@ const sampleData = [
     "start_time": "10:00",
     "end_time": "10:50",
   },
+  {
+    "trainer_username": "test_trainer",
+    "user_username": "John",
+    "date": "2021-01-12",
+    "sessionCode": "test",
+    "complete": "true",
+    "status": "true",
+    "start_time": "10:00",
+    "end_time": "10:50",
+  },
+  {
+    "trainer_username": "test_trainer2",
+    "user_username": "John",
+    "date": "2021-01-12",
+    "sessionCode": "test",
+    "complete": "true",
+    "status": "true",
+    "start_time": "10:00",
+    "end_time": "10:50",
+  },
 ];
 
 class InstructorUpcomingSchedule extends StatefulWidget {
