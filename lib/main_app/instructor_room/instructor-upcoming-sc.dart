@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert'; //json file convert
-
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:intl/intl.dart';
@@ -14,35 +13,45 @@ String userName = "";
 
 const sampleData = [
   {
-    "instructor": "Hide_instructor",
-    "availability": [
-      {
-        "date": "2021-01-11",
-        "startTime": "09:00",
-        "endTime": "09:50",
-        "instructorName": "Hide_instructor",
-        "studentName": "Hide",
-        "classRoom": "hogehoge",
-        "isClass": true
-      },
-      {
-        "date": "2021-01-11",
-        "startTime": "10:00",
-        "endTime": "10:50",
-        "instructorName": "Hide_instructor",
-        "studentName": "Elliot",
-        "classRoom": "hogehoge"
-      },
-      {
-        "date": "2021-01-12",
-        "startTime": "09:00",
-        "endTime": "10:50",
-        "instructorName": "Hide_instructor",
-        "studentName": "Hide",
-        "classRoom": "icecream"
-      },
-    ]
-  }
+    "trainer_username": "hide_trainer",
+    "user_username": "Yuta",
+    "date": "2021-01-11",
+    "sessionCode": "test",
+    "complete": "true",
+    "status": "true",
+    "start_time": "09:00",
+    "end_time": "09:50",
+  },
+  {
+    "trainer_username": "hide_trainer",
+    "user_username": "Damian",
+    "date": "2021-01-11",
+    "sessionCode": "test",
+    "complete": "true",
+    "status": "true",
+    "start_time": "10:00",
+    "end_time": "10:50",
+  },
+  {
+    "trainer_username": "athelian",
+    "user_username": "Eliot",
+    "date": "2021-01-12",
+    "sessionCode": "test",
+    "complete": "true",
+    "status": "true",
+    "start_time": "09:00",
+    "end_time": "09:50",
+  },
+  {
+    "trainer_username": "damian",
+    "user_username": "John",
+    "date": "2021-01-12",
+    "sessionCode": "test",
+    "complete": "true",
+    "status": "true",
+    "start_time": "10:00",
+    "end_time": "10:50",
+  },
 ];
 
 class InstructorUpcomingSchedule extends StatefulWidget {
@@ -108,98 +117,95 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
               future: futureApiResults,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  final List ClassArray = [];
                   for (int i = 0; i < sampleData.length; i++) {
-                    if (sampleData[i]["instructor"] == userName) {
-                      print("yes");
-                      final List classArray = sampleData[i]["availability"];
+                    if (sampleData[i]["trainer_username"] == userName) {
+                      ClassArray.add(sampleData[i]);
+                      // print(ClassArray);
+                    } else
+                      print("something went wrong with fetched data");
+                  }
 
 //calendar object
-                      return Container(
-                          height: 678,
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(50.0),
-                          child: Column(
-                            children: <Widget>[
-                              Center(child: Text("$_date")),
-                              new RaisedButton(
-                                onPressed: () => _selectDate(context),
-                                child: new Text('日付選択'),
-                              ),
-                              SizedBox(
-                                  height: 514,
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Card(
-                                          child: GestureDetector(
-                                              //画面遷移
-                                              onTap: () => {},
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: <Widget>[
-                                                              Text(
-                                                                stringDate,
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 20,
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                classArray[
-                                                                        index][
-                                                                    "studentName"],
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                              ),
-                                                            ]),
-                                                        new Spacer(),
-                                                        Text("USD /h ",
+                  return Container(
+                      height: 678,
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(50.0),
+                      child: Column(
+                        children: <Widget>[
+                          Center(child: Text("$_date")),
+                          new RaisedButton(
+                            onPressed: () => _selectDate(context),
+                            child: new Text('日付選択'),
+                          ),
+                          SizedBox(
+                              height: 514,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Card(
+                                      child: GestureDetector(
+                                          //画面遷移
+                                          onTap: () => {},
+                                          child: Column(
+                                            children: <Widget>[
+                                              Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          Text(
+                                                            stringDate,
                                                             textAlign:
-                                                                TextAlign.right,
+                                                                TextAlign.left,
                                                             style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
                                                               fontSize: 20,
-                                                            )),
-                                                        new Spacer(),
-                                                        RaisedButton(
-                                                            child: Icon(Icons
-                                                                .video_call_rounded),
-                                                            onPressed:
-                                                                () => {
-                                                                      Navigator.push(
-                                                                          context,
-                                                                          SlideLeftRoute(
-                                                                              page: IndexPageForInstructor()))
-                                                                    }),
-                                                      ]),
-                                                ],
-                                              )));
-                                    },
-                                    itemCount: classArray.length,
-                                  )),
-                            ],
-                          ));
-                    }
-                  }
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            ClassArray[index][
+                                                                "user_username"],
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                          ),
+                                                        ]),
+                                                    new Spacer(),
+                                                    Text("USD /h ",
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 20,
+                                                        )),
+                                                    new Spacer(),
+                                                    RaisedButton(
+                                                        child: Icon(Icons
+                                                            .video_call_rounded),
+                                                        onPressed: () => {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  SlideLeftRoute(
+                                                                      page:
+                                                                          IndexPageForInstructor()))
+                                                            }),
+                                                  ]),
+                                            ],
+                                          )));
+                                },
+                                itemCount: ClassArray.length,
+                              )),
+                        ],
+                      ));
 
 //calendar object
                 } else if (snapshot.connectionState != ConnectionState.done) {
