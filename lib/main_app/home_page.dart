@@ -90,9 +90,14 @@ class SampleStart extends State<HomePage> {
             child: ListView(
           children: <Widget>[
             DrawerHeader(
-              child: Text('Menu'),
+              child: Text(''),
               decoration: BoxDecoration(
+                
                 color: Colors.orange[50],
+                image: DecorationImage(
+                  image: AssetImage("assets/images/crossfit.jpg"),
+                    fit: BoxFit.cover)
+                
               ),
             ),
             ListTile(
@@ -111,15 +116,6 @@ class SampleStart extends State<HomePage> {
                       context,
                       SlideLeftRoute(page: Instructor()),
                     );
-              },
-            ),
-            ListTile(
-              title: Text('Tutorial'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  SlideLeftRoute(page: Tutorial()),
-                );
               },
             ),
             ListTile(
