@@ -14,7 +14,7 @@ String userName = "";
 
 const sampleData = [
   {
-    "trainer_username": "Hide_instructor",
+    "trainer_username": "hide_trainer",
     "user_username": "Yuta",
     "date": "2021-01-11",
     "sessionCode": "test",
@@ -24,7 +24,7 @@ const sampleData = [
     "end_time": "09:50",
   },
   {
-    "trainer_username": "Hide_instructor",
+    "trainer_username": "hide_trainer",
     "user_username": "Damian",
     "date": "2021-01-11",
     "sessionCode": "test",
@@ -34,7 +34,7 @@ const sampleData = [
     "end_time": "10:50",
   },
   {
-    "trainer_username": "Hide_instructor",
+    "trainer_username": "hide_trainer",
     "user_username": "Eliot",
     "date": "2021-01-12",
     "sessionCode": "test",
@@ -44,7 +44,7 @@ const sampleData = [
     "end_time": "09:50",
   },
   {
-    "trainer_username": "Hide_instructor",
+    "trainer_username": "hide_trainer",
     "user_username": "John",
     "date": "2021-01-12",
     "sessionCode": "test",
@@ -122,7 +122,7 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                   for (int i = 0; i < sampleData.length; i++) {
                     if (sampleData[i]["trainer_username"] == userName) {
                       ClassArray.add(sampleData[i]);
-                      print(ClassArray);
+                      // print(ClassArray);
                     } else
                       print("something went wrong with fetched data");
                   }
