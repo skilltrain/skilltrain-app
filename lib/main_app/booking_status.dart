@@ -2,6 +2,49 @@ import 'package:flutter/material.dart';
 import './home_page.dart';
 import './video_session/index.dart';
 
+const sampleData = [
+  {
+    "trainer_username": "Hide_instructor",
+    "user_username": "Yuta",
+    "date": "2021-01-11",
+    "sessionCode": "test",
+    "complete": "true",
+    "status": "true",
+    "start_time": "09:00",
+    "end_time": "09:50",
+  },
+  {
+    "trainer_username": "Hide_instructor",
+    "user_username": "Damian",
+    "date": "2021-01-11",
+    "sessionCode": "test",
+    "complete": "true",
+    "status": "true",
+    "start_time": "10:00",
+    "end_time": "10:50",
+  },
+  {
+    "trainer_username": "Hide_instructor",
+    "user_username": "Eliot",
+    "date": "2021-01-12",
+    "sessionCode": "test",
+    "complete": "true",
+    "status": "true",
+    "start_time": "09:00",
+    "end_time": "09:50",
+  },
+  {
+    "trainer_username": "Hide_instructor",
+    "user_username": "John",
+    "date": "2021-01-12",
+    "sessionCode": "test",
+    "complete": "true",
+    "status": "true",
+    "start_time": "10:00",
+    "end_time": "10:50",
+  },
+];
+
 class BookingStatus extends StatelessWidget {
   final int index;
   BookingStatus({this.index});
@@ -37,26 +80,30 @@ class BookingStatus extends StatelessWidget {
                           )),
                     ]),
                 new Spacer(),
+                // RaisedButton(
+                //   onPressed: () => {},
+                //   textColor: Colors.white,
+                //   padding: const EdgeInsets.all(0),
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //       gradient: LinearGradient(
+                //         colors: <Color>[
+                //           Colors.pink[300],
+                //           Colors.purple[500],
+                //           Colors.purple[700],
+                //         ],
+                //       ),
+                //     ),
+                //     padding: const EdgeInsets.all(15),
+                //     child: Icon(Icons.video_call_rounded),
+                //   ),
+                // ),
                 RaisedButton(
-                  onPressed: () => {
-                    Navigator.push(context, SlideLeftRoute(page: IndexPage()))
-                  },
-                  textColor: Colors.white,
-                  padding: const EdgeInsets.all(0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: <Color>[
-                          Colors.pink[300],
-                          Colors.purple[500],
-                          Colors.purple[700],
-                        ],
-                      ),
-                    ),
-                    padding: const EdgeInsets.all(15),
-                    child: const Text('see detail'),
-                  ),
-                ),
+                    child: Icon(Icons.video_call_rounded),
+                    onPressed: () => {
+                          Navigator.push(
+                              context, SlideLeftRoute(page: IndexPage()))
+                        })
               ]));
             },
             itemCount: 10));
