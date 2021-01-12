@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import '../home_page.dart';
-import './call.dart';
+
+import './call_instructor.dart';
 import './utils/settings.dart';
 
 // *********** 1-to-1 VC session *********** //
 
-class IndexPage extends StatefulWidget {
+class IndexPageForInstructor extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return new IndexState();
   }
 }
 
-class IndexState extends State<IndexPage> {
+class IndexState extends State<IndexPageForInstructor> {
   final _channelController = TextEditingController();
 
   bool _validateError = false;
@@ -59,7 +60,7 @@ class IndexState extends State<IndexPage> {
                 Expanded(
                   flex: 3,
                   child: Container(
-                    child: Text('Join as : Trainee',
+                    child: Text('Join as : Trainer',
                         style: TextStyle(
                             fontSize: 45.0,
                             fontWeight: FontWeight.w900,
@@ -166,12 +167,7 @@ class IndexState extends State<IndexPage> {
 }
 
 
-
-
-
 // *********** 1-to-1 VC session *********** //
-
-
 
 
 

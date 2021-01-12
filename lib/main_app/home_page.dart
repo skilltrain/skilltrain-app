@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:convert'; //json file convert
 import './booking_status.dart';
 import './instructor_bio.dart';
-import './tutorial_flow.dart';
+
 import './instructor_room/instructor.dart';
 
 //Page transition animation from left to right
@@ -90,9 +90,14 @@ class SampleStart extends State<HomePage> {
             child: ListView(
           children: <Widget>[
             DrawerHeader(
-              child: Text('Menu'),
+              child: Text(''),
               decoration: BoxDecoration(
+                
                 color: Colors.orange[50],
+                image: DecorationImage(
+                  image: AssetImage("assets/images/crossfit.jpg"),
+                    fit: BoxFit.cover)
+                
               ),
             ),
             ListTile(
@@ -111,15 +116,6 @@ class SampleStart extends State<HomePage> {
                       context,
                       SlideLeftRoute(page: Instructor()),
                     );
-              },
-            ),
-            ListTile(
-              title: Text('Tutorial'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  SlideLeftRoute(page: Tutorial()),
-                );
               },
             ),
             ListTile(
