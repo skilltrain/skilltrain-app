@@ -31,7 +31,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 fontWeight: FontWeight.w900, fontSize: 40, letterSpacing: 20),
           ),
           backgroundColor: Colors.deepPurple),
-      body: SafeArea(
+      body: SingleChildScrollView(
+      child: SafeArea(
           minimum: EdgeInsets.symmetric(horizontal: 40),
           child: Column(children: [
             // Image of Fit Girl
@@ -54,6 +55,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Text('Already have an account? Login.')),
             )
           ])),
+    )
     );
   }
 
