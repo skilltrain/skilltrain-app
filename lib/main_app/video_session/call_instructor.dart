@@ -72,6 +72,7 @@ class CallPageState extends State<CallPage> {
   List<AgoraStream> remoteStreams;
   List<AgoraStream> localStreams;
   List<AgoraStream> allStreams;
+  // ignore: deprecated_member_use
   List<Timer> timers = new List<Timer>();
 
   Map<String, String> mediaStats;
@@ -106,7 +107,7 @@ class CallPageState extends State<CallPage> {
   }
 
   void stopShareScreen() async {
-    await shareScreenClient?.leave();
+    shareScreenClient?.leave();
     shareScreenClient = null;
     shareScreenStream?.close();
   }
@@ -117,8 +118,11 @@ class CallPageState extends State<CallPage> {
     print(
         "$channel,$video,$audio,$screen,$profile,$width,$height,$framerate,$codec,$mode");
 
+    // ignore: deprecated_member_use
     localStreams = new List<AgoraStream>();
+    // ignore: deprecated_member_use
     remoteStreams = new List<AgoraStream>();
+    // ignore: deprecated_member_use
     allStreams = new List<AgoraStream>();
 
     agoraClient = AgoraClient(appId: appId, mode: mode, codec: codec);
@@ -127,6 +131,7 @@ class CallPageState extends State<CallPage> {
       var uid = evt["uid"];
       var stream = remoteStreams.firstWhere((AgoraStream stream) {
         return stream.getId() == uid;
+      // ignore: missing_return
       }, orElse: () {});
 
       if (stream == null) {

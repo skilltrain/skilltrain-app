@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 //import './session.dart';
 
 class InstructorBioUpdate extends StatelessWidget {
-  int index;
+  final int index;
   InstructorBioUpdate({this.index});
 
   @override
@@ -156,6 +156,7 @@ class _ChangeFormState extends State<ChangeForm> {
               enabled: true,
               // 入力数
               maxLength: 10,
+              // ignore: deprecated_member_use
               maxLengthEnforced: false,
               style: TextStyle(color: Colors.red),
               obscureText: false,
