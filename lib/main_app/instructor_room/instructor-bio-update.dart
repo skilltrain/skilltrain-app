@@ -14,39 +14,39 @@ class InstructorBioUpdate extends StatefulWidget {
 class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   int index;
 
-  bool _isAmplifyConfigured = false;
   String _uploadFileResult = '';
   String _getUrlResult = '';
   String _removeResult = '';
-  Amplify amplify = new Amplify();
 
-  @override
-  void initState() {
-    super.initState();
+  // Amplify amplify = new Amplify();
 
-    configureAmplify();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
 
-  void configureAmplify() async {
-    // First add plugins (Amplify native requirements)
-    AmplifyStorageS3 storage = new AmplifyStorageS3();
-    AmplifyAuthCognito auth = new AmplifyAuthCognito();
-    amplify.addPlugin(authPlugins: [auth], storagePlugins: [storage]);
+  //   configureAmplify();
+  // }
 
-    // Configure
-    await amplify.configure(amplifyconfig);
+  // void configureAmplify() async {
+  //   // First add plugins (Amplify native requirements)
+  //   AmplifyStorageS3 storage = new AmplifyStorageS3();
+  //   AmplifyAuthCognito auth = new AmplifyAuthCognito();
+  //   amplify.addPlugin(storagePlugins: [storage]);
 
-    setState(() {
-      _isAmplifyConfigured = true;
-    });
-  }
+  //   // Configure
+  //   await amplify.configure(amplifyconfig);
+
+  //   setState(() {
+  //     _isAmplifyConfigured = true;
+  //   });
+  // }
 
   void _upload() async {
     try {
       File local = await FilePicker.getFile(type: FileType.image);
-      final key = 'ExampleKey';
+      final key = new DateTime.now().toString();
       Map<String, String> metadata = <String, String>{};
-      metadata['type'] = 'classPhoto';
+      metadata['type'] = 'testPhoto';
       S3UploadFileOptions options = S3UploadFileOptions(
           accessLevel: StorageAccessLevel.guest, metadata: metadata);
       UploadFileResult result = await Amplify.Storage.uploadFile(
@@ -83,8 +83,8 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                       5.0,
                     ),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black54, width: 3),
-                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.purple[500], width: 3),
+                      borderRadius: BorderRadius.circular(25),
                       color: Colors.white70,
                     ),
                     child: Column(
@@ -92,7 +92,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                       children: [
                         RaisedButton(
                           onPressed: _upload,
-                          child: const Text('Upload File'),
+                          child: const Text('Upload Image'),
                         ),
                       ],
                     ),
@@ -120,8 +120,8 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                       top: 5.0,
                     ),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black54, width: 3),
-                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.purple[500], width: 3),
+                      borderRadius: BorderRadius.circular(25),
                       color: Colors.white70,
                     ),
                     child: Column(

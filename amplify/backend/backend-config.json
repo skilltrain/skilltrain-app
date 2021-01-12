@@ -8,20 +8,31 @@
     }
   },
   "function": {
-    "S3Trigger7dd4c97d": {
+    "stripe-payment": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "stripedirectpayment": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "S3Triggerd4d0985a": {
       "service": "Lambda",
       "providerPlugin": "awscloudformation",
       "build": true
     }
   },
+  "api": {},
   "storage": {
-    "skillTrainStorage": {
+    "s3Bucket": {
       "service": "S3",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "S3Trigger7dd4c97d",
+          "resourceName": "S3Triggerd4d0985a",
           "attributes": [
             "Name",
             "Arn",
@@ -29,6 +40,12 @@
           ]
         }
       ]
+    }
+  },
+  "analytics": {
+    "pinpoint": {
+      "service": "Pinpoint",
+      "providerPlugin": "awscloudformation"
     }
   }
 }

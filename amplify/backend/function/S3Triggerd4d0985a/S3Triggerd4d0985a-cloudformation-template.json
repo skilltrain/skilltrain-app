@@ -28,12 +28,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "S3Trigger7dd4c97d",
+            "S3Triggerd4d0985a",
             {
               "Fn::Join": [
                 "",
                 [
-                  "S3Trigger7dd4c97d",
+                  "S3Triggerd4d0985a",
                   "-",
                   {
                     "Ref": "env"
@@ -60,7 +60,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-skilltrainapp-dev-164607-deployment",
-          "S3Key": "amplify-builds/S3Trigger7dd4c97d-353436422b6955424243-build.zip"
+          "S3Key": "amplify-builds/S3Triggerd4d0985a-684d61522b41567a5534-build.zip"
         }
       }
     },
@@ -70,12 +70,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "S3Trigger7dd4c97dLambdaRole7dd4c97d",
+            "S3Triggerd4d0985aLambdaRoled4d0985a",
             {
               "Fn::Join": [
                 "",
                 [
-                  "S3Trigger7dd4c97dLambdaRole7dd4c97d",
+                  "S3Triggerd4d0985aLambdaRoled4d0985a",
                   "-",
                   {
                     "Ref": "env"
