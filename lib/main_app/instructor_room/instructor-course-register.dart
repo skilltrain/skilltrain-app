@@ -7,7 +7,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:intl/intl.dart';
 
-String UserName = "";
+String userName = "";
 
 const sampleData = [
   {
@@ -75,7 +75,7 @@ class SampleStart extends State<CourseRegistration> {
 
 //calendar object
   DateTime _date = new DateTime.now(); //default date value
-  String StringDate =
+  String stringDate =
       format.format(new DateTime.now()); //default date value for card
 
   Future<Null> _selectDate(BuildContext context) async {
@@ -90,9 +90,9 @@ class SampleStart extends State<CourseRegistration> {
     if (picked != null)
       setState(() => {
             _date = picked,
-            StringDate = format.format(_date),
+            stringDate = format.format(_date),
             print(_date),
-            print(StringDate)
+            print(stringDate)
           });
   }
 
@@ -100,7 +100,7 @@ class SampleStart extends State<CourseRegistration> {
 
 //ToggleSwitch value
   var _switchValue01 = false;
-  var _switchValue02 = false;
+  //var _switchValue02 = false;
   var _switchValue03 = false;
   var _switchValue04 = false;
   var _switchValue05 = false;
@@ -137,7 +137,7 @@ for (let i =0; i < shapshot.data.length, i++){
 
   */
 
-  var _switchTitle = 'Switch Test';
+  //var _switchTitle = 'Switch Test';
 
 /*
 
@@ -233,7 +233,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue01,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -242,7 +242,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue01 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -253,7 +253,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue03,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -262,7 +262,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue03 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -273,7 +273,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue04,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -282,7 +282,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue04 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -293,7 +293,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue05,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -302,7 +302,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue05 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -313,7 +313,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue06,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -322,7 +322,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue06 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -333,7 +333,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue07,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -342,7 +342,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue07 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -353,7 +353,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue08,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -362,7 +362,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue08 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -373,7 +373,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue09,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -382,7 +382,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue09 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -393,7 +393,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue10,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -402,7 +402,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue10 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -413,7 +413,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue11,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -422,7 +422,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue11 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -433,7 +433,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue12,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -442,7 +442,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue12 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -453,7 +453,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue13,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -462,7 +462,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue13 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -473,7 +473,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue14,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -482,7 +482,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue14 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -493,7 +493,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue15,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -502,7 +502,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue15 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -513,7 +513,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                   child: SwitchListTile(
                                       value: _switchValue16,
                                       title: Text(
-                                        StringDate,
+                                        stringDate,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -522,7 +522,7 @@ for (let i=0, i < snapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           _switchValue16 = value;
-//                          _switchTitle = StringDate;
+//                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
@@ -618,10 +618,11 @@ for (let i=0, i < snapshot.data.length, i++){
   }
 }
 
+// ignore: missing_return
 Future<List> fetchApiResults() async {
   try {
     AuthUser res = await Amplify.Auth.getCurrentUser();
-    UserName = res.username;
+    userName = res.username;
     print("Current User Name = " + res.username);
 
     final response = await http.get(

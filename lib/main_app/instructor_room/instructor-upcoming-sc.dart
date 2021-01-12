@@ -10,7 +10,7 @@ import 'package:skilltrain/main_app/instructor_bio.dart';
 
 import '../video_session/index_instructor.dart';
 
-String UserName = "";
+String userName = "";
 
 const sampleData = [
   {
@@ -67,7 +67,7 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
 
 //calendar object
   DateTime _date = new DateTime.now(); //default date value
-  String StringDate =
+  String stringDate =
       format.format(new DateTime.now()); //default date value for card
 
   Future<Null> _selectDate(BuildContext context) async {
@@ -82,9 +82,9 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
     if (picked != null)
       setState(() => {
             _date = picked,
-            StringDate = format.format(_date),
+            stringDate = format.format(_date),
             print(_date),
-            print(StringDate)
+            print(stringDate)
           });
   }
 //calendar object
@@ -109,9 +109,9 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   for (int i = 0; i < sampleData.length; i++) {
-                    if (sampleData[i]["instructor"] == UserName) {
+                    if (sampleData[i]["instructor"] == userName) {
                       print("yes");
-                      final List ClassArray = sampleData[i]["availability"];
+                      final List classArray = sampleData[i]["availability"];
 
 //calendar object
                       return Container(
@@ -120,7 +120,7 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                           padding: const EdgeInsets.all(50.0),
                           child: Column(
                             children: <Widget>[
-                              Center(child: Text("${_date}")),
+                              Center(child: Text("$_date")),
                               new RaisedButton(
                                 onPressed: () => _selectDate(context),
                                 child: new Text('日付選択'),
@@ -151,7 +151,7 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                                                                     .start,
                                                             children: <Widget>[
                                                               Text(
-                                                                StringDate,
+                                                                stringDate,
                                                                 textAlign:
                                                                     TextAlign
                                                                         .left,
@@ -164,7 +164,7 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                                                                 ),
                                                               ),
                                                               Text(
-                                                                ClassArray[
+                                                                classArray[
                                                                         index][
                                                                     "studentName"],
                                                                 textAlign:
@@ -194,7 +194,7 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                                                 ],
                                               )));
                                     },
-                                    itemCount: ClassArray.length,
+                                    itemCount: classArray.length,
                                   )),
                             ],
                           ));
@@ -217,10 +217,11 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
   }
 }
 
+// ignore: missing_return
 Future<List> fetchApiResults() async {
   try {
     AuthUser res = await Amplify.Auth.getCurrentUser();
-    UserName = res.username;
+    userName = res.username;
     print("Current User Name = " + res.username);
 
     final response = await http.get(
