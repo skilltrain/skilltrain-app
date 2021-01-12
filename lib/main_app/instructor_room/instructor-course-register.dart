@@ -118,6 +118,27 @@ class SampleStart extends State<CourseRegistration> {
   var _switchValue15 = false;
   var _switchValue16 = false;
 
+/*
+
+swtichValueArray
+[
+  {
+    "_switchVlue01":false
+  },
+  {
+    "_switchVlue01":false
+  },
+  ...
+]
+
+for (let i =0; i < shapshot.swtichValueArray.length, i++){
+for (let i =0; i < shapshot.data.length, i++){
+  if (fetcheData.status = true)
+  shapshot.swtichValueArray[i]["value"] = true;
+}
+
+  */
+
   var _switchTitle = 'Switch Test';
 
 
@@ -141,7 +162,8 @@ class SampleStart extends State<CourseRegistration> {
         ),
         body: 
         
-        Column(
+        Center(
+         child: Column(
 //          mainAxisSize: MainAxisSize.min,
 //          crossAxisAlignment: CrossAxisAlignment.stretch,
           children:<Widget>[
@@ -215,31 +237,6 @@ class SampleStart extends State<CourseRegistration> {
                           onChanged: (bool value) {
                             setState(() {
                             _switchValue01 = value;
-//                          _switchTitle = StringDate;
-                            });
-                          }
-                        ),
-                      )                      
-                    ),
-
-                    Card(
-                      child: 
-                        Container(
-                          width: double.infinity,
-                          child:
-                          SwitchListTile(
-                            value: _switchValue02,
-                            title: Text(
-                            StringDate,
-                            style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20
-                          ),
-                          ),
-                          subtitle: Text('10:00 - 10:50'),
-                          onChanged: (bool value) {
-                            setState(() {
-                            _switchValue02 = value;
 //                          _switchTitle = StringDate;
                             });
                           }
@@ -686,7 +683,8 @@ class SampleStart extends State<CourseRegistration> {
           ),
 
           ],
-        ),
+        ), 
+        )
       ),
     );
   }
