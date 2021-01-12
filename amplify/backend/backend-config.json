@@ -1,6 +1,6 @@
 {
   "auth": {
-    "skilltrain92edfd63": {
+    "skilltrainapp41770f28": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
