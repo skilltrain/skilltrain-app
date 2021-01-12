@@ -71,6 +71,7 @@ const sampleData = [
     {"_switchValue16":false},
   ];
 
+// ignore: non_constant_identifier_names
 var JSONdata = [];
 
 
@@ -585,6 +586,7 @@ for (let i =0; i < shapshot.data.length, i++){
   }
 }
 
+// ignore: missing_return
 Future<List> fetchApiResults() async {
   try {
     AuthUser res = await Amplify.Auth.getCurrentUser();
