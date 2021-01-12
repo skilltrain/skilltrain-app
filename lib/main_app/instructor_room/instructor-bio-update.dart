@@ -17,13 +17,13 @@ class InstructorBioUpdate extends StatelessWidget {
               child:Column(
               children:<Widget>[
               Container(
-                  padding: const EdgeInsets.all(10.0,),
+                  padding: const EdgeInsets.only(top:8.0, left:8.0, right:8.0 , bottom: 10.0),
 
             child: Column(
               children: <Widget>[
                 Container(
                   width: 300,
-                  padding: const EdgeInsets.all(5.0,),
+                  padding: const EdgeInsets.all(4.0,),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black54, width:3),
                     borderRadius: BorderRadius.circular(12),
@@ -46,8 +46,8 @@ class InstructorBioUpdate extends StatelessWidget {
 
                 Container(
                   width: 300,
-                  padding: const EdgeInsets.all(5.0,),
-                  margin: const  EdgeInsets.only(top:5.0,),
+                  padding: const EdgeInsets.all(4.0,),
+                  margin: const  EdgeInsets.only(top:6.0,),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black54, width:3),
                     borderRadius: BorderRadius.circular(12),
@@ -102,12 +102,16 @@ class InstructorBioUpdate extends StatelessWidget {
                         ],
                       ),
                     ),
-                    child: const Text('Uodate profile',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                        )),
+                    child: 
+                    Container(
+                      padding: EdgeInsets.all(5.0),
+                      child: Text('Uodate profile',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                              )),
+                    )                    
                   ),
                 ),
 
