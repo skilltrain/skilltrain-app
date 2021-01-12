@@ -29,7 +29,22 @@ const amplifyconfig = ''' {
                     "Default": {
                         "authenticationFlowType": "USER_SRP_AUTH"
                     }
+                },
+                "S3TransferUtility": {
+                    "Default": {
+                        "Bucket": "skilltrain-storage164607-dev",
+                        "Region": "ap-northeast-1"
+                    }
                 }
+            }
+        }
+    },
+    "storage": {
+        "plugins": {
+            "awsS3StoragePlugin": {
+                "bucket": "skilltrain-storage164607-dev",
+                "region": "ap-northeast-1",
+                "defaultAccessLevel": "guest"
             }
         }
     }
