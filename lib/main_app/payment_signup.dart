@@ -10,24 +10,35 @@ class PaymentSignup extends StatefulWidget {
 }
 
 class PaymentState extends State<PaymentSignup> {
-  final _channelController = TextEditingController();
-
-  final _widthController = TextEditingController();
-  final _heightController = TextEditingController();
-  final _frameRateController = TextEditingController();
-
-  String _codec = "h264";
-  String _mode = "live";
-
-  @override
-  void dispose() {
-    // dispose input controller
-    _channelController.dispose();
-    _widthController.dispose();
-    _heightController.dispose();
-    _frameRateController.dispose();
-    super.dispose();
-  }
+  final Map<String, dynamic> infoObj = {
+    "individual": {
+      "address_kana": {
+        "city": "",
+        "line1": "",
+        "line2": "",
+        "postal_code": "",
+        "state": "",
+        "town": ""
+      },
+      "address_kanji": {
+        "city": "",
+        "line1": "",
+        "line2": "",
+        "postal_code": "",
+        "state": "",
+        "town": ""
+      },
+      "dob": {"day": "", "month": "", "year": ""},
+      "email": "",
+      "gender": "",
+      "first_name_kanji": "",
+      "first_name_kana": "",
+      "last_name_kanji": "",
+      "last_name_kana": ""
+    },
+    "external_account": {"account_number": "", "routing_number": ""},
+    "phone": ""
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -56,36 +67,55 @@ class PaymentState extends State<PaymentSignup> {
                         style: TextStyle(fontSize: 15.0, color: Colors.black),
                         textAlign: TextAlign.left),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["individual"]["address_kana"]["city"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'city'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["individual"]["address_kana"]["line1"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'line1'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["individual"]["address_kana"]["line2"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'line2'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["individual"]["address_kana"]["postal_code"] =
+                            text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'postal_code'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["individual"]["address_kana"]["state"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'state'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["individual"]["address_kana"]["town"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
@@ -95,36 +125,55 @@ class PaymentState extends State<PaymentSignup> {
                         style: TextStyle(fontSize: 15.0, color: Colors.black),
                         textAlign: TextAlign.left),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["individual"]["address_kanji"]["city"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'city'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["individual"]["address_kanji"]["line1"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'line1'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["individual"]["address_kanji"]["line2"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'line2'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["individual"]["address_kanji"]["postal_code"] =
+                            text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'postal_code'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["individual"]["address_kanji"]["state"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'state'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["individual"]["address_kanji"]["town"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
@@ -134,18 +183,27 @@ class PaymentState extends State<PaymentSignup> {
                         style: TextStyle(fontSize: 15.0, color: Colors.black),
                         textAlign: TextAlign.left),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["dob"]["day"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'day'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["dob"]["month"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'month'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["dob"]["year"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
@@ -155,42 +213,63 @@ class PaymentState extends State<PaymentSignup> {
                         style: TextStyle(fontSize: 15.0, color: Colors.black),
                         textAlign: TextAlign.left),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["email"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'email'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["gender"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'gender'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["first_name_kanji"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'first_name_kanji'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["first_name_kana"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'first_name_kana'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["last_name_kanji"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'last_name_kanji'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["last_name_kana"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'last_name_kana'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["phone"] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
@@ -200,12 +279,18 @@ class PaymentState extends State<PaymentSignup> {
                         style: TextStyle(fontSize: 15.0, color: Colors.black),
                         textAlign: TextAlign.left),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["external_account"]['account_number'] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'account_number'),
                     ),
                     TextField(
+                      onChanged: (text) {
+                        infoObj["external_account"]['routing_number'] = text;
+                      },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
@@ -217,7 +302,7 @@ class PaymentState extends State<PaymentSignup> {
                         children: <Widget>[
                           Expanded(
                             child: RaisedButton(
-                              onPressed: () => print(111),
+                              onPressed: () => print(jsonEncode(infoObj)),
                               child: Text("Submit"),
                               color: Colors.blueAccent,
                               textColor: Colors.white,

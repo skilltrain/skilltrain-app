@@ -119,7 +119,6 @@ class SampleStart extends State<HomePage> {
             ListTile(
               title: Text('Payment signup'),
               onTap: () {
-                print(111);
                 Navigator.push(
                   context,
                   SlideLeftRoute(page: PaymentSignup()),
