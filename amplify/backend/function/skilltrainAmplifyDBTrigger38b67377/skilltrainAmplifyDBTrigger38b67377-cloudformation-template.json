@@ -4,6 +4,18 @@
   "Parameters": {
     "env": {
       "Type": "String"
+    },
+    "storageskilltrainAmplifyDBName": {
+      "Type": "String",
+      "Default": "storageskilltrainAmplifyDBName"
+    },
+    "storageskilltrainAmplifyDBArn": {
+      "Type": "String",
+      "Default": "storageskilltrainAmplifyDBArn"
+    },
+    "storageskilltrainAmplifyDBStreamArn": {
+      "Type": "String",
+      "Default": "storageskilltrainAmplifyDBArn"
     }
   },
   "Conditions": {
@@ -28,12 +40,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "S3Triggerd4d0985a",
+            "skilltrainAmplifyDBTrigger38b67377",
             {
               "Fn::Join": [
                 "",
                 [
-                  "S3Triggerd4d0985a",
+                  "skilltrainAmplifyDBTrigger38b67377",
                   "-",
                   {
                     "Ref": "env"
@@ -60,7 +72,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-skilltrainapp-dev-164607-deployment",
-          "S3Key": "amplify-builds/S3Triggerd4d0985a-717532636b4759336f54-build.zip"
+          "S3Key": "amplify-builds/skilltrainAmplifyDBTrigger38b67377-455a447133326c687134-build.zip"
         }
       }
     },
@@ -70,12 +82,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "S3Triggerd4d0985aLambdaRoled4d0985a",
+            "skilltrainAmplifyDBLambdaRole38b67377",
             {
               "Fn::Join": [
                 "",
                 [
-                  "S3Triggerd4d0985aLambdaRoled4d0985a",
+                  "skilltrainAmplifyDBLambdaRole38b67377",
                   "-",
                   {
                     "Ref": "env"
@@ -144,6 +156,59 @@
             }
           ]
         }
+      }
+    },
+    "skilltrainAmplifyDBTriggerPolicy": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "lambda-trigger-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:DescribeStream",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:ListStreams"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storageskilltrainAmplifyDBStreamArn"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "skilltrainAmplifyDBTrigger": {
+      "Type": "AWS::Lambda::EventSourceMapping",
+      "DependsOn": [
+        "skilltrainAmplifyDBTriggerPolicy"
+      ],
+      "Properties": {
+        "BatchSize": 100,
+        "Enabled": true,
+        "EventSourceArn": {
+          "Ref": "storageskilltrainAmplifyDBStreamArn"
+        },
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "LambdaFunction",
+            "Arn"
+          ]
+        },
+        "StartingPosition": "LATEST"
       }
     }
   },

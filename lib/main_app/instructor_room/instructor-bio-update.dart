@@ -6,6 +6,16 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import './../../amplifyconfiguration.dart';
 
+void _getCurrentUser() async {
+  print("test");
+  try {
+    AuthUser res = await Amplify.Auth.getCurrentUser();
+    print("Current User Name = " + res.username);
+  } on AuthError catch (e) {
+    print(e);
+  }
+}
+
 class InstructorBioUpdate extends StatefulWidget {
   @override
   _InstructorBioUpdateState createState() => _InstructorBioUpdateState();
@@ -13,7 +23,6 @@ class InstructorBioUpdate extends StatefulWidget {
 
 class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   int index;
-
   String _uploadFileResult = '';
   String _getUrlResult = '';
   String _removeResult = '';
@@ -22,7 +31,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
     try {
       File local = await FilePicker.getFile(type: FileType.image);
       var key = new DateTime.now().toString();
-      key = "images/trainers/damian/testPhoto/" + key;
+      key = "images/trainers/damian/portrait/" + key;
       Map<String, String> metadata = <String, String>{};
       metadata['type'] = 'testPhoto';
       S3UploadFileOptions options = S3UploadFileOptions(

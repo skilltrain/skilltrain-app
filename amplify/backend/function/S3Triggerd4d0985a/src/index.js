@@ -8,34 +8,40 @@ exports.handler = async event => {
   const { name } = event.Records[0].s3.bucket;
   const { key } = event.Records[0].s3.object;
 
-  console.log(key);
+  console.log("event.records[0].s3" + JSON.stringify(event.Records[0].s3));
 
   const username = key.split("/")[3];
-  const userType = key.split("/")[2];
-
-  const params = {
-    Bucket: name,
-    Key: key,
-  };
+  let userType = key.split("/")[2];
+  const picType = key.split("/")[4];
+  userType = `${userType.charAt(0).UpperCase()}${userType.slice(1)}`;
+  // const params = {
+  //   Bucket: name,
+  //   Key: key,
+  // };
 
   try {
-    const s3HeadData = await s3.headObject(params).promise();
+    // const s3HeadData = await s3.headObject(params).promise();
 
-    const type = s3HeadData.Metadata["type"];
-
+    // const type = s3HeadData.Metadata["type"];
+    // console.log(type);
     const putParams = {
       TableName: userType,
       Key: {
         username: username,
       },
-      UpdateExpression: `SET ${type} = :img`,
+      UpdateExpression: `SET ${picType} = :img`,
       ExpressionAttributeValues: {
         ":img": key,
       },
       ReturnValues: "ALL_NEW",
     };
-    await ddb.update(putParams).promise();
-    responseBody = `Succesfully added ${key} to profileImg attr of ${username} in ${userType} table`;
+    console.log(username, userType, picType, putParams);
+
+    await ddb
+      .update(putParams)
+      .promise()
+      .then(data => console.log(data));
+    responseBody = `Succesfully added ${key} to ${picType} attr of ${username} in ${userType} table`;
     statusCode = 201;
   } catch (err) {
     responseBody = "Error" + err;
@@ -46,7 +52,7 @@ exports.handler = async event => {
     statusCode: statusCode,
     body: responseBody,
   };
-
+  console.log(response);
   return response;
 };
 

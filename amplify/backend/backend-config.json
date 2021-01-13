@@ -17,12 +17,42 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
-<<<<<<< HEAD
     },
     "S3Triggerd4d0985a": {
       "service": "Lambda",
       "providerPlugin": "awscloudformation",
       "build": true
+    },
+    "skilltrainAmplifyDBTrigger38b67377": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true,
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "skilltrainAmplifyDB",
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ]
+        }
+      ]
+    },
+    "stripeTrainerCreate": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "skilltrainAmplifyDB",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
     }
   },
   "api": {},
@@ -41,6 +71,10 @@
           ]
         }
       ]
+    },
+    "skilltrainAmplifyDB": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
     }
   },
   "analytics": {
@@ -49,9 +83,4 @@
       "providerPlugin": "awscloudformation"
     }
   }
-=======
-    }
-  },
-  "api": {}
->>>>>>> 9c97f86c10eca23805d1acb6b9b1fd970fef5e56
 }
