@@ -627,6 +627,7 @@ class SampleStart extends State<CourseRegistration> {
   }
 }
 
+// ignore: missing_return
 Future<List> fetchApiResults() async {
   try {
     AuthUser res = await Amplify.Auth.getCurrentUser();
