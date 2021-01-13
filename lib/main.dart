@@ -4,10 +4,10 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'amplifyconfiguration.dart';
-import './authentication/signup_page.dart';
-import './authentication/login_page.dart';
-import './authentication/authentication_services/auth_service.dart';
-import './authentication/verification_page.dart';
+import './services/authentication/signup_page.dart';
+import './services/authentication/login_page.dart';
+import './services/authentication/authentication_services/auth_service.dart';
+import './services/authentication/verification_page.dart';
 import './main_app/home_page.dart';
 import './main_app/tutorial_flow.dart';
 
