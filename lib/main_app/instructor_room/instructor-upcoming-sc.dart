@@ -11,49 +11,6 @@ import '../video_session/index_instructor.dart';
 
 String userName = "";
 
-const sampleData = [
-  {
-    "trainer_username": "hide_trainer",
-    "user_username": "Yuta",
-    "date": "2021-01-11",
-    "sessionCode": "test",
-    "complete": "true",
-    "status": "true",
-    "start_time": "09:00",
-    "end_time": "09:50",
-  },
-  {
-    "trainer_username": "hide_trainer",
-    "user_username": "Damian",
-    "date": "2021-01-11",
-    "sessionCode": "test",
-    "complete": "true",
-    "status": "true",
-    "start_time": "10:00",
-    "end_time": "10:50",
-  },
-  {
-    "trainer_username": "athelian",
-    "user_username": "Eliot",
-    "date": "2021-01-12",
-    "sessionCode": "test",
-    "complete": "true",
-    "status": "true",
-    "start_time": "09:00",
-    "end_time": "09:50",
-  },
-  {
-    "trainer_username": "damian",
-    "user_username": "John",
-    "date": "2021-01-12",
-    "sessionCode": "test",
-    "complete": "true",
-    "status": "true",
-    "start_time": "10:00",
-    "end_time": "10:50",
-  },
-];
-
 class InstructorUpcomingSchedule extends StatefulWidget {
   final VoidCallback shouldLogOut;
 
@@ -67,17 +24,17 @@ class InstructorUpcomingSchedule extends StatefulWidget {
 DateFormat format = DateFormat('yyyy-MM-dd');
 
 class SampleStart extends State<InstructorUpcomingSchedule> {
-  Future<List> futureApiResults;
+  Future<List> sessionResults;
   @override
   void initState() {
     super.initState();
-    futureApiResults = fetchApiResults();
+    sessionResults = fetchSessionResults();
   }
 
 //calendar object
   DateTime _date = new DateTime.now(); //default date value
-  String stringDate =
-      format.format(new DateTime.now()); //default date value for card
+  String stringDate = format.format(new DateTime.now()
+      .subtract(Duration(days: 1))); //default date value for card
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -114,14 +71,17 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
         body: Column(
           children: <Widget>[
             FutureBuilder<List>(
-              future: futureApiResults,
+              future: sessionResults,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final List classArray = [];
-                  for (int i = 0; i < sampleData.length; i++) {
-                    if (sampleData[i]["trainer_username"] == userName) {
-                      classArray.add(sampleData[i]);
-                      // print(ClassArray);
+                  for (int i = 0; i < snapshot.data.length; i++) {
+                    if (snapshot.data[i]["trainer_username"] == userName &&
+                        DateTime.parse(stringDate).isBefore(
+                            DateTime.parse(snapshot.data[i]["date"]))) {
+                      print(stringDate);
+                      print(snapshot.data[i]["date"]);
+                      classArray.add(snapshot.data[i]);
                     } else
                       print("something went wrong with fetched data");
                   }
@@ -161,7 +121,8 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                                                                 .start,
                                                         children: <Widget>[
                                                           Text(
-                                                            stringDate,
+                                                            classArray[index]
+                                                                ["date"],
                                                             textAlign:
                                                                 TextAlign.left,
                                                             style: TextStyle(
@@ -172,32 +133,66 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                                                             ),
                                                           ),
                                                           Text(
-                                                            classArray[index][
-                                                                "user_username"],
+                                                              classArray[index][
+                                                                      "start_time"] +
+                                                                  " - " +
+                                                                  classArray[
+                                                                          index]
+                                                                      [
+                                                                      "end_time"],
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 16,
+                                                              )),
+                                                          Text(
+                                                            "With " +
+                                                                classArray[
+                                                                        index][
+                                                                    "user_username"],
                                                             textAlign:
                                                                 TextAlign.left,
                                                           ),
                                                         ]),
                                                     new Spacer(),
-                                                    Text("USD /h ",
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 20,
-                                                        )),
+                                                    Column(
+                                                      children: <Widget>[
+                                                        Text(
+                                                          "Session Code",
+                                                          textAlign:
+                                                              TextAlign.right,
+                                                        ),
+                                                        Text(
+                                                            classArray[index]
+                                                                ["sessionCode"],
+                                                            textAlign:
+                                                                TextAlign.right,
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15,
+                                                            ))
+                                                      ],
+                                                    ),
                                                     new Spacer(),
-                                                    RaisedButton(
-                                                        child: Icon(Icons
-                                                            .video_call_rounded),
-                                                        onPressed: () => {
-                                                              Navigator.push(
-                                                                  context,
-                                                                  SlideLeftRoute(
-                                                                      page:
-                                                                          IndexPageForInstructor()))
-                                                            }),
+                                                    ButtonTheme(
+                                                      minWidth: 30,
+                                                      child: RaisedButton(
+                                                          child: Icon(Icons
+                                                              .video_call_rounded),
+                                                          onPressed: () => {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    SlideLeftRoute(
+                                                                        page:
+                                                                            IndexPageForInstructor()))
+                                                              }),
+                                                    ),
                                                   ]),
                                             ],
                                           )));
@@ -224,14 +219,14 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
 }
 
 // ignore: missing_return
-Future<List> fetchApiResults() async {
+Future<List> fetchSessionResults() async {
   try {
     AuthUser res = await Amplify.Auth.getCurrentUser();
     userName = res.username;
     print("Current User Name = " + res.username);
 
     final response = await http.get(
-        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers');
+        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions');
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
