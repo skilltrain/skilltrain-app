@@ -18,29 +18,6 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   String _getUrlResult = '';
   String _removeResult = '';
 
-  // Amplify amplify = new Amplify();
-
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   configureAmplify();
-  // }
-
-  // void configureAmplify() async {
-  //   // First add plugins (Amplify native requirements)
-  //   AmplifyStorageS3 storage = new AmplifyStorageS3();
-  //   AmplifyAuthCognito auth = new AmplifyAuthCognito();
-  //   amplify.addPlugin(storagePlugins: [storage]);
-
-  //   // Configure
-  //   await amplify.configure(amplifyconfig);
-
-  //   setState(() {
-  //     _isAmplifyConfigured = true;
-  //   });
-  // }
-
   void _upload() async {
     try {
       File local = await FilePicker.getFile(type: FileType.image);
