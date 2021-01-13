@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -54,7 +55,7 @@ class PaymentState extends State<PaymentSignup> {
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 5),
-            height: 1500,
+            height: 1400,
             child: Column(
               children: <Widget>[
                 Text('Please fill out below information',
@@ -295,6 +296,24 @@ class PaymentState extends State<PaymentSignup> {
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'routing_number'),
+                    ),
+                    InkWell(
+                      highlightColor: Colors.red.shade300,
+                      splashColor: Colors.red.shade100,
+                      child: Text(
+                        "Stripe terms of agreement",
+                        style: TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
+                            fontSize: 18),
+                      ),
+                      onTap: () async {
+                        if (await canLaunch(
+                            "https://stripe.com/en-gb-jp/connect-account/legal")) {
+                          await launch(
+                              "https://stripe.com/en-gb-jp/connect-account/legal");
+                        }
+                      },
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 20),
