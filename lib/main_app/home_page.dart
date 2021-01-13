@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert'; //json file convert
 import './booking_status.dart';
 import './instructor_bio.dart';
+import './payment_signup.dart';
 
 import './instructor_room/instructor.dart';
 
@@ -92,13 +93,10 @@ class SampleStart extends State<HomePage> {
             DrawerHeader(
               child: Text(''),
               decoration: BoxDecoration(
-                
-                color: Colors.orange[50],
-                image: DecorationImage(
-                  image: AssetImage("assets/images/crossfit.jpg"),
-                    fit: BoxFit.cover)
-                
-              ),
+                  color: Colors.orange[50],
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/crossfit.jpg"),
+                      fit: BoxFit.cover)),
             ),
             ListTile(
               title: Text('Booking status'),
@@ -110,12 +108,22 @@ class SampleStart extends State<HomePage> {
               },
             ),
             ListTile(
-              title: Text('Instructor page '),
+              title: Text('Instructor page'),
               onTap: () {
-                    Navigator.push(
-                      context,
-                      SlideLeftRoute(page: Instructor()),
-                    );
+                Navigator.push(
+                  context,
+                  SlideLeftRoute(page: Instructor()),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Payment signup'),
+              onTap: () {
+                print(111);
+                Navigator.push(
+                  context,
+                  SlideLeftRoute(page: PaymentSignup()),
+                );
               },
             ),
             ListTile(
@@ -155,7 +163,9 @@ class SampleStart extends State<HomePage> {
                                   Navigator.push(
                                     context,
                                     SlideRightRoute(
-                                        page: InstructorBio(data: snapshot.data[index],index: index)),
+                                        page: InstructorBio(
+                                            data: snapshot.data[index],
+                                            index: index)),
                                   )
                                 },
                             child: Column(
