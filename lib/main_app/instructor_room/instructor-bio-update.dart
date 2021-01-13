@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
-import './../../amplifyconfiguration.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -15,15 +14,14 @@ class InstructorBioUpdate extends StatefulWidget {
 
 class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   int index;
-  String _uploadFileResult = '';
-  String _getUrlResult = '';
-  String _removeResult = '';
+  String _uploadProfilePicFileResult = '';
+  String _uploadClassFileResult = '';
 
   void _uploadProfilePic() async {
     try {
       File local = await FilePicker.getFile(type: FileType.image);
       var key = new DateTime.now().toString();
-      key = "images/trainers/damian/profilePic/" + key;
+      key = "images/trainers/$_user/profilePic/" + key;
       Map<String, String> metadata = <String, String>{};
       metadata['type'] = 'profilePic';
       S3UploadFileOptions options = S3UploadFileOptions(
@@ -31,8 +29,9 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
       UploadFileResult result = await Amplify.Storage.uploadFile(
           key: key, local: local, options: options);
       setState(() {
-        _uploadFileResult = result.key;
+        _uploadProfilePicFileResult = result.key;
       });
+      print(_uploadProfilePicFileResult);
     } catch (e) {
       print('UploadFile Err: ' + e.toString());
     }
@@ -42,7 +41,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
     try {
       File local = await FilePicker.getFile(type: FileType.image);
       var key = new DateTime.now().toString();
-      key = "images/trainers/damian/classPhoto/" + key;
+      key = "images/trainers/$_user/classPhoto/" + key;
       Map<String, String> metadata = <String, String>{};
       metadata['type'] = 'classPhoto';
       S3UploadFileOptions options = S3UploadFileOptions(
@@ -50,8 +49,9 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
       UploadFileResult result = await Amplify.Storage.uploadFile(
           key: key, local: local, options: options);
       setState(() {
-        _uploadFileResult = result.key;
+        _uploadClassFileResult = result.key;
       });
+      print(_uploadClassFileResult);
     } catch (e) {
       print('UploadFile Err: ' + e.toString());
     }
@@ -66,17 +66,32 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
     }
   }
 
-  void _download() async {}
+  //Text field state
+  String _genre = "";
+  String _price = "";
+  String _bio = "";
+  //Current User
 
-  String genre = "";
-  String price = "";
-  String bio = "";
+  String _user = "";
+  void _getCurrentUser() async {
+    try {
+      AuthUser res = await Amplify.Auth.getCurrentUser();
+      _user = res.username;
+    } on AuthError catch (e) {
+      print(e);
+    }
+  }
+
+  void initState() {
+    super.initState();
+    _getCurrentUser();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("bio update"),
+          title: Text("Update Your Bio"),
         ),
         body: SingleChildScrollView(
             child: Container(
@@ -144,17 +159,17 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                   ),
                   TextFormField(
                       decoration: InputDecoration(labelText: 'genre'),
-                      onChanged: (value) => setState(() => genre = value)),
+                      onChanged: (value) => setState(() => _genre = value)),
                   TextFormField(
                       decoration: InputDecoration(labelText: 'price'),
-                      onChanged: (value) => setState(() => price = value)),
+                      onChanged: (value) => setState(() => _price = value)),
                   TextFormField(
                     decoration: InputDecoration(
                       labelText: 'bio',
                     ),
                     maxLines: 4,
                     minLines: 4,
-                    onChanged: (value) => setState(() => bio = value),
+                    onChanged: (value) => setState(() => _bio = value),
                   ),
                 ])),
             RaisedButton(
@@ -191,14 +206,14 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
 
   Future<http.Response> updateTrainer() {
     return http.put(
-      "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/damian",
+      "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$_user",
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'bio': bio,
-        'price': price,
-        'genre': genre,
+        'bio': _bio,
+        'price': _price,
+        'genre': _genre,
       }),
     );
   }
