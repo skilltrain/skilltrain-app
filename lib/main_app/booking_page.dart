@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../services/stripe/payment/direct_payment_page.dart';
+import './home_page.dart';
 
 class Booking extends StatelessWidget {
   final int index;
@@ -21,7 +23,9 @@ class Booking extends StatelessWidget {
                     )),
                 new Spacer(),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, SlideLeftRoute(page: MyHomePage()));
+                  },
                   textColor: Colors.white,
                   padding: const EdgeInsets.all(0),
                   child: Container(

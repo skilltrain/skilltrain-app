@@ -117,10 +117,10 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
               future: futureApiResults,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  final List ClassArray = [];
+                  final List classArray = [];
                   for (int i = 0; i < sampleData.length; i++) {
                     if (sampleData[i]["trainer_username"] == userName) {
-                      ClassArray.add(sampleData[i]);
+                      classArray.add(sampleData[i]);
                       // print(ClassArray);
                     } else
                       print("something went wrong with fetched data");
@@ -172,7 +172,7 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                                                             ),
                                                           ),
                                                           Text(
-                                                            ClassArray[index][
+                                                            classArray[index][
                                                                 "user_username"],
                                                             textAlign:
                                                                 TextAlign.left,
@@ -202,7 +202,7 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                                             ],
                                           )));
                                 },
-                                itemCount: ClassArray.length,
+                                itemCount: classArray.length,
                               )),
                         ],
                       ));

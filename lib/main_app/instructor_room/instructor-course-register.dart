@@ -71,7 +71,7 @@ const sampleData = [
     {"_switchValue16":false},
   ];
 
-var JSONdata = [
+var jsonData = [
 
 ];
 
@@ -122,7 +122,9 @@ class SampleStart extends State<CourseRegistration> {
 //calendar object
 
 //ToggleSwitch value
+  // ignore: unused_field
   var _switchValue01 = false;
+  // ignore: unused_field
   var _switchValue02 = false;
   var _switchValue03 = false;
   var _switchValue04 = false;
@@ -536,7 +538,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                           var newObject = {};
                                           print(objectKey);
                                           newObject[objectKey]=_switchValueArray[i][objectKey];
-                                          JSONdata.add(newObject);
+                                          jsonData.add(newObject);
                                           print(curerntObject[objectKey]);
                                           print(_switchValueArray[i]);
                                         }
@@ -592,6 +594,7 @@ for (let i =0; i < shapshot.data.length, i++){
   }
 }
 
+// ignore: missing_return
 Future<List> fetchApiResults() async {
   try {
     AuthUser res = await Amplify.Auth.getCurrentUser();
