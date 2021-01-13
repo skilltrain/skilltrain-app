@@ -5,16 +5,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import './../../amplifyconfiguration.dart';
-
-void _getCurrentUser() async {
-  print("test");
-  try {
-    AuthUser res = await Amplify.Auth.getCurrentUser();
-    print("Current User Name = " + res.username);
-  } on AuthError catch (e) {
-    print(e);
-  }
-}
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class InstructorBioUpdate extends StatefulWidget {
   @override
@@ -27,13 +19,32 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   String _getUrlResult = '';
   String _removeResult = '';
 
-  void _upload() async {
+  void _uploadProfilePic() async {
+    try {
+      File local = await FilePicker.getFile(type: FileType.image);
+      var key = new DateTime.now().toString();
+      key = "images/trainers/damian/profilePic/" + key;
+      Map<String, String> metadata = <String, String>{};
+      metadata['type'] = 'profilePic';
+      S3UploadFileOptions options = S3UploadFileOptions(
+          accessLevel: StorageAccessLevel.guest, metadata: metadata);
+      UploadFileResult result = await Amplify.Storage.uploadFile(
+          key: key, local: local, options: options);
+      setState(() {
+        _uploadFileResult = result.key;
+      });
+    } catch (e) {
+      print('UploadFile Err: ' + e.toString());
+    }
+  }
+
+  void _uploadClassPhoto() async {
     try {
       File local = await FilePicker.getFile(type: FileType.image);
       var key = new DateTime.now().toString();
       key = "images/trainers/damian/classPhoto/" + key;
       Map<String, String> metadata = <String, String>{};
-      metadata['type'] = 'portrait';
+      metadata['type'] = 'classPhoto';
       S3UploadFileOptions options = S3UploadFileOptions(
           accessLevel: StorageAccessLevel.guest, metadata: metadata);
       UploadFileResult result = await Amplify.Storage.uploadFile(
@@ -56,6 +67,10 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   }
 
   void _download() async {}
+
+  String genre = "";
+  String price = "";
+  String bio = "";
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +100,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         RaisedButton(
-                          onPressed: _upload,
+                          onPressed: _uploadProfilePic,
                           child: const Text('Upload Profile Pic'),
                         ),
                       ],
@@ -119,36 +134,36 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                       color: Colors.white70,
                     ),
                     child: Column(
-                      children: <Widget>[
-                        Image.asset('assets/images/bio.png',
-                            height: 150, fit: BoxFit.fill),
-                        Text(
-                          "Upload classPhoto",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.black54),
-                        )
+                      children: [
+                        RaisedButton(
+                          onPressed: _uploadClassPhoto,
+                          child: const Text('Upload Class Photo'),
+                        ),
                       ],
                     ),
                   ),
                   TextFormField(
-                    decoration: InputDecoration(labelText: 'genre'),
-                  ),
+                      decoration: InputDecoration(labelText: 'genre'),
+                      onChanged: (value) => setState(() => genre = value)),
                   TextFormField(
-                    decoration: InputDecoration(labelText: 'price'),
-                  ),
+                      decoration: InputDecoration(labelText: 'price'),
+                      onChanged: (value) => setState(() => price = value)),
                   TextFormField(
                     decoration: InputDecoration(
                       labelText: 'bio',
                     ),
                     maxLines: 4,
                     minLines: 4,
+                    onChanged: (value) => setState(() => bio = value),
                   ),
                 ])),
             RaisedButton(
-              onPressed: () {},
+              onPressed: () async {
+                final dynamic result = await updateTrainer();
+                result.statusCode == 201
+                    ? print("update successful")
+                    : print("update unsuccesful");
+              },
               textColor: Colors.white,
               padding: const EdgeInsets.all(0),
               child: Container(
@@ -162,7 +177,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                     ],
                   ),
                 ),
-                child: const Text('Uodate profile',
+                child: const Text('Update profile',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -173,46 +188,18 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
           ]),
         )));
   }
-}
 
-class ChangeForm extends StatefulWidget {
-  @override
-  _ChangeFormState createState() => _ChangeFormState();
-}
-
-class _ChangeFormState extends State<ChangeForm> {
-  String _text = '';
-
-  void _handleText(String e) {
-    setState(() {
-      _text = e;
-    });
-  }
-
-  Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.all(50.0),
-        child: Column(
-          children: <Widget>[
-            Text(
-              "$_text",
-              style: TextStyle(
-                  color: Colors.blueAccent,
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.w500),
-            ),
-            new TextField(
-              enabled: true,
-              // 入力数
-              maxLength: 10,
-              maxLengthEnforced: false,
-              style: TextStyle(color: Colors.red),
-              obscureText: false,
-              maxLines: 1,
-              //パスワード
-              onChanged: _handleText,
-            ),
-          ],
-        ));
+  Future<http.Response> updateTrainer() {
+    return http.put(
+      "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/damian",
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'bio': bio,
+        'price': price,
+        'genre': genre,
+      }),
+    );
   }
 }
