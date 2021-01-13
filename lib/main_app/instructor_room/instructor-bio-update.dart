@@ -21,7 +21,8 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   void _upload() async {
     try {
       File local = await FilePicker.getFile(type: FileType.image);
-      final key = new DateTime.now().toString();
+      var key = new DateTime.now().toString();
+      key = "images/trainers/damian/testPhoto/" + key;
       Map<String, String> metadata = <String, String>{};
       metadata['type'] = 'testPhoto';
       S3UploadFileOptions options = S3UploadFileOptions(

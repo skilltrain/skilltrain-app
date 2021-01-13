@@ -8,8 +8,10 @@ exports.handler = async event => {
   const { name } = event.Records[0].s3.bucket;
   const { key } = event.Records[0].s3.object;
 
-  const username = key.split("/")[2];
-  const userType = key.split("/")[1];
+  console.log(key);
+
+  const username = key.split("/")[3];
+  const userType = key.split("/")[2];
 
   const params = {
     Bucket: name,

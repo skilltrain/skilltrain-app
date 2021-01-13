@@ -17,6 +17,7 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+<<<<<<< HEAD
     },
     "S3Triggerd4d0985a": {
       "service": "Lambda",
@@ -48,4 +49,9 @@
       "providerPlugin": "awscloudformation"
     }
   }
+=======
+    }
+  },
+  "api": {}
+>>>>>>> 9c97f86c10eca23805d1acb6b9b1fd970fef5e56
 }
