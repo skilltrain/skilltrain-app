@@ -53,26 +53,84 @@ const sampleData = [
 ];
 
   var _switchValueArray = [
-    {"_switchValue1":false},
-    {"_switchValue2":false},
-    {"_switchValue3":false},
-    {"_switchValue4":false},
-    {"_switchValue5":false},
-    {"_switchValue6":false},
-    {"_switchValue7":false},
-    {"_switchValue8":false},
-    {"_switchValue9":false},
-    {"_switchValue10":false},
-    {"_switchValue11":false},
-    {"_switchValue12":false},
-    {"_switchValue13":false},
-    {"_switchValue14":false},
-    {"_switchValue15":false},
-    {"_switchValue16":false},
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
   ];
 
-var jsonData = [
-
+var timeTable = [
+  {
+    "start_time":"09:00",
+    "end_time":"09:50"
+  },
+  {
+    "start_time":"10:00",
+    "end_time":"10:50"
+  },
+  {
+    "start_time":"11:00",
+    "end_time":"11:50"
+  },
+  {
+    "start_time":"12:00",
+    "end_time":"12:50"
+  },
+  {
+    "start_time":"13:00",
+    "end_time":"13:50"
+  },
+  {
+    "start_time":"14:00",
+    "end_time":"14:50"
+  },
+  {
+    "start_time":"15:00",
+    "end_time":"15:50"
+  },
+  {
+    "start_time":"16:00",
+    "end_time":"16:50"
+  },
+  {
+    "start_time":"17:00",
+    "end_time":"17:50"
+  },
+  {
+    "start_time":"18:00",
+    "end_time":"18:50"
+  },
+  {
+    "start_time":"19:00",
+    "end_time":"19:50"
+  },
+  {
+    "start_time":"20:00",
+    "end_time":"20:50"
+  },
+  {
+    "start_time":"21:00",
+    "end_time":"21:50"
+  },
+  {
+    "start_time":"22:00",
+    "end_time":"22:50"
+  },
+  {
+    "start_time":"23:00",
+    "end_time":"23:50"
+  },
 ];
 
 
@@ -95,6 +153,19 @@ class SampleStart extends State<CourseRegistration> {
     super.initState();
     futureApiResults = fetchApiResults();
   }
+
+  Future<List> GeneratedPutData;
+  @override
+    void callPutMethod(data)async{
+    final GeneratedPutData = await putData();
+    print("put method is called");
+    print(GeneratedPutData);
+//    print(data);
+//    Future<String> putData(data) async{
+//      await print(data);
+//    }
+  }
+
 
 //calendar object
   DateTime _date = new DateTime.now(); //default date value
@@ -120,51 +191,6 @@ class SampleStart extends State<CourseRegistration> {
   }
 
 //calendar object
-
-//ToggleSwitch value
-  // ignore: unused_field
-  var _switchValue01 = false;
-  // ignore: unused_field
-  var _switchValue02 = false;
-  var _switchValue03 = false;
-  var _switchValue04 = false;
-  var _switchValue05 = false;
-  var _switchValue06 = false;
-  var _switchValue07 = false;
-  var _switchValue08 = false;
-  var _switchValue09 = false;
-  var _switchValue10 = false;
-  var _switchValue11 = false;
-  var _switchValue12 = false;
-  var _switchValue13 = false;
-  var _switchValue14 = false;
-  var _switchValue15 = false;
-  var _switchValue16 = false;
-
-
-
-/*
-
-swtichValueArray
-[
-  {
-    "_switchVlue01":false
-  },
-  {
-    "_switchVlue01":false
-  },
-  ...
-]
-
-for (let i =0; i < shapshot.swtichValueArray.length, i++){
-for (let i =0; i < shapshot.data.length, i++){
-  if (fetcheData.status = true)
-  shapshot.swtichValueArray[i]["value"] = true;
-}
-
-  */
-
-  //var _switchTitle = 'Switch Test';
 
   @override
   Widget build(BuildContext context) {
@@ -229,7 +255,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValueArray[0]["_switchValue1"],
+                                      value: _switchValueArray[0],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -240,7 +266,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           print(value);
-                                          _switchValueArray[0]["_switchValue1"] = value;
+                                          _switchValueArray[0] = value;
 //                                          print(_switchValueArray);
 //                          _switchTitle = stringDate;
                                         });
@@ -251,7 +277,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue03,
+                                      value: _switchValueArray[1],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -261,7 +287,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('10:00 - 10:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue03 = value;
+                                          _switchValueArray[1] = value;
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -271,7 +297,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue04,
+                                      value: _switchValueArray[2],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -281,7 +307,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('11:00 - 11:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue04 = value;
+                                          _switchValueArray[2] = value;
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -291,7 +317,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue05,
+                                      value: _switchValueArray[3],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -301,7 +327,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('12:00 - 12:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue05 = value;
+                                          _switchValueArray[3] = value;
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -311,7 +337,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue06,
+                                      value: _switchValueArray[4],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -321,7 +347,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('13:00 - 13:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue06 = value;
+                                          _switchValueArray[4] = value;
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -331,7 +357,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue07,
+                                      value: _switchValueArray[5],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -341,7 +367,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('14:00 - 14:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue07 = value;
+                                          _switchValueArray[5] = value;
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -351,7 +377,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue08,
+                                      value: _switchValueArray[6],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -361,7 +387,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('15:00 - 15:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue08 = value;
+                                          _switchValueArray[6] = value;
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -371,7 +397,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue09,
+                                      value: _switchValueArray[7],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -381,7 +407,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('16:00 - 16:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue09 = value;
+                                          _switchValueArray[7] = value;
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -391,7 +417,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue10,
+                                      value: _switchValueArray[8],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -401,7 +427,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('17:00 - 17:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue10 = value;
+                                          _switchValueArray[8] = value;
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -411,7 +437,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue11,
+                                      value: _switchValueArray[9],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -421,7 +447,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('18:00 - 18:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue11 = value;
+                                          _switchValueArray[9] = value;
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -431,7 +457,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue12,
+                                      value: _switchValueArray[10],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -441,7 +467,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('19:00 - 19:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue12 = value;
+                                          _switchValueArray[10] = value;
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -451,7 +477,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue13,
+                                      value: _switchValueArray[11],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -461,7 +487,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('20:00 - 20:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue13 = value;
+                                          _switchValueArray[11] = value;
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -471,7 +497,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue14,
+                                      value: _switchValueArray[12],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -481,7 +507,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('21:00 - 21:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue14 = value;
+                                          _switchValueArray[12] = value;
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -491,7 +517,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue15,
+                                      value: _switchValueArray[13],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -501,7 +527,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('22:00 - 22:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue15 = value;
+                                          _switchValueArray[13] = value;
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -511,7 +537,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue16,
+                                      value: _switchValueArray[14],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -521,7 +547,7 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('23:00 - 23:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue16 = value;
+                                          _switchValueArray[14] = value;
 //                          _switchTitle = stringDate;
                                         });
                                       }),
@@ -529,21 +555,28 @@ for (let i =0; i < shapshot.data.length, i++){
 
                                 RaisedButton(
                                   onPressed: () {
-
+                                        var JSONdata = [];
                                     //JSON data generate
                                         for (var i = 0; i <_switchValueArray.length; i++){
-                                          var index = (i).toString();
-                                          Map curerntObject =_switchValueArray[i];
-                                          var objectKey = "_switchValue" + index;
-                                          var newObject = {};
-                                          print(objectKey);
-                                          newObject[objectKey]=_switchValueArray[i][objectKey];
-                                          jsonData.add(newObject);
-                                          print(curerntObject[objectKey]);
-                                          print(_switchValueArray[i]);
+                                          var newObject = {
+                                          };                                         
+                                          newObject["trainer_username"] = userName;
+                                          newObject["date"] = stringDate;
+                                          newObject["start_time"] = timeTable[i]["start_time"];
+                                          newObject["end_time"] = timeTable[i]["end_time"];
+                                          newObject["status"] = _switchValueArray[i];
+                                          
+                                          //print(newObject);
+                                          JSONdata.add(newObject);
                                         }
-                                          print(_switchValueArray);
-//                                          print(JSONdata);
+                                          //print(_switchValueArray);
+                                          print(JSONdata);
+                                          var JSONstring = jsonEncode(JSONdata);
+//                                          print(_switchValueArray);
+                                          print(JSONstring);                                          
+//                                          print(JSONstring);
+//                                          print("JSONstring");
+                                          callPutMethod(JSONstring);
                                     //////////////////////
 
                                   },
@@ -613,3 +646,19 @@ Future<List> fetchApiResults() async {
     print(e);
   }
 }
+
+Future<List> putData() async {
+  try {
+    final response = await http.get(
+        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers');
+    print("now accessing to Future<List>putData");
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load API params');
+    }
+  } on AuthError catch (e) {
+    print(e);
+  }
+}
+
