@@ -31,9 +31,9 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
     try {
       File local = await FilePicker.getFile(type: FileType.image);
       var key = new DateTime.now().toString();
-      key = "images/trainers/damian/portrait/" + key;
+      key = "images/trainers/damian/classPhoto/" + key;
       Map<String, String> metadata = <String, String>{};
-      metadata['type'] = 'testPhoto';
+      metadata['type'] = 'portrait';
       S3UploadFileOptions options = S3UploadFileOptions(
           accessLevel: StorageAccessLevel.guest, metadata: metadata);
       UploadFileResult result = await Amplify.Storage.uploadFile(
@@ -46,7 +46,14 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
     }
   }
 
-  void getUrl() async {}
+  void getUrl() async {
+    try {
+      GetUrlResult result = await Amplify.Storage.getUrl(key: "myKey");
+      print(result.url);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   void _download() async {}
 
@@ -79,7 +86,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                       children: [
                         RaisedButton(
                           onPressed: _upload,
-                          child: const Text('Upload Image'),
+                          child: const Text('Upload Profile Pic'),
                         ),
                       ],
                     ),

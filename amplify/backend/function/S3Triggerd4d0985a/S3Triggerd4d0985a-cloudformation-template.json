@@ -60,7 +60,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-skilltrainapp-dev-164607-deployment",
-          "S3Key": "amplify-builds/S3Triggerd4d0985a-717532636b4759336f54-build.zip"
+          "S3Key": "amplify-builds/S3Triggerd4d0985a-477179532b4648674270-build.zip"
         }
       }
     },
