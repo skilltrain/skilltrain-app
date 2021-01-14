@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import './booking_page.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:async';
-import 'dart:convert';
 
 //Page transition animation from left to right
 class SlideRightRoute extends PageRouteBuilder {

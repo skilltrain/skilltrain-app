@@ -38,10 +38,10 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   void _uploadProfilePic() async {
     try {
       File local = await FilePicker.getFile(type: FileType.image);
-      var key = new DateTime.now().toString();
-      key = "images/trainers/$_user/profilePic/" + key;
+      var key = new DateTime.now().millisecondsSinceEpoch.toString();
+      key = "images/trainers/$_user/profilePhoto/" + key;
       Map<String, String> metadata = <String, String>{};
-      metadata['type'] = 'profilePic';
+      metadata['type'] = 'profilePhoto';
       S3UploadFileOptions options = S3UploadFileOptions(
           accessLevel: StorageAccessLevel.guest, metadata: metadata);
       UploadFileResult result = await Amplify.Storage.uploadFile(
@@ -58,7 +58,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   void _uploadSessionPhoto() async {
     try {
       File local = await FilePicker.getFile(type: FileType.image);
-      var key = new DateTime.now().toString();
+      var key = new DateTime.now().millisecondsSinceEpoch.toString();
       key = "images/trainers/$_user/sessionPhoto/" + key;
       Map<String, String> metadata = <String, String>{};
       metadata['type'] = 'sessionPhoto';
