@@ -4,7 +4,8 @@ import './home_page.dart';
 
 class Booking extends StatelessWidget {
   final int index;
-  Booking({this.index});
+  final String trainerUsername;
+  Booking({this.index, this.trainerUsername});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class Booking extends StatelessWidget {
                 new Spacer(),
                 RaisedButton(
                   onPressed: () {
-                    Navigator.push(context, SlideLeftRoute(page: MyHomePage()));
+                    Navigator.push(context, SlideLeftRoute(page: MyHomePage(trainerUsername: trainerUsername)));
                   },
                   textColor: Colors.white,
                   padding: const EdgeInsets.all(0),

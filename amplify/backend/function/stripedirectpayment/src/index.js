@@ -3,7 +3,7 @@ const stripe = require("stripe")(
 );
 
 exports.handler = async (event) => {
-  var stripeVendorAccount = "acct_1I8oCW2Ru1I2WcKV";
+  const stripeVendorAccount = event.queryStringParameters["connAccID"];
   const fee = (event.queryStringParameters["amount"] / 100) | 0;
   const response = {
     statusCode: 200,

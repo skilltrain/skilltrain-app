@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:convert';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
 
 class PaymentSignup extends StatefulWidget {
   @override
@@ -13,31 +14,32 @@ class PaymentState extends State<PaymentSignup> {
   final Map<String, dynamic> infoObj = {
     "individual": {
       "address_kana": {
-        "city": "",
-        "line1": "",
-        "line2": "",
-        "postal_code": "",
-        "state": "",
-        "town": ""
+        "city": "トウキョウ",
+        "line1": "２－３９ー７",
+        "line2": "イリヤ",
+        "postal_code": "110-0013",
+        "state": "トウキョウト",
+        "town": "イリヤ"
       },
       "address_kanji": {
-        "city": "",
-        "line1": "",
-        "line2": "",
-        "postal_code": "",
-        "state": "",
-        "town": ""
+        "city": "東京",
+        "line1": "２－３９ー７",
+        "line2": "入谷",
+        "postal_code": "110-0013",
+        "state": "東京都",
+        "town": "台東区"
       },
-      "dob": {"day": "", "month": "", "year": ""},
+      "dob": {"day": "28", "month": "12", "year": "1993"},
       "email": "",
-      "gender": "",
-      "first_name_kanji": "",
-      "first_name_kana": "",
-      "last_name_kanji": "",
-      "last_name_kana": ""
+      "gender": "male",
+      "first_name_kanji": "東",
+      "first_name_kana": "ア",
+      "last_name_kanji": "東",
+      "last_name_kana": "ア",
+      "phone": "+815031362394"
     },
-    "external_account": {"account_number": "", "routing_number": ""},
-    "phone": ""
+    "external_account": {"account_number": "0001234", "routing_number": "1100000"},
+    "username": ""
   };
 
   @override
@@ -66,7 +68,8 @@ class PaymentState extends State<PaymentSignup> {
                     Text('address_kana',
                         style: TextStyle(fontSize: 15.0, color: Colors.black),
                         textAlign: TextAlign.left),
-                    TextField(
+                    TextFormField(
+                      initialValue: "トウキョウ",
                       onChanged: (text) {
                         infoObj["individual"]["address_kana"]["city"] = text;
                       },
@@ -75,7 +78,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'city'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "２－３９ー７",
                       onChanged: (text) {
                         infoObj["individual"]["address_kana"]["line1"] = text;
                       },
@@ -84,7 +88,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'line1'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "イリヤ",
                       onChanged: (text) {
                         infoObj["individual"]["address_kana"]["line2"] = text;
                       },
@@ -93,7 +98,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'line2'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "110-0013",
                       onChanged: (text) {
                         infoObj["individual"]["address_kana"]["postal_code"] =
                             text;
@@ -103,7 +109,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'postal_code'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "トウキョウト",
                       onChanged: (text) {
                         infoObj["individual"]["address_kana"]["state"] = text;
                       },
@@ -112,7 +119,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'state'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "イリヤ",
                       onChanged: (text) {
                         infoObj["individual"]["address_kana"]["town"] = text;
                       },
@@ -124,7 +132,8 @@ class PaymentState extends State<PaymentSignup> {
                     Text('address_kanji',
                         style: TextStyle(fontSize: 15.0, color: Colors.black),
                         textAlign: TextAlign.left),
-                    TextField(
+                    TextFormField(
+                      initialValue: "東京",
                       onChanged: (text) {
                         infoObj["individual"]["address_kanji"]["city"] = text;
                       },
@@ -133,7 +142,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'city'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "２－３９ー７",
                       onChanged: (text) {
                         infoObj["individual"]["address_kanji"]["line1"] = text;
                       },
@@ -142,7 +152,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'line1'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "入谷",
                       onChanged: (text) {
                         infoObj["individual"]["address_kanji"]["line2"] = text;
                       },
@@ -151,7 +162,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'line2'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "110-0013",
                       onChanged: (text) {
                         infoObj["individual"]["address_kanji"]["postal_code"] =
                             text;
@@ -161,7 +173,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'postal_code'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "東京都",
                       onChanged: (text) {
                         infoObj["individual"]["address_kanji"]["state"] = text;
                       },
@@ -170,7 +183,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'state'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "台東区",
                       onChanged: (text) {
                         infoObj["individual"]["address_kanji"]["town"] = text;
                       },
@@ -182,7 +196,8 @@ class PaymentState extends State<PaymentSignup> {
                     Text('date of birth',
                         style: TextStyle(fontSize: 15.0, color: Colors.black),
                         textAlign: TextAlign.left),
-                    TextField(
+                    TextFormField(
+                      initialValue: "28",
                       onChanged: (text) {
                         infoObj["dob"]["day"] = text;
                       },
@@ -191,7 +206,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'day'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "12",
                       onChanged: (text) {
                         infoObj["dob"]["month"] = text;
                       },
@@ -200,7 +216,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'month'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "1993",
                       onChanged: (text) {
                         infoObj["dob"]["year"] = text;
                       },
@@ -212,16 +229,18 @@ class PaymentState extends State<PaymentSignup> {
                     Text('other information',
                         style: TextStyle(fontSize: 15.0, color: Colors.black),
                         textAlign: TextAlign.left),
-                    TextField(
+                    TextFormField(
+                      initialValue: "ejaustinforbesjp@gmail.com",
                       onChanged: (text) {
-                        infoObj["email"] = text;
+                        infoObj["individual"]["email"] = text;
                       },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'email'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "male",
                       onChanged: (text) {
                         infoObj["gender"] = text;
                       },
@@ -230,7 +249,18 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'gender'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "",
+                      onChanged: (text) {
+                        infoObj['username'] = text;
+                      },
+                      decoration: InputDecoration(
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide(width: 1)),
+                          hintText: 'username'),
+                    ),
+                    TextFormField(
+                      initialValue: "和",
                       onChanged: (text) {
                         infoObj["first_name_kanji"] = text;
                       },
@@ -239,7 +269,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'first_name_kanji'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "ア",
                       onChanged: (text) {
                         infoObj["first_name_kana"] = text;
                       },
@@ -248,7 +279,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'first_name_kana'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "和",
                       onChanged: (text) {
                         infoObj["last_name_kanji"] = text;
                       },
@@ -257,7 +289,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'last_name_kanji'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "ア",
                       onChanged: (text) {
                         infoObj["last_name_kana"] = text;
                       },
@@ -266,19 +299,21 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'last_name_kana'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "+815031362394",
                       onChanged: (text) {
-                        infoObj["phone"] = text;
+                        infoObj["individual"]["phone"] = text;
                       },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'phone'),
                     ),
-                    Text('external_account',
+                    Text('bank account',
                         style: TextStyle(fontSize: 15.0, color: Colors.black),
                         textAlign: TextAlign.left),
-                    TextField(
+                    TextFormField(
+                      initialValue: "0001234",
                       onChanged: (text) {
                         infoObj["external_account"]['account_number'] = text;
                       },
@@ -287,7 +322,8 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'account_number'),
                     ),
-                    TextField(
+                    TextFormField(
+                      initialValue: "1100000",
                       onChanged: (text) {
                         infoObj["external_account"]['routing_number'] = text;
                       },
@@ -320,7 +356,18 @@ class PaymentState extends State<PaymentSignup> {
                         children: <Widget>[
                           Expanded(
                             child: RaisedButton(
-                              onPressed: () => print(jsonEncode(infoObj)),
+                              onPressed: () async {
+                                print(infoObj);
+                                var response = await http.put(
+                                    "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe",
+                                    headers: <String, String>{
+                                      'Content-Type':
+                                          'application/json; charset=UTF-8',
+                                    },
+                                    body: convert.jsonEncode(infoObj));
+                                print(response.statusCode);
+                                print(response.body);
+                              },
                               child: Text("Submit"),
                               color: Colors.blueAccent,
                               textColor: Colors.white,
