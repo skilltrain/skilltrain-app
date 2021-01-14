@@ -52,87 +52,41 @@ const sampleData = [
   }
 ];
 
-  var _switchValueArray = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
-
-var timeTable = [
-  {
-    "start_time":"09:00",
-    "end_time":"09:50"
-  },
-  {
-    "start_time":"10:00",
-    "end_time":"10:50"
-  },
-  {
-    "start_time":"11:00",
-    "end_time":"11:50"
-  },
-  {
-    "start_time":"12:00",
-    "end_time":"12:50"
-  },
-  {
-    "start_time":"13:00",
-    "end_time":"13:50"
-  },
-  {
-    "start_time":"14:00",
-    "end_time":"14:50"
-  },
-  {
-    "start_time":"15:00",
-    "end_time":"15:50"
-  },
-  {
-    "start_time":"16:00",
-    "end_time":"16:50"
-  },
-  {
-    "start_time":"17:00",
-    "end_time":"17:50"
-  },
-  {
-    "start_time":"18:00",
-    "end_time":"18:50"
-  },
-  {
-    "start_time":"19:00",
-    "end_time":"19:50"
-  },
-  {
-    "start_time":"20:00",
-    "end_time":"20:50"
-  },
-  {
-    "start_time":"21:00",
-    "end_time":"21:50"
-  },
-  {
-    "start_time":"22:00",
-    "end_time":"22:50"
-  },
-  {
-    "start_time":"23:00",
-    "end_time":"23:50"
-  },
+var _switchValueArray = [
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
 ];
 
+var timeTable = [
+  {"start_time": "09:00", "end_time": "09:50"},
+  {"start_time": "10:00", "end_time": "10:50"},
+  {"start_time": "11:00", "end_time": "11:50"},
+  {"start_time": "12:00", "end_time": "12:50"},
+  {"start_time": "13:00", "end_time": "13:50"},
+  {"start_time": "14:00", "end_time": "14:50"},
+  {"start_time": "15:00", "end_time": "15:50"},
+  {"start_time": "16:00", "end_time": "16:50"},
+  {"start_time": "17:00", "end_time": "17:50"},
+  {"start_time": "18:00", "end_time": "18:50"},
+  {"start_time": "19:00", "end_time": "19:50"},
+  {"start_time": "20:00", "end_time": "20:50"},
+  {"start_time": "21:00", "end_time": "21:50"},
+  {"start_time": "22:00", "end_time": "22:50"},
+  {"start_time": "23:00", "end_time": "23:50"},
+];
 
 class CourseRegistration extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -154,18 +108,16 @@ class SampleStart extends State<CourseRegistration> {
     futureApiResults = fetchApiResults();
   }
 
-  Future<List> GeneratedPutData;
-  @override
-    void callPutMethod(data)async{
-    final GeneratedPutData = await putData();
+  Future<List> generatedPutData;
+  void callPutMethod(data) async {
+    final generatedPutData = await putData();
     print("put method is called");
-    print(GeneratedPutData);
+    print(generatedPutData);
 //    print(data);
 //    Future<String> putData(data) async{
 //      await print(data);
 //    }
   }
-
 
 //calendar object
   DateTime _date = new DateTime.now(); //default date value
@@ -225,7 +177,6 @@ class SampleStart extends State<CourseRegistration> {
                           child: SingleChildScrollView(
                             child: Column(
                               children: <Widget>[
-
                                 RaisedButton(
                                   onPressed: () => {_selectDate(context)},
                                   textColor: Colors.white,
@@ -250,7 +201,6 @@ class SampleStart extends State<CourseRegistration> {
                                         )),
                                   ),
                                 ),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -272,7 +222,6 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -292,7 +241,6 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -312,7 +260,6 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -332,7 +279,6 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -352,7 +298,6 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -372,7 +317,6 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -392,7 +336,6 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -412,7 +355,6 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -432,7 +374,6 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -452,7 +393,6 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -472,7 +412,6 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -492,7 +431,6 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -512,7 +450,6 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -532,7 +469,6 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
@@ -552,33 +488,35 @@ class SampleStart extends State<CourseRegistration> {
                                         });
                                       }),
                                 )),
-
                                 RaisedButton(
                                   onPressed: () {
-                                        var JSONdata = [];
+                                    var jsonData = [];
                                     //JSON data generate
-                                        for (var i = 0; i <_switchValueArray.length; i++){
-                                          var newObject = {
-                                          };                                         
-                                          newObject["trainer_username"] = userName;
-                                          newObject["date"] = stringDate;
-                                          newObject["start_time"] = timeTable[i]["start_time"];
-                                          newObject["end_time"] = timeTable[i]["end_time"];
-                                          newObject["status"] = _switchValueArray[i];
-                                          
-                                          //print(newObject);
-                                          JSONdata.add(newObject);
-                                        }
-                                          //print(_switchValueArray);
-                                          print(JSONdata);
-                                          var JSONstring = jsonEncode(JSONdata);
-//                                          print(_switchValueArray);
-                                          print(JSONstring);                                          
-//                                          print(JSONstring);
-//                                          print("JSONstring");
-                                          callPutMethod(JSONstring);
-                                    //////////////////////
+                                    for (var i = 0;
+                                        i < _switchValueArray.length;
+                                        i++) {
+                                      var newObject = {};
+                                      newObject["trainer_username"] = userName;
+                                      newObject["date"] = stringDate;
+                                      newObject["start_time"] =
+                                          timeTable[i]["start_time"];
+                                      newObject["end_time"] =
+                                          timeTable[i]["end_time"];
+                                      newObject["status"] =
+                                          _switchValueArray[i];
 
+                                      //print(newObject);
+                                      jsonData.add(newObject);
+                                    }
+                                    //print(_switchValueArray);
+                                    print(jsonData);
+                                    var jsonString = jsonEncode(jsonData);
+//                                          print(_switchValueArray);
+                                    print(jsonString);
+//                                          print(jsonString);
+//                                          print("jsonString");
+                                    callPutMethod(jsonString);
+                                    //////////////////////
                                   },
                                   textColor: Colors.white,
                                   padding: const EdgeInsets.all(0),
@@ -647,6 +585,7 @@ Future<List> fetchApiResults() async {
   }
 }
 
+// ignore: missing_return
 Future<List> putData() async {
   try {
     final response = await http.get(
@@ -661,4 +600,3 @@ Future<List> putData() async {
     print(e);
   }
 }
-
