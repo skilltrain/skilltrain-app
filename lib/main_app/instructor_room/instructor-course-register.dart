@@ -133,7 +133,6 @@ var timeTable = [
   },
 ];
 
-
 class CourseRegistration extends StatefulWidget {
   final VoidCallback shouldLogOut;
 
@@ -148,15 +147,54 @@ DateFormat format = DateFormat('yyyy-MM-dd');
 
 class SampleStart extends State<CourseRegistration> {
   Future<List> futureApiResults;
+  Future<ApiResults> resFromPostReq;
+  
   @override
-  void initState() {
+  void initState(){
     super.initState();
     futureApiResults = fetchApiResults();
+
+    for (var i = 0; i <_switchValueArray.length; i++){
+      var newObject = {
+      };                                         
+      newObject["trainer_username"] = "";
+      newObject["user_username"] = "";
+      newObject["id"] = stringDate + timeTable[i]["start_time"];
+      newObject["sessionCode"] = stringDate + timeTable[i]["start_time"];
+      newObject["date"] = stringDate;
+      newObject["start_time"] = timeTable[i]["start_time"];
+      newObject["end_time"] = timeTable[i]["end_time"];
+      newObject["status"] = false;
+      newObject["complete"] = false;
+      resFromPostReq = fetchPostApiResults(newObject);
+    }
+//    callPostMethod(_date);//when app access to this page, it rungs GET method
   }
+
+  void PutRequest(id, value) async {
+  String url = "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions/" + id;
+  Map<String, String> headers = {'content-type': 'application/json'};
+  String body = json.encode({'status': value});
+
+  http.Response resp = await http.put(url, headers: headers, body: body);
+  if (resp.statusCode != 200) {
+    setState(() {
+      int statusCode = resp.statusCode;
+      print("Failed to put $statusCode");
+    });
+    return;
+  }else{
+          print("PUT request sucessful");
+  }
+  
+//  setState(() {
+//    var _content = resp.body;
+//  });
+}
 
   Future<List> GeneratedPutData;
   @override
-    void callPutMethod(data)async{
+  void callPutMethod(data)async{
     final GeneratedPutData = await putData();
     print("put method is called");
     print(GeneratedPutData);
@@ -164,6 +202,32 @@ class SampleStart extends State<CourseRegistration> {
 //    Future<String> putData(data) async{
 //      await print(data);
 //    }
+  }
+
+
+
+  void callPostMethod(date)async{
+    AuthUser res = await Amplify.Auth.getCurrentUser();
+    userName = res.username;    
+
+    var JSONdata = [];
+    for (var i = 0; i <_switchValueArray.length; i++){
+      var newObject = {
+      };                                         
+      newObject["trainer_username"] = userName;
+      newObject["user_username"] = "";
+      newObject["id"] = stringDate + timeTable[i]["start_time"] + userName;
+      newObject["sessionCode"] = stringDate + timeTable[i]["start_time"] + userName;
+      newObject["date"] = stringDate;
+      newObject["start_time"] = timeTable[i]["start_time"];
+      newObject["end_time"] = timeTable[i]["end_time"];
+      newObject["status"] = _switchValueArray[i];
+      newObject["complete"] = false;
+
+      JSONdata.add(newObject);
+      fetchPostApiResults(newObject);
+
+    }
   }
 
 
@@ -186,7 +250,8 @@ class SampleStart extends State<CourseRegistration> {
             _date = picked,
             stringDate = format.format(_date),
             print(_date),
-            print(stringDate)
+            print(stringDate),
+            callPostMethod(_date)
           });
   }
 
@@ -267,6 +332,7 @@ class SampleStart extends State<CourseRegistration> {
                                         setState(() {
                                           print(value);
                                           _switchValueArray[0] = value;
+                                          print(stringDate+userName);
 //                                          print(_switchValueArray);
 //                          _switchTitle = stringDate;
                                         });
@@ -662,3 +728,82 @@ Future<List> putData() async {
   }
 }
 
+class ApiResults {
+  final String message;
+  ApiResults({
+    this.message,
+  });
+  factory ApiResults.fromJson(Map<String, dynamic> json) {
+    return ApiResults(
+      message: json['message'],
+    );
+  }
+}
+
+class SampleRequest {
+  final String trainer_username;
+  final String user_username;
+  final String id;
+  final String sessionCode;
+  final String date;
+  final String start_time;
+  final String end_time;
+  final bool status;
+  final bool complete;
+
+  SampleRequest({
+    this.trainer_username,
+    this.user_username,
+    this.id,
+    this.sessionCode,
+    this.date,
+    this.start_time,
+    this.end_time,
+    this.status,
+    this.complete
+  });
+  Map<String, dynamic> toJson() => {
+    'trainer_username': trainer_username,
+    'user_username': user_username,
+    'id':id,
+    'sessionCode':sessionCode,
+    'date':date,
+    'start_time':start_time,
+    'end_time':end_time,
+    'status':status,
+    'complete':complete
+  };
+}
+
+Future<ApiResults> fetchPostApiResults(object) async {
+
+  AuthUser res = await Amplify.Auth.getCurrentUser();
+  userName = res.username;
+
+  var url = "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions";
+  var request = new SampleRequest(
+
+    trainer_username:userName,
+    user_username: object["user_username"],
+    id:object["id"]+userName,
+    sessionCode:object["sessionCode"]+userName,
+    date:object["date"],
+    start_time:object["start_time"],
+    end_time:object["end_time"],
+    status:false,
+    complete:false
+    );
+  final stringJSON = json.encode(request);
+  print(stringJSON);
+  final response = await http.post(url,
+      body: json.encode(request),
+//      body: json.encode(request.toJson()),
+      headers: {"Content-Type": "application/json"});
+  if (response.statusCode == 200) {
+    print("new calendar record POST request successful");
+    return ApiResults.fromJson(json.decode(response.body));
+  } else {
+    print(response.statusCode);
+    throw Exception('Failed');
+  }
+}
