@@ -10,6 +10,7 @@ class ShowDialogToDismiss extends StatelessWidget {
   final String content;
   final String title;
   final String buttonText;
+
   ShowDialogToDismiss({this.title, this.buttonText, this.content});
 
   @override
@@ -58,9 +59,10 @@ class ShowDialogToDismiss extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
+  final String trainerUsername;
   final String title;
+
+  MyHomePage({Key key, this.title, this.trainerUsername}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -69,10 +71,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String text = 'Click the button to start the payment';
   double totalCost = 100.0;
-  double tip = 10.0;
+  double tip = 0.0;
   double tax = 0.0;
   double taxPercent = 0.2;
-  int amount = 1;
+  int amount = 1000;
   bool showSpinner = false;
   String url =
       'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe';
@@ -155,13 +157,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     'It is not possible to pay with this card. Please try again with a different card',
                 buttonText: 'CLOSE'));
   }
+
   Future<void> processPaymentAsDirectCharge(PaymentMethod paymentMethod) async {
     setState(() {
       showSpinner = true;
     });
+    print(widget.trainerUsername);
     //step 2: request to create PaymentIntent, attempt to confirm the payment & return PaymentIntent
-    final http.Response response = await http
-        .post('$url?amount=$amount&currency=GBP&paym=${paymentMethod.id}');
+    final http.Response idResponse =
+        await http.get('$url?username=${widget.trainerUsername}');
+    final connAccID = jsonDecode(idResponse.body);
+    print(connAccID);
+    final http.Response response = await http.post(
+        '$url?amount=$amount&currency=GBP&paym=${paymentMethod.id}&connAccID=$connAccID');
     print('Now i decode');
     if (response.body != null && response.body != 'error') {
       final paymentIntentX = jsonDecode(response.body);
@@ -295,7 +303,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       checkIfNativePayReady();
                     },
                     child: Text(
-                      "Pay £10",
+                      amount.toString(),
                       style: TextStyle(fontSize: 20.0),
                     ),
                   ),
