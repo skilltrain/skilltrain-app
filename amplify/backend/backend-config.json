@@ -31,7 +31,11 @@
         {
           "category": "storage",
           "resourceName": "skilltrainAmplifyDB",
-          "attributes": ["Name", "Arn", "StreamArn"]
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ]
         }
       ]
     },
@@ -43,7 +47,10 @@
         {
           "category": "storage",
           "resourceName": "skilltrainAmplifyDB",
-          "attributes": ["Name", "Arn"]
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
         }
       ]
     },
@@ -55,7 +62,25 @@
         {
           "category": "storage",
           "resourceName": "skilltrainAmplifyDB",
-          "attributes": ["Name", "Arn"]
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
+    },
+    "stripeGetConnAccIDByUsername": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "skilltrainAmplifyDB",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
         }
       ]
     }
@@ -69,7 +94,11 @@
         {
           "category": "function",
           "resourceName": "S3Triggerd4d0985a",
-          "attributes": ["Name", "Arn", "LambdaExecutionRole"]
+          "attributes": [
+            "Name",
+            "Arn",
+            "LambdaExecutionRole"
+          ]
         }
       ]
     },
