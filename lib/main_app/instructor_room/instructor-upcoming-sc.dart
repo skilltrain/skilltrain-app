@@ -31,28 +31,28 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
     sessionResults = fetchSessionResults();
   }
 
-//calendar object
+  //calendar object
   DateTime _date = new DateTime.now(); //default date value
   String stringDate = format.format(new DateTime.now()
       .subtract(Duration(days: 1))); //default date value for card
 
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: _date,
-        firstDate: new DateTime(2016),
-        lastDate: new DateTime.now().add(new Duration(days: 360)));
+  // Future<Null> _selectDate(BuildContext context) async {
+  //   final DateTime picked = await showDatePicker(
+  //       context: context,
+  //       initialDate: _date,
+  //       firstDate: new DateTime(2016),
+  //       lastDate: new DateTime.now().add(new Duration(days: 360)));
 
-    //Date format into String
+  //   //Date format into String
 
-    if (picked != null)
-      setState(() => {
-            _date = picked,
-            stringDate = format.format(_date),
-            print(_date),
-            print(stringDate)
-          });
-  }
+  //   if (picked != null)
+  //     setState(() => {
+  //           _date = picked,
+  //           stringDate = format.format(_date),
+  //           print(_date),
+  //           print(stringDate)
+  //         });
+  // }
 //calendar object
 
   @override
@@ -61,12 +61,12 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
       title: 'Class registration',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('skillTrain'),
+          title: Text('upcoming sessions'),
           centerTitle: true,
           automaticallyImplyLeading: true,
           leading: IconButton(
               onPressed: () => Navigator.pop(context, false),
-              icon: Icon(Icons.arrow_back_ios)),
+              icon: Icon(Icons.arrow_back)),
         ),
         body: Column(
           children: <Widget>[
@@ -93,11 +93,11 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                       padding: const EdgeInsets.all(50.0),
                       child: Column(
                         children: <Widget>[
-                          Center(child: Text("$_date")),
-                          new RaisedButton(
-                            onPressed: () => _selectDate(context),
-                            child: new Text('日付選択'),
-                          ),
+                          Center(child: Text("last update:" + "$_date")),
+                          // new RaisedButton(
+                          //   onPressed: () => _selectDate(context),
+                          //   child: new Text('日付選択'),
+                          // ),
                           SizedBox(
                               height: 514,
                               child: ListView.builder(
