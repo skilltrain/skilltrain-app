@@ -9,7 +9,7 @@ import 'package:skilltrain/main_app/instructor_bio.dart';
 
 import '../video_session/index_instructor.dart';
 
-String userName = "";
+String trainerName = "";
 
 class InstructorUpcomingSchedule extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -76,7 +76,7 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                 if (snapshot.hasData) {
                   final List classArray = [];
                   for (int i = 0; i < snapshot.data.length; i++) {
-                    if (snapshot.data[i]["trainer_username"] == userName &&
+                    if (snapshot.data[i]["trainer_username"] == trainerName &&
                         DateTime.parse(stringDate).isBefore(
                             DateTime.parse(snapshot.data[i]["date"]))) {
                       print(stringDate);
@@ -222,7 +222,7 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
 Future<List> fetchSessionResults() async {
   try {
     AuthUser res = await Amplify.Auth.getCurrentUser();
-    userName = res.username;
+    trainerName = res.username;
     print("Current User Name = " + res.username);
 
     final response = await http.get(

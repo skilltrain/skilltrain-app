@@ -107,6 +107,8 @@ class InstructorBio extends StatelessWidget {
                 context,
                 SlideLeftRoute(
                     page: Booking(
+                  price: data["price"],
+                  trainerName: data["username"],
                   index: index,
                 )),
               );

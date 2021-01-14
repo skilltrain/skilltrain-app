@@ -10,50 +10,7 @@ import 'package:skilltrain/main_app/booking_page.dart';
 import './home_page.dart';
 import './video_session/index.dart';
 
-const sampleData = [
-  {
-    "trainer_username": "Hide_instructor",
-    "user_username": "Yuta",
-    "date": "2021-01-11",
-    "sessionCode": "test",
-    "complete": "true",
-    "status": "true",
-    "start_time": "09:00",
-    "end_time": "09:50",
-  },
-  {
-    "trainer_username": "Hide_instructor",
-    "user_username": "Damian",
-    "date": "2021-01-11",
-    "sessionCode": "test",
-    "complete": "true",
-    "status": "true",
-    "start_time": "10:00",
-    "end_time": "10:50",
-  },
-  {
-    "trainer_username": "Hide_instructor",
-    "user_username": "Eliot",
-    "date": "2021-01-12",
-    "sessionCode": "test",
-    "complete": "true",
-    "status": "true",
-    "start_time": "09:00",
-    "end_time": "09:50",
-  },
-  {
-    "trainer_username": "Hide_instructor",
-    "user_username": "John",
-    "date": "2021-01-12",
-    "sessionCode": "test",
-    "complete": "true",
-    "status": "true",
-    "start_time": "10:00",
-    "end_time": "10:50",
-  },
-];
-
-String userName = "";
+String traineeName = "";
 
 class BookingStatus extends StatefulWidget {
   BookingStatus({Key key}) : super(key: key);
@@ -96,7 +53,7 @@ class SampleStart extends State<BookingStatus> {
               if (snapshot.hasData) {
                 final List classArray = [];
                 for (int i = 0; i < snapshot.data.length; i++) {
-                  if (snapshot.data[i]["user_username"] == userName
+                  if (snapshot.data[i]["user_username"] == traineeName
                       // && DateTime.parse(stringDate).isBefore(DateTime.parse(snapshot.data[i]["date"]))
                       ) {
                     classArray.add(snapshot.data[i]);
@@ -297,7 +254,7 @@ class SampleStart extends State<BookingStatus> {
 Future<List> fetchSessionResults() async {
   try {
     AuthUser res = await Amplify.Auth.getCurrentUser();
-    userName = res.username;
+    traineeName = res.username;
     print("Current Use Name = " + res.username);
 
     final response = await http.get(
