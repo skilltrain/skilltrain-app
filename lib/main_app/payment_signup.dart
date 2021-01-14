@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:convert';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
 
 class PaymentSignup extends StatefulWidget {
   @override
@@ -13,31 +14,32 @@ class PaymentState extends State<PaymentSignup> {
   final Map<String, dynamic> infoObj = {
     "individual": {
       "address_kana": {
-        "city": "",
-        "line1": "",
-        "line2": "",
-        "postal_code": "",
-        "state": "",
-        "town": ""
+        "city": "トウキョウ",
+        "line1": "２－３９ー７",
+        "line2": "イリヤ",
+        "postal_code": "110-0013",
+        "state": "トウキョウト",
+        "town": "イリヤ"
       },
       "address_kanji": {
-        "city": "",
-        "line1": "",
-        "line2": "",
-        "postal_code": "",
-        "state": "",
-        "town": ""
+        "city": "東京",
+        "line1": "２－３９ー７",
+        "line2": "入谷",
+        "postal_code": "110-0013",
+        "state": "東京都",
+        "town": "台東区"
       },
-      "dob": {"day": "", "month": "", "year": ""},
+      "dob": {"day": "28", "month": "12", "year": "1993"},
       "email": "",
-      "gender": "",
-      "first_name_kanji": "",
-      "first_name_kana": "",
-      "last_name_kanji": "",
-      "last_name_kana": ""
+      "gender": "male",
+      "first_name_kanji": "東",
+      "first_name_kana": "ア",
+      "last_name_kanji": "東",
+      "last_name_kana": "ア",
+      "phone": "+815031362394"
     },
-    "external_account": {"account_number": "", "routing_number": ""},
-    "phone": ""
+    "external_account": {"account_number": "0001234", "routing_number": "1100000"},
+    "username": ""
   };
 
   @override
@@ -228,9 +230,9 @@ class PaymentState extends State<PaymentSignup> {
                         style: TextStyle(fontSize: 15.0, color: Colors.black),
                         textAlign: TextAlign.left),
                     TextFormField(
-                      initialValue: "ejaustinforbes@gmail.com",
+                      initialValue: "ejaustinforbesjp@gmail.com",
                       onChanged: (text) {
-                        infoObj["email"] = text;
+                        infoObj["individual"]["email"] = text;
                       },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
@@ -300,7 +302,7 @@ class PaymentState extends State<PaymentSignup> {
                     TextFormField(
                       initialValue: "+815031362394",
                       onChanged: (text) {
-                        infoObj["phone"] = text;
+                        infoObj["individual"]["phone"] = text;
                       },
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(
@@ -330,7 +332,6 @@ class PaymentState extends State<PaymentSignup> {
                               borderSide: BorderSide(width: 1)),
                           hintText: 'routing_number'),
                     ),
-                    
                     InkWell(
                       highlightColor: Colors.red.shade300,
                       splashColor: Colors.red.shade100,
@@ -355,7 +356,18 @@ class PaymentState extends State<PaymentSignup> {
                         children: <Widget>[
                           Expanded(
                             child: RaisedButton(
-                              onPressed: () => print(jsonEncode(infoObj)),
+                              onPressed: () async {
+                                print(infoObj);
+                                var response = await http.put(
+                                    "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe",
+                                    headers: <String, String>{
+                                      'Content-Type':
+                                          'application/json; charset=UTF-8',
+                                    },
+                                    body: convert.jsonEncode(infoObj));
+                                print(response.statusCode);
+                                print(response.body);
+                              },
                               child: Text("Submit"),
                               color: Colors.blueAccent,
                               textColor: Colors.white,
