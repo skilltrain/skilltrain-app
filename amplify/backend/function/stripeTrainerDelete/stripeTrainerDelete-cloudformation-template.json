@@ -41,12 +41,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "stripeTrainerCreate",
+            "stripeTrainerDelete",
             {
               "Fn::Join": [
                 "",
                 [
-                  "stripeTrainerCreate",
+                  "stripeTrainerDelete",
                   "-",
                   {
                     "Ref": "env"
@@ -83,7 +83,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-skilltrainapp-dev-164607-deployment",
-          "S3Key": "amplify-builds/stripeTrainerCreate-3361316e576c78654856-build.zip"
+          "S3Key": "amplify-builds/stripeTrainerDelete-75513264435753497331-build.zip"
         }
       }
     },
@@ -93,12 +93,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "skilltrainappLambdaRole6e04f624",
+            "skilltrainappLambdaRoleef9204ec",
             {
               "Fn::Join": [
                 "",
                 [
-                  "skilltrainappLambdaRole6e04f624",
+                  "skilltrainappLambdaRoleef9204ec",
                   "-",
                   {
                     "Ref": "env"
@@ -187,17 +187,7 @@
             {
               "Effect": "Allow",
               "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:Get*",
-                "dynamodb:BatchGetItem",
-                "dynamodb:List*",
-                "dynamodb:Describe*",
-                "dynamodb:Scan",
-                "dynamodb:Query",
-                "dynamodb:Update*",
-                "dynamodb:RestoreTable*"
+                "dynamodb:Delete*"
               ],
               "Resource": [
                 {

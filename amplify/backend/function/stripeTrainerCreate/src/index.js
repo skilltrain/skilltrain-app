@@ -9,7 +9,6 @@ var AWS = require("aws-sdk");
 var region = process.env.REGION;
 var ddb_table_name = process.env.STORAGE_SKILLTRAINAMPLIFYDB_NAME;
 AWS.config.update({ region: region });
-var ddb = new AWS.DynamoDB({ apiVersion: "latest" });
 const Stripe = require("stripe");
 const stripe = Stripe(
   "sk_test_51I8F0wCwmhFB6ae2JIv45lTRWveDwxUMMUG1k8yWvRINm0a3zJmvj0nybYPA4DBGaM3xIAIKfqndxzEJHpmfTJkk00TouBlgXv"
@@ -17,6 +16,7 @@ const stripe = Stripe(
 
 exports.handler = async function (event, context) {
   const data = JSON.parse(event.body);
+  const ddb = new AWS.DynamoDB.DocumentClient();
 
   let response = {
     headers: {
@@ -92,12 +92,11 @@ exports.handler = async function (event, context) {
         routing_number: data.external_account.routing_number,
       },
     });
-    console.log(accountCreated.id);
     dbParams.Item.connAccId = accountCreated.id;
-    response.body += accountCreated;
+    response.body = accountCreated;
 
     try {
-      const accountAccepted = await stripe.accounts.update(account.id, {
+      const accountAccepted = await stripe.accounts.update(accountCreated.id, {
         tos_acceptance: {
           date: Math.floor(Date.now() / 1000),
           ip: "8.8.8.8", // Eliot - Hardcoded this as suggested code is returning an error
@@ -106,8 +105,8 @@ exports.handler = async function (event, context) {
       response.body += accountAccepted;
       response.statusCode = 200;
       try {
-        const databaseUpdated = await ddb.putItem(dbParams);
-        response.body += databaseUpdated;
+        const result = await ddb.put(dbParams).promise();
+        console.log(result);
         response.statusCode = 200;
       } catch (e) {
         response.body = `Unable to put trainer in database: ${e}`;
