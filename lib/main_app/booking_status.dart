@@ -96,7 +96,9 @@ class SampleStart extends State<BookingStatus> {
               if (snapshot.hasData) {
                 final List classArray = [];
                 for (int i = 0; i < snapshot.data.length; i++) {
-                  if (snapshot.data[i]["user_username"] == userName) {
+                  if (snapshot.data[i]["user_username"] == userName
+                      // && DateTime.parse(stringDate).isBefore(DateTime.parse(snapshot.data[i]["date"]))
+                      ) {
                     classArray.add(snapshot.data[i]);
                   } else
                     print("something went wrong with fetched data");
