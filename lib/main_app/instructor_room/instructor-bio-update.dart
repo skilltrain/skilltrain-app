@@ -14,8 +14,26 @@ class InstructorBioUpdate extends StatefulWidget {
 
 class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   int index;
+  // pic urls
   String _uploadProfilePicFileResult = '';
   String _uploadClassFileResult = '';
+
+  //Text field state
+  String _genre = "";
+  String _price = "";
+  String _bio = "";
+  //Current User
+
+  String _user = "";
+  void _getCurrentUser() async {
+    try {
+      AuthUser res = await Amplify.Auth.getCurrentUser();
+      _user = res.username;
+      getTrainerData();
+    } on AuthError catch (e) {
+      print(e);
+    }
+  }
 
   void _uploadProfilePic() async {
     try {
@@ -66,19 +84,18 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
     }
   }
 
-  //Text field state
-  String _genre = "";
-  String _price = "";
-  String _bio = "";
-  //Current User
-
-  String _user = "";
-  void _getCurrentUser() async {
-    try {
-      AuthUser res = await Amplify.Auth.getCurrentUser();
-      _user = res.username;
-    } on AuthError catch (e) {
-      print(e);
+  Future getTrainerData() async {
+    final response = await http.get(
+        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$_user');
+    if (response.statusCode == 200) {
+      final res = json.decode(response.body);
+      _bio = res.bio;
+      _genre = res.genre;
+      _price = res.price;
+      print(res);
+      return res;
+    } else {
+      throw Exception('Failed to load API params');
     }
   }
 

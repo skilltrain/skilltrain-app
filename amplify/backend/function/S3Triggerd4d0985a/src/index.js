@@ -2,7 +2,7 @@
 const AWS = require("aws-sdk");
 const ddb = new AWS.DynamoDB.DocumentClient();
 
-exports.handler = async (event) => {
+exports.handler = async event => {
   let statusCode = 0;
   let responseBody = "";
   const { name } = event.Records[0].s3.bucket;
