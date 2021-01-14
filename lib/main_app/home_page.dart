@@ -85,8 +85,9 @@ class SampleStart extends State<HomePage> {
   Future getUrl(url) async {
     try {
       S3GetUrlOptions options = S3GetUrlOptions(
-          accessLevel: StorageAccessLevel.guest, expires: 10000);
-      GetUrlResult result = await Amplify.Storage.getUrl(key: url);
+          accessLevel: StorageAccessLevel.guest, expires: 30000);
+      GetUrlResult result =
+          await Amplify.Storage.getUrl(key: url, options: options);
       return result.url;
     } catch (e) {
       print(e.toString());
@@ -184,7 +185,7 @@ class SampleStart extends State<HomePage> {
                             child: Column(
                               children: <Widget>[
                                 Image.network(
-                                    snapshot.data[index]["classPhoto"]),
+                                    snapshot.data[index]["sessionPhoto"]),
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
@@ -242,11 +243,11 @@ class SampleStart extends State<HomePage> {
 
   Future<List> fetchApiResults() async {
     final response = await http.get(
-        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/test-trainers');
+        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers');
     if (response.statusCode == 200) {
       var trainers = await json.decode(response.body);
       for (var trainer in trainers) {
-        trainer["classPhoto"] = await getUrl(trainer["classPhoto"]);
+        trainer["sessionPhoto"] = await getUrl(trainer["sessionPhoto"]);
       }
       return trainers;
     } else {
