@@ -55,6 +55,19 @@ const amplifyconfig = ''' {
             }
         }
     },
+    "analytics": {
+        "plugins": {
+            "awsPinpointAnalyticsPlugin": {
+                "pinpointAnalytics": {
+                    "appId": "b89a274921c844998f3a6b6ca843a493",
+                    "region": "us-west-2"
+                },
+                "pinpointTargeting": {
+                    "region": "us-west-2"
+                }
+            }
+        }
+    },
     "storage": {
         "plugins": {
             "awsS3StoragePlugin": {
@@ -69,19 +82,6 @@ const amplifyconfig = ''' {
                 "streamArn": "arn:aws:dynamodb:ap-northeast-1:958561750757:table/trainers-dev/stream/2021-01-13T04:51:46.175",
                 "partitionKeyType": "S",
                 "name": "trainers-dev"
-            }
-        }
-    },
-    "analytics": {
-        "plugins": {
-            "awsPinpointAnalyticsPlugin": {
-                "pinpointAnalytics": {
-                    "appId": "b89a274921c844998f3a6b6ca843a493",
-                    "region": "us-west-2"
-                },
-                "pinpointTargeting": {
-                    "region": "us-west-2"
-                }
             }
         }
     }

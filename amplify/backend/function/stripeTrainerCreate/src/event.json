@@ -1,5 +1,36 @@
 {
-  "key1": "value1",
-  "key2": "value2",
-  "key3": "value3"
+  "individual": {
+    "address_kana": {
+      "city": "ア",
+      "line1": "ア",
+      "line2": "ア",
+      "postal_code": "110-0013",
+      "state": "ア",
+      "town": "タイトウ"
+    },
+    "address_kanji": {
+      "city": "東京",
+      "line1": "address_full_match​",
+      "line2": "東京",
+      "postal_code": "110-0013",
+      "state": "東京",
+      "town": "台東"
+    },
+    "dob": {
+      "day": "28",
+      "month": "12",
+      "year": "1993"
+    },
+    "email": "ejaustinforbes@gmail.com",
+    "gender": "male",
+    "first_name_kanji": "東",
+    "first_name_kana": "ア",
+    "last_name_kanji": "東",
+    "last_name_kana": "ア",
+    "phone": "05031369394"
+  },
+  "external_account": {
+    "account_number": "0001234",
+    "routing_number": "1100000"
+  }
 }
