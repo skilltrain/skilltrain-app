@@ -10,6 +10,7 @@ import './services/authentication/authentication_services/auth_service.dart';
 import './services/authentication/verification_page.dart';
 import './main_app/home_page.dart';
 import './main_app/tutorial_flow.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 
 void main() async {
   await DotEnv().load('.env');
@@ -38,10 +39,14 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     // Add Pinpoint and Cognito Plugins
-    AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
     AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
-    amplifyInstance.addPlugin(authPlugins: [authPlugin]);
-    amplifyInstance.addPlugin(analyticsPlugins: [analyticsPlugin]);
+    AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
+    AmplifyStorageS3 storage = AmplifyStorageS3();
+
+    amplifyInstance.addPlugin(
+        authPlugins: [authPlugin],
+        storagePlugins: [storage],
+        analyticsPlugins: [analyticsPlugin]);
 
     // Once Plugins are added, configure Amplify
     await amplifyInstance.configure(amplifyconfig);

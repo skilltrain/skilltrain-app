@@ -29,7 +29,59 @@ const amplifyconfig = ''' {
                     "Default": {
                         "authenticationFlowType": "USER_SRP_AUTH"
                     }
+                },
+                "S3TransferUtility": {
+                    "Default": {
+                        "Bucket": "skilltrain-bucket164607-dev",
+                        "Region": "ap-northeast-1"
+                    }
+                },
+                "DynamoDBObjectMapper": {
+                    "Default": {
+                        "Region": "ap-northeast-1"
+                    }
+                },
+                "PinpointAnalytics": {
+                    "Default": {
+                        "AppId": "b89a274921c844998f3a6b6ca843a493",
+                        "Region": "us-west-2"
+                    }
+                },
+                "PinpointTargeting": {
+                    "Default": {
+                        "Region": "us-west-2"
+                    }
                 }
+            }
+        }
+    },
+    "analytics": {
+        "plugins": {
+            "awsPinpointAnalyticsPlugin": {
+                "pinpointAnalytics": {
+                    "appId": "b89a274921c844998f3a6b6ca843a493",
+                    "region": "us-west-2"
+                },
+                "pinpointTargeting": {
+                    "region": "us-west-2"
+                }
+            }
+        }
+    },
+    "storage": {
+        "plugins": {
+            "awsS3StoragePlugin": {
+                "bucket": "skilltrain-bucket164607-dev",
+                "region": "ap-northeast-1",
+                "defaultAccessLevel": "guest"
+            },
+            "awsDynamoDbStoragePlugin": {
+                "partitionKeyName": "username",
+                "region": "ap-northeast-1",
+                "arn": "arn:aws:dynamodb:ap-northeast-1:958561750757:table/trainers-dev",
+                "streamArn": "arn:aws:dynamodb:ap-northeast-1:958561750757:table/trainers-dev/stream/2021-01-13T04:51:46.175",
+                "partitionKeyType": "S",
+                "name": "trainers-dev"
             }
         }
     }

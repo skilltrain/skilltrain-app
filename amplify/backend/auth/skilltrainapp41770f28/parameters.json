@@ -1,6 +1,6 @@
 {
     "identityPoolName": "skilltrainapp41770f28_identitypool_41770f28",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "skillt41770f28",
     "userPoolName": "skilltrainapp41770f28_userpool_41770f28",
     "autoVerifiedAttributes": [
