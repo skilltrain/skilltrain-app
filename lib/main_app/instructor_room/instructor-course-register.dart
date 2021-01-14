@@ -52,29 +52,61 @@ const sampleData = [
   }
 ];
 
-  var _switchValueArray = [
-    {"_switchValue1":false},
-    {"_switchValue2":false},
-    {"_switchValue3":false},
-    {"_switchValue4":false},
-    {"_switchValue5":false},
-    {"_switchValue6":false},
-    {"_switchValue7":false},
-    {"_switchValue8":false},
-    {"_switchValue9":false},
-    {"_switchValue10":false},
-    {"_switchValue11":false},
-    {"_switchValue12":false},
-    {"_switchValue13":false},
-    {"_switchValue14":false},
-    {"_switchValue15":false},
-    {"_switchValue16":false},
-  ];
-
-var jsonData = [
-
+var _switchValueArray = [
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
 ];
 
+var _switchValueTableNew = {};
+
+var _switchValueTable = {
+  "09:00":false,
+  "10:00":false,
+  "11:00":false,
+  "12:00":false,
+  "13:00":false,
+  "14:00":false,
+  "15:00":false,
+  "16:00":false,
+  "17:00":false,
+  "18:00":false,
+  "19:00":false,
+  "20:00":false,
+  "21:00":false,
+  "22:00":false,
+  "23:00":false,
+};
+
+var timeTable = [
+  {"start_time": "09:00", "end_time": "09:50"},
+  {"start_time": "10:00", "end_time": "10:50"},
+  {"start_time": "11:00", "end_time": "11:50"},
+  {"start_time": "12:00", "end_time": "12:50"},
+  {"start_time": "13:00", "end_time": "13:50"},
+  {"start_time": "14:00", "end_time": "14:50"},
+  {"start_time": "15:00", "end_time": "15:50"},
+  {"start_time": "16:00", "end_time": "16:50"},
+  {"start_time": "17:00", "end_time": "17:50"},
+  {"start_time": "18:00", "end_time": "18:50"},
+  {"start_time": "19:00", "end_time": "19:50"},
+  {"start_time": "20:00", "end_time": "20:50"},
+  {"start_time": "21:00", "end_time": "21:50"},
+  {"start_time": "22:00", "end_time": "22:50"},
+  {"start_time": "23:00", "end_time": "23:50"},
+];
 
 class CourseRegistration extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -90,11 +122,140 @@ DateFormat format = DateFormat('yyyy-MM-dd');
 
 class SampleStart extends State<CourseRegistration> {
   Future<List> futureApiResults;
+  Future<ApiResults> resFromPostReq;
+  
   @override
-  void initState() {
+  void initState(){
     super.initState();
     futureApiResults = fetchApiResults();
+
+    for (var i = 0; i <_switchValueArray.length; i++){
+      var newObject = {
+      };                                         
+      newObject["trainer_username"] = "";
+      newObject["user_username"] = "";
+      newObject["id"] = stringDate + timeTable[i]["start_time"];
+      newObject["sessionCode"] = stringDate + timeTable[i]["start_time"];
+      newObject["date"] = stringDate;
+      newObject["start_time"] = timeTable[i]["start_time"];
+      newObject["end_time"] = timeTable[i]["end_time"];
+      newObject["status"] = false;
+      newObject["complete"] = false;
+      resFromPostReq = fetchPostApiResults(newObject);
+    }
+      checkCurrentStatus();
   }
+
+  void checkCurrentStatus()async{
+    AuthUser res = await Amplify.Auth.getCurrentUser();
+    userName = res.username;    
+
+    var url ='https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/' + userName + "/sessions?date=" + stringDate;
+    final response = await http.get(url);
+    final decodedData = json.decode(response.body); 
+
+    print("check current status");
+//    print(response.body);
+    print(decodedData);
+    print(url);
+    print("check current status");
+
+    print("decoded data is ...");
+    print(decodedData.length);
+    print(decodedData);
+    print("decoded data is ...");
+
+    for (var i=0; i<decodedData.length;i++){
+      /*
+      if (decodedData[i]["start_time"] =="09:00"){
+        _switchValueTable["09:00"] = decodedData[i]["status"];
+      } else if (decodedData[i]["start_time"] =="10:00"){
+        _switchValueTable["10:00"] = decodedData[i]["status"];
+      } else if (decodedData[i]["start_time"] =="11:00"){
+        _switchValueTable["11:00"] = decodedData[i]["status"];
+      } else if (decodedData[i]["start_time"] =="12:00"){
+        _switchValueTable["12:00"] = decodedData[i]["status"];
+      } else if (decodedData[i]["start_time"] =="13:00"){
+        _switchValueTable["13:00"] = decodedData[i]["status"];
+      } else if (decodedData[i]["start_time"] =="14:00"){
+        _switchValueTable["14:00"] = decodedData[i]["status"];
+      } else if (decodedData[i]["start_time"] =="15:00"){
+        _switchValueTable["15:00"] = decodedData[i]["status"];
+      } else if (decodedData[i]["start_time"] =="16:00"){
+        _switchValueTable["16:00"] = decodedData[i]["status"];
+      } else if (decodedData[i]["start_time"] =="17:00"){
+        _switchValueTable["17:00"] = decodedData[i]["status"];
+      } else if (decodedData[i]["start_time"] =="18:00"){
+        _switchValueTable["18:00"] = decodedData[i]["status"];
+      } else if (decodedData[i]["start_time"] =="19:00"){
+        _switchValueTable["19:00"] = decodedData[i]["status"];
+      } else if (decodedData[i]["start_time"] =="20:00"){
+        _switchValueTable["20:00"] = decodedData[i]["status"];
+      } else if (decodedData[i]["start_time"] =="21:00"){
+        _switchValueTable["21:00"] = decodedData[i]["status"];
+      } else if (decodedData[i]["start_time"] =="22:00"){
+        _switchValueTable["22:00"] = decodedData[i]["status"];
+      } else if (decodedData[i]["start_time"] =="23:00"){
+        _switchValueTable["23:00"] = decodedData[i]["status"];
+      }
+      */
+      print("for is working");
+    }
+
+    setState(() {
+      _switchValueTableNew = _switchValueTable;
+    });
+
+    print(_switchValueTableNew);
+    print(_switchValueTable);
+
+  }
+
+  void putRequest(id, value) async {
+    String url = "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions/" + id;
+
+//PUT target records
+    Map<String, String> headers = {'content-type': 'application/json'};
+    var body = json.encode({'status': value,});
+
+    http.Response resp = await http.put(
+      url, 
+      headers: headers, 
+      body: body);
+    if (resp.statusCode != 200 || resp.statusCode != 201) {
+      setState(() {
+        int statusCode = resp.statusCode;
+        print("Failed to put $statusCode");
+      });
+      return;
+    }else{
+            print("PUT request sucessful");
+            print(resp.statusCode);
+    }
+  }
+
+  void callPostMethod(date)async{
+    AuthUser res = await Amplify.Auth.getCurrentUser();
+    userName = res.username;    
+
+    for (var i = 0; i <_switchValueArray.length; i++){
+      var newObject = {
+      };                                         
+      newObject["trainer_username"] = userName;
+      newObject["user_username"] = "";
+      newObject["id"] = stringDate + timeTable[i]["start_time"] + userName;
+      newObject["sessionCode"] = stringDate + timeTable[i]["start_time"] + userName;
+      newObject["date"] = stringDate;
+      newObject["start_time"] = timeTable[i]["start_time"];
+      newObject["end_time"] = timeTable[i]["end_time"];
+      newObject["status"] = _switchValueArray[i];
+      newObject["complete"] = false;
+
+      fetchPostApiResults(newObject);
+
+    }
+  }
+
 
 //calendar object
   DateTime _date = new DateTime.now(); //default date value
@@ -115,56 +276,12 @@ class SampleStart extends State<CourseRegistration> {
             _date = picked,
             stringDate = format.format(_date),
             print(_date),
-            print(stringDate)
+            print(stringDate),
+            callPostMethod(_date)
           });
   }
 
 //calendar object
-
-//ToggleSwitch value
-  // ignore: unused_field
-  var _switchValue01 = false;
-  // ignore: unused_field
-  var _switchValue02 = false;
-  var _switchValue03 = false;
-  var _switchValue04 = false;
-  var _switchValue05 = false;
-  var _switchValue06 = false;
-  var _switchValue07 = false;
-  var _switchValue08 = false;
-  var _switchValue09 = false;
-  var _switchValue10 = false;
-  var _switchValue11 = false;
-  var _switchValue12 = false;
-  var _switchValue13 = false;
-  var _switchValue14 = false;
-  var _switchValue15 = false;
-  var _switchValue16 = false;
-
-
-
-/*
-
-swtichValueArray
-[
-  {
-    "_switchVlue01":false
-  },
-  {
-    "_switchVlue01":false
-  },
-  ...
-]
-
-for (let i =0; i < shapshot.swtichValueArray.length, i++){
-for (let i =0; i < shapshot.data.length, i++){
-  if (fetcheData.status = true)
-  shapshot.swtichValueArray[i]["value"] = true;
-}
-
-  */
-
-  //var _switchTitle = 'Switch Test';
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +316,6 @@ for (let i =0; i < shapshot.data.length, i++){
                           child: SingleChildScrollView(
                             child: Column(
                               children: <Widget>[
-
                                 RaisedButton(
                                   onPressed: () => {_selectDate(context)},
                                   textColor: Colors.white,
@@ -224,12 +340,11 @@ for (let i =0; i < shapshot.data.length, i++){
                                         )),
                                   ),
                                 ),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValueArray[0]["_switchValue1"],
+                                      value: _switchValueArray[0],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -240,18 +355,22 @@ for (let i =0; i < shapshot.data.length, i++){
                                       onChanged: (bool value) {
                                         setState(() {
                                           print(value);
-                                          _switchValueArray[0]["_switchValue1"] = value;
+                                          _switchValueArray[0] = value;
+                                          print(stringDate+'09:00'+userName);
+                                          _switchValueTableNew["09:00"] = value;
+                                          print(_switchValueTable["09:00"]);
+
+                                          putRequest(stringDate+'09:00'+userName, value);
 //                                          print(_switchValueArray);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue03,
+                                      value: _switchValueArray[1],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -261,17 +380,17 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('10:00 - 10:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue03 = value;
+                                          _switchValueArray[1] = value;
+                                          putRequest(stringDate+'10:00'+userName, value);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue04,
+                                      value: _switchValueArray[2],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -281,17 +400,17 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('11:00 - 11:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue04 = value;
+                                          _switchValueArray[2] = value;
+                                          putRequest(stringDate+'11:00'+userName, value);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue05,
+                                      value: _switchValueArray[3],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -301,17 +420,17 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('12:00 - 12:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue05 = value;
+                                          _switchValueArray[3] = value;
+                                          putRequest(stringDate+'12:00'+userName, value);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue06,
+                                      value: _switchValueArray[4],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -321,17 +440,17 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('13:00 - 13:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue06 = value;
+                                          _switchValueArray[4] = value;
+                                          putRequest(stringDate+'13:00'+userName, value);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue07,
+                                      value: _switchValueArray[5],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -341,17 +460,17 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('14:00 - 14:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue07 = value;
+                                          _switchValueArray[5] = value;
+                                          putRequest(stringDate+'14:00'+userName, value);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue08,
+                                      value: _switchValueArray[6],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -361,17 +480,17 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('15:00 - 15:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue08 = value;
+                                          _switchValueArray[6] = value;
+                                          putRequest(stringDate+'15:00'+userName, value);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue09,
+                                      value: _switchValueArray[7],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -381,17 +500,17 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('16:00 - 16:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue09 = value;
+                                          _switchValueArray[7] = value;
+                                          putRequest(stringDate+'16:00'+userName, value);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue10,
+                                      value: _switchValueArray[8],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -401,17 +520,17 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('17:00 - 17:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue10 = value;
+                                          _switchValueArray[8] = value;
+                                          putRequest(stringDate+'17:00'+userName, value);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue11,
+                                      value: _switchValueArray[9],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -421,17 +540,17 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('18:00 - 18:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue11 = value;
+                                          _switchValueArray[9] = value;
+                                          putRequest(stringDate+'18:00'+userName, value);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue12,
+                                      value: _switchValueArray[10],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -441,17 +560,17 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('19:00 - 19:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue12 = value;
+                                          _switchValueArray[10] = value;
+                                          putRequest(stringDate+'19:00'+userName, value);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue13,
+                                      value: _switchValueArray[11],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -461,17 +580,17 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('20:00 - 20:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue13 = value;
+                                          _switchValueArray[11] = value;
+                                          putRequest(stringDate+'20:00'+userName, value);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue14,
+                                      value: _switchValueArray[12],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -481,17 +600,17 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('21:00 - 21:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue14 = value;
+                                          _switchValueArray[12] = value;
+                                          putRequest(stringDate+'21:00'+userName, value);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue15,
+                                      value: _switchValueArray[13],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -501,17 +620,17 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('22:00 - 22:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue15 = value;
+                                          _switchValueArray[13] = value;
+                                          putRequest(stringDate+'22:00'+userName, value);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 Card(
                                     child: Container(
                                   width: double.infinity,
                                   child: SwitchListTile(
-                                      value: _switchValue16,
+                                      value: _switchValueArray[14],
                                       title: Text(
                                         stringDate,
                                         style: TextStyle(
@@ -521,31 +640,40 @@ for (let i =0; i < shapshot.data.length, i++){
                                       subtitle: Text('23:00 - 23:50'),
                                       onChanged: (bool value) {
                                         setState(() {
-                                          _switchValue16 = value;
+                                          _switchValueArray[14] = value;
+                                          putRequest(stringDate+'23:00'+userName, value);
 //                          _switchTitle = stringDate;
                                         });
                                       }),
                                 )),
-
                                 RaisedButton(
                                   onPressed: () {
-
+                                    var jsonData = [];
                                     //JSON data generate
-                                        for (var i = 0; i <_switchValueArray.length; i++){
-                                          var index = (i).toString();
-                                          Map curerntObject =_switchValueArray[i];
-                                          var objectKey = "_switchValue" + index;
-                                          var newObject = {};
-                                          print(objectKey);
-                                          newObject[objectKey]=_switchValueArray[i][objectKey];
-                                          jsonData.add(newObject);
-                                          print(curerntObject[objectKey]);
-                                          print(_switchValueArray[i]);
-                                        }
-                                          print(_switchValueArray);
-//                                          print(JSONdata);
-                                    //////////////////////
+                                    for (var i = 0;
+                                        i < _switchValueArray.length;
+                                        i++) {
+                                      var newObject = {};
+                                      newObject["trainer_username"] = userName;
+                                      newObject["date"] = stringDate;
+                                      newObject["start_time"] =
+                                          timeTable[i]["start_time"];
+                                      newObject["end_time"] =
+                                          timeTable[i]["end_time"];
+                                      newObject["status"] =
+                                          _switchValueArray[i];
 
+                                      //print(newObject);
+                                      jsonData.add(newObject);
+                                    }
+                                    //print(_switchValueArray);
+                                    print(jsonData);
+                                    var jsonString = jsonEncode(jsonData);
+//                                          print(_switchValueArray);
+                                    print(jsonString);
+//                                          print(jsonString);
+//                                          print("jsonString");
+                                    //////////////////////
                                   },
                                   textColor: Colors.white,
                                   padding: const EdgeInsets.all(0),
@@ -611,5 +739,101 @@ Future<List> fetchApiResults() async {
     }
   } on AuthError catch (e) {
     print(e);
+  }
+}
+
+// ignore: missing_return
+Future<List> putData() async {
+  try {
+    final response = await http.get(
+        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers');
+    print("now accessing to Future<List>putData");
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load API params');
+    }
+  } on AuthError catch (e) {
+    print(e);
+  }
+}
+
+class ApiResults {
+  final String message;
+  ApiResults({
+    this.message,
+  });
+  factory ApiResults.fromJson(Map<String, dynamic> json) {
+    return ApiResults(
+      message: json['message'],
+    );
+  }
+}
+
+class SampleRequest {
+  final String trainerUsername;
+  final String userUsername;
+  final String id;
+  final String sessionCode;
+  final String date;
+  final String startTime;
+  final String endTime;
+  final bool status;
+  final bool complete;
+
+  SampleRequest({
+    this.trainerUsername,
+    this.userUsername,
+    this.id,
+    this.sessionCode,
+    this.date,
+    this.startTime,
+    this.endTime,
+    this.status,
+    this.complete
+  });
+  Map<String, dynamic> toJson() => {
+    'trainer_username': trainerUsername,
+    'user_username': userUsername,
+    'id':id,
+    'sessionCode':sessionCode,
+    'date':date,
+    'start_time':startTime,
+    'end_time':endTime,
+    'status':status,
+    'complete':complete
+  };
+}
+
+Future<ApiResults> fetchPostApiResults(object) async {
+
+  AuthUser res = await Amplify.Auth.getCurrentUser();
+  userName = res.username;
+
+  var url = "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions";
+  var request = new SampleRequest(
+
+    trainerUsername:userName,
+    userUsername: object["user_username"],
+    id:object["id"],
+    sessionCode:object["sessionCode"],
+    date:object["date"],
+    startTime:object["start_time"],
+    endTime:object["end_time"],
+    status:false,
+    complete:false
+    );
+  final stringJSON = json.encode(request);
+  print(stringJSON);
+  final response = await http.post(url,
+      body: json.encode(request),
+//      body: json.encode(request.toJson()),
+      headers: {"Content-Type": "application/json"});
+  if (response.statusCode == 200) {
+    print("new calendar record POST request successful");
+    return ApiResults.fromJson(json.decode(response.body));
+  } else {
+    print(response.statusCode);
+    throw Exception('Failed');
   }
 }
