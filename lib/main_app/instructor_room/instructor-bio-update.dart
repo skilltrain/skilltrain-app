@@ -14,8 +14,26 @@ class InstructorBioUpdate extends StatefulWidget {
 
 class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   int index;
+  // pic urls
   String _uploadProfilePicFileResult = '';
   String _uploadClassFileResult = '';
+
+  //Text field state
+  String _genre = "";
+  String _price = "";
+  String _bio = "";
+  //Current User
+
+  String _user = "";
+  void _getCurrentUser() async {
+    try {
+      AuthUser res = await Amplify.Auth.getCurrentUser();
+      _user = res.username;
+      getTrainerData();
+    } on AuthError catch (e) {
+      print(e);
+    }
+  }
 
   void _uploadProfilePic() async {
     try {
@@ -37,13 +55,13 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
     }
   }
 
-  void _uploadClassPhoto() async {
+  void _uploadSessionPhoto() async {
     try {
       File local = await FilePicker.getFile(type: FileType.image);
       var key = new DateTime.now().toString();
-      key = "images/trainers/$_user/classPhoto/" + key;
+      key = "images/trainers/$_user/sessionPhoto/" + key;
       Map<String, String> metadata = <String, String>{};
-      metadata['type'] = 'classPhoto';
+      metadata['type'] = 'sessionPhoto';
       S3UploadFileOptions options = S3UploadFileOptions(
           accessLevel: StorageAccessLevel.guest, metadata: metadata);
       UploadFileResult result = await Amplify.Storage.uploadFile(
@@ -66,19 +84,18 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
     }
   }
 
-  //Text field state
-  String _genre = "";
-  String _price = "";
-  String _bio = "";
-  //Current User
-
-  String _user = "";
-  void _getCurrentUser() async {
-    try {
-      AuthUser res = await Amplify.Auth.getCurrentUser();
-      _user = res.username;
-    } on AuthError catch (e) {
-      print(e);
+  Future getTrainerData() async {
+    final response = await http.get(
+        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$_user');
+    if (response.statusCode == 200) {
+      final res = json.decode(response.body);
+      _bio = res.bio;
+      _genre = res.genre;
+      _price = res.price;
+      print(res);
+      return res;
+    } else {
+      throw Exception('Failed to load API params');
     }
   }
 
@@ -151,8 +168,8 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                     child: Column(
                       children: [
                         RaisedButton(
-                          onPressed: _uploadClassPhoto,
-                          child: const Text('Upload Class Photo'),
+                          onPressed: _uploadSessionPhoto,
+                          child: const Text('Upload Session Photo'),
                         ),
                       ],
                     ),

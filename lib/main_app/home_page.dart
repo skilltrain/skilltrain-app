@@ -5,6 +5,8 @@ import 'dart:convert'; //json file convert
 import './booking_status.dart';
 import './instructor_bio.dart';
 import './payment_signup.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+import 'package:amplify_core/amplify_core.dart';
 
 import './instructor_room/instructor.dart';
 
@@ -72,11 +74,24 @@ class HomePage extends StatefulWidget {
 }
 
 class SampleStart extends State<HomePage> {
-  Future<List> futureApiResults;
+  Future<List<dynamic>> futureApiResults;
+
   @override
   void initState() {
     super.initState();
     futureApiResults = fetchApiResults();
+  }
+
+  Future getUrl(url) async {
+    try {
+      S3GetUrlOptions options = S3GetUrlOptions(
+          accessLevel: StorageAccessLevel.guest, expires: 30000);
+      GetUrlResult result =
+          await Amplify.Storage.getUrl(key: url, options: options);
+      return result.url;
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -170,7 +185,7 @@ class SampleStart extends State<HomePage> {
                             child: Column(
                               children: <Widget>[
                                 Image.network(
-                                    snapshot.data[index]["classPhoto"]),
+                                    snapshot.data[index]["sessionPhoto"]),
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
@@ -225,14 +240,18 @@ class SampleStart extends State<HomePage> {
       ),
     );
   }
-}
 
-Future<List> fetchApiResults() async {
-  final response = await http.get(
-      'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers');
-  if (response.statusCode == 200) {
-    return json.decode(response.body);
-  } else {
-    throw Exception('Failed to load API params');
+  Future<List> fetchApiResults() async {
+    final response = await http.get(
+        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers');
+    if (response.statusCode == 200) {
+      var trainers = await json.decode(response.body);
+      for (var trainer in trainers) {
+        trainer["sessionPhoto"] = await getUrl(trainer["sessionPhoto"]);
+      }
+      return trainers;
+    } else {
+      throw Exception('Failed to load API params');
+    }
   }
 }
