@@ -21,14 +21,12 @@ exports.handler = async function (event, context) {
       exp.ExpressionAttributeNames[`#${key}`] = key;
       exp.ExpressionAttributeValues[`:${key}`] = item;
     });
-    console.log(exp.FilterExpression);
     exp.FilterExpression = exp.FilterExpression.slice(0, -4);
-    console.log(exp.FilterExpression);
 
     return exp;
   };
 
-  let expression = getQueryExpression(queries) || null;
+  let expression = queries ? getQueryExpression(queries) : null;
 
   const params = {
     TableName: "Sessions",

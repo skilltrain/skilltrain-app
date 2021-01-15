@@ -28,7 +28,7 @@ exports.handler = async function (event, context) {
     return exp;
   };
 
-  let expression = getQueryExpression(queries) || null;
+  let expression = queries ? getQueryExpression(queries) : null;
 
   const params = {
     TableName: "Trainers",
