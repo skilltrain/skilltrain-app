@@ -86,7 +86,7 @@ class AuthService {
 
   void logOut() async {
     try {
-      await Amplify.Auth.signOut();
+      final result = await Amplify.Auth.signOut();
       final state = AuthState(authFlowStatus: AuthFlowStatus.login);
       authStateController.add(state);
     } on AuthError catch (authError) {
@@ -96,12 +96,17 @@ class AuthService {
 
   void checkAuthStatus() async {
     try {
-      await Amplify.Auth.fetchAuthSession(
+      final authResult = await Amplify.Auth.fetchAuthSession(
           options: CognitoSessionOptions(getAWSCredentials: true));
-
+      // For some reason, the app is now not throwing AuthErrors on line 99 if you are not logged in.
+      // It seems like some setting has changed so that people can log in as guests, and still get access to the app
+      // So now I am manually checking the authResult and changing the state depending on the result - Eliot
+      if (authResult.isSignedIn == false) {
+        throw ("not signed in");
+      }
       final state = AuthState(authFlowStatus: AuthFlowStatus.session);
       authStateController.add(state);
-    } on AuthError catch (e) {
+    } catch (e) {
       print(e);
       final state = AuthState(authFlowStatus: AuthFlowStatus.login);
       authStateController.add(state);
