@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+// ignore: unused_import
 import 'package:flutter/semantics.dart';
+// ignore: unused_import
+import '../home_page_trainee.dart';
+// ignore: unused_import
+import '../../../services/agora/video_session/index.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:intl/intl.dart';
-import 'package:skilltrain/main_app/booking_page.dart';
-import './home_page.dart';
-import './video_session/index.dart';
+// ignore: unused_import
+import 'booking_page.dart';
 
 String traineeName = "";
 
@@ -149,19 +153,19 @@ class SampleStart extends State<BookingStatus> {
                                                     ],
                                                   ),
                                                   new Spacer(),
-                                                  ButtonTheme(
-                                                    minWidth: 30,
-                                                    child: RaisedButton(
-                                                        child: Icon(Icons
-                                                            .video_call_rounded),
-                                                        onPressed: () => {
-                                                              Navigator.push(
-                                                                  context,
-                                                                  SlideLeftRoute(
-                                                                      page:
-                                                                          IndexPage()))
-                                                            }),
-                                                  ),
+                                                  // ButtonTheme(
+                                                  //   minWidth: 30,
+                                                  //   child: RaisedButton(
+                                                  //       child: Icon(Icons
+                                                  //           .video_call_rounded),
+                                                  //       onPressed: () => {
+                                                  //             Navigator.push(
+                                                  //                 context,
+                                                  //                 SlideLeftRoute(
+                                                  //                     page:
+                                                  //                         IndexPage()))
+                                                  //           }),
+                                                  // ),
                                                 ]),
                                           ],
                                         )));

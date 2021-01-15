@@ -1,79 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
-import 'dart:convert'; //json file convert
-import './booking_status.dart';
-import './instructor_bio.dart';
-import './payment_signup.dart';
+import 'dart:convert';
+import 'pages/booking_status.dart';
+import './pages/instructor_bio.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:amplify_core/amplify_core.dart';
+import '../../utils/sliders.dart';
 
-import './instructor_room/instructor.dart';
-
-//Page transition animation from left to right
-class SlideRightRoute extends PageRouteBuilder {
-  final Widget page;
-  SlideRightRoute({this.page})
-      : super(
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-          ) =>
-              page,
-          transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(1, 0),
-              end: Offset.zero,
-            ).animate(animation),
-            child: child,
-          ),
-        );
-}
-
-//Page transition animation from left to right
-class SlideLeftRoute extends PageRouteBuilder {
-  final Widget page;
-  SlideLeftRoute({this.page})
-      : super(
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-          ) =>
-              page,
-          transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(-1, 0),
-              end: Offset.zero,
-            ).animate(animation),
-            child: child,
-          ),
-        );
-}
-
-class HomePage extends StatefulWidget {
+class HomePageTrainee extends StatefulWidget {
   final VoidCallback shouldLogOut;
-
-  HomePage({Key key, this.shouldLogOut}) : super(key: key);
+  HomePageTrainee({Key key, this.shouldLogOut}) : super(key: key);
 
   @override
   SampleStart createState() => SampleStart();
 }
 
-class SampleStart extends State<HomePage> {
+class SampleStart extends State<HomePageTrainee> {
   Future<List<dynamic>> futureApiResults;
 
   @override
@@ -120,36 +63,6 @@ class SampleStart extends State<HomePage> {
                   context,
                   SlideLeftRoute(page: BookingStatus()),
                 )
-              },
-            ),
-            ListTile(
-              title: Text('Instructor page'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  SlideLeftRoute(page: Instructor()),
-                );
-              },
-            ),
-            ListTile(
-              title: Text('Payment signup'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  SlideLeftRoute(page: PaymentSignup()),
-                );
-              },
-            ),
-            ListTile(
-              title: Text('Sign up'),
-              onTap: () => {
-                // Eliot - not sure what this does
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => _MyApp(),
-                //   ),
-                // )
               },
             ),
             ListTile(

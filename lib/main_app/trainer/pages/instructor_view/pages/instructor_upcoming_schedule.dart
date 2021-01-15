@@ -5,9 +5,12 @@ import 'dart:convert'; //json file convert
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:intl/intl.dart';
-import 'package:skilltrain/main_app/instructor_bio.dart';
-
-import '../video_session/index_instructor.dart';
+// ignore: unused_import
+import '../../../../../utils/sliders.dart';
+// ignore: unused_import
+import 'instructor_bio_update.dart';
+// ignore: unused_import
+import '../../../../../services/agora/video_session/index_instructor.dart';
 
 String trainerName = "";
 
@@ -180,19 +183,19 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                                                       ],
                                                     ),
                                                     new Spacer(),
-                                                    ButtonTheme(
-                                                      minWidth: 30,
-                                                      child: RaisedButton(
-                                                          child: Icon(Icons
-                                                              .video_call_rounded),
-                                                          onPressed: () => {
-                                                                Navigator.push(
-                                                                    context,
-                                                                    SlideLeftRoute(
-                                                                        page:
-                                                                            IndexPageForInstructor()))
-                                                              }),
-                                                    ),
+                                                    // ButtonTheme(
+                                                    //   minWidth: 30,
+                                                    //   child: RaisedButton(
+                                                    //       child: Icon(Icons
+                                                    //           .video_call_rounded),
+                                                    //       onPressed: () => {
+                                                    //             Navigator.push(
+                                                    //                 context,
+                                                    //                 SlideLeftRoute(
+                                                    //                     page:
+                                                    //                         IndexPageForInstructor()))
+                                                    //           }),
+                                                    // ),
                                                   ]),
                                             ],
                                           )));

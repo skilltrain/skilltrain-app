@@ -3,15 +3,7 @@ import 'package:flutter/material.dart';
 import './authentication_services/auth_credentials.dart';
 
 class LoginPage extends StatefulWidget {
-  //////////////////Eliot///////////////////
-  // I am not sure what deleting ValueChanged here breaks, but I need to return a list from didProvideCredentials to
-  // print the error message here
-  // final ValueChanged<LoginCredentials> didProvideCredentials;
-
-  // This is the replacement for ValueChanged, I do not know if this will break things later
   final Future<List> Function(AuthCredentials login) didProvideCredentials;
-  //////////////////////////////////////////
-
   final VoidCallback shouldShowSignUp;
   LoginPage({Key key, this.didProvideCredentials, this.shouldShowSignUp})
       : super(key: key);
