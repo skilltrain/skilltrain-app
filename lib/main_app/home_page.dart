@@ -248,6 +248,7 @@ class SampleStart extends State<HomePage> {
       var trainers = await json.decode(response.body);
       for (var trainer in trainers) {
         trainer["sessionPhoto"] = await getUrl(trainer["sessionPhoto"]);
+        trainer["profilePhoto"] = await getUrl(trainer["profilePhoto"]);
       }
       return trainers;
     } else {

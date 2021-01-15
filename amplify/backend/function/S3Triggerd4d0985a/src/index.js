@@ -1,7 +1,7 @@
 const AWS = require("aws-sdk");
 const ddb = new AWS.DynamoDB.DocumentClient();
 
-exports.handler = async event => {
+exports.handler = async (event) => {
   let statusCode = 0;
   let responseBody = "";
   const { name } = event.Records[0].s3.bucket;
@@ -31,7 +31,7 @@ exports.handler = async event => {
     await ddb
       .update(putParams)
       .promise()
-      .then(data => console.log(data));
+      .then((data) => console.log(data));
     responseBody = `Succesfully added ${key} to ${picType} attr of ${username} in ${userType} table`;
     statusCode = 201;
   } catch (err) {

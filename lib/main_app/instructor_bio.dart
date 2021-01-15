@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import './booking_page.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:async';
-import 'dart:convert';
 
 //Page transition animation from left to right
 class SlideRightRoute extends PageRouteBuilder {
@@ -63,28 +60,15 @@ class InstructorBio extends StatelessWidget {
   final index;
   InstructorBio({this.data, this.index});
 
-  Future<void> loadJsonAsset() async {
-    String extractedData = await rootBundle.loadString('assets/data.JSON');
-    //JSON file download and decode
-    // ignore: unused_local_variable
-    final listSampleAsync = await jsonDecode(extractedData);
-  }
-
-  void main() {
-    loadJsonAsset();
-  }
-
   @override
   Widget build(BuildContext context) {
-//JSON file download and decode
-
     return Scaffold(
       appBar: AppBar(
         title: Text("instructor bios"),
       ),
       body: Column(
         children: <Widget>[
-          Image.network(data["portrait"]),
+          Image.network(data["profilePhoto"]),
           Row(children: <Widget>[
             Text(data["instructor"],
                 textAlign: TextAlign.left,

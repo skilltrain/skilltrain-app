@@ -34,12 +34,13 @@ class Booking extends StatelessWidget {
                 RaisedButton(
                   onPressed: () {
                     // Insert PUT method function to update user_username/sessionCode info in sessions table
-                    print(1);
                     print(trainerName);
                     print(traineeName);
                     print(price);
-                    print(sessionResults);
-                    Navigator.push(context, SlideLeftRoute(page: MyHomePage()));
+                    Navigator.push(
+                        context,
+                        SlideLeftRoute(
+                            page: MyHomePage(trainerUsername: trainerName)));
                   },
                   textColor: Colors.white,
                   padding: const EdgeInsets.all(0),

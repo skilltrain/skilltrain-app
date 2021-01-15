@@ -38,10 +38,10 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   void _uploadProfilePic() async {
     try {
       File local = await FilePicker.getFile(type: FileType.image);
-      var key = new DateTime.now().toString();
-      key = "images/trainers/$_user/profilePic/" + key;
+      var key = new DateTime.now().millisecondsSinceEpoch.toString();
+      key = "images/trainers/$_user/profilePhoto/" + key;
       Map<String, String> metadata = <String, String>{};
-      metadata['type'] = 'profilePic';
+      metadata['type'] = 'profilePhoto';
       S3UploadFileOptions options = S3UploadFileOptions(
           accessLevel: StorageAccessLevel.guest, metadata: metadata);
       UploadFileResult result = await Amplify.Storage.uploadFile(
@@ -58,7 +58,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   void _uploadSessionPhoto() async {
     try {
       File local = await FilePicker.getFile(type: FileType.image);
-      var key = new DateTime.now().toString();
+      var key = new DateTime.now().millisecondsSinceEpoch.toString();
       key = "images/trainers/$_user/sessionPhoto/" + key;
       Map<String, String> metadata = <String, String>{};
       metadata['type'] = 'sessionPhoto';
@@ -84,15 +84,17 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
     }
   }
 
-  Future getTrainerData() async {
+  Future<Map<dynamic, dynamic>> getTrainerData() async {
     final response = await http.get(
         'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$_user');
     if (response.statusCode == 200) {
       final res = json.decode(response.body);
-      _bio = res.bio;
-      _genre = res.genre;
-      _price = res.price;
-      print(res);
+      setState(() {
+        _bio = res["bio"];
+        _genre = res["genre"];
+        _price = res["price"];
+      });
+
       return res;
     } else {
       throw Exception('Failed to load API params');
@@ -175,19 +177,21 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                     ),
                   ),
                   TextFormField(
+                      controller: TextEditingController(text: _genre),
                       decoration: InputDecoration(labelText: 'genre'),
-                      onChanged: (value) => setState(() => _genre = value)),
+                      onChanged: (text) => _genre = text),
                   TextFormField(
+                      controller: TextEditingController(text: _price),
                       decoration: InputDecoration(labelText: 'price'),
-                      onChanged: (value) => setState(() => _price = value)),
+                      onChanged: (text) => _price = text),
                   TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'bio',
-                    ),
-                    maxLines: 4,
-                    minLines: 4,
-                    onChanged: (value) => setState(() => _bio = value),
-                  ),
+                      controller: TextEditingController(text: _bio),
+                      decoration: InputDecoration(
+                        labelText: 'bio',
+                      ),
+                      maxLines: 4,
+                      minLines: 4,
+                      onChanged: (text) => _bio = text),
                 ])),
             RaisedButton(
               onPressed: () async {
