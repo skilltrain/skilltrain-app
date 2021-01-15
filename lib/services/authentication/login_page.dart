@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import './authentication_services/auth_credentials.dart';
+import '../../utils/alert_dialogues.dart';
 
 class LoginPage extends StatefulWidget {
   //////////////////Eliot///////////////////
@@ -67,30 +68,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void showAlertDialog(BuildContext context, String errorMessage) {
-    Widget okButton = FlatButton(
-      child: Text("OK"),
-      onPressed: () {
-        Navigator.of(context, rootNavigator: true).pop();
-      },
-    );
-
-    AlertDialog alert = AlertDialog(
-      title: Text("Error"),
-      content: Text(errorMessage),
-      actions: [
-        okButton,
-      ],
-    );
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
   void _login() async {
     final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
@@ -105,7 +82,8 @@ class _LoginPageState extends State<LoginPage> {
     // If the login was unsuccessful, index 0 is 'error' and there are error messages at indexes 1, 2, 3 etc.
     final loginResponse = await widget.didProvideCredentials(credentials);
     if (loginResponse[0] == "errors") {
-      showAlertDialog(context, loginResponse[1]);
+      final alertDialogue = new AlertDialogues();
+      alertDialogue.showAlertDialog(context, loginResponse[1]);
     }
   }
 }
