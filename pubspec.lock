@@ -8,13 +8,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "12.0.0"
-  agora_flutter_webrtc:
-    dependency: "direct main"
-    description:
-      name: agora_flutter_webrtc
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.3"
   agora_rtc_engine:
     dependency: "direct main"
     description:
@@ -22,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.1"
+  amazon_cognito_identity_dart_2:
+    dependency: "direct main"
+    description:
+      name: amazon_cognito_identity_dart_2
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.24"
   amplify_analytics_pinpoint:
     dependency: "direct main"
     description:
@@ -238,13 +238,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_webrtc:
-    dependency: transitive
-    description:
-      name: flutter_webrtc
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.7"
   fuchsia_remote_debug_protocol:
     dependency: transitive
     description: flutter
@@ -263,7 +256,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.3+17"
+    version: "0.12.2"
   http_parser:
     dependency: transitive
     description:
@@ -519,13 +512,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.3"
-  uuid:
-    dependency: transitive
-    description:
-      name: uuid
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   vector_math:
     dependency: transitive
     description:
