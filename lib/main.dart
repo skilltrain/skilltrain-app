@@ -4,13 +4,15 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'amplifyconfiguration.dart';
-import './services/authentication/signup_page.dart';
-import './services/authentication/login_page.dart';
-import './services/authentication/authentication_services/auth_service.dart';
-import './services/authentication/verification_page.dart';
-import './main_app/home_page.dart';
-import './main_app/tutorial_flow.dart';
+import './services/cognito/signup_page.dart';
+import './services/cognito/login_page.dart';
+import './services/cognito/authentication_services/auth_service.dart';
+import './services/cognito/verification_page.dart';
+import './main_app/trainer/home_page_trainer.dart';
+import './main_app/trainee/home_page_trainee.dart';
+import './main_app/common/tutorial_flow.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 
 void main() async {
   await DotEnv().load('.env');
@@ -24,6 +26,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final _authService = AuthService();
+  final _cognito = AmplifyAuthCognito();
+
   // Instantiate Amplify
   Amplify amplifyInstance = Amplify();
 
@@ -31,13 +35,11 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _configureAmplify();
-
     _authService.checkAuthStatus();
   }
 
   void _configureAmplify() async {
     if (!mounted) return;
-
     // Add Pinpoint and Cognito Plugins
     AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
     AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
@@ -91,10 +93,12 @@ class _MyAppState extends State<MyApp> {
                               didProvideVerificationCode:
                                   _authService.verifyCode)),
                     if (snapshot.data.authFlowStatus == AuthFlowStatus.tutorial)
-                      MaterialPage(child: Tutorial()),
+                      MaterialPage(child: TutorialOne()),
                     if (snapshot.data.authFlowStatus == AuthFlowStatus.session)
+                      // final user = _cognito.getUser
                       MaterialPage(
-                          child: HomePage(shouldLogOut: _authService.logOut)),
+                          child: HomePageTrainee(
+                              shouldLogOut: _authService.logOut)),
                   ],
                   onPopPage: (route, result) => route.didPop(result),
                 );

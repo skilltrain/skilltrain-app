@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import '../services/stripe/payment/direct_payment_page.dart';
-import './home_page.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../../../services/stripe/payment/direct_payment_page.dart';
+import '../../../utils/sliders.dart';
 
 String traineeName = "";
 
-class Booking extends StatelessWidget {
+class BookingPage extends StatelessWidget {
   final String trainerName;
   final int price;
   final int index;
   final Future<List> sessionResults = fetchSessionResults();
-  Booking({this.index, this.trainerName, this.price});
+  BookingPage({this.index, this.trainerName, this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,6 @@ class Booking extends StatelessWidget {
                   onPressed: () {
                     // Insert PUT method function to update user_username/sessionCode info in sessions table
                     print(trainerName);
-                    print(traineeName);
                     print(price);
                     Navigator.push(
                         context,

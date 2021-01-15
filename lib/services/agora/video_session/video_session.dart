@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import './index.dart';
+// import 'package:flutter/material.dart';
+// import './index.dart';
 
 // class hoge extends StatelessWidget {
 //   @override
@@ -28,15 +28,15 @@ import './index.dart';
 //   }
 // }
 
-class SessionList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: IndexPage(),
-    );
-  }
-}
+// class SessionList extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Flutter Demo',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       // home: IndexPage(),
+//     );
+//   }
+// }

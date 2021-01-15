@@ -108,10 +108,10 @@ var timeTable = [
   {"start_time": "23:00", "end_time": "23:50"},
 ];
 
-class CourseRegistration extends StatefulWidget {
+class InstructorRegisterCourse extends StatefulWidget {
   final VoidCallback shouldLogOut;
 
-  CourseRegistration({Key key, this.shouldLogOut}) : super(key: key);
+  InstructorRegisterCourse({Key key, this.shouldLogOut}) : super(key: key);
 
   @override
   SampleStart createState() => SampleStart();
@@ -120,7 +120,7 @@ class CourseRegistration extends StatefulWidget {
 //define date format
 DateFormat format = DateFormat('yyyy-MM-dd');
 
-class SampleStart extends State<CourseRegistration> {
+class SampleStart extends State<InstructorRegisterCourse> {
   Future<List> futureApiResults;
   Future<ApiResults> resFromPostReq;
 

@@ -5,7 +5,7 @@ import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:flutter/material.dart';
 
-import './utils/settings.dart';
+import '../utils/settings.dart';
 
 // *********** BroadCasting Mode *********** //
 

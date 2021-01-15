@@ -56,7 +56,7 @@ class AuthService {
 
   void signUpWithCredentials(SignUpCredentials credentials) async {
     try {
-      final userAttributes = {'email': credentials.email};
+      final userAttributes = {'email': credentials.email, 'isTrainer': 'yes'};
       await Amplify.Auth.signUp(
           username: credentials.username,
           password: credentials.password,
