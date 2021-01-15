@@ -91,9 +91,9 @@ class InstructorBio extends StatelessWidget {
                 context,
                 SlideLeftRoute(
                     page: Booking(
-                      // Eliot - I need the username so that I can perform an API call to pay the trainer from the next page
-                      trainerUsername: data['username'],
-                      index: index,
+                  price: data["price"],
+                  trainerName: data["username"],
+                  index: index,
                 )),
               );
             },
