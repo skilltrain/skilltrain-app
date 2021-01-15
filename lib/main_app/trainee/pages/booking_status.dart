@@ -13,6 +13,7 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:intl/intl.dart';
 // ignore: unused_import
 import 'booking_page.dart';
+import '../../../utils/sliders.dart';
 
 String traineeName = "";
 
@@ -153,19 +154,19 @@ class SampleStart extends State<BookingStatus> {
                                                     ],
                                                   ),
                                                   new Spacer(),
-                                                  // ButtonTheme(
-                                                  //   minWidth: 30,
-                                                  //   child: RaisedButton(
-                                                  //       child: Icon(Icons
-                                                  //           .video_call_rounded),
-                                                  //       onPressed: () => {
-                                                  //             Navigator.push(
-                                                  //                 context,
-                                                  //                 SlideLeftRoute(
-                                                  //                     page:
-                                                  //                         IndexPage()))
-                                                  //           }),
-                                                  // ),
+                                                  ButtonTheme(
+                                                    minWidth: 30,
+                                                    child: RaisedButton(
+                                                        child: Icon(Icons
+                                                            .video_call_rounded),
+                                                        onPressed: () => {
+                                                              // Navigator.push(
+                                                              //     context,
+                                                              //     SlideLeftRoute(
+                                                              //         page:
+                                                              //             IndexPage()))
+                                                            }),
+                                                  ),
                                                 ]),
                                           ],
                                         )));
