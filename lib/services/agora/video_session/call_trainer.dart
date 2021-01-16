@@ -1,465 +1,313 @@
-// import 'dart:async';
+import 'dart:async';
 
-// import 'package:flutter/material.dart';
-// import 'package:agora_flutter_webrtc/agora_flutter_webrtc.dart';
+import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
+import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
+import 'package:flutter/material.dart';
 
-// // *********** 1-to-1 VC session *********** //
+import '../utils/settings.dart';
 
-// class CallPage extends StatefulWidget {
-//   final String channel;
-//   final bool video;
-//   final bool audio;
-//   final bool screen;
-//   final String appId;
-//   final String profile;
-//   final String width;
-//   final String height;
-//   final String framerate;
-//   final String codec;
-//   final String mode;
+// *********** BroadCasting Mode *********** //
 
-//   CallPage({
-//     this.appId,
-//     this.channel,
-//     this.video,
-//     this.audio,
-//     this.screen,
-//     this.profile,
-//     this.width,
-//     this.height,
-//     this.framerate,
-//     this.codec,
-//     this.mode,
-//   });
+class CallPage extends StatefulWidget {
+  /// non-modifiable channel name of the page
+  final String channelName;
 
-//   @override
-//   CallPageState createState() {
-//     return new CallPageState(
-//       appId: appId,
-//       channel: channel,
-//       video: video,
-//       audio: audio,
-//       screen: screen,
-//       profile: profile,
-//       width: width,
-//       height: height,
-//       framerate: framerate,
-//       codec: codec,
-//       mode: mode,
-//     );
-//   }
-// }
+  /// non-modifiable client role of the page
+  final ClientRole role;
 
-// class CallPageState extends State<CallPage> {
-//   String appId;
-//   String channel;
-//   bool video;
-//   bool audio;
-//   bool screen;
-//   String profile;
-//   String width;
-//   String height;
-//   String framerate;
-//   String codec;
-//   String mode;
+  /// Creates a call page with given channel name.
+  const CallPage({Key key, this.channelName, this.role}) : super(key: key);
 
-//   AgoraClient agoraClient;
-//   AgoraClient shareScreenClient;
+  @override
+  _CallPageState createState() => _CallPageState();
+}
 
-//   AgoraStream mainStream;
-//   AgoraStream shareScreenStream;
+class _CallPageState extends State<CallPage> {
+  final _users = <int>[];
+  final _infoStrings = <String>[];
+  bool muted = false;
+  RtcEngine _engine;
 
-//   List<AgoraStream> remoteStreams;
-//   List<AgoraStream> localStreams;
-//   List<AgoraStream> allStreams;
-//   // ignore: deprecated_member_use
-//   List<Timer> timers = new List<Timer>();
+  @override
+  void dispose() {
+    // clear users
+    _users.clear();
+    // destroy sdk
+    _engine.leaveChannel();
+    _engine.destroy();
+    super.dispose();
+  }
 
-//   Map<String, String> mediaStats;
+  @override
+  void initState() {
+    super.initState();
+    // initialize agora sdk
+    initialize();
+  }
 
-//   CallPageState({
-//     this.appId,
-//     this.channel,
-//     this.video,
-//     this.audio,
-//     this.screen,
-//     this.profile,
-//     this.width,
-//     this.height,
-//     this.framerate,
-//     this.codec,
-//     this.mode,
-//   });
+  Future<void> initialize() async {
+    if (appId.isEmpty) {
+      setState(() {
+        _infoStrings.add(
+          'APP_ID missing, please provide your APP_ID in settings.dart',
+        );
+        _infoStrings.add('Agora Engine is not starting');
+      });
+      return;
+    }
 
-//   void startShareScreen(String cname) async {
-//     shareScreenClient = AgoraClient(appId: appId, mode: mode, codec: codec);
+    await _initAgoraRtcEngine();
+    _addAgoraEventHandlers();
+    // ignore: deprecated_member_use
+    await _engine.enableWebSdkInteroperability(true);
+    VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
+    configuration.dimensions = VideoDimensions(1920, 1080);
+    await _engine.setVideoEncoderConfiguration(configuration);
+    await _engine.joinChannel(null, widget.channelName, null, 0);
+  }
 
-//     await shareScreenClient.join(null, cname, 1);
-//     shareScreenStream = AgoraStream.createStream(
-//         {'audio': false, 'video': false, 'screen': true});
+  /// Create agora sdk instance and initialize
+  Future<void> _initAgoraRtcEngine() async {
+    _engine = await RtcEngine.create(appId);
+    await _engine.enableVideo();
+    await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
+    await _engine.setClientRole(widget.role);
+  }
 
-//     try {
-//       await shareScreenStream.init();
-//     } catch (e) {}
+  /// Add agora event handlers
+  void _addAgoraEventHandlers() {
+    _engine.setEventHandler(RtcEngineEventHandler(error: (code) {
+      setState(() {
+        final info = 'onError: $code';
+        _infoStrings.add(info);
+      });
+    }, joinChannelSuccess: (channel, uid, elapsed) {
+      setState(() {
+        final info = 'onJoinChannel: $channel, uid: $uid';
+        _infoStrings.add(info);
+      });
+    }, leaveChannel: (stats) {
+      setState(() {
+        _infoStrings.add('onLeaveChannel');
+        _users.clear();
+      });
+    }, userJoined: (uid, elapsed) {
+      setState(() {
+        final info = 'userJoined: $uid';
+        _infoStrings.add(info);
+        _users.add(uid);
+      });
+    }, userOffline: (uid, elapsed) {
+      setState(() {
+        final info = 'userOffline: $uid';
+        _infoStrings.add(info);
+        _users.remove(uid);
+      });
+    }, firstRemoteVideoFrame: (uid, width, height, elapsed) {
+      setState(() {
+        final info = 'firstRemoteVideo: $uid ${width}x $height';
+        _infoStrings.add(info);
+      });
+    }));
+  }
 
-//     await shareScreenClient.publish(shareScreenStream);
-//     localStreams.add(shareScreenStream);
-//   }
+  /// Helper function to get list of native views
+  List<Widget> _getRenderViews() {
+    final List<StatefulWidget> list = [];
+    if (widget.role == ClientRole.Broadcaster) {
+      list.add(RtcLocalView.SurfaceView());
+    }
+    _users.forEach((int uid) => list.add(RtcRemoteView.SurfaceView(uid: uid)));
+    return list;
+  }
 
-//   void stopShareScreen() async {
-//     shareScreenClient?.leave();
-//     shareScreenClient = null;
-//     shareScreenStream?.close();
-//   }
+  /// Video view wrapper
+  Widget _videoView(view) {
+    return Expanded(child: Container(child: view));
+  }
 
-//   void initState() {
-//     super.initState();
+  /// Video view row wrapper
+  Widget _expandedVideoRow(List<Widget> views) {
+    final wrappedViews = views.map<Widget>(_videoView).toList();
+    return Expanded(
+      child: Row(
+        children: wrappedViews,
+      ),
+    );
+  }
 
-//     print(
-//         "$channel,$video,$audio,$screen,$profile,$width,$height,$framerate,$codec,$mode");
+  /// Video layout wrapper
+  Widget _viewRows() {
+    final views = _getRenderViews();
+    switch (views.length) {
+      case 1:
+        return Container(
+            child: Column(
+          children: <Widget>[_videoView(views[0])],
+        ));
+      case 2:
+        return Container(
+            child: Column(
+          children: <Widget>[
+            _expandedVideoRow([views[0]]),
+            _expandedVideoRow([views[1]])
+          ],
+        ));
+      case 3:
+        return Container(
+            child: Column(
+          children: <Widget>[
+            _expandedVideoRow(views.sublist(0, 2)),
+            _expandedVideoRow(views.sublist(2, 3))
+          ],
+        ));
+      case 4:
+        return Container(
+            child: Column(
+          children: <Widget>[
+            _expandedVideoRow(views.sublist(0, 2)),
+            _expandedVideoRow(views.sublist(2, 4))
+          ],
+        ));
+      default:
+    }
+    return Container();
+  }
 
-//     // ignore: deprecated_member_use
-//     localStreams = new List<AgoraStream>();
-//     // ignore: deprecated_member_use
-//     remoteStreams = new List<AgoraStream>();
-//     // ignore: deprecated_member_use
-//     allStreams = new List<AgoraStream>();
+  /// Toolbar layout
+  Widget _toolbar() {
+    if (widget.role == ClientRole.Audience) return Container();
+    return Container(
+      alignment: Alignment.bottomCenter,
+      padding: const EdgeInsets.symmetric(vertical: 48),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          RawMaterialButton(
+            onPressed: _onToggleMute,
+            child: Icon(
+              muted ? Icons.mic_off : Icons.mic,
+              color: muted ? Colors.white : Colors.blueAccent,
+              size: 20.0,
+            ),
+            shape: CircleBorder(),
+            elevation: 2.0,
+            fillColor: muted ? Colors.blueAccent : Colors.white,
+            padding: const EdgeInsets.all(12.0),
+          ),
+          RawMaterialButton(
+            onPressed: () => _onCallEnd(context),
+            child: Icon(
+              Icons.call_end,
+              color: Colors.white,
+              size: 35.0,
+            ),
+            shape: CircleBorder(),
+            elevation: 2.0,
+            fillColor: Colors.redAccent,
+            padding: const EdgeInsets.all(15.0),
+          ),
+          RawMaterialButton(
+            onPressed: _onSwitchCamera,
+            child: Icon(
+              Icons.switch_camera,
+              color: Colors.blueAccent,
+              size: 20.0,
+            ),
+            shape: CircleBorder(),
+            elevation: 2.0,
+            fillColor: Colors.white,
+            padding: const EdgeInsets.all(12.0),
+          )
+        ],
+      ),
+    );
+  }
 
-//     agoraClient = AgoraClient(appId: appId, mode: mode, codec: codec);
+  /// Info panel to show logs
+  Widget _panel() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 48),
+      alignment: Alignment.bottomCenter,
+      child: FractionallySizedBox(
+        heightFactor: 0.5,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 48),
+          child: ListView.builder(
+            reverse: true,
+            itemCount: _infoStrings.length,
+            itemBuilder: (BuildContext context, int index) {
+              if (_infoStrings.isEmpty) {
+                return null;
+              }
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 3,
+                  horizontal: 10,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 2,
+                          horizontal: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.yellowAccent,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text(
+                          _infoStrings[index],
+                          style: TextStyle(color: Colors.blueGrey),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
 
-//     agoraClient.on("peer-leave", (evt) async {
-//       var uid = evt["uid"];
-//       var stream = remoteStreams.firstWhere((AgoraStream stream) {
-//         return stream.getId() == uid;
-//       // ignore: missing_return
-//       }, orElse: () {});
+  void _onCallEnd(BuildContext context) {
+    Navigator.pop(context);
+  }
 
-//       if (stream == null) {
-//         return;
-//       }
-//       setState(() {
-//         remoteStreams.remove(stream);
-//         allStreams.remove(stream);
-//       });
-//     });
+  void _onToggleMute() {
+    setState(() {
+      muted = !muted;
+    });
+    _engine.muteLocalAudioStream(muted);
+  }
 
-//     agoraClient.on("connection-state-change", (evt) async {
-//       print("state change from ${evt['prvState']} to ${evt['curState']}");
-//     });
+  void _onSwitchCamera() {
+    _engine.switchCamera();
+  }
 
-//     agoraClient.on("stream-removed", (evt) async {
-//       var stream = evt["stream"];
-//       setState(() {
-//         remoteStreams.remove(stream);
-//         allStreams.remove(stream);
-//       });
-//     });
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('SkillTrain-Session'),
+      ),
+      backgroundColor: Colors.black,
+      body: Center(
+        child: Stack(
+          children: <Widget>[
+            _viewRows(),
+            _panel(),
+            _toolbar(),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-//     agoraClient.on("stream-added", (evt) async {
-//       var stream = evt["stream"];
-//       await agoraClient.subscribe(stream);
-//       remoteStreams.add(stream);
-//       // id=1 means this stream is sharing screen stream
-//       if (stream.getId() == 1) {
-//         await stream.play(mode: "contain");
-//       } else {
-//         await stream.play();
-//       }
-//       setState(() {
-//         allStreams.add(stream);
-//       });
-//     });
-
-//     agoraClient.join(null, channel, 0).then((uid) async {
-//       AgoraStream stream = AgoraStream.createStream(
-//           {'audio': audio, 'video': video, 'screen': screen});
-
-//       if (width != "" && height != "" && framerate != "") {
-//         stream.setVideoResolution(int.parse(width), int.parse(height));
-//         stream.setVideoFrameRate(int.parse(framerate));
-//       } else {
-//         stream.setVideoProfile(profile);
-//       }
-
-//       await stream.init();
-//       localStreams.add(stream);
-//       await stream.play();
-//       setState(() {
-//         mainStream = stream;
-//         allStreams.add(stream);
-//       });
-//       return stream;
-//     }).then((stream) async {
-//       await agoraClient.publish(stream);
-//     });
-//     var timer = Timer.periodic(new Duration(seconds: 1), (_) {
-//       setState(() {
-//         mediaStats = mainStream?.getStats();
-//       });
-//     });
-//     timers.add(timer);
-//   }
-
-//   void dispose() {
-//     super.dispose();
-//     localStreams?.forEach((AgoraStream stream) {
-//       stream?.close();
-//     });
-//     remoteStreams?.forEach((AgoraStream stream) {
-//       stream?.close();
-//     });
-//     allStreams?.forEach((AgoraStream stream) {
-//       stream?.close();
-//     });
-//     timers?.forEach((Timer timer) {
-//       timer.cancel();
-//     });
-
-//     localStreams = [];
-//     remoteStreams = [];
-//     allStreams = [];
-//     timers = [];
-
-//     stopShareScreen();
-//     agoraClient.leave();
-//     agoraClient = null;
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         // appBar: AppBar(
-//         //   title: Text('In Call'),
-//         // ),
-//         body: Container(
-//           width: MediaQuery.of(context).size.width,
-//           height: MediaQuery.of(context).size.height,
-//           child: Stack(
-//             children: [
-//               Positioned(
-//                 child: LayoutBuilder(builder:
-//                     (BuildContext context, BoxConstraints constraints) {
-//                   return Container(
-//                     width: MediaQuery.of(context).size.width,
-//                     height: MediaQuery.of(context).size.height,
-//                     child: (mainStream != null && mainStream.isPlaying())
-//                         ? AgoraVideoView(mainStream)
-//                         : null,
-//                     decoration: BoxDecoration(color: Colors.black54),
-//                   );
-//                 }),
-//                 left: 0,
-//                 top: 0,
-//               ),
-//               Positioned(
-//                 child: ListView.builder(
-//                     itemCount: allStreams.length,
-//                     itemBuilder: (BuildContext context, int index) {
-//                       return (mainStream != null &&
-//                               allStreams[index].getId() != mainStream.getId())
-//                           ? Container(
-//                               padding: EdgeInsets.only(bottom: 12.0),
-//                               height:
-//                                   MediaQuery.of(context).size.width * 0.3 * 1.3,
-//                               child: GestureDetector(
-//                                 onTap: () {
-//                                   setState(() {
-//                                     mainStream = allStreams[index];
-//                                   });
-//                                 },
-//                                 child: Container(
-//                                     // child: (allStreams[index] != null && allStreams[index].isPlaying()) ? RTCVideoView(allStreams[index].render) : null,
-//                                     child: Stack(children: <Widget>[
-//                                       Container(
-//                                           child: (allStreams[index] != null &&
-//                                                   allStreams[index].isPlaying())
-//                                               ? AgoraVideoView(
-//                                                   allStreams[index])
-//                                               : null),
-//                                       Align(
-//                                         alignment: Alignment.bottomCenter,
-//                                         child: Text(
-//                                           allStreams[index].getId().toString(),
-//                                           style: TextStyle(color: Colors.white),
-//                                         ),
-//                                       )
-//                                     ]),
-//                                     decoration:
-//                                         BoxDecoration(color: Colors.black12)),
-//                               ))
-//                           : Container();
-//                     }),
-//                 right: 16.0,
-//                 top: MediaQuery.of(context).size.height * 0.05,
-//                 width: MediaQuery.of(context).size.width * 0.3,
-//                 height: MediaQuery.of(context).size.height * 0.9,
-//               ),
-//               Positioned(
-//                 child: mainStream != null
-//                     ? Row(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//                         children: <Widget>[
-//                           //Switch camera
-//                           mainStream.isLocal == true
-//                               ? RawMaterialButton(
-//                                   child: Icon(Icons.switch_camera,
-//                                       color: Colors.blueGrey, size: 25.0),
-//                                   onPressed: () {
-//                                     mainStream.switchDevice();
-//                                   },
-//                                   shape: CircleBorder(),
-//                                   elevation: 2.0,
-//                                   fillColor: Colors.white,
-//                                   padding: const EdgeInsets.all(12.0),
-//                                 )
-//                               : Container(),
-
-//                           // EndCall
-//                           RawMaterialButton(
-//                             onPressed: () => Navigator.pop(context),
-//                             child: Icon(
-//                               Icons.call_end,
-//                               color: Colors.white,
-//                               size: 30.0,
-//                             ),
-//                             shape: CircleBorder(),
-//                             elevation: 2.0,
-//                             fillColor: Colors.redAccent,
-//                             padding: const EdgeInsets.all(15.0),
-//                           ),
-//                           // MuteAudio
-//                           RawMaterialButton(
-//                             child: mainStream.isAudioMuted
-//                                 ? Icon(Icons.volume_off,
-//                                     color: Colors.blueGrey, size: 25.0)
-//                                 : Icon(Icons.volume_up,
-//                                     color: Colors.blueGrey, size: 25.0),
-//                             onPressed: () {
-//                               if (mainStream.isAudioMuted) {
-//                                 setState(() {
-//                                   mainStream.unmuteAudio();
-//                                 });
-//                               } else {
-//                                 setState(() {
-//                                   mainStream.muteAudio();
-//                                 });
-//                               }
-//                             },
-//                             shape: CircleBorder(),
-//                             elevation: 2.0,
-//                             fillColor: Colors.white,
-//                             padding: const EdgeInsets.all(12.0),
-//                           ),
-//                         ],
-//                       )
-//                     : Container(),
-//                 right: 0,
-//                 left: 0,
-//                 bottom: 30,
-//               ),
-//               Positioned(
-//                 child: (mainStream != null && mediaStats != null)
-//                     ? ListView.builder(
-//                         itemCount: mediaStats.length,
-//                         itemBuilder: (BuildContext context, int index) {
-//                           var key = mediaStats.keys.elementAt(index);
-//                           var value = mediaStats[key];
-//                           return Text("$key: $value",
-//                               style: TextStyle(color: Colors.white));
-//                         })
-//                     : Container(),
-//                 left: 0,
-//                 top: 0,
-//                 width: MediaQuery.of(context).size.width * 0.6,
-//                 height: MediaQuery.of(context).size.height * 0.5,
-//               )
-//             ],
-//           ),
-//         ),
-//         endDrawer: Drawer(
-//           child: Container(
-//               child: ListView.builder(
-//                   itemCount: remoteStreams.length,
-//                   itemBuilder: (BuildContext context, int index) {
-//                     var stream = remoteStreams[index];
-//                     return Container(
-//                         child: Column(
-//                       children: <Widget>[
-//                         ListTile(
-//                           title: Text(stream.getId().toString()),
-//                         ),
-//                         Padding(
-//                           padding: EdgeInsets.all(8.0),
-//                           child: Row(
-//                             children: <Widget>[
-//                               IconButton(
-//                                 icon: stream.isAudioMuted
-//                                     ? Icon(Icons.volume_off)
-//                                     : Icon(Icons.volume_up),
-//                                 tooltip: stream.isAudioMuted
-//                                     ? 'unmute audio'
-//                                     : 'mute audio',
-//                                 onPressed: () {
-//                                   if (stream.isAudioMuted) {
-//                                     setState(() {
-//                                       stream.unmuteAudio();
-//                                     });
-//                                   } else {
-//                                     setState(() {
-//                                       stream.muteAudio();
-//                                     });
-//                                   }
-//                                 },
-//                               ),
-//                               IconButton(
-//                                 icon: Icon(Icons.call_end),
-//                                 onPressed: () {
-//                                   print(stream.getId());
-//                                   if (stream.isVideoMuted) {
-//                                     setState(() {
-//                                       stream.unmuteVideo();
-//                                     });
-//                                   } else {
-//                                     setState(() {
-//                                       stream.muteVideo();
-//                                     });
-//                                   }
-//                                 },
-//                               ),
-//                               FlatButton(
-//                                 color: Colors.blue,
-//                                 textColor: Colors.white,
-//                                 onPressed: () async {
-//                                   if (stream.hasSubscribed) {
-//                                     await agoraClient.unsubscribe(stream);
-//                                     setState(() {
-//                                       allStreams.remove(stream);
-//                                     });
-//                                   } else {
-//                                     await agoraClient.subscribe(stream);
-//                                     if (stream.getId() == 1) {
-//                                       await stream.play(mode: "contain");
-//                                     } else {
-//                                       await stream.play();
-//                                     }
-//                                     setState(() {
-//                                       allStreams.add(stream);
-//                                     });
-//                                   }
-//                                 },
-//                                 child: Text(
-//                                   stream.hasSubscribed ? "unsub" : "sub",
-//                                   style: TextStyle(fontSize: 15.0),
-//                                 ),
-//                               )
-//                             ],
-//                           ),
-//                         )
-//                       ],
-//                     ));
-//                   })),
-//         ));
-//   }
-// }
-
-// // *********** 1-to-1 VC session *********** //
+// *********** BroadCasting Mode *********** //
