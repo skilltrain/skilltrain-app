@@ -8,6 +8,9 @@ import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:amplify_core/amplify_core.dart';
 import '../../utils/sliders.dart';
 
+// test added by Hide
+import '../../services/agora/video_session/index_trainer.dart';
+
 class HomePageTrainee extends StatefulWidget {
   final VoidCallback shouldLogOut;
   HomePageTrainee({Key key, this.shouldLogOut}) : super(key: key);
@@ -68,6 +71,14 @@ class SampleStart extends State<HomePageTrainee> {
             ListTile(
               title: Text('Log out'),
               onTap: widget.shouldLogOut,
+            ),
+            //temporary button to check tainer's VC joining button
+            ListTile(
+              title: Text("Test: trainer's VC join button'"),
+              onTap: () => {
+                Navigator.push(
+                    context, SlideLeftRoute(page: IndexPageTrainer()))
+              },
             ),
           ],
         ) // Populate the Drawer in the next step.

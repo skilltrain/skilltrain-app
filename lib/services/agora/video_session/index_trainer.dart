@@ -9,12 +9,12 @@ import 'call_trainee.dart';
 
 // *********** 1to1 VC Mode *********** //
 
-class IndexPage extends StatefulWidget {
+class IndexPageTrainer extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => IndexState();
 }
 
-class IndexState extends State<IndexPage> {
+class IndexState extends State<IndexPageTrainer> {
   /// create a channelController to retrieve text value
   final _channelController = TextEditingController();
 
