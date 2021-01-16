@@ -10,7 +10,7 @@ import '../../../../../utils/sliders.dart';
 // ignore: unused_import
 import 'instructor_bio_update.dart';
 // ignore: unused_import
-import '../../../../../services/agora/video_session/index_instructor.dart';
+import '../../../../../services/agora/video_session/index_trainer.dart';
 
 String trainerName = "";
 
