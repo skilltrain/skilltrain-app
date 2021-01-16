@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../utils/settings.dart';
 
-// *********** BroadCasting Mode *********** //
+// *********** 1to1 VC Mode *********** //
 
 class CallPage extends StatefulWidget {
   /// non-modifiable channel name of the page
@@ -310,4 +310,4 @@ class _CallPageState extends State<CallPage> {
   }
 }
 
-// *********** BroadCasting Mode *********** //
+// *********** 1to1 VC Mode *********** //
