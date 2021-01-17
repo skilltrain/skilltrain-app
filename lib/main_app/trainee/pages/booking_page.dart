@@ -2,11 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:http/http.dart' as http;
+import 'package:skilltrain/main_app/trainer/pages/instructor_view/pages/instructor_register_course.dart';
 import 'dart:convert';
 import '../../../services/stripe/payment/direct_payment_page.dart';
 import '../../../utils/sliders.dart';
+import 'dart:math';
 
 String traineeName = "";
+
+String sessionCode(int length) {
+  const _randomeChars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  const _charsLength = _randomeChars.length;
+
+  final rand = new Random();
+  final codeUnits = new List.generate(length, (index) {
+    final n = rand.nextInt(_charsLength);
+    return _randomeChars.codeUnitAt(n);
+  });
+  return new String.fromCharCodes(codeUnits);
+}
 
 class BookingPage extends StatelessWidget {
   final String trainerName;
@@ -35,7 +49,9 @@ class BookingPage extends StatelessWidget {
                   onPressed: () {
                     // Insert PUT method function to update user_username/sessionCode info in sessions table
                     print(trainerName);
+                    print(traineeName);
                     print(price);
+                    print(sessionCode(6));
                     Navigator.push(
                         context,
                         SlideLeftRoute(
@@ -71,7 +87,9 @@ Future<List> fetchSessionResults() async {
     print("Current Use Name = " + res.username);
 
     final response = await http.get(
-        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions');
+        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/' +
+            trainerName +
+            '/sessions');
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
