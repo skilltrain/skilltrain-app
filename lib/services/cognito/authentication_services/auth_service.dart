@@ -59,11 +59,11 @@ class AuthService {
   Future<List> loginWithCredentials(AuthCredentials credentials) async {
     var loginResult = ['no errors'];
     try {
-      final loadingState = AuthState(authFlowStatus: AuthFlowStatus.loading);
-      authStateController.add(loadingState);
       final userAuthenticationStatus = await Amplify.Auth.signIn(
           username: credentials.username, password: credentials.password);
       if (userAuthenticationStatus.isSignedIn) {
+        final loadingState = AuthState(authFlowStatus: AuthFlowStatus.loading);
+        authStateController.add(loadingState);
         this._credentials = credentials;
         final prefs = await SharedPreferences.getInstance();
         prefs.setString('username', credentials.username);

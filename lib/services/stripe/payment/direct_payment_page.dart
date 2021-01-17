@@ -1,62 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 import 'package:flutter/cupertino.dart';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-
-class ShowDialogToDismiss extends StatelessWidget {
-  final String content;
-  final String title;
-  final String buttonText;
-
-  ShowDialogToDismiss({this.title, this.buttonText, this.content});
-
-  @override
-  Widget build(BuildContext context) {
-    if (!Platform.isIOS) {
-      return AlertDialog(
-        title: new Text(
-          title,
-        ),
-        content: new Text(
-          this.content,
-        ),
-        actions: <Widget>[
-          new FlatButton(
-            child: new Text(
-              buttonText,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    } else {
-      return CupertinoAlertDialog(
-          title: Text(
-            title,
-          ),
-          content: new Text(
-            this.content,
-          ),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              child: new Text(
-                buttonText[0].toUpperCase() +
-                    buttonText.substring(1).toLowerCase(),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ]);
-    }
-  }
-}
+import '../../../utils/alert_dialogue.dart';
 
 class MyHomePage extends StatefulWidget {
   final String trainerUsername;
@@ -151,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ? processPaymentAsDirectCharge(paymentMethod)
         : showDialog(
             context: context,
-            builder: (BuildContext context) => ShowDialogToDismiss(
+            builder: (BuildContext context) => AlertDialogue(
                 title: 'Error',
                 content:
                     'It is not possible to pay with this card. Please try again with a different card',
@@ -208,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
               });
               showDialog(
                   context: context,
-                  builder: (BuildContext context) => ShowDialogToDismiss(
+                  builder: (BuildContext context) => AlertDialogue(
                       title: 'Warning',
                       content:
                           'The payment is still in \'processing\' state. This is unusual. Please contact us',
@@ -220,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
               });
               showDialog(
                   context: context,
-                  builder: (BuildContext context) => ShowDialogToDismiss(
+                  builder: (BuildContext context) => AlertDialogue(
                       title: 'Error',
                       content:
                           'There was an error to confirm the payment. Details: $statusFinal',
@@ -236,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
           });
           showDialog(
               context: context,
-              builder: (BuildContext context) => ShowDialogToDismiss(
+              builder: (BuildContext context) => AlertDialogue(
                   title: 'Error',
                   content:
                       'There was an error to confirm the payment. Please try again with another card',
@@ -251,7 +199,7 @@ class _MyHomePageState extends State<MyHomePage> {
       });
       showDialog(
           context: context,
-          builder: (BuildContext context) => ShowDialogToDismiss(
+          builder: (BuildContext context) => AlertDialogue(
               title: 'Error',
               content:
                   'There was an error in creating the payment. Please try again with another card',
@@ -277,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ? processPaymentAsDirectCharge(paymentMethod)
         : showDialog(
             context: context,
-            builder: (BuildContext context) => ShowDialogToDismiss(
+            builder: (BuildContext context) => AlertDialogue(
                 title: 'Error',
                 content:
                     'It is not possible to pay with this card. Please try again with a different card',
