@@ -10,7 +10,7 @@ import '../../../../../utils/sliders.dart';
 // ignore: unused_import
 import 'instructor_bio_update.dart';
 // ignore: unused_import
-import '../../../../../services/agora/video_session/index_instructor.dart';
+import '../../../../../services/agora/video_session/index_trainer.dart';
 
 String trainerName = "";
 
@@ -183,19 +183,19 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                                                       ],
                                                     ),
                                                     new Spacer(),
-                                                    // ButtonTheme(
-                                                    //   minWidth: 30,
-                                                    //   child: RaisedButton(
-                                                    //       child: Icon(Icons
-                                                    //           .video_call_rounded),
-                                                    //       onPressed: () => {
-                                                    //             Navigator.push(
-                                                    //                 context,
-                                                    //                 SlideLeftRoute(
-                                                    //                     page:
-                                                    //                         IndexPageForInstructor()))
-                                                    //           }),
-                                                    // ),
+                                                    ButtonTheme(
+                                                      minWidth: 30,
+                                                      child: RaisedButton(
+                                                          child: Icon(Icons
+                                                              .video_call_rounded),
+                                                          onPressed: () => {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    SlideLeftRoute(
+                                                                        page:
+                                                                            IndexPageTrainer()))
+                                                              }),
+                                                    ),
                                                   ]),
                                             ],
                                           )));
