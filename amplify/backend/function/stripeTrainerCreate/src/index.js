@@ -11,7 +11,7 @@ var ddb_table_name = process.env.STORAGE_SKILLTRAINAMPLIFYDB_NAME;
 AWS.config.update({ region: region });
 const Stripe = require("stripe");
 const stripe = Stripe(
-  "sk_test_51I8F0wCwmhFB6ae2JIv45lTRWveDwxUMMUG1k8yWvRINm0a3zJmvj0nybYPA4DBGaM3xIAIKfqndxzEJHpmfTJkk00TouBlgXv"
+  "sk_test_51HyVhmGoiP0exFcuyQvoKyIwfqY9dFAK8WkjRofSK6VjSvjjqtBefGpXr2OCKFNFH7mrJluLanSzoRA3KslKpw2I00kl5ypfAh"
 );
 
 exports.handler = async function (event, context) {
