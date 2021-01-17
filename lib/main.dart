@@ -12,7 +12,6 @@ import './main_app/trainer/home_page_trainer.dart';
 import './main_app/trainee/home_page_trainee.dart';
 import './main_app/common/tutorial_flow.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
-import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 
 void main() async {
   await DotEnv().load('.env');
@@ -26,8 +25,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final _authService = AuthService();
-  final _cognito = AmplifyAuthCognito();
-
   // Instantiate Amplify
   Amplify amplifyInstance = Amplify();
 
@@ -94,8 +91,15 @@ class _MyAppState extends State<MyApp> {
                                   _authService.verifyCode)),
                     if (snapshot.data.authFlowStatus == AuthFlowStatus.tutorial)
                       MaterialPage(child: TutorialOne()),
-                    if (snapshot.data.authFlowStatus == AuthFlowStatus.session)
-                      // final user = _cognito.getUser
+                    if (snapshot.data.authFlowStatus ==
+                            AuthFlowStatus.session &&
+                        _authService.isTrainer)
+                      MaterialPage(
+                          child: HomePageTrainer(
+                              shouldLogOut: _authService.logOut)),
+                    if (snapshot.data.authFlowStatus ==
+                            AuthFlowStatus.session &&
+                        !_authService.isTrainer)
                       MaterialPage(
                           child: HomePageTrainee(
                               shouldLogOut: _authService.logOut)),
