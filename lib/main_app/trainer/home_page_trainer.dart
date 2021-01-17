@@ -8,7 +8,6 @@ import '../../utils/sliders.dart';
 
 import './pages/payment_signup.dart';
 import './pages/instructor_view/instructor_view.dart';
-import '../trainee/pages/booking_status.dart';
 
 class HomePageTrainer extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -59,15 +58,6 @@ class SampleStart extends State<HomePageTrainer> {
                       fit: BoxFit.cover)),
             ),
             ListTile(
-              title: Text('Booking status'),
-              onTap: () => {
-                Navigator.push(
-                  context,
-                  SlideLeftRoute(page: BookingStatus()),
-                )
-              },
-            ),
-            ListTile(
               title: Text('Instructor page'),
               onTap: () {
                 Navigator.push(
@@ -83,18 +73,6 @@ class SampleStart extends State<HomePageTrainer> {
                   context,
                   SlideLeftRoute(page: PaymentSignup()),
                 );
-              },
-            ),
-            ListTile(
-              title: Text('Sign up'),
-              onTap: () => {
-                // Eliot - not sure what this does
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => _MyApp(),
-                //   ),
-                // )
               },
             ),
             ListTile(

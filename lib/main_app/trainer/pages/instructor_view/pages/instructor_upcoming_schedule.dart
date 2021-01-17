@@ -183,19 +183,19 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                                                       ],
                                                     ),
                                                     new Spacer(),
-                                                    // ButtonTheme(
-                                                    //   minWidth: 30,
-                                                    //   child: RaisedButton(
-                                                    //       child: Icon(Icons
-                                                    //           .video_call_rounded),
-                                                    //       onPressed: () => {
-                                                    //             Navigator.push(
-                                                    //                 context,
-                                                    //                 SlideLeftRoute(
-                                                    //                     page:
-                                                    //                         IndexPageForInstructor()))
-                                                    //           }),
-                                                    // ),
+                                                    ButtonTheme(
+                                                      minWidth: 30,
+                                                      child: RaisedButton(
+                                                          child: Icon(Icons
+                                                              .video_call_rounded),
+                                                          onPressed: () => {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    SlideLeftRoute(
+                                                                        page:
+                                                                            IndexPageTrainer()))
+                                                              }),
+                                                    ),
                                                   ]),
                                             ],
                                           )));

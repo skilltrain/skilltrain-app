@@ -72,14 +72,6 @@ class SampleStart extends State<HomePageTrainee> {
               title: Text('Log out'),
               onTap: widget.shouldLogOut,
             ),
-            //temporary button to check tainer's VC joining button
-            ListTile(
-              title: Text("Test: trainer's VC join button'"),
-              onTap: () => {
-                Navigator.push(
-                    context, SlideLeftRoute(page: IndexPageTrainer()))
-              },
-            ),
           ],
         ) // Populate the Drawer in the next step.
             ),
