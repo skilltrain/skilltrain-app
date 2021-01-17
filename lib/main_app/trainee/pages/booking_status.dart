@@ -4,7 +4,7 @@ import 'package:flutter/semantics.dart';
 // ignore: unused_import
 import '../home_page_trainee.dart';
 // ignore: unused_import
-import '../../../services/agora/video_session/index.dart';
+import '../../../services/agora/video_session/index_trainee.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -13,6 +13,7 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:intl/intl.dart';
 // ignore: unused_import
 import 'booking_page.dart';
+import '../../../utils/sliders.dart';
 
 String traineeName = "";
 
@@ -153,19 +154,19 @@ class SampleStart extends State<BookingStatus> {
                                                     ],
                                                   ),
                                                   new Spacer(),
-                                                  // ButtonTheme(
-                                                  //   minWidth: 30,
-                                                  //   child: RaisedButton(
-                                                  //       child: Icon(Icons
-                                                  //           .video_call_rounded),
-                                                  //       onPressed: () => {
-                                                  //             Navigator.push(
-                                                  //                 context,
-                                                  //                 SlideLeftRoute(
-                                                  //                     page:
-                                                  //                         IndexPage()))
-                                                  //           }),
-                                                  // ),
+                                                  ButtonTheme(
+                                                    minWidth: 30,
+                                                    child: RaisedButton(
+                                                        child: Icon(Icons
+                                                            .video_call_rounded),
+                                                        onPressed: () => {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  SlideLeftRoute(
+                                                                      page:
+                                                                          IndexPageTrainee()))
+                                                            }),
+                                                  ),
                                                 ]),
                                           ],
                                         )));
