@@ -85,7 +85,7 @@ class SampleStart extends State<HomePageTrainer> {
         appBar: AppBar(
           title: SizedBox(
                   height: kToolbarHeight,
-                  child: Image.asset('assets/images/logo.png', fit: BoxFit.scaleDown)),
+                  child: Image.asset('assets/images/skillTrain-logo.png', fit: BoxFit.scaleDown)),
           centerTitle: true,
         ),
       ),

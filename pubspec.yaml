@@ -67,7 +67,7 @@ flutter:
     - assets/images/confirmation.png
     - assets/images/classRegister.png
     - assets/images/crossfit.jpg
-    - assets/images/logo.png
+    - assets/images/skillTrain-logo.png
     - .env
 
   # The following line ensures that the Material Icons font is
