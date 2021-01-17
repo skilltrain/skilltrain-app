@@ -6,7 +6,6 @@ exports.handler = async (event, context) => {
   const ddb = new AWS.DynamoDB.DocumentClient();
 
   let responseBody;
-  let statusCode;
 
   const { username } = event.params;
 
@@ -24,17 +23,9 @@ exports.handler = async (event, context) => {
   try {
     const data = await ddb.scan(params).promise();
     responseBody = data.Items;
-    statusCode = 200;
   } catch (err) {
     responseBody = "Unable to get user's sessions";
-    statusCode = 403;
   }
-  const response = {
-    statusCode: statusCode,
-    headers: {
-      myHeader: "test",
-    },
-    body: responseBody,
-  };
-  return response;
+
+  return responseBody;
 };
