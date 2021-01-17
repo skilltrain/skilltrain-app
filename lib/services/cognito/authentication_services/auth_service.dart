@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 // Specify session flow
-enum AuthFlowStatus { login, signUp, verification, tutorial, session }
+enum AuthFlowStatus { login, signUp, verification, tutorial, session, loading }
 
 class AuthState {
   final AuthFlowStatus authFlowStatus;
@@ -62,6 +62,8 @@ class AuthService {
       final userAuthenticationStatus = await Amplify.Auth.signIn(
           username: credentials.username, password: credentials.password);
       if (userAuthenticationStatus.isSignedIn) {
+        final loadingState = AuthState(authFlowStatus: AuthFlowStatus.loading);
+        authStateController.add(loadingState);
         this._credentials = credentials;
         final prefs = await SharedPreferences.getInstance();
         prefs.setString('username', credentials.username);
