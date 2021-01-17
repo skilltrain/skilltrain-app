@@ -13,7 +13,9 @@ class InstructorBio extends StatelessWidget {
       appBar: AppBar(
         title: Text("instructor bios"),
       ),
-      body: Column(
+      body: 
+      SingleChildScrollView(
+      child: Column(
         children: <Widget>[
           Image.network(data["profilePhoto"]),
           Row(children: <Widget>[
@@ -23,7 +25,6 @@ class InstructorBio extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
                 )),
-            new Spacer(),
           ]),
           Text(
             data["bio"],
@@ -31,7 +32,6 @@ class InstructorBio extends StatelessWidget {
               fontSize: 15,
             ),
           ),
-          new Spacer(),
           RaisedButton(
             onPressed: () {
               Navigator.push(
@@ -68,6 +68,7 @@ class InstructorBio extends StatelessWidget {
           ),
         ],
       ),
+      )
     );
   }
 }
