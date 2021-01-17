@@ -145,8 +145,6 @@ class SampleStart extends State<HomePageTrainee> {
           ));
     }
 
-    ;
-
     Widget trainerListView = FutureBuilder(
       future: trainers,
       builder: (context, snapshot) {
