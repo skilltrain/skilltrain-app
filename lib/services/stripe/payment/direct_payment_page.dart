@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../../../utils/alert_dialogue.dart';
+import '../../../utils/sliders.dart';
 
 class MyHomePage extends StatefulWidget {
   final String trainerUsername;
@@ -132,6 +133,8 @@ class _MyHomePageState extends State<MyHomePage> {
               'Payment completed. ¥${paymentIntentX['paymentIntent']['amount'].toString()} succesfully charged';
           showSpinner = false;
         });
+        await new Future.delayed(const Duration(seconds: 3));
+        Navigator.pop(context);
       } else {
         //step 4: there is a need to authenticate
         StripePayment.setStripeAccount(strAccount);
