@@ -298,7 +298,9 @@ class SampleStart extends State<HomePageTrainee> {
         ) // Populate the Drawer in the next step.
             ),
         appBar: AppBar(
-          title: Text('skillTrain'),
+          title: SizedBox(
+                  height: kToolbarHeight,
+                  child: Image.asset('assets/images/logo.png', fit: BoxFit.scaleDown)),
           centerTitle: true,
         ),
         body: Column(
