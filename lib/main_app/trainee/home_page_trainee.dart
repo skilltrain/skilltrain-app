@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import './pages/trainer_filter.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'pages/booking_status.dart';
@@ -7,6 +8,7 @@ import './pages/instructor_bio.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:amplify_core/amplify_core.dart';
 import '../../utils/sliders.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
 class HomePageTrainee extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -33,46 +35,17 @@ Future fetchTrainers() async {
   }
 }
 
-// //Trainerlist model
-// class TrainerList {
-//   final List<Trainer> trainers;
+Future fetchSessions(user) async {
+  final response = await http.get(
+      'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/users/$user/sessions');
+  if (response.statusCode == 200) {
+    var res = await jsonDecode(response.body);
+    return res;
+  } else {
+    throw Exception('Failed to load album');
+  }
+}
 
-//   TrainerList({this.trainers});
-
-//   factory TrainerList.fromJson(List<dynamic> parsedJson) {
-//     List<Trainer> trainers = [];
-//     trainers = parsedJson.map((i) => Trainer.fromJson(i)).toList();
-//     return new TrainerList(trainers: trainers);
-//   }
-// }
-
-// class Trainer {
-//   final String username;
-//   final String bio;
-//   final String genre;
-//   final dynamic id;
-//   final String profilePhoto;
-//   final String sessionPhoto;
-
-//   Trainer(
-//       {this.username,
-//       this.bio,
-//       this.genre,
-//       this.id,
-//       this.profilePhoto,
-//       this.sessionPhoto});
-
-//   factory Trainer.fromJson(Map<String, dynamic> json) {
-//     return Trainer(
-//       username: json['username'],
-//       bio: json['bio'],
-//       genre: json['genre'],
-//       id: json['id'],
-//       profilePhoto: json['profilePhoto'],
-//       sessionPhoto: json['sessionPhoto'],
-//     );
-//   }
-// }
 Future getUrl(url) async {
   try {
     S3GetUrlOptions options =
@@ -86,28 +59,43 @@ Future getUrl(url) async {
 }
 
 class SampleStart extends State<HomePageTrainee> {
+  String user = "";
   Future trainers;
+  Future upcomingSessions;
   List listOfTrainers;
+
+  getCurrentUser() async {
+    try {
+      AuthUser res = await Amplify.Auth.getCurrentUser();
+      user = res.username;
+      return;
+    } on AuthError catch (e) {
+      print(e);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    getCurrentUser();
+    print(user);
     trainers = fetchTrainers();
-    print("trainers");
+    upcomingSessions = fetchSessions(user);
+    print(upcomingSessions);
   }
 
   @override
   Widget build(BuildContext context) {
     //Title widget for homescreen
     Widget titleSection = Container(
-        margin: EdgeInsets.only(top: 50, left: 50, right: 50, bottom: 20),
+        margin: EdgeInsets.only(top: 30, left: 50, right: 50, bottom: 20),
         child: Column(
           children: [
             Row(
               children: [
                 Text('Welcome\nDamian!',
                     style: TextStyle(
-                        color: Colors.grey[800],
+                        color: Colors.grey[900],
                         fontWeight: FontWeight.w800,
                         fontSize: 50)),
               ],
@@ -117,16 +105,22 @@ class SampleStart extends State<HomePageTrainee> {
               children: [
                 Text('Who are you\ngonna train with\ntoday?',
                     style: TextStyle(
-                        color: Colors.grey[800],
+                        color: Colors.grey[700],
                         fontWeight: FontWeight.w600,
                         fontSize: 20)),
                 Spacer(),
                 RaisedButton(
-                  onPressed: () {},
-                  child:
-                      Text('Find your Trainer', style: TextStyle(fontSize: 15)),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        SlideRightRoute(
+                          page: TrainerFilter(),
+                        ));
+                  },
+                  child: Text('Find your Trainer',
+                      style: TextStyle(fontSize: 15, color: Colors.grey[700])),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   color: Colors.white,
                   padding: EdgeInsets.all(15.0),
@@ -145,8 +139,8 @@ class SampleStart extends State<HomePageTrainee> {
           child: Text(
             title,
             style: TextStyle(
-                color: Colors.grey[800],
-                fontSize: 25,
+                color: Colors.grey[900],
+                fontSize: 35,
                 fontWeight: FontWeight.w800),
           ));
     }
@@ -254,6 +248,22 @@ class SampleStart extends State<HomePageTrainee> {
       },
     );
 
+    Widget upcomingSessionsView = FutureBuilder(
+        future: upcomingSessions,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none &&
+              snapshot.hasData == null) {
+            return Container();
+          } else {
+            return ListView.builder(
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return Text(snapshot.data[index]["start_time"]);
+              },
+            );
+          }
+        });
+
     return MaterialApp(
       title: 'Skill train class list',
       theme: ThemeData(
@@ -297,7 +307,8 @@ class SampleStart extends State<HomePageTrainee> {
             Container(child: titleSection),
             Container(child: _sectionTitle(title: "Top Rated")),
             Container(child: trainerListView),
-            Container(child: _sectionTitle(title: "Upcoming Sessions"))
+            Container(child: _sectionTitle(title: "Upcoming Sessions")),
+            // Container(child: upcomingSessionsView),
           ],
         ),
       ),
