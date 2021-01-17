@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:skilltrain/main_app/components/dropdownwidget.dart';
+import './pages/booking_status.dart';
 import './pages/trainer_filter.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'pages/booking_status.dart';
 import './pages/instructor_bio.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -35,14 +36,21 @@ Future fetchTrainers() async {
   }
 }
 
-Future fetchSessions(user) async {
-  final response = await http.get(
-      'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/users/$user/sessions');
-  if (response.statusCode == 200) {
-    var res = await jsonDecode(response.body);
-    return res;
-  } else {
-    throw Exception('Failed to load album');
+Future<List> fetchUserSessions() async {
+  try {
+    AuthUser res = await Amplify.Auth.getCurrentUser();
+    String user = res.username;
+    print("Current Use Name = " + res.username);
+    final response = await http.get(
+        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/users/$user/sessions');
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load API params');
+    }
+  } on AuthError catch (e) {
+    print(e);
   }
 }
 
@@ -59,16 +67,19 @@ Future getUrl(key) async {
 }
 
 class SampleStart extends State<HomePageTrainee> {
-  String user = "";
+  String user;
   Future trainers;
-  Future upcomingSessions;
+  Future<List> upcomingSessions;
   List listOfTrainers;
+
+  String genreFilter = "Weights";
+  String priceFilter = "<¥500";
 
   getCurrentUser() async {
     try {
       AuthUser res = await Amplify.Auth.getCurrentUser();
       user = res.username;
-      return;
+      return user;
     } on AuthError catch (e) {
       print(e);
     }
@@ -78,58 +89,12 @@ class SampleStart extends State<HomePageTrainee> {
   void initState() {
     super.initState();
     getCurrentUser();
-    print(user);
     trainers = fetchTrainers();
-    upcomingSessions = fetchSessions(user);
-    print(upcomingSessions);
+    upcomingSessions = fetchUserSessions();
   }
 
   @override
   Widget build(BuildContext context) {
-    //Title widget for homescreen
-    Widget titleSection = Container(
-        margin: EdgeInsets.only(top: 30, left: 50, right: 50, bottom: 20),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text('Welcome\nDamian!',
-                    style: TextStyle(
-                        color: Colors.grey[900],
-                        fontWeight: FontWeight.w800,
-                        fontSize: 50)),
-              ],
-            ),
-            SizedBox(height: 15),
-            Row(
-              children: [
-                Text('Who are you\ngonna train with\ntoday?',
-                    style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20)),
-                Spacer(),
-                RaisedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        SlideRightRoute(
-                          page: TrainerFilter(),
-                        ));
-                  },
-                  child: Text('Find your Trainer',
-                      style: TextStyle(fontSize: 15, color: Colors.grey[700])),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  color: Colors.white,
-                  padding: EdgeInsets.all(15.0),
-                )
-              ],
-            ),
-          ],
-        ));
-
     //Reuseable title widget
     Widget _sectionTitle({String title}) {
       return Container(
@@ -144,8 +109,6 @@ class SampleStart extends State<HomePageTrainee> {
                 fontWeight: FontWeight.w800),
           ));
     }
-
-    ;
 
     Widget trainerListView = FutureBuilder(
       future: trainers,
@@ -248,22 +211,136 @@ class SampleStart extends State<HomePageTrainee> {
       },
     );
 
+    //Get upcoming sessions need to pass this to current bookings
     Widget upcomingSessionsView = FutureBuilder(
         future: upcomingSessions,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none &&
               snapshot.hasData == null) {
-            return Container();
+            return (Text("You dont have any Sessions"));
           } else {
-            return Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return Text(snapshot.data[index]["start_time"]);
-                },
-              ),
+            return ListView.builder(
+              physics: const ClampingScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Card(
+                  margin:
+                      EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 5),
+                  child: ListTile(
+                      title: Text(snapshot.data[index]["trainer_username"]),
+                      subtitle: Text(snapshot.data[index]['start_time'] +
+                          snapshot.data[index]['end_time'])),
+                );
+              },
+              itemCount: 3,
             );
           }
         });
+
+    //Header widget for homescreen
+    Widget headerSection = Container(
+        margin: EdgeInsets.only(top: 30, left: 50, right: 50, bottom: 20),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text('Welcome\n$user!',
+                    style: TextStyle(
+                        color: Colors.grey[900],
+                        fontWeight: FontWeight.w800,
+                        fontSize: 50)),
+              ],
+            ),
+            SizedBox(height: 15),
+            Row(
+              children: [
+                Text('Who are you\ngonna train with\ntoday?',
+                    style: TextStyle(
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20)),
+                Spacer(),
+                RaisedButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          ),
+                        ),
+                        context: context,
+                        builder: (context) {
+                          return StatefulBuilder(builder:
+                              (BuildContext context, StateSetter setState) {
+                            return Column(children: [
+                              _sectionTitle(
+                                  title:
+                                      "What type of trainer are you looking for?"),
+                              MyDropdownButton(
+                                value: genreFilter,
+                                items: [
+                                  "Weights",
+                                  "Running",
+                                  "Yoga",
+                                  "Rowing",
+                                  "Other"
+                                ],
+                                onChanged: (String item) {
+                                  setState(() {
+                                    genreFilter = item;
+                                  });
+                                },
+                              ),
+                              MyDropdownButton(
+                                value: priceFilter,
+                                items: [
+                                  "<¥500",
+                                  "<¥1000",
+                                  "<¥1500",
+                                  "<¥2000",
+                                  "<¥3000"
+                                ],
+                                onChanged: (String item) {
+                                  setState(() {
+                                    priceFilter = item;
+                                  });
+                                },
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 40, left: 60, right: 60, bottom: 0),
+                                child: FlatButton(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
+                                        side: BorderSide(
+                                            color: Colors.black, width: 2)),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          SlideRightRoute(
+                                            page: TrainerFilter(),
+                                          ));
+                                    },
+                                    child: Text("Search")),
+                              ),
+                              // trainerListView
+                            ]);
+                          });
+                        });
+                  },
+                  child: Text('Find your Trainer',
+                      style: TextStyle(fontSize: 15, color: Colors.grey[700])),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  color: Colors.white,
+                  padding: EdgeInsets.all(15.0),
+                )
+              ],
+            ),
+          ],
+        ));
 
     return MaterialApp(
       title: 'Skill train class list',
@@ -296,38 +373,28 @@ class SampleStart extends State<HomePageTrainee> {
               onTap: widget.shouldLogOut,
             ),
           ],
-        ) // Populate the Drawer in the next step.
-            ),
+        )),
         appBar: AppBar(
           title: Text('skillTrain'),
           centerTitle: true,
         ),
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(child: titleSection),
-            Container(child: _sectionTitle(title: "Top Rated")),
-            Container(child: trainerListView),
-            Container(child: _sectionTitle(title: "Upcoming Sessions")),
-            upcomingSessionsView,
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              headerSection,
+              _sectionTitle(title: "Top Rated"),
+              trainerListView,
+              _sectionTitle(title: "Upcoming Sessions"),
+              upcomingSessionsView,
+              _sectionTitle(title: "Running"),
+              trainerListView,
+              _sectionTitle(title: "Weights"),
+              trainerListView
+            ],
+          ),
         ),
       ),
     );
   }
-
-  // Future<List> fetchApiResults() async {
-  //   final response = await http.get(
-  //       'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers');
-  //   if (response.statusCode == 200) {
-  //     var trainers = await json.decode(response.body);
-  //     for (var trainer in trainers) {
-  //       trainer["sessionPhoto"] = await getUrl(trainer["sessionPhoto"]);
-  //       trainer["profilePhoto"] = await getUrl(trainer["profilePhoto"]);
-  //     }
-  //     return trainers;
-  //   } else {
-  //     throw Exception('Failed to load API params');
-  //   }
-  // }
 }
