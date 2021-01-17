@@ -45,14 +45,18 @@ exports.handler = async (event) => {
               console.log("Created paymentintent: ", paymentIntent);
               response.body.paymentIntent = paymentIntent;
               response.body.stripeAccount = stripeVendorAccount;
+              response.body = JSON.stringify(response.body);
             } catch (err) {
               console.log(err);
             }
           });
       } catch (err) {
+        // 406 = Not Acceptable - MDN
+        response.statusCode = 406;
+        // Frontend method requires error to show payment declined
+        response.body = "error";
         console.log(err);
       }
     });
-  response.body = JSON.stringify(response.body);
   return response;
 };
