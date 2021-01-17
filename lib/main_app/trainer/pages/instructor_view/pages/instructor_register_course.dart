@@ -17,6 +17,10 @@ bool status = false;
 bool complete = false;
 String _detail = "";
 
+String _selectedYear = "Year";
+String _selectedMonth = "Month";
+String _selectedDate = "Day";
+String _selectedStartTime = "Start time";
 
 
 class InstructorRegisterCourse extends StatefulWidget {
@@ -65,9 +69,9 @@ class SampleStart extends State<InstructorRegisterCourse> {
                   child:
                     DropdownButton<String>(
                       isExpanded: true,
-                      hint:  Text("Year", textAlign: TextAlign.center),                
+                      hint:  Text(_selectedYear, textAlign: TextAlign.center),                
                       items: <String>['2021', '2022', '2023', '2024','2025'].map((String value) {
-                        return new DropdownMenuItem<String>(
+                        return DropdownMenuItem<String>(
                           value: value,
                           child: Center(
                             child:
@@ -76,8 +80,12 @@ class SampleStart extends State<InstructorRegisterCourse> {
                         );
                       }).toList(),
                       onChanged: (value) {
+                        _selectedYear = value;
                         year = value;
                         print ("year is" + value);
+                        setState(() {
+                          _selectedYear = value;
+                        });
                         },
                       ),           
                 ),
@@ -88,7 +96,7 @@ class SampleStart extends State<InstructorRegisterCourse> {
                     child:
                       Container(
                         child: DropdownButton<String>(
-                        hint:  Text("Month", textAlign: TextAlign.center),
+                        hint:  Text(_selectedMonth, textAlign: TextAlign.center),
                         isExpanded: true,
                         items: <String>['01', '02', '03', '04','05','06','07','08','09','10','11','12'].map((String value) {
                           return new DropdownMenuItem<String>(
@@ -102,6 +110,9 @@ class SampleStart extends State<InstructorRegisterCourse> {
                         onChanged: (value) {
                           month = value;
                           print("month is" + value);
+                          setState(() {
+                            _selectedMonth = value;
+                          });
                         },
                       ),      
                       ),      
@@ -114,7 +125,7 @@ class SampleStart extends State<InstructorRegisterCourse> {
                           child:
                             DropdownButton<String>(
                               isExpanded: true,
-                              hint:  Text("Day", textAlign: TextAlign.center),
+                              hint:  Text(_selectedDate, textAlign: TextAlign.center),
                               items: <String>['01', '02', '03', '04','05','06','07','08','09','10',
                                               '11', '12', '13', '14','15','16','17','18','19','20',
                                               '21', '22', '23', '24','25','26','27','28','29','30',
@@ -131,6 +142,9 @@ class SampleStart extends State<InstructorRegisterCourse> {
                               onChanged: (value) {
                                 day = value;
                                 print("month is" + day);
+                                setState(() {
+                                  _selectedDate = value;
+                                });
                               },
                             )
                         )
@@ -143,7 +157,7 @@ class SampleStart extends State<InstructorRegisterCourse> {
                             child:
                               DropdownButton<String>(
                                 isExpanded: true,
-                                hint:  Text("Year", textAlign: TextAlign.center),                
+                                hint:  Text(_selectedStartTime, textAlign: TextAlign.center),                
                                 items: <String>['09:00', '10:00', '11:00', '12:00','13:00','14:00',
                                                 '15:00','16:00','17:00','18:00','19:00',
                                                 '20:00','21:00','22:00','23:00'].map((String value) {
@@ -156,10 +170,13 @@ class SampleStart extends State<InstructorRegisterCourse> {
                                   );
                                 }).toList(),
                                 onChanged: (value) {
-                                  final startTime = value;
-                                  final endTime = startTime.substring(0, 2) + "50";
+                                  startTime = value;
+                                  endTime = startTime.substring(0, 3) + "50";
                                   print("start time is" + startTime);
                                   print("end time  is" + endTime);
+                                  setState(() {
+                                    _selectedStartTime = value;
+                                  });
                                   },
                                 ),           
                           ),
@@ -174,7 +191,7 @@ class SampleStart extends State<InstructorRegisterCourse> {
                       maxLines: 4,
                       minLines: 4,
                       onChanged: (text) => _detail = text),
-
+              new Spacer(),
               RaisedButton(
               onPressed: () async {
                 postData();
@@ -232,6 +249,9 @@ Future<List> fetchApiResults() async {
 
 Future<List> postData() async {
 
+  AuthUser res = await Amplify.Auth.getCurrentUser();
+  userName = res.username;  
+
   var url =
       "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions";
 
@@ -240,7 +260,7 @@ Future<List> postData() async {
         'user_username': "",
         'id': year + "-" +  month + "-" + day + startTime + userName,
         'sessionCode': year + "-" +  month + "-" + day + startTime + userName,
-        'date': day,
+        'date':  year + "-" +  month + "-" + day,
         'start_time': startTime,
         'end_time': endTime,
         'status': status,
@@ -249,7 +269,7 @@ Future<List> postData() async {
 
   print(json.encode(request));
 
-  /*
+  
   final response = await http.post(url, body: json.encode(request),headers: {"Content-Type": "application/json"});
   if (response.statusCode == 200) {
     print("new calendar record POST request successful");
@@ -258,7 +278,7 @@ Future<List> postData() async {
     print(response.statusCode);
     throw Exception('Failed');
   }
-  */
+  
 }
 
 class ApiResults {
