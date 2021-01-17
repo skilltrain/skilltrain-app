@@ -46,12 +46,12 @@ Future fetchSessions(user) async {
   }
 }
 
-Future getUrl(url) async {
+Future getUrl(key) async {
   try {
     S3GetUrlOptions options =
         S3GetUrlOptions(accessLevel: StorageAccessLevel.guest, expires: 30000);
     GetUrlResult result =
-        await Amplify.Storage.getUrl(key: url, options: options);
+        await Amplify.Storage.getUrl(key: key, options: options);
     return result.url;
   } catch (e) {
     print(e.toString());
@@ -255,11 +255,12 @@ class SampleStart extends State<HomePageTrainee> {
               snapshot.hasData == null) {
             return Container();
           } else {
-            return ListView.builder(
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return Text(snapshot.data[index]["start_time"]);
-              },
+            return Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return Text(snapshot.data[index]["start_time"]);
+                },
+              ),
             );
           }
         });
@@ -308,7 +309,7 @@ class SampleStart extends State<HomePageTrainee> {
             Container(child: _sectionTitle(title: "Top Rated")),
             Container(child: trainerListView),
             Container(child: _sectionTitle(title: "Upcoming Sessions")),
-            // Container(child: upcomingSessionsView),
+            upcomingSessionsView,
           ],
         ),
       ),

@@ -49,7 +49,6 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
       setState(() {
         _uploadProfilePicFileResult = result.key;
       });
-      print(_uploadProfilePicFileResult);
     } catch (e) {
       print('UploadFile Err: ' + e.toString());
     }
