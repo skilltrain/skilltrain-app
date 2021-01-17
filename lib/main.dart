@@ -103,6 +103,13 @@ class _MyAppState extends State<MyApp> {
                       MaterialPage(
                           child: HomePageTrainee(
                               shouldLogOut: _authService.logOut)),
+                    if (snapshot.data.authFlowStatus == AuthFlowStatus.loading)
+                      MaterialPage(
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
                   ],
                   onPopPage: (route, result) => route.didPop(result),
                 );
