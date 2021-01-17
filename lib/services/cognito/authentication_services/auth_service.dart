@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 // Specify session flow
-enum AuthFlowStatus { login, signUp, verification, tutorial, session }
+enum AuthFlowStatus { login, signUp, verification, tutorial, session, loading }
 
 class AuthState {
   final AuthFlowStatus authFlowStatus;
@@ -62,6 +62,8 @@ class AuthService {
       final userAuthenticationStatus = await Amplify.Auth.signIn(
           username: credentials.username, password: credentials.password);
       if (userAuthenticationStatus.isSignedIn) {
+        final loadingState = AuthState(authFlowStatus: AuthFlowStatus.loading);
+        authStateController.add(loadingState);
         this._credentials = credentials;
         final prefs = await SharedPreferences.getInstance();
         prefs.setString('username', credentials.username);
@@ -157,7 +159,7 @@ class AuthService {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: convert.jsonEncode(<String, String>{
+      body: convert.jsonEncode(<String, dynamic>{
         "id": date,
         'username': credentials.username,
         'email': credentials.email,
@@ -167,7 +169,7 @@ class AuthService {
             'images/trainers/default/profilePhoto/sessionPhoto4.jpg',
         'bio':
             'As a physiologist and physician, I believe in integrating the scientific aspects of training with the joy and appreciation for the sport I’ve gained over thirty years of running and racing on trails, roads, and track.  My goal is to help build a varied, sensible training plan that fits into your busy lifestyle, and will help you reach the finish line happy, healthy, and enthusiastic for whatever challenges lie ahead.',
-        'price': '35',
+        'price': 35,
         'genre': 'Running',
         'availability': '[]'
       }),
