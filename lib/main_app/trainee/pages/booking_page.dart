@@ -13,6 +13,7 @@ class BookingPage extends StatelessWidget {
   final int price;
   final int index;
   final Future<List> sessionResults = fetchSessionResults();
+  final DateTime stringDate = new DateTime.now().subtract(Duration(days: 1));
   BookingPage({this.index, this.trainerName, this.price});
 
   @override
@@ -21,45 +22,192 @@ class BookingPage extends StatelessWidget {
         appBar: AppBar(
           title: Text("booking"),
         ),
-        body: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                  child: Row(children: <Widget>[
-                Text("sample schedule",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                    )),
-                new Spacer(),
-                RaisedButton(
-                  onPressed: () {
-                    // Insert PUT method function to update user_username/sessionCode info in sessions table
-                    print(trainerName);
-                    print(price);
-                    Navigator.push(
-                        context,
-                        SlideLeftRoute(
-                            page: MyHomePage(trainerUsername: trainerName)));
-                  },
-                  textColor: Colors.white,
-                  padding: const EdgeInsets.all(0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: <Color>[
-                          Colors.pink[300],
-                          Colors.purple[500],
-                          Colors.purple[700],
+        body: Column(
+          children: <Widget>[
+            FutureBuilder<List>(
+              future: sessionResults,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final List classArray = [];
+                  for (int i = 0; i < snapshot.data.length; i++) {
+                    if (snapshot.data[i]["trainer_username"] == trainerName &&
+                        snapshot.data[i]["complete"] == "false" &&
+                        snapshot.data[i]["status"] == "true" &&
+                        stringDate.isBefore(
+                            DateTime.parse(snapshot.data[i]["date"]))) {
+                      print(snapshot.data[i]["date"]);
+                      classArray.add(snapshot.data[i]);
+                    } else
+                      print("something went wrong with fetched data");
+                  }
+
+//calendar object
+                  return Container(
+                      height: 678,
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: <Widget>[
+                          Center(
+                            child: SizedBox(
+                                height: 620,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Card(
+                                        child: GestureDetector(
+                                            //画面遷移
+                                            onTap: () => {},
+                                            child: Column(
+                                              children: <Widget>[
+                                                Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: <Widget>[
+                                                            Text(
+                                                              classArray[index]
+                                                                  ["date"],
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 20,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                                classArray[index]
+                                                                        [
+                                                                        "start_time"] +
+                                                                    " - " +
+                                                                    classArray[
+                                                                            index]
+                                                                        [
+                                                                        "end_time"],
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 16,
+                                                                )),
+                                                          ]),
+                                                      new Spacer(),
+                                                      ButtonTheme(
+                                                        minWidth: 30,
+                                                        child: RaisedButton(
+                                                          onPressed: () {
+                                                            // Insert PUT method function to update user_username/sessionCode info in sessions table
+                                                            print(trainerName);
+                                                            print(price);
+                                                            Navigator.push(
+                                                                context,
+                                                                SlideLeftRoute(
+                                                                    page: MyHomePage(
+                                                                        trainerUsername:
+                                                                            trainerName)));
+                                                          },
+                                                          textColor:
+                                                              Colors.white,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(0),
+                                                          child: Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              gradient:
+                                                                  LinearGradient(
+                                                                colors: <Color>[
+                                                                  Colors.pink[
+                                                                      300],
+                                                                  Colors.purple[
+                                                                      500],
+                                                                  Colors.purple[
+                                                                      700],
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15),
+                                                            child: const Text(
+                                                                'book now'),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ]),
+                                              ],
+                                            )));
+                                  },
+                                  itemCount: classArray.length,
+                                )),
+                          )
                         ],
-                      ),
-                    ),
-                    padding: const EdgeInsets.all(15),
-                    child: const Text('booking now'),
-                  ),
-                ),
-              ]));
-            },
-            itemCount: 10));
+                      ));
+                } else if (snapshot.connectionState != ConnectionState.done) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return CircularProgressIndicator();
+              },
+            ),
+          ],
+        ));
+
+    // ListView.builder(
+    //     itemBuilder: (BuildContext context, int index) {
+    //       return Card(
+    //           child: Row(children: <Widget>[
+    //         Text("sample schedule",
+    //             style: TextStyle(
+    //               fontWeight: FontWeight.bold,
+    //               fontSize: 25,
+    //             )),
+    //         new Spacer(),
+    //         RaisedButton(
+    //           onPressed: () {
+    //             // Insert PUT method function to update user_username/sessionCode info in sessions table
+    //             print(trainerName);
+    //             print(price);
+    //             Navigator.push(
+    //                 context,
+    //                 SlideLeftRoute(
+    //                     page: MyHomePage(trainerUsername: trainerName)));
+    //           },
+    //           textColor: Colors.white,
+    //           padding: const EdgeInsets.all(0),
+    //           child: Container(
+    //             decoration: BoxDecoration(
+    //               gradient: LinearGradient(
+    //                 colors: <Color>[
+    //                   Colors.pink[300],
+    //                   Colors.purple[500],
+    //                   Colors.purple[700],
+    //                 ],
+    //               ),
+    //             ),
+    //             padding: const EdgeInsets.all(15),
+    //             child: const Text('booking now'),
+    //           ),
+    //         ),
+    //       ]));
+    //     },
+    //     itemCount: 10));
   }
 }
 
