@@ -52,6 +52,16 @@ class BookingPage extends StatelessWidget {
                             DateTime.parse(snapshot.data[i]["date"]))) {
                       print(snapshot.data[i]["date"]);
                       classArray.add(snapshot.data[i]);
+                      classArray.sort((a, b) {
+                        var adate = a["date"];
+                        var bdate = b["date"];
+                        return adate.compareTo(bdate);
+                      });
+                      classArray.sort((a, b) {
+                        var adate = a["start_time"];
+                        var bdate = b["start_time"];
+                        return adate.compareTo(bdate);
+                      });
                     } else
                       print("something went wrong with fetched data");
                   }
