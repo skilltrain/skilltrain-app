@@ -165,8 +165,8 @@ class AuthService {
         'email': credentials.email,
         'profilePhoto': 'images/trainers/default/profilePhoto/profile.jpg',
         'instructor': 'Evans Clark',
-        'firstName': 'Evans',
-        'lastName': 'Clark',
+        'firstName': credentials.firstName,
+        'lastName': credentials.lastName,
         'sessionPhoto':
             'images/trainers/default/profilePhoto/sessionPhoto4.jpg',
         'bio':
