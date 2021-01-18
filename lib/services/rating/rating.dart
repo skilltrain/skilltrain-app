@@ -1,11 +1,9 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:http/http.dart' as http;
-import 'package:skilltrain/main_app/trainer/pages/instructor_view/instructor_view.dart';
+
 import 'dart:convert';
 import '../../utils/sliders.dart';
 import '../../main_app/trainee/home_page_trainee.dart';
@@ -22,44 +20,15 @@ class _InstructorBioUpdateState extends State<Rating> {
   int index;
   // pic urls
   String _uploadProfilePicFileResult = '';
+  // ignore: unused_field
   String _uploadClassFileResult = '';
 
   //Text field state
   String _genre = "";
   String _price = "";
   String _bio = "";
-  //Current User
 
-  String _user = "";
-  void _getCurrentUser() async {
-    try {
-      AuthUser res = await Amplify.Auth.getCurrentUser();
-      _user = res.username;
-      getTrainerData();
-    } on AuthError catch (e) {
-      print(e);
-    }
-  }
 
-  void _uploadProfilePic() async {
-    try {
-      File local = await FilePicker.getFile(type: FileType.image);
-      var key = new DateTime.now().millisecondsSinceEpoch.toString();
-      key = "images/trainers/$_user/profilePhoto/" + key;
-      Map<String, String> metadata = <String, String>{};
-      metadata['type'] = 'profilePhoto';
-      S3UploadFileOptions options = S3UploadFileOptions(
-          accessLevel: StorageAccessLevel.guest, metadata: metadata);
-      UploadFileResult result = await Amplify.Storage.uploadFile(
-          key: key, local: local, options: options);
-      setState(() {
-        _uploadProfilePicFileResult = result.key;
-      });
-      print(_uploadProfilePicFileResult);
-    } catch (e) {
-      print('UploadFile Err: ' + e.toString());
-    }
-  }
 
   void getUrl() async {
     try {
@@ -70,26 +39,41 @@ class _InstructorBioUpdateState extends State<Rating> {
     }
   }
 
-  Future<Map<dynamic, dynamic>> getTrainerData() async {
-    final response = await http.get(
-        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$_user');
-    if (response.statusCode == 200) {
-      final res = json.decode(response.body);
-      setState(() {
-        _bio = res["bio"];
-        _genre = res["genre"];
-        _price = res["price"];
-      });
+  Future<Map> postTrainerScore(score) async{
+    String url = "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/" + widget.instructorName;
+    final getResponse =  await http.get(url);
+    if (getResponse.statusCode == 200) {
+      print(getResponse);
+      final decoded = json.decode(getResponse.body); 
+      final numberOfRatings = decoded["numberOfRatings"] + 1;
+      final totalRating = decoded["totalRating"] + score;
+      final avgScore = totalRating / numberOfRatings;
+      final req = {
+        "numberOfRatings":numberOfRatings,
+        "totalRating": totalRating,
+        "avgScore": avgScore
+      };
 
-      return res;
+    final putResponse = await http.put(
+      url,
+      body: json.encode(req),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      }
+      );
+    if (putResponse.statusCode == 200) {
+    }else {
+      throw Exception('Failed to load API params');
+    }
+      return decoded["avgRating"];
     } else {
       throw Exception('Failed to load API params');
     }
+
   }
 
   void initState() {
     super.initState();
-    _getCurrentUser();
   }
 
   @override
@@ -132,78 +116,86 @@ class _InstructorBioUpdateState extends State<Rating> {
                         Row(
                           children: [
                             InkWell(
-                                onTap: () {
-                                  print("reputation score 1 is sent");
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee()),
-                                      ));
-                                },
-                                child: Text(
-                                  "🙁",
-                                  style: TextStyle(
-                                    fontFamily: 'OpenSans',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 40,
-                                  ),
-                                )),
+
+                              onTap: () {
+                                print("reputation score 1 is sent");
+                                postTrainerScore(1);
+                                Navigator.push(
+                                context,
+                                SlideRightRoute(
+                                    page: (HomePageTrainee()),
+                              ));
+                              },
+                              child: Text("🙁",
+                                      style:TextStyle(
+                                      fontFamily: 'OpenSans',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 40,
+                          ),)
+                            ),
+
                             InkWell(
-                                onTap: () {
-                                  print("reputation score 2 is sent");
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee()),
-                                      ));
-                                },
-                                child: Text("😑",
-                                    style: TextStyle(
+                              onTap: () {
+                                print("reputation score 2 is sent");
+                                postTrainerScore(2);
+                                Navigator.push(
+                                context,
+                                SlideRightRoute(
+                                    page: (HomePageTrainee()),
+                              ));                                
+                              },
+                              child: Text("😑",
+                                        style:TextStyle(
+                                          fontFamily: 'OpenSans',
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 40,))
+                            ),
+
+                            InkWell(
+                              onTap: () {
+                                print("reputation score 3 is sent");
+                                postTrainerScore(3);
+                                Navigator.push(
+                                context,
+                                SlideRightRoute(
+                                    page: (HomePageTrainee()),
+                              ));                                
+                              },
+                              child: Text("😐",
+                                        style:TextStyle(
+                                        fontFamily: 'OpenSans',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 40,))
+                            ),
+
+                            InkWell(
+                              onTap: () {
+                                print("reputation score 4 is sent");
+                                postTrainerScore(4);
+                                Navigator.push(
+                                context,
+                                SlideRightRoute(
+                                    page: (HomePageTrainee()),
+                              ));                                
+                              },
+                              child: Text("🙂",
+                                      style:TextStyle(
                                       fontFamily: 'OpenSans',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 40,
                                     ))),
                             InkWell(
-                                onTap: () {
-                                  print("reputation score 3 is sent");
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee()),
-                                      ));
-                                },
-                                child: Text("😐",
-                                    style: TextStyle(
-                                      fontFamily: 'OpenSans',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 40,
-                                    ))),
-                            InkWell(
-                                onTap: () {
-                                  print("reputation score 4 is sent");
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee()),
-                                      ));
-                                },
-                                child: Text("🙂",
-                                    style: TextStyle(
-                                      fontFamily: 'OpenSans',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 40,
-                                    ))),
-                            InkWell(
-                                onTap: () {
-                                  print("reputation score 5 is sent");
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee()),
-                                      ));
-                                },
-                                child: Text("😀",
-                                    style: TextStyle(
+                              onTap: () {
+                                print("reputation score 5 is sent");
+                                postTrainerScore(5);
+                                Navigator.push(
+                                context,
+                                SlideRightRoute(
+                                    page: (HomePageTrainee()),
+                              ));                                
+                              },
+                              child: Text("😀",          
+                                      style:TextStyle(
                                       fontFamily: 'OpenSans',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 40,
@@ -219,9 +211,12 @@ class _InstructorBioUpdateState extends State<Rating> {
         )));
   }
 
-  Future<http.Response> updateTrainer() {
+
+
+  Future<http.Response> putTrainerScore() {
+    String url = "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/" + widget.instructorName;
     return http.put(
-      "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$_user",
+      "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/",
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

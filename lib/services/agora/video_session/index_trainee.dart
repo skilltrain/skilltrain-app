@@ -1,6 +1,7 @@
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+// ignore: unused_import
 import 'package:skilltrain/main_app/trainer/pages/instructor_view/instructor_view.dart';
 import '../../../main_app/trainee/home_page_trainee.dart';
 import '../../../utils/sliders.dart';
@@ -165,10 +166,9 @@ class IndexState extends State<IndexPageTrainee> {
         context,
         MaterialPageRoute(
           builder: (context) => CallPage(
-            channelName: _channelController.text,
-            role: _role,
-            instructorName: widget.instructorName
-          ),
+              channelName: _channelController.text,
+              role: _role,
+              instructorName: widget.instructorName),
         ),
       );
     }

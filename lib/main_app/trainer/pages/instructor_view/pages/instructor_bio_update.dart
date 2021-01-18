@@ -16,6 +16,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   int index;
   // pic urls
   //Leave this here I will use later
+  // ignore: unused_field
   String _uploadProfilePicFileResult = '';
   String _uploadClassFileResult = '';
 
@@ -182,8 +183,8 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                       onChanged: (text) => _genre = text),
                   TextFormField(
                       // keyboardType: TextInputType.number,
-                      controller:
-                          TextEditingController(text: _price.toString()),
+                      controller: TextEditingController(
+                          text: _price != null ? _price.toString() : ""),
                       decoration: InputDecoration(labelText: 'price'),
                       onChanged: (text) => _price = int.parse(text)),
                   TextFormField(
