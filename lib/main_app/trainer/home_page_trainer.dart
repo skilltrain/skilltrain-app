@@ -58,15 +58,6 @@ class SampleStart extends State<HomePageTrainer> {
                       fit: BoxFit.cover)),
             ),
             ListTile(
-              title: Text('Rating development'),
-              onTap: () => {
-                Navigator.push(
-                  context,
-                  SlideLeftRoute(page: Rating()),
-                )
-              },
-            ),
-            ListTile(
               title: Text('Instructor page'),
               onTap: () {
                 Navigator.push(
@@ -82,18 +73,6 @@ class SampleStart extends State<HomePageTrainer> {
                   context,
                   SlideLeftRoute(page: PaymentSignup()),
                 );
-              },
-            ),
-            ListTile(
-              title: Text('Sign up'),
-              onTap: () => {
-                // Eliot - not sure what this does
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => _MyApp(),
-                //   ),
-                // )
               },
             ),
             ListTile(
