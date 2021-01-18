@@ -23,7 +23,8 @@ class CallPage extends StatefulWidget {
   final String instructorName;
 
   /// Creates a call page with given channel name.
-  const CallPage({Key key, this.channelName, this.role, this.instructorName}) : super(key: key);
+  const CallPage({Key key, this.channelName, this.role, this.instructorName})
+      : super(key: key);
 
   @override
   _CallPageState createState() => _CallPageState();
@@ -282,11 +283,12 @@ class _CallPageState extends State<CallPage> {
   }
 
   void _onCallEnd(BuildContext context) {
-      Navigator.push(
-      context,
-      SlideRightRoute(
+    Navigator.pop(context);
+    Navigator.push(
+        context,
+        SlideRightRoute(
           page: (Rating(instructorName: widget.instructorName)),
-    ));
+        ));
   }
 
   void _onToggleMute() {

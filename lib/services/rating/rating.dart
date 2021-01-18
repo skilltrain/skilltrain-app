@@ -35,7 +35,7 @@ class _InstructorBioUpdateState extends State<Rating> {
     try {
       AuthUser res = await Amplify.Auth.getCurrentUser();
       _user = res.username;
-      getTrainerData();
+      // getTrainerData();
     } on AuthError catch (e) {
       print(e);
     }
@@ -70,22 +70,22 @@ class _InstructorBioUpdateState extends State<Rating> {
     }
   }
 
-  Future<Map<dynamic, dynamic>> getTrainerData() async {
-    final response = await http.get(
-        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$_user');
-    if (response.statusCode == 200) {
-      final res = json.decode(response.body);
-      setState(() {
-        _bio = res["bio"];
-        _genre = res["genre"];
-        _price = res["price"];
-      });
+  // Future<Map<dynamic, dynamic>> getTrainerData() async {
+  //   final response = await http.get(
+  //       'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$_user');
+  //   if (response.statusCode == 200) {
+  //     final res = json.decode(response.body);
+  //     setState(() {
+  //       _bio = res["bio"];
+  //       _genre = res["genre"];
+  //       _price = res["price"];
+  //     });
 
-      return res;
-    } else {
-      throw Exception('Failed to load API params');
-    }
-  }
+  //     return res;
+  //   } else {
+  //     throw Exception('Failed to load API params');
+  //   }
+  // }
 
   void initState() {
     super.initState();
@@ -218,18 +218,18 @@ class _InstructorBioUpdateState extends State<Rating> {
           ]),
         )));
   }
-
-  Future<http.Response> updateTrainer() {
-    return http.put(
-      "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$_user",
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'bio': _bio,
-        'price': _price,
-        'genre': _genre,
-      }),
-    );
-  }
 }
+//   Future<http.Response> updateTrainer() {
+//     return http.put(
+//       "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$_user",
+//       headers: <String, String>{
+//         'Content-Type': 'application/json; charset=UTF-8',
+//       },
+//       body: jsonEncode(<String, String>{
+//         'bio': _bio,
+//         'price': _price,
+//         'genre': _genre,
+//       }),
+//     );
+//   }
+// }
