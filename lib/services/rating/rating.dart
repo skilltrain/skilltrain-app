@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:http/http.dart' as http;
+
 import 'dart:convert';
 import '../../utils/sliders.dart';
 import '../../main_app/trainee/home_page_trainee.dart';
@@ -19,6 +20,7 @@ class _InstructorBioUpdateState extends State<Rating> {
   int index;
   // pic urls
   String _uploadProfilePicFileResult = '';
+  // ignore: unused_field
   String _uploadClassFileResult = '';
 
   //Text field state
@@ -26,7 +28,7 @@ class _InstructorBioUpdateState extends State<Rating> {
   String _price = "";
   String _bio = "";
 
-  //Current rate
+
 
   void getUrl() async {
     try {
