@@ -52,7 +52,9 @@ class Instructor extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         Image.asset('assets/images/confirmation.png',
-                            height: 150, fit: BoxFit.fill),
+                            height: ((MediaQuery.of(context).size.height - 86) *
+                                0.19),
+                            fit: BoxFit.fill),
                         Text(
                           "Upcoming schedule",
                           textAlign: TextAlign.left,
@@ -84,7 +86,9 @@ class Instructor extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         Image.asset('assets/images/classRegister.png',
-                            height: 150, fit: BoxFit.fill),
+                            height: ((MediaQuery.of(context).size.height - 86) *
+                                0.19),
+                            fit: BoxFit.fill),
                         Text(
                           "Course registration",
                           textAlign: TextAlign.left,
@@ -116,7 +120,9 @@ class Instructor extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         Image.asset('assets/images/bio.png',
-                            height: 150, fit: BoxFit.fill),
+                            height: ((MediaQuery.of(context).size.height - 86) *
+                                0.19),
+                            fit: BoxFit.fill),
                         Text(
                           "Update bios",
                           textAlign: TextAlign.left,
