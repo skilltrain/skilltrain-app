@@ -17,6 +17,8 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _usernameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   var isTrainer = false;
@@ -24,39 +26,38 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
+        appBar: AppBar(
             title: SizedBox(
-                    height: kToolbarHeight,
-                    child: Image.asset('assets/images/skillTrain-logo.png', fit: BoxFit.scaleDown)),
+                height: kToolbarHeight,
+                child: Image.asset('assets/images/skillTrain-logo.png',
+                    fit: BoxFit.scaleDown)),
             centerTitle: true,
-          backgroundColor: Colors.purple),
-          body: SingleChildScrollView(
-          child: Container(
-            width: double.infinity,
-              child: Column(children: [
-                // Image of Fit Girl
+            backgroundColor: Colors.purple),
+        body: SingleChildScrollView(
+            child: Container(
+          width: double.infinity,
+          child: Column(children: [
+            // Image of Fit Girl
 
-                Container(
-                    alignment: Alignment.topCenter,
-                    child: Image.asset('assets/images/signupgirl.jpg')),
+            // Container(
+            //     alignment: Alignment.topCenter,
+            //     child: Image.asset('assets/images/signupgirl.jpg')),
 
-                // Sign Up Form
-                _signUpForm(),
+            // Sign Up Form
+            _signUpForm(),
 
-                // Trainer of user radio button
-                Center(child: radioButton()),
+            // Trainer of user radio button
+            Center(child: radioButton()),
 
-                // Login Button
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  child: FlatButton(
-                      onPressed: widget.shouldShowLogin,
-                      child: Text('Already have an account? Login.')),
-                )
-              ]),
-          )
-    )
-    );
+            // Login Button
+            Container(
+              alignment: Alignment.bottomCenter,
+              child: FlatButton(
+                  onPressed: widget.shouldShowLogin,
+                  child: Text('Already have an account? Login.')),
+            )
+          ]),
+        )));
   }
 
   Widget radioButton() {
@@ -96,6 +97,42 @@ class _SignUpPageState extends State<SignUpPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        TextField(
+          decoration: new InputDecoration(
+              icon: Icon(Icons.person),
+              labelText: 'First Name',
+              border: new OutlineInputBorder(
+                borderRadius: const BorderRadius.all(
+                  const Radius.circular(10.0),
+                ),
+              ),
+              filled: true,
+              hintStyle: new TextStyle(color: Colors.grey[800]),
+              hintText: "Type in your text",
+              fillColor: Colors.white70),
+        ),
+        TextField(
+          controller: _firstNameController,
+          decoration: InputDecoration(
+              icon: Icon(Icons.person), labelText: 'First Name'),
+        ),
+        TextField(
+          controller: _lastNameController,
+          decoration:
+              InputDecoration(icon: Icon(Icons.person), labelText: 'Last Name'),
+        ),
+        // Row(children: [
+        //   TextField(
+        //     controller: _firstNameController,
+        //     decoration: InputDecoration(
+        //         icon: Icon(Icons.person), labelText: 'First Name'),
+        //   ),
+        //   TextField(
+        //     controller: _lastNameController,
+        //     decoration: InputDecoration(
+        //         icon: Icon(Icons.person), labelText: 'Last Name'),
+        //   ),
+        // ]),
         // Username TextField
         TextField(
           controller: _usernameController,
@@ -132,6 +169,8 @@ class _SignUpPageState extends State<SignUpPage> {
     final username = _usernameController.text.trim();
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
+    final firstName = _firstNameController.text.trim();
+    final lastName = _lastNameController.text.trim();
 
     print('username: $username');
     print('email: $email');
@@ -139,6 +178,8 @@ class _SignUpPageState extends State<SignUpPage> {
     print('isTrainer: $isTrainer');
 
     final credentials = SignUpCredentials(
+        firstName: firstName,
+        lastName: lastName,
         username: username,
         email: email,
         password: password,
