@@ -5,11 +5,15 @@ import 'package:file_picker/file_picker.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:http/http.dart' as http;
+import 'package:skilltrain/main_app/trainer/pages/instructor_view/instructor_view.dart';
 import 'dart:convert';
 import '../../utils/sliders.dart';
 import '../../main_app/trainee/home_page_trainee.dart';
 
 class Rating extends StatefulWidget {
+  final instructorName;
+  Rating({this.instructorName});
+
   @override
   _InstructorBioUpdateState createState() => _InstructorBioUpdateState();
 }
@@ -57,26 +61,6 @@ class _InstructorBioUpdateState extends State<Rating> {
     }
   }
 
-  void _uploadSessionPhoto() async {
-    try {
-      File local = await FilePicker.getFile(type: FileType.image);
-      var key = new DateTime.now().millisecondsSinceEpoch.toString();
-      key = "images/trainers/$_user/sessionPhoto/" + key;
-      Map<String, String> metadata = <String, String>{};
-      metadata['type'] = 'sessionPhoto';
-      S3UploadFileOptions options = S3UploadFileOptions(
-          accessLevel: StorageAccessLevel.guest, metadata: metadata);
-      UploadFileResult result = await Amplify.Storage.uploadFile(
-          key: key, local: local, options: options);
-      setState(() {
-        _uploadClassFileResult = result.key;
-      });
-      print(_uploadClassFileResult);
-    } catch (e) {
-      print('UploadFile Err: ' + e.toString());
-    }
-  }
-
   void getUrl() async {
     try {
       GetUrlResult result = await Amplify.Storage.getUrl(key: "myKey");
@@ -114,13 +98,10 @@ class _InstructorBioUpdateState extends State<Rating> {
         appBar: AppBar(
           title: Text(""),
         ),
-        body: 
-          Center(
+        body: Center(
             child: Container(
-              width: double.infinity,
-          child: Column(
-
-            children: <Widget>[
+          width: double.infinity,
+          child: Column(children: <Widget>[
             new Spacer(),
             Container(
                 padding: const EdgeInsets.all(
@@ -139,96 +120,94 @@ class _InstructorBioUpdateState extends State<Rating> {
                     ),
                     child: Column(
                       children: [
-                        Text("How was the today's lesson?",
-                          style:TextStyle(
+                        Text(widget.instructorName),
+                        Text(
+                          "How was the today's lesson?",
+                          style: TextStyle(
                             fontFamily: 'OpenSans',
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                          ),),
+                          ),
+                        ),
                         Row(
                           children: [
                             InkWell(
-                              onTap: () {
-                                print("reputation score 1 is sent");
-                                Navigator.push(
-                                context,
-                                SlideRightRoute(
-                                    page: (HomePageTrainee()),
-                              ));
-                              },
-                              child: Text("🙁",
-                                      style:TextStyle(
+                                onTap: () {
+                                  print("reputation score 1 is sent");
+                                  Navigator.push(
+                                      context,
+                                      SlideRightRoute(
+                                        page: (HomePageTrainee()),
+                                      ));
+                                },
+                                child: Text(
+                                  "🙁",
+                                  style: TextStyle(
+                                    fontFamily: 'OpenSans',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 40,
+                                  ),
+                                )),
+                            InkWell(
+                                onTap: () {
+                                  print("reputation score 2 is sent");
+                                  Navigator.push(
+                                      context,
+                                      SlideRightRoute(
+                                        page: (HomePageTrainee()),
+                                      ));
+                                },
+                                child: Text("😑",
+                                    style: TextStyle(
                                       fontFamily: 'OpenSans',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 40,
-                          ),)
-                            ),
-
+                                    ))),
                             InkWell(
-                              onTap: () {
-                                print("reputation score 2 is sent");
-                                Navigator.push(
-                                context,
-                                SlideRightRoute(
-                                    page: (HomePageTrainee()),
-                              ));                                
-                              },
-                              child: Text("😑",
-                                        style:TextStyle(
-                                          fontFamily: 'OpenSans',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 40,))
-                            ),
-
-                            InkWell(
-                              onTap: () {
-                                print("reputation score 3 is sent");
-                                Navigator.push(
-                                context,
-                                SlideRightRoute(
-                                    page: (HomePageTrainee()),
-                              ));                                
-                              },
-                              child: Text("😐",
-                                        style:TextStyle(
-                                        fontFamily: 'OpenSans',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 40,))
-                            ),
-
-                            InkWell(
-                              onTap: () {
-                                print("reputation score 4 is sent");
-                                Navigator.push(
-                                context,
-                                SlideRightRoute(
-                                    page: (HomePageTrainee()),
-                              ));                                
-                              },
-                              child: Text("🙂",
-                                      style:TextStyle(
+                                onTap: () {
+                                  print("reputation score 3 is sent");
+                                  Navigator.push(
+                                      context,
+                                      SlideRightRoute(
+                                        page: (HomePageTrainee()),
+                                      ));
+                                },
+                                child: Text("😐",
+                                    style: TextStyle(
                                       fontFamily: 'OpenSans',
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 40,))
-                            ),
-
+                                      fontSize: 40,
+                                    ))),
                             InkWell(
-                              onTap: () {
-                                print("reputation score 5 is sent");
-                                Navigator.push(
-                                context,
-                                SlideRightRoute(
-                                    page: (HomePageTrainee()),
-                              ));                                
-                              },
-                              child: Text("😀",          
-                                      style:TextStyle(
+                                onTap: () {
+                                  print("reputation score 4 is sent");
+                                  Navigator.push(
+                                      context,
+                                      SlideRightRoute(
+                                        page: (HomePageTrainee()),
+                                      ));
+                                },
+                                child: Text("🙂",
+                                    style: TextStyle(
                                       fontFamily: 'OpenSans',
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 40,))
-                            ),
-
-
+                                      fontSize: 40,
+                                    ))),
+                            InkWell(
+                                onTap: () {
+                                  print("reputation score 5 is sent");
+                                  Navigator.push(
+                                      context,
+                                      SlideRightRoute(
+                                        page: (HomePageTrainee()),
+                                      ));
+                                },
+                                child: Text("😀",
+                                    style: TextStyle(
+                                      fontFamily: 'OpenSans',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 40,
+                                    ))),
                           ],
                         ),
                       ],

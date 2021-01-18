@@ -164,7 +164,9 @@ class SampleStart extends State<BookingStatus> {
                                                                   context,
                                                                   SlideLeftRoute(
                                                                       page:
-                                                                          IndexPageTrainee()))
+                                                                          IndexPageTrainee(
+                                                                            instructorName: classArray[index]["trainer_username"]
+                                                                          )))
                                                             }),
                                                   ),
                                                 ]),
