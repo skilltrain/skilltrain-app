@@ -15,6 +15,8 @@ class PaymentSignup extends StatefulWidget {
 
 class _PaymentState extends State<PaymentSignup> {
   bool _saving = false;
+  bool _finished = false;
+  String _response;
 
   Map<String, dynamic> infoObj = {
     "individual": {
@@ -84,11 +86,13 @@ class _PaymentState extends State<PaymentSignup> {
                 height: 1400,
                 child: Stack(children: <Widget>[
                   OverlayText(
-                      text: "Creating payment account...",
-                      color: _saving
-                          ? Colors.deepPurple.withOpacity(1.0)
-                          : Colors.deepPurple.withOpacity(0.0),
-                      alignment: Alignment(1.0, 0.35)),
+                      text: _saving
+                          ? "Creating payment account"
+                          : _finished
+                              ? _response
+                              : "",
+                      color: Colors.deepPurple.withOpacity(1.0),
+                      alignment: Alignment(0, 0.35)),
                   Column(
                     children: <Widget>[
                       Text('Please complete the information below',
@@ -401,6 +405,17 @@ class _PaymentState extends State<PaymentSignup> {
                                       print(response.body);
                                       setState(() {
                                         _saving = false;
+                                        _finished = true;
+                                        if (response.statusCode == 200) {
+                                          _response = "Account Created!";
+                                        }
+                                      });
+                                      Future.delayed(
+                                          const Duration(milliseconds: 2000),
+                                          () {
+                                        setState(() {
+                                          _finished = false;
+                                        });
                                       });
                                     },
                                     child: Text("Submit"),
