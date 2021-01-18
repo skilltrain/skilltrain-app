@@ -15,6 +15,7 @@ class InstructorBioUpdate extends StatefulWidget {
 class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   int index;
   // pic urls
+  //Leave this here I will use later
   String _uploadProfilePicFileResult = '';
   String _uploadClassFileResult = '';
 
@@ -49,7 +50,6 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
       setState(() {
         _uploadProfilePicFileResult = result.key;
       });
-      print(_uploadProfilePicFileResult);
     } catch (e) {
       print('UploadFile Err: ' + e.toString());
     }
@@ -181,6 +181,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                       decoration: InputDecoration(labelText: 'genre'),
                       onChanged: (text) => _genre = text),
                   TextFormField(
+                      // keyboardType: TextInputType.number,
                       controller: TextEditingController(text: _price),
                       decoration: InputDecoration(labelText: 'price'),
                       onChanged: (text) => _price = text),

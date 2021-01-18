@@ -8,7 +8,6 @@ import '../../utils/sliders.dart';
 import '../../main_app/trainee/home_page_trainee.dart';
 
 class Rating extends StatefulWidget {
-
   final instructorName;
   Rating({this.instructorName});
 
@@ -81,13 +80,10 @@ class _InstructorBioUpdateState extends State<Rating> {
         appBar: AppBar(
           title: Text(""),
         ),
-        body: 
-          Center(
+        body: Center(
             child: Container(
-              width: double.infinity,
-          child: Column(
-
-            children: <Widget>[
+          width: double.infinity,
+          child: Column(children: <Widget>[
             new Spacer(),
             Container(
                 padding: const EdgeInsets.all(
@@ -107,15 +103,18 @@ class _InstructorBioUpdateState extends State<Rating> {
                     child: Column(
                       children: [
                         Text(widget.instructorName),
-                        Text("How was the today's lesson?",
-                          style:TextStyle(
+                        Text(
+                          "How was the today's lesson?",
+                          style: TextStyle(
                             fontFamily: 'OpenSans',
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                          ),),
+                          ),
+                        ),
                         Row(
                           children: [
                             InkWell(
+
                               onTap: () {
                                 print("reputation score 1 is sent");
                                 postTrainerScore(1);
@@ -181,9 +180,8 @@ class _InstructorBioUpdateState extends State<Rating> {
                                       style:TextStyle(
                                       fontFamily: 'OpenSans',
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 40,))
-                            ),
-
+                                      fontSize: 40,
+                                    ))),
                             InkWell(
                               onTap: () {
                                 print("reputation score 5 is sent");
@@ -198,10 +196,8 @@ class _InstructorBioUpdateState extends State<Rating> {
                                       style:TextStyle(
                                       fontFamily: 'OpenSans',
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 40,))
-                            ),
-
-
+                                      fontSize: 40,
+                                    ))),
                           ],
                         ),
                       ],
