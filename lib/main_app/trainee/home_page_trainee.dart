@@ -10,9 +10,6 @@ import 'package:amplify_core/amplify_core.dart';
 import '../../utils/sliders.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
-// test added by Hide
-import '../../services/agora/video_session/index_trainer.dart';
-
 class HomePageTrainee extends StatefulWidget {
   final VoidCallback shouldLogOut;
   HomePageTrainee({Key key, this.shouldLogOut}) : super(key: key);
@@ -96,7 +93,7 @@ class SampleStart extends State<HomePageTrainee> {
           children: [
             Row(
               children: [
-                Text('Welcome\nDamian!',
+                Text('Welcome\n$user!',
                     style: TextStyle(
                         color: Colors.grey[900],
                         fontWeight: FontWeight.w800,
@@ -147,8 +144,6 @@ class SampleStart extends State<HomePageTrainee> {
                 fontWeight: FontWeight.w800),
           ));
     }
-
-    ;
 
     Widget trainerListView = FutureBuilder(
       future: trainers,
@@ -251,22 +246,6 @@ class SampleStart extends State<HomePageTrainee> {
       },
     );
 
-    Widget upcomingSessionsView = FutureBuilder(
-        future: upcomingSessions,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.none &&
-              snapshot.hasData == null) {
-            return Container();
-          } else {
-            return ListView.builder(
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return Text(snapshot.data[index]["start_time"]);
-              },
-            );
-          }
-        });
-
     return MaterialApp(
       title: 'Skill train class list',
       theme: ThemeData(
@@ -319,19 +298,4 @@ class SampleStart extends State<HomePageTrainee> {
       ),
     );
   }
-
-  // Future<List> fetchApiResults() async {
-  //   final response = await http.get(
-  //       'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers');
-  //   if (response.statusCode == 200) {
-  //     var trainers = await json.decode(response.body);
-  //     for (var trainer in trainers) {
-  //       trainer["sessionPhoto"] = await getUrl(trainer["sessionPhoto"]);
-  //       trainer["profilePhoto"] = await getUrl(trainer["profilePhoto"]);
-  //     }
-  //     return trainers;
-  //   } else {
-  //     throw Exception('Failed to load API params');
-  //   }
-  // }
 }
