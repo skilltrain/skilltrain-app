@@ -181,6 +181,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                       decoration: InputDecoration(labelText: 'genre'),
                       onChanged: (text) => _genre = text),
                   TextFormField(
+                      // keyboardType: TextInputType.number,
                       controller: TextEditingController(text: _price),
                       decoration: InputDecoration(labelText: 'price'),
                       onChanged: (text) => _price = text),
