@@ -12,7 +12,6 @@ import '../../utils/sliders.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
 // test added by Hide
-import '../../services/agora/video_session/index_trainer.dart';
 
 class HomePageTrainee extends StatefulWidget {
   final VoidCallback shouldLogOut;
