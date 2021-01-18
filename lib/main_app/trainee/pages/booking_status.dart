@@ -62,13 +62,8 @@ class SampleStart extends State<BookingStatus> {
                           .isBefore(DateTime.parse(snapshot.data[i]["date"]))) {
                     classArray.add(snapshot.data[i]);
                     classArray.sort((a, b) {
-                      var adate = a["date"];
-                      var bdate = b["date"];
-                      return adate.compareTo(bdate);
-                    });
-                    classArray.sort((a, b) {
-                      var adate = a["start_time"];
-                      var bdate = b["start_time"];
+                      var adate = a["date"] + a["start_time"];
+                      var bdate = b["date"] + b["start_time"];
                       return adate.compareTo(bdate);
                     });
                   } else

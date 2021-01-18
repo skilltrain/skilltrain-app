@@ -53,13 +53,8 @@ class BookingPage extends StatelessWidget {
                       print(snapshot.data[i]["date"]);
                       classArray.add(snapshot.data[i]);
                       classArray.sort((a, b) {
-                        var adate = a["date"];
-                        var bdate = b["date"];
-                        return adate.compareTo(bdate);
-                      });
-                      classArray.sort((a, b) {
-                        var adate = a["start_time"];
-                        var bdate = b["start_time"];
+                        var adate = a["date"] + a["start_time"];
+                        var bdate = b["date"] + b["start_time"];
                         return adate.compareTo(bdate);
                       });
                     } else
@@ -68,13 +63,11 @@ class BookingPage extends StatelessWidget {
                   return Container(
                       height: MediaQuery.of(context).size.height - 87,
                       width: double.infinity,
-
                       child: Column(
                         children: <Widget>[
                           Center(
                             child: SizedBox(
                                 height: MediaQuery.of(context).size.height - 87,
-
                                 child: ListView.builder(
                                   shrinkWrap: true,
                                   itemBuilder:
