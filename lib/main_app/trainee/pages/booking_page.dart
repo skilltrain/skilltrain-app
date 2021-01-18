@@ -65,17 +65,16 @@ class BookingPage extends StatelessWidget {
                     } else
                       print("something went wrong with fetched data");
                   }
-
-//calendar object
                   return Container(
-                      height: 678,
+                      height: MediaQuery.of(context).size.height - 87,
                       width: double.infinity,
-                      padding: const EdgeInsets.all(20.0),
+
                       child: Column(
                         children: <Widget>[
                           Center(
                             child: SizedBox(
-                                height: 620,
+                                height: MediaQuery.of(context).size.height - 87,
+
                                 child: ListView.builder(
                                   shrinkWrap: true,
                                   itemBuilder:
