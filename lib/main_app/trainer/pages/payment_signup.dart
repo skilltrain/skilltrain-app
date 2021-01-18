@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PaymentSignup extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return new PaymentState();
+    return new _PaymentState();
   }
 }
 
-class PaymentState extends State<PaymentSignup> {
-  final Map<String, dynamic> infoObj = {
+class _PaymentState extends State<PaymentSignup> {
+  Map<String, dynamic> infoObj = {
     "individual": {
       "address_kana": {
         "city": "トウキョウ",
@@ -38,9 +39,28 @@ class PaymentState extends State<PaymentSignup> {
       "last_name_kana": "ア",
       "phone": "+815031362394"
     },
-    "external_account": {"account_number": "0001234", "routing_number": "1100000"},
+    "external_account": {
+      "account_number": "0001234",
+      "routing_number": "1100000"
+    },
     "username": ""
   };
+
+  @override
+  void initState() {
+    super.initState();
+    getTrainerEmail();
+  }
+
+  Future getTrainerEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final trainerData = await http.get(
+        "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers?username=$username");
+    final trainerDataDecoded = convert.jsonDecode(trainerData.body);
+    infoObj["individual"]["email"] = trainerDataDecoded[0]['email'];
+    infoObj["username"] = username;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -230,16 +250,6 @@ class PaymentState extends State<PaymentSignup> {
                         style: TextStyle(fontSize: 15.0, color: Colors.black),
                         textAlign: TextAlign.left),
                     TextFormField(
-                      initialValue: "ejaustinforbesjp@gmail.com",
-                      onChanged: (text) {
-                        infoObj["individual"]["email"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'email'),
-                    ),
-                    TextFormField(
                       initialValue: "male",
                       onChanged: (text) {
                         infoObj["gender"] = text;
@@ -248,16 +258,6 @@ class PaymentState extends State<PaymentSignup> {
                           border: UnderlineInputBorder(
                               borderSide: BorderSide(width: 1)),
                           hintText: 'gender'),
-                    ),
-                    TextFormField(
-                      initialValue: "",
-                      onChanged: (text) {
-                        infoObj['username'] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'username'),
                     ),
                     TextFormField(
                       initialValue: "和",
