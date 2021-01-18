@@ -96,7 +96,7 @@ class _PaymentState extends State<PaymentSignup> {
                             ? "Creating payment account"
                             : _finished
                                 ? _response
-                                : "",
+                                : "test",
                         color: Colors.deepPurple.withOpacity(1.0),
                         alignment: Alignment(0, 0.35)),
                     Column(
