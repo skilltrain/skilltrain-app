@@ -8,6 +8,8 @@ import '../../utils/sliders.dart';
 
 import './pages/payment_signup.dart';
 import './pages/instructor_view/instructor_view.dart';
+import '../trainee/pages/booking_status.dart';
+import '../../services/rating/rating.dart';
 
 class HomePageTrainer extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -58,6 +60,15 @@ class SampleStart extends State<HomePageTrainer> {
                       fit: BoxFit.cover)),
             ),
             ListTile(
+              title: Text('Rating development'),
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  SlideLeftRoute(page: Rating()),
+                )
+              },
+            ),
+            ListTile(
               title: Text('Instructor page'),
               onTap: () {
                 Navigator.push(
@@ -76,6 +87,18 @@ class SampleStart extends State<HomePageTrainer> {
               },
             ),
             ListTile(
+              title: Text('Sign up'),
+              onTap: () => {
+                // Eliot - not sure what this does
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => _MyApp(),
+                //   ),
+                // )
+              },
+            ),
+            ListTile(
               title: Text('Log out'),
               onTap: widget.shouldLogOut,
             ),
@@ -83,9 +106,7 @@ class SampleStart extends State<HomePageTrainer> {
         ) // Populate the Drawer in the next step.
             ),
         appBar: AppBar(
-          title: SizedBox(
-                  height: kToolbarHeight,
-                  child: Image.asset('assets/images/skillTrain-logo.png', fit: BoxFit.scaleDown)),
+          title: Text('skillTrain'),
           centerTitle: true,
         ),
       ),
