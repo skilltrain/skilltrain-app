@@ -20,9 +20,9 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   String _uploadClassFileResult = '';
 
   //Text field state
-  String _genre = "";
-  String _price = "";
-  String _bio = "";
+  String _genre;
+  int _price;
+  String _bio;
   //Current User
 
   String _user = "";
@@ -92,7 +92,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
       setState(() {
         _bio = res["bio"];
         _genre = res["genre"];
-        _price = res["price"];
+        _price = int.parse(res["price"]);
       });
 
       return res;
@@ -182,9 +182,10 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                       onChanged: (text) => _genre = text),
                   TextFormField(
                       // keyboardType: TextInputType.number,
-                      controller: TextEditingController(text: _price),
+                      controller:
+                          TextEditingController(text: _price.toString()),
                       decoration: InputDecoration(labelText: 'price'),
-                      onChanged: (text) => _price = text),
+                      onChanged: (text) => _price = int.parse(text)),
                   TextFormField(
                       controller: TextEditingController(text: _bio),
                       decoration: InputDecoration(
@@ -232,7 +233,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String, dynamic>{
         'bio': _bio,
         'price': _price,
         'genre': _genre,
