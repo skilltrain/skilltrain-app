@@ -119,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final http.Response response = await http.post(
         '$url?amount=$amount&currency=JPY&paym=${paymentMethod.id}&connAccID=$connAccID');
     print('Now i decode');
-    if (response.body != null && response.body != 'error') {
+    if (response.statusCode == 200) {
       final paymentIntentX = jsonDecode(response.body);
       final status = paymentIntentX['paymentIntent']['status'];
       final strAccount = paymentIntentX['stripeAccount'];
