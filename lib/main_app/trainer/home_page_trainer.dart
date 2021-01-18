@@ -7,6 +7,7 @@ import 'dart:convert';
 import '../../utils/sliders.dart';
 import './pages/payment_signup.dart';
 import './pages/instructor_view/instructor_view.dart';
+// ignore: unused_import
 import '../../services/rating/rating.dart';
 
 class HomePageTrainer extends StatefulWidget {
