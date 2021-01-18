@@ -117,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final connAccID = jsonDecode(idResponse.body);
     print(connAccID);
     final http.Response response = await http.post(
-        '$url?amount=$amount&currency=GBP&paym=${paymentMethod.id}&connAccID=$connAccID');
+        '$url?amount=$amount&currency=JPY&paym=${paymentMethod.id}&connAccID=$connAccID');
     print('Now i decode');
     if (response.body != null && response.body != 'error') {
       final paymentIntentX = jsonDecode(response.body);
@@ -129,9 +129,11 @@ class _MyHomePageState extends State<MyHomePage> {
         StripePayment.completeNativePayRequest();
         setState(() {
           text =
-              'Payment completed. ${paymentIntentX['paymentIntent']['amount'].toString()}p succesfully charged';
+              'Payment completed. ¥${paymentIntentX['paymentIntent']['amount'].toString()} succesfully charged';
           showSpinner = false;
         });
+        await new Future.delayed(const Duration(seconds: 3));
+        Navigator.pop(context);
       } else {
         //step 4: there is a need to authenticate
         StripePayment.setStripeAccount(strAccount);
@@ -219,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ).then((PaymentMethod paymentMethod) {
       return paymentMethod;
     }).catchError((e) {
-      print('Errore Card: ${e.toString()}');
+      print('Error Card: ${e.toString()}');
     });
     paymentMethod != null
         ? processPaymentAsDirectCharge(paymentMethod)
@@ -255,6 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       style: TextStyle(fontSize: 20.0),
                     ),
                   ),
+                  Text(text),
                 ]))));
   }
 }
