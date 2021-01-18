@@ -14,12 +14,11 @@ class _OverlayTextState extends State<OverlayText> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        alignment: widget.alignment,
-        child: Text(widget.text,
-            style: TextStyle(
-                color: widget.color,
-                fontWeight: FontWeight.bold,
-                fontSize: 40.0),
-            textAlign: TextAlign.center));
+      alignment: widget.alignment,
+      child: Text(widget.text,
+          style: TextStyle(
+              color: widget.color, fontWeight: FontWeight.bold, fontSize: 40.0),
+          textAlign: TextAlign.center),
+    );
   }
 }
