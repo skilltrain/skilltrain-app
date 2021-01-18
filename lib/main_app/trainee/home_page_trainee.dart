@@ -69,7 +69,70 @@ class SampleStart extends State<HomePageTrainee> {
     print(upcomingSessions);
   }
 
-  @override
+  Widget filterButton({String buttonText}) {
+    return RaisedButton(
+        onPressed: () {
+          showModalBottomSheet(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
+              ),
+              context: context,
+              builder: (context) {
+                return StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                  return Column(children: [
+                    sectionTitle(
+                        title: "What type of trainer are you looking for?"),
+                    MyDropdownButton(
+                      value: genreFilter,
+                      items: ["Weights", "Running", "Yoga", "Rowing", "Other"],
+                      onChanged: (String item) {
+                        setState(() {
+                          genreFilter = item;
+                        });
+                      },
+                    ),
+                    MyDropdownButton(
+                      value: priceFilter,
+                      items: ["<¥500", "<¥1000", "<¥1500", "<¥2000", "<¥3000"],
+                      onChanged: (String item) {
+                        setState(() {
+                          priceFilter = item;
+                        });
+                      },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 40, left: 60, right: 60, bottom: 0),
+                      child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              side: BorderSide(color: Colors.black, width: 2)),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                SlideRightRoute(
+                                  page: TrainerFilter(genreFilter: genreFilter),
+                                ));
+                          },
+                          child: Text("Search")),
+                    ),
+                    // trainerListView
+                  ]);
+                });
+              });
+        },
+        child: Text(buttonText,
+            style: TextStyle(fontSize: 15, color: Colors.grey[700])),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        color: Colors.white,
+        padding: EdgeInsets.all(15.0));
+  }
+
   Widget build(BuildContext context) {
     Widget trainerListView = FutureBuilder(
       future: trainers,
@@ -172,10 +235,7 @@ class SampleStart extends State<HomePageTrainee> {
     Widget upcomingSessionsView = FutureBuilder(
         future: upcomingSessions,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.none &&
-              snapshot.hasData == null) {
-            return (Text("You dont have any Sessions"));
-          } else {
+          if (snapshot.data != null && snapshot.data.length > 0) {
             return ListView.builder(
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
@@ -191,7 +251,32 @@ class SampleStart extends State<HomePageTrainee> {
               },
               itemCount: 3,
             );
+          } else if (snapshot.connectionState == ConnectionState.waiting ??
+              snapshot.connectionState == ConnectionState.active) {
+            CircularProgressIndicator();
           }
+          return Container(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      "It looks like you don't have any upcoming sessions!"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Why don't you book some?"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: filterButton(
+                      buttonText: "Find Someone to Help you Workout"),
+                )
+              ],
+            ),
+          ));
         });
 
     //Header widget for homescreen
@@ -217,84 +302,7 @@ class SampleStart extends State<HomePageTrainee> {
                         fontWeight: FontWeight.w600,
                         fontSize: 20)),
                 Spacer(),
-                RaisedButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(20),
-                          ),
-                        ),
-                        context: context,
-                        builder: (context) {
-                          return StatefulBuilder(builder:
-                              (BuildContext context, StateSetter setState) {
-                            return Column(children: [
-                              sectionTitle(
-                                  title:
-                                      "What type of trainer are you looking for?"),
-                              MyDropdownButton(
-                                value: genreFilter,
-                                items: [
-                                  "Weights",
-                                  "Running",
-                                  "Yoga",
-                                  "Rowing",
-                                  "Other"
-                                ],
-                                onChanged: (String item) {
-                                  setState(() {
-                                    genreFilter = item;
-                                  });
-                                },
-                              ),
-                              MyDropdownButton(
-                                value: priceFilter,
-                                items: [
-                                  "<¥500",
-                                  "<¥1000",
-                                  "<¥1500",
-                                  "<¥2000",
-                                  "<¥3000"
-                                ],
-                                onChanged: (String item) {
-                                  setState(() {
-                                    priceFilter = item;
-                                  });
-                                },
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: 40, left: 60, right: 60, bottom: 0),
-                                child: FlatButton(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(25.0),
-                                        side: BorderSide(
-                                            color: Colors.black, width: 2)),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          SlideRightRoute(
-                                            page: TrainerFilter(
-                                                genreFilter: genreFilter),
-                                          ));
-                                    },
-                                    child: Text("Search")),
-                              ),
-                              // trainerListView
-                            ]);
-                          });
-                        });
-                  },
-                  child: Text('Find your Trainer',
-                      style: TextStyle(fontSize: 15, color: Colors.grey[700])),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  color: Colors.white,
-                  padding: EdgeInsets.all(15.0),
-                )
+                filterButton(buttonText: "Find your Trainer")
               ],
             ),
           ],
