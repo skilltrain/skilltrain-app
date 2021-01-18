@@ -5,7 +5,6 @@ import 'package:amplify_core/amplify_core.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../../utils/sliders.dart';
-
 import './pages/payment_signup.dart';
 import './pages/instructor_view/instructor_view.dart';
 import '../../services/rating/rating.dart';
