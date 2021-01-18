@@ -93,7 +93,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
       setState(() {
         _bio = res["bio"];
         _genre = res["genre"];
-        _price = int.parse(res["price"]);
+        _price = res["price"];
       });
 
       return res;
