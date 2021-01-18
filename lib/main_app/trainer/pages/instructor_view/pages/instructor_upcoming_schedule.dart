@@ -80,6 +80,7 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                   final List classArray = [];
                   for (int i = 0; i < snapshot.data.length; i++) {
                     if (snapshot.data[i]["trainer_username"] == trainerName &&
+                        snapshot.data[i]["user_username"].length > 0 &&
                         DateTime.parse(stringDate).isBefore(
                             DateTime.parse(snapshot.data[i]["date"]))) {
                       print(stringDate);
