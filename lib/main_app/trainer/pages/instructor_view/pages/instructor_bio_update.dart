@@ -93,7 +93,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
       setState(() {
         _bio = res["bio"];
         _genre = res["genre"];
-        _price = int.parse(res["price"]);
+        _price = res["price"];
       });
 
       return res;
@@ -183,8 +183,8 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                       onChanged: (text) => _genre = text),
                   TextFormField(
                       // keyboardType: TextInputType.number,
-                      controller:
-                          TextEditingController(text: _price.toString()),
+                      controller: TextEditingController(
+                          text: _price != null ? _price.toString() : ""),
                       decoration: InputDecoration(labelText: 'price'),
                       onChanged: (text) => _price = int.parse(text)),
                   TextFormField(
