@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'dart:core';
+import 'package:amazon_cognito_identity_dart_2/cognito.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './auth_credentials.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -6,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 // Specify session flow
-enum AuthFlowStatus { login, signUp, verification, tutorial, session }
+enum AuthFlowStatus { login, signUp, verification, tutorial, session, loading }
 
 class AuthState {
   final AuthFlowStatus authFlowStatus;
@@ -16,6 +19,7 @@ class AuthState {
 class AuthService {
   final authStateController = StreamController<AuthState>();
   AuthCredentials _credentials;
+  bool isTrainer;
 
   void showSignUp() {
     final state = AuthState(authFlowStatus: AuthFlowStatus.signUp);
@@ -27,36 +31,69 @@ class AuthService {
     authStateController.add(state);
   }
 
+  Future checkTrainer() async {
+    final userPool = new CognitoUserPool(
+        "ap-northeast-1_4KL7XZGPF", "2gog45e490ahlnk1hq0dp18ck4");
+    if (_credentials == null) {
+      final prefs = await SharedPreferences.getInstance();
+      final username = prefs.getString('username');
+      final password = prefs.getString('password');
+      _credentials = LoginCredentials(username: username, password: password);
+    }
+    final CognitoUser user = new CognitoUser(_credentials.username, userPool);
+    final authDetails = new AuthenticationDetails(
+        username: _credentials.username, password: _credentials.password);
+    await user.authenticateUser(authDetails);
+    List<CognitoUserAttribute> attributes = await user.getUserAttributes();
+    attributes.forEach((attribute) {
+      if (attribute.getName() == 'custom:isTrainer') {
+        if (attribute.getValue() == 'true') {
+          isTrainer = true;
+        } else {
+          isTrainer = false;
+        }
+      }
+    });
+  }
+
   Future<List> loginWithCredentials(AuthCredentials credentials) async {
     var loginResult = ['no errors'];
     try {
-      final result = await Amplify.Auth.signIn(
+      final userAuthenticationStatus = await Amplify.Auth.signIn(
           username: credentials.username, password: credentials.password);
-      if (result.isSignedIn) {
+      if (userAuthenticationStatus.isSignedIn) {
+        final loadingState = AuthState(authFlowStatus: AuthFlowStatus.loading);
+        authStateController.add(loadingState);
+        this._credentials = credentials;
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('username', credentials.username);
+        prefs.setString('password', credentials.password);
+        await this.checkTrainer();
         final state = AuthState(authFlowStatus: AuthFlowStatus.session);
         authStateController.add(state);
       } else {
         print('User could not be signed in');
       }
-      return loginResult;
     } on AuthError catch (authError) {
       loginResult[0] = 'errors';
       print('Could not login - ${authError.cause}');
       final errorDetail = authError.exceptionList[1].detail;
-      final errorDetailSimplified =
-          errorDetail.substring(0, errorDetail.indexOf('('));
-      print('Error simplified - $errorDetailSimplified');
-
-      if (errorDetailSimplified == 'User does not exist. ') {
-        loginResult.add(errorDetailSimplified);
+      if (errorDetail.startsWith('Incorrect username or password.')) {
+        loginResult.add('Incorrect password');
       }
-      return loginResult;
+      if (errorDetail.startsWith('User does not exist')) {
+        loginResult.add("User does not exist");
+      }
     }
+    return loginResult;
   }
 
   void signUpWithCredentials(SignUpCredentials credentials) async {
     try {
-      final userAttributes = {'email': credentials.email, 'isTrainer': 'yes'};
+      final userAttributes = {
+        'email': credentials.email,
+        'isTrainer': credentials.isTrainer.toString()
+      };
       await Amplify.Auth.signUp(
           username: credentials.username,
           password: credentials.password,
@@ -98,13 +135,13 @@ class AuthService {
     try {
       await Amplify.Auth.fetchAuthSession(
           options: CognitoSessionOptions(getAWSCredentials: true));
-
+      await this.checkTrainer(); // Sufficiently blocks line 138 before 141
       final state = AuthState(authFlowStatus: AuthFlowStatus.session);
       authStateController.add(state);
-    } on AuthError catch (e) {
-      print(e);
+    } catch (e) {
       final state = AuthState(authFlowStatus: AuthFlowStatus.login);
       authStateController.add(state);
+      print('Could not authenticate user - $e');
     }
   }
 
@@ -122,7 +159,7 @@ class AuthService {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: convert.jsonEncode(<String, String>{
+      body: convert.jsonEncode(<String, dynamic>{
         "id": date,
         'username': credentials.username,
         'email': credentials.email,
@@ -132,7 +169,7 @@ class AuthService {
             'images/trainers/default/profilePhoto/sessionPhoto4.jpg',
         'bio':
             'As a physiologist and physician, I believe in integrating the scientific aspects of training with the joy and appreciation for the sport I’ve gained over thirty years of running and racing on trails, roads, and track.  My goal is to help build a varied, sensible training plan that fits into your busy lifestyle, and will help you reach the finish line happy, healthy, and enthusiastic for whatever challenges lie ahead.',
-        'price': '35',
+        'price': 35,
         'genre': 'Running',
         'availability': '[]'
       }),

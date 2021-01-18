@@ -4,7 +4,7 @@ import 'package:flutter/semantics.dart';
 // ignore: unused_import
 import '../home_page_trainee.dart';
 // ignore: unused_import
-import '../../../services/agora/video_session/index.dart';
+import '../../../services/agora/video_session/index_trainee.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -160,11 +160,11 @@ class SampleStart extends State<BookingStatus> {
                                                         child: Icon(Icons
                                                             .video_call_rounded),
                                                         onPressed: () => {
-                                                              // Navigator.push(
-                                                              //     context,
-                                                              //     SlideLeftRoute(
-                                                              //         page:
-                                                              //             IndexPage()))
+                                                              Navigator.push(
+                                                                  context,
+                                                                  SlideLeftRoute(
+                                                                      page:
+                                                                          IndexPageTrainee()))
                                                             }),
                                                   ),
                                                 ]),

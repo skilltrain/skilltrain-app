@@ -24,9 +24,11 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: const Text('skillTrain',),
-          centerTitle: true,
+          appBar: AppBar(
+            title: SizedBox(
+                    height: kToolbarHeight,
+                    child: Image.asset('assets/images/skillTrain-logo.png', fit: BoxFit.scaleDown)),
+            centerTitle: true,
           backgroundColor: Colors.purple),
           body: SingleChildScrollView(
           child: Container(

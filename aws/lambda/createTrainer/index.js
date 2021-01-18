@@ -7,6 +7,8 @@ exports.handler = async (event, context, callback) => {
   const ddb = new AWS.DynamoDB.DocumentClient();
 
   const data = JSON.parse(event.body);
+  console.log(data);
+  const timestamp = new Date().getTime();
 
   const params = {
     TableName: "Trainers",
@@ -14,19 +16,18 @@ exports.handler = async (event, context, callback) => {
       id: data.id,
       username: data.username,
       email: data.email,
-      dateCreated: data.dateCreated,
+      dateCreated: timestamp,
       bio: data.bio,
       sessions_complete: data.sessions_complete,
       stats: data.stats,
       rating: data.rating,
-      classPhoto: data.classPhoto,
-      portrait: data.portrait,
+      sessionPhoto: data.sessionPhoto,
+      profilePhoto: data.profilePhoto,
       instructor: data.instructor,
       price: data.price,
       genre: data.genre,
       availability: data.availability,
       stripe: data.stripe,
-      
     },
   };
   let responseBody;

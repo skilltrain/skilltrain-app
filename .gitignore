@@ -46,8 +46,9 @@ amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/logs
 amplify/mock-data
-amplify/backend/amplify-meta.json
-amplify/backend/awscloudformation
+amplify/backend
+# amplify/backend/amplify-meta.json
+# amplify/backend/awscloudformation
 amplify/backend/.temp
 build/
 dist/
@@ -59,3 +60,4 @@ amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
+.vscode/launch.json

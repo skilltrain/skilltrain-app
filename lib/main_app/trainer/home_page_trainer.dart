@@ -9,6 +9,7 @@ import '../../utils/sliders.dart';
 import './pages/payment_signup.dart';
 import './pages/instructor_view/instructor_view.dart';
 import '../trainee/pages/booking_status.dart';
+import '../../services/rating/rating.dart';
 
 class HomePageTrainer extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -59,11 +60,11 @@ class SampleStart extends State<HomePageTrainer> {
                       fit: BoxFit.cover)),
             ),
             ListTile(
-              title: Text('Booking status'),
+              title: Text('Rating development'),
               onTap: () => {
                 Navigator.push(
                   context,
-                  SlideLeftRoute(page: BookingStatus()),
+                  SlideLeftRoute(page: Rating()),
                 )
               },
             ),
