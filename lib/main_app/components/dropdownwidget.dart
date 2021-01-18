@@ -1,17 +1,6 @@
 import 'package:flutter/material.dart';
 
 //Reuseable title widget
-Widget _sectionTitle({String title}) {
-  return Container(
-      alignment: Alignment.bottomLeft,
-      margin: EdgeInsets.symmetric(horizontal: 50),
-      padding: EdgeInsets.only(top: 20),
-      child: Text(
-        title,
-        style: TextStyle(
-            color: Colors.grey[900], fontSize: 35, fontWeight: FontWeight.w800),
-      ));
-}
 
 class MyDropdownButton extends StatefulWidget {
   const MyDropdownButton({

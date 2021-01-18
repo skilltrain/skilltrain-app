@@ -6,10 +6,11 @@ import './pages/trainer_filter.dart';
 import 'dart:async';
 import 'dart:convert';
 import './pages/instructor_bio.dart';
-import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:amplify_core/amplify_core.dart';
 import '../../utils/sliders.dart';
+import '../components/fetchTrainers.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import '../components/headings.dart';
 
 // test added by Hide
 
@@ -19,23 +20,6 @@ class HomePageTrainee extends StatefulWidget {
 
   @override
   SampleStart createState() => SampleStart();
-}
-
-//Fetch All Trainer Data
-Future fetchTrainers() async {
-  final response = await http.get(
-      'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers');
-
-  if (response.statusCode == 200) {
-    var res = await jsonDecode(response.body);
-    for (var trainer in res) {
-      trainer["sessionPhoto"] = await getUrl(trainer["sessionPhoto"]);
-      trainer["profilePhoto"] = await getUrl(trainer["profilePhoto"]);
-    }
-    return res;
-  } else {
-    throw Exception('Failed to load album');
-  }
 }
 
 Future<List> fetchUserSessions() async {
@@ -56,18 +40,6 @@ Future<List> fetchUserSessions() async {
   }
 }
 
-Future getUrl(key) async {
-  try {
-    S3GetUrlOptions options =
-        S3GetUrlOptions(accessLevel: StorageAccessLevel.guest, expires: 30000);
-    GetUrlResult result =
-        await Amplify.Storage.getUrl(key: key, options: options);
-    return result.url;
-  } catch (e) {
-    print(e.toString());
-  }
-}
-
 class SampleStart extends State<HomePageTrainee> {
   String user;
   Future trainers;
@@ -81,7 +53,9 @@ class SampleStart extends State<HomePageTrainee> {
     try {
       AuthUser res = await Amplify.Auth.getCurrentUser();
       user = res.username;
-      return user;
+      print(user);
+      setState(() {});
+      return;
     } on AuthError catch (e) {
       print(e);
     }
@@ -93,25 +67,11 @@ class SampleStart extends State<HomePageTrainee> {
     getCurrentUser();
     trainers = fetchTrainers();
     upcomingSessions = fetchUserSessions();
+    print(upcomingSessions);
   }
 
   @override
   Widget build(BuildContext context) {
-    //Reuseable title widget
-    Widget _sectionTitle({String title}) {
-      return Container(
-          alignment: Alignment.bottomLeft,
-          margin: EdgeInsets.symmetric(horizontal: 50),
-          padding: EdgeInsets.only(top: 20),
-          child: Text(
-            title,
-            style: TextStyle(
-                color: Colors.grey[900],
-                fontSize: 35,
-                fontWeight: FontWeight.w800),
-          ));
-    }
-
     Widget trainerListView = FutureBuilder(
       future: trainers,
       builder: (context, snapshot) {
@@ -196,10 +156,6 @@ class SampleStart extends State<HomePageTrainee> {
                             ))),
                   ),
                 );
-                // return Text(
-                //   snapshot.data[index]["username"],
-                //   style: TextStyle(fontSize: 50),
-                // );
               },
               itemCount: snapshot.data.length,
             ),
@@ -275,7 +231,7 @@ class SampleStart extends State<HomePageTrainee> {
                           return StatefulBuilder(builder:
                               (BuildContext context, StateSetter setState) {
                             return Column(children: [
-                              _sectionTitle(
+                              sectionTitle(
                                   title:
                                       "What type of trainer are you looking for?"),
                               MyDropdownButton(
@@ -321,7 +277,8 @@ class SampleStart extends State<HomePageTrainee> {
                                       Navigator.push(
                                           context,
                                           SlideRightRoute(
-                                            page: TrainerFilter(),
+                                            page: TrainerFilter(
+                                                genreFilter: genreFilter),
                                           ));
                                     },
                                     child: Text("Search")),
@@ -378,8 +335,9 @@ class SampleStart extends State<HomePageTrainee> {
         )),
         appBar: AppBar(
           title: SizedBox(
-                  height: kToolbarHeight,
-                  child: Image.asset('assets/images/skillTrain-logo.png', fit: BoxFit.scaleDown)),
+              height: kToolbarHeight,
+              child: Image.asset('assets/images/skillTrain-logo.png',
+                  fit: BoxFit.scaleDown)),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -387,13 +345,13 @@ class SampleStart extends State<HomePageTrainee> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               headerSection,
-              _sectionTitle(title: "Top Rated"),
+              sectionTitle(title: "Top Rated"),
               trainerListView,
-              _sectionTitle(title: "Upcoming Sessions"),
+              sectionTitle(title: "Upcoming Sessions"),
               upcomingSessionsView,
-              _sectionTitle(title: "Running"),
+              sectionTitle(title: "Running"),
               trainerListView,
-              _sectionTitle(title: "Weights"),
+              sectionTitle(title: "Weights"),
               trainerListView
             ],
           ),

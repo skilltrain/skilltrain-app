@@ -114,13 +114,10 @@ class _InstructorBioUpdateState extends State<Rating> {
         appBar: AppBar(
           title: Text(""),
         ),
-        body: 
-          Center(
+        body: Center(
             child: Container(
-              width: double.infinity,
-          child: Column(
-
-            children: <Widget>[
+          width: double.infinity,
+          child: Column(children: <Widget>[
             new Spacer(),
             Container(
                 padding: const EdgeInsets.all(
@@ -139,96 +136,93 @@ class _InstructorBioUpdateState extends State<Rating> {
                     ),
                     child: Column(
                       children: [
-                        Text("How was the today's lesson?",
-                          style:TextStyle(
+                        Text(
+                          "How was the today's lesson?",
+                          style: TextStyle(
                             fontFamily: 'OpenSans',
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                          ),),
+                          ),
+                        ),
                         Row(
                           children: [
                             InkWell(
-                              onTap: () {
-                                print("reputation score 1 is sent");
-                                Navigator.push(
-                                context,
-                                SlideRightRoute(
-                                    page: (HomePageTrainee()),
-                              ));
-                              },
-                              child: Text("🙁",
-                                      style:TextStyle(
+                                onTap: () {
+                                  print("reputation score 1 is sent");
+                                  Navigator.push(
+                                      context,
+                                      SlideRightRoute(
+                                        page: (HomePageTrainee()),
+                                      ));
+                                },
+                                child: Text(
+                                  "🙁",
+                                  style: TextStyle(
+                                    fontFamily: 'OpenSans',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 40,
+                                  ),
+                                )),
+                            InkWell(
+                                onTap: () {
+                                  print("reputation score 2 is sent");
+                                  Navigator.push(
+                                      context,
+                                      SlideRightRoute(
+                                        page: (HomePageTrainee()),
+                                      ));
+                                },
+                                child: Text("😑",
+                                    style: TextStyle(
                                       fontFamily: 'OpenSans',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 40,
-                          ),)
-                            ),
-
+                                    ))),
                             InkWell(
-                              onTap: () {
-                                print("reputation score 2 is sent");
-                                Navigator.push(
-                                context,
-                                SlideRightRoute(
-                                    page: (HomePageTrainee()),
-                              ));                                
-                              },
-                              child: Text("😑",
-                                        style:TextStyle(
-                                          fontFamily: 'OpenSans',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 40,))
-                            ),
-
-                            InkWell(
-                              onTap: () {
-                                print("reputation score 3 is sent");
-                                Navigator.push(
-                                context,
-                                SlideRightRoute(
-                                    page: (HomePageTrainee()),
-                              ));                                
-                              },
-                              child: Text("😐",
-                                        style:TextStyle(
-                                        fontFamily: 'OpenSans',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 40,))
-                            ),
-
-                            InkWell(
-                              onTap: () {
-                                print("reputation score 4 is sent");
-                                Navigator.push(
-                                context,
-                                SlideRightRoute(
-                                    page: (HomePageTrainee()),
-                              ));                                
-                              },
-                              child: Text("🙂",
-                                      style:TextStyle(
+                                onTap: () {
+                                  print("reputation score 3 is sent");
+                                  Navigator.push(
+                                      context,
+                                      SlideRightRoute(
+                                        page: (HomePageTrainee()),
+                                      ));
+                                },
+                                child: Text("😐",
+                                    style: TextStyle(
                                       fontFamily: 'OpenSans',
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 40,))
-                            ),
-
+                                      fontSize: 40,
+                                    ))),
                             InkWell(
-                              onTap: () {
-                                print("reputation score 5 is sent");
-                                Navigator.push(
-                                context,
-                                SlideRightRoute(
-                                    page: (HomePageTrainee()),
-                              ));                                
-                              },
-                              child: Text("😀",          
-                                      style:TextStyle(
+                                onTap: () {
+                                  print("reputation score 4 is sent");
+                                  Navigator.push(
+                                      context,
+                                      SlideRightRoute(
+                                        page: (HomePageTrainee()),
+                                      ));
+                                },
+                                child: Text("🙂",
+                                    style: TextStyle(
                                       fontFamily: 'OpenSans',
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 40,))
-                            ),
-
-
+                                      fontSize: 40,
+                                    ))),
+                            InkWell(
+                                onTap: () {
+                                  print("reputation score 5 is sent");
+                                  Navigator.push(
+                                      context,
+                                      SlideRightRoute(
+                                        page: (HomePageTrainee()),
+                                      ));
+                                },
+                                child: Text("😀",
+                                    style: TextStyle(
+                                      fontFamily: 'OpenSans',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 40,
+                                    ))),
                           ],
                         ),
                       ],

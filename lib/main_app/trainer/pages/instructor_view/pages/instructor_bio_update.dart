@@ -15,6 +15,7 @@ class InstructorBioUpdate extends StatefulWidget {
 class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   int index;
   // pic urls
+  //Leave this here I will use later
   String _uploadProfilePicFileResult = '';
   String _uploadClassFileResult = '';
 
