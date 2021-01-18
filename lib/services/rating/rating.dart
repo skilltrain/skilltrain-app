@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:http/http.dart' as http;
+// ignore: unused_import
 import 'package:skilltrain/main_app/trainer/pages/instructor_view/instructor_view.dart';
 import 'dart:convert';
 import '../../utils/sliders.dart';
@@ -22,6 +23,7 @@ class _InstructorBioUpdateState extends State<Rating> {
   int index;
   // pic urls
   String _uploadProfilePicFileResult = '';
+  // ignore: unused_field
   String _uploadClassFileResult = '';
 
   //Text field state
@@ -41,6 +43,7 @@ class _InstructorBioUpdateState extends State<Rating> {
     }
   }
 
+  // ignore: unused_element
   void _uploadProfilePic() async {
     try {
       File local = await FilePicker.getFile(type: FileType.image);

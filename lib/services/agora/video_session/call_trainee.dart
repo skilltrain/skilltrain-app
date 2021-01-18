@@ -4,6 +4,7 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:flutter/material.dart';
+// ignore: unused_import
 import 'package:skilltrain/main_app/trainer/pages/instructor_view/instructor_view.dart';
 import '../../../utils/sliders.dart';
 import '../../../services/rating/rating.dart';
@@ -23,7 +24,8 @@ class CallPage extends StatefulWidget {
   final String instructorName;
 
   /// Creates a call page with given channel name.
-  const CallPage({Key key, this.channelName, this.role, this.instructorName}) : super(key: key);
+  const CallPage({Key key, this.channelName, this.role, this.instructorName})
+      : super(key: key);
 
   @override
   _CallPageState createState() => _CallPageState();
@@ -282,11 +284,11 @@ class _CallPageState extends State<CallPage> {
   }
 
   void _onCallEnd(BuildContext context) {
-      Navigator.push(
-      context,
-      SlideRightRoute(
+    Navigator.push(
+        context,
+        SlideRightRoute(
           page: (Rating(instructorName: widget.instructorName)),
-    ));
+        ));
   }
 
   void _onToggleMute() {
