@@ -18,17 +18,18 @@ exports.handler = async (event, context, callback) => {
       bio: data.bio,
       sessions_complete: data.sessions_complete,
       stats: data.stats,
+      firstName: data.firstName,
+      lastName: data.lastName,
     },
   };
   let responseBody;
   let statusCode;
 
-
-   try {
+  try {
     const data = await ddb.put(params).promise();
     responseBody = JSON.stringify(data);
     statusCode = 201;
-  } catch(err) {
+  } catch (err) {
     responseBody = `Unable to put user: ${err}`;
     statusCode = 403;
   }
@@ -36,9 +37,9 @@ exports.handler = async (event, context, callback) => {
   const response = {
     statusCode: statusCode,
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: responseBody
+    body: responseBody,
   };
 
   return response;

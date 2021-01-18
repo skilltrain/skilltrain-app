@@ -14,6 +14,8 @@ exports.handler = async (event, context, callback) => {
     TableName: "Trainers",
     Item: {
       id: data.id,
+      firstName: data.firstName,
+      lastName: data.lastName,
       username: data.username,
       email: data.email,
       dateCreated: timestamp,
@@ -26,7 +28,6 @@ exports.handler = async (event, context, callback) => {
       instructor: data.instructor,
       price: data.price,
       genre: data.genre,
-      availability: data.availability,
       stripe: data.stripe,
     },
   };
