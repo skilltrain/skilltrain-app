@@ -20,6 +20,7 @@ class HomePageTrainee extends StatefulWidget {
   SampleStart createState() => SampleStart();
 }
 
+// ignore: missing_return
 Future<List> fetchUserSessions() async {
   try {
     AuthUser res = await Amplify.Auth.getCurrentUser();

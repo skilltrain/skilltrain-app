@@ -16,6 +16,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   int index;
   // pic urls
   //Leave this here I will use later
+  // ignore: unused_field
   String _uploadProfilePicFileResult = '';
   String _uploadClassFileResult = '';
 
