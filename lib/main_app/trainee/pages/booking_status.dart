@@ -58,10 +58,20 @@ class SampleStart extends State<BookingStatus> {
               if (snapshot.hasData) {
                 final List classArray = [];
                 for (int i = 0; i < snapshot.data.length; i++) {
-                  if (snapshot.data[i]["user_username"] == traineeName
-                      // && DateTime.parse(stringDate).isBefore(DateTime.parse(snapshot.data[i]["date"]))
-                      ) {
+                  if (snapshot.data[i]["user_username"] == traineeName &&
+                      DateTime.parse(stringDate)
+                          .isBefore(DateTime.parse(snapshot.data[i]["date"]))) {
                     classArray.add(snapshot.data[i]);
+                    classArray.sort((a, b) {
+                      var adate = a["date"];
+                      var bdate = b["date"];
+                      return adate.compareTo(bdate);
+                    });
+                    classArray.sort((a, b) {
+                      var adate = a["start_time"];
+                      var bdate = b["start_time"];
+                      return adate.compareTo(bdate);
+                    });
                   } else
                     print("something went wrong with fetched data");
                 }
@@ -163,10 +173,9 @@ class SampleStart extends State<BookingStatus> {
                                                               Navigator.push(
                                                                   context,
                                                                   SlideLeftRoute(
-                                                                      page:
-                                                                          IndexPageTrainee(
-                                                                            instructorName: classArray[index]["trainer_username"]
-                                                                          )))
+                                                                      page: IndexPageTrainee(
+                                                                          instructorName:
+                                                                              classArray[index]["trainer_username"])))
                                                             }),
                                                   ),
                                                 ]),
