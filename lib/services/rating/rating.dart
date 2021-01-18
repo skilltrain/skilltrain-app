@@ -25,7 +25,7 @@ class _InstructorBioUpdateState extends State<Rating> {
 
   //Text field state
   String _genre = "";
-  String _price = "";
+  String _price;
   String _bio = "";
 
   void getUrl() async {
