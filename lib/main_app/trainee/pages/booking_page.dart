@@ -132,6 +132,18 @@ class BookingPage extends StatelessWidget {
                                                                 )),
                                                           ]),
                                                       new Spacer(),
+                                                      Text(
+                                                          "USD " +
+                                                              price.toString() +
+                                                              "/h ",
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 20,
+                                                          )),
+                                                      new Spacer(),
                                                       ButtonTheme(
                                                         minWidth: 30,
                                                         child: RaisedButton(
