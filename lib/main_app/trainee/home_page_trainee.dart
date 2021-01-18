@@ -144,6 +144,13 @@ class SampleStart extends State<HomePageTrainee> {
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
+                  List<Widget> stars = [];
+
+                  for (var i = 0; i < snapshot.data[index]["avgRating"]; i++) {
+                    stars.add(
+                        Icon(Icons.star, color: Colors.yellow[700], size: 7));
+                  }
+
                   if (filter) {
                     if (snapshot.data[index]["genre"] == filterType) {
                       return SizedBox(
@@ -190,23 +197,7 @@ class SampleStart extends State<HomePageTrainee> {
                                             ),
                                             Row(
                                               mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(Icons.star,
-                                                    color: Colors.yellow[700],
-                                                    size: 7),
-                                                Icon(Icons.star,
-                                                    color: Colors.yellow[700],
-                                                    size: 7),
-                                                Icon(Icons.star,
-                                                    color: Colors.yellow[700],
-                                                    size: 7),
-                                                Icon(Icons.star,
-                                                    color: Colors.black,
-                                                    size: 7),
-                                                Icon(Icons.star,
-                                                    color: Colors.black,
-                                                    size: 7),
-                                              ],
+                                              children: stars,
                                             )
                                           ],
                                         ),
@@ -271,21 +262,7 @@ class SampleStart extends State<HomePageTrainee> {
                                           ),
                                           Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Icon(Icons.star,
-                                                  color: Colors.yellow[700],
-                                                  size: 7),
-                                              Icon(Icons.star,
-                                                  color: Colors.yellow[700],
-                                                  size: 7),
-                                              Icon(Icons.star,
-                                                  color: Colors.yellow[700],
-                                                  size: 7),
-                                              Icon(Icons.star,
-                                                  color: Colors.black, size: 7),
-                                              Icon(Icons.star,
-                                                  color: Colors.black, size: 7),
-                                            ],
+                                            children: stars,
                                           )
                                         ],
                                       ),
