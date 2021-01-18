@@ -408,10 +408,16 @@ class _PaymentState extends State<PaymentSignup> {
                                         _finished = true;
                                         if (response.statusCode == 200) {
                                           _response = "Account Created!";
+                                        } else {
+                                          final message = response.body
+                                              .substring(
+                                                  response.body.indexOf(':') +
+                                                      1,
+                                                  response.body.length - 2);
+                                          _response = message;
                                         }
                                       });
-                                      Future.delayed(
-                                          const Duration(milliseconds: 2000),
+                                      Future.delayed(const Duration(seconds: 4),
                                           () {
                                         setState(() {
                                           _finished = false;
