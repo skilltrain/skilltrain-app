@@ -114,7 +114,9 @@ class IndexState extends State<IndexPageTrainee> {
                       children: <Widget>[
                         Expanded(
                           child: RaisedButton(
-                            onPressed: onJoin,
+                            onPressed: () {
+                              onJoin();
+                            },
                             child: Text('Join'),
                             color: Colors.blueAccent,
                             textColor: Colors.white,
