@@ -11,8 +11,6 @@ import 'dart:convert';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:intl/intl.dart';
-// ignore: unused_import
-import 'booking_page.dart';
 import '../../../utils/sliders.dart';
 
 String traineeName = "";
@@ -54,6 +52,7 @@ class SampleStart extends State<BookingStatus> {
         children: <Widget>[
           FutureBuilder<List>(
             future: sessionResults,
+            // ignore: missing_return
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final List classArray = [];
@@ -77,123 +76,111 @@ class SampleStart extends State<BookingStatus> {
                 }
 
                 return Container(
-                    height: 678,
+                    height: MediaQuery.of(context).size.height - 87,
                     width: double.infinity,
-                    padding: const EdgeInsets.all(50.0),
                     child: Column(
                       children: <Widget>[
                         Center(child: Text("last update:" + "$_date")),
-                        // new RaisedButton(
-                        //   onPressed: () => _selectDate(context),
-                        //   child: new Text('日付選択'),
-                        // ),
                         SizedBox(
-                            height: 514,
                             child: ListView.builder(
-                              shrinkWrap: true,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Card(
-                                    child: GestureDetector(
-                                        //画面遷移
-                                        onTap: () => {},
-                                        child: Column(
-                                          children: <Widget>[
-                                            Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          classArray[index]
-                                                              ["date"],
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 20,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                            classArray[index][
-                                                                    "start_time"] +
-                                                                " - " +
-                                                                classArray[
-                                                                        index][
-                                                                    "end_time"],
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 16,
-                                                            )),
-                                                        Text(
-                                                          "With " +
-                                                              classArray[index][
-                                                                  "trainer_username"],
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                        ),
-                                                      ]),
-                                                  new Spacer(),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text(
-                                                        "Session Code",
-                                                        textAlign:
-                                                            TextAlign.right,
+                          shrinkWrap: true,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Card(
+                                child: GestureDetector(
+                                    //画面遷移
+                                    onTap: () => {},
+                                    child: Column(
+                                      children: <Widget>[
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      classArray[index]["date"],
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20,
                                                       ),
-                                                      Text(
-                                                          classArray[index]
-                                                              ["sessionCode"],
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 15,
-                                                          ))
-                                                    ],
+                                                    ),
+                                                    Text(
+                                                        classArray[index]
+                                                                ["start_time"] +
+                                                            " - " +
+                                                            classArray[index]
+                                                                ["end_time"],
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 16,
+                                                        )),
+                                                    Text(
+                                                      "With " +
+                                                          classArray[index][
+                                                              "trainer_username"],
+                                                      textAlign: TextAlign.left,
+                                                    ),
+                                                  ]),
+                                              new Spacer(),
+                                              Column(
+                                                children: <Widget>[
+                                                  Text(
+                                                    "Session Code",
+                                                    textAlign: TextAlign.right,
                                                   ),
-                                                  new Spacer(),
-                                                  ButtonTheme(
-                                                    minWidth: 30,
-                                                    child: RaisedButton(
-                                                        child: Icon(Icons
-                                                            .video_call_rounded),
-                                                        onPressed: () => {
-                                                              Navigator.push(
-                                                                  context,
-                                                                  SlideLeftRoute(
-                                                                      page: IndexPageTrainee(
-                                                                          instructorName:
-                                                                              classArray[index]["trainer_username"])))
-                                                            }),
-                                                  ),
-                                                ]),
-                                          ],
-                                        )));
-                              },
-                              itemCount: classArray.length,
-                            )),
+                                                  Text(
+                                                      classArray[index]
+                                                          ["sessionCode"],
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 15,
+                                                      ))
+                                                ],
+                                              ),
+                                              new Spacer(),
+                                              ButtonTheme(
+                                                minWidth: 30,
+                                                child: RaisedButton(
+                                                    child: Icon(Icons
+                                                        .video_call_rounded),
+                                                    onPressed: () => {
+                                                          Navigator.push(
+                                                              context,
+                                                              SlideLeftRoute(
+                                                                  page: IndexPageTrainee(
+                                                                      instructorName:
+                                                                          classArray[index]
+                                                                              [
+                                                                              "trainer_username"])))
+                                                        }),
+                                              ),
+                                            ]),
+                                      ],
+                                    )));
+                          },
+                          itemCount: classArray.length,
+                        )),
                       ],
                     ));
-
-//calendar object
               } else if (snapshot.connectionState != ConnectionState.done) {
-                return CircularProgressIndicator();
+                return Container(
+                    height: MediaQuery.of(context).size.height - 87,
+                    child: Center(child: CircularProgressIndicator()));
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               }
-              return CircularProgressIndicator();
             },
           ),
         ],
@@ -202,70 +189,6 @@ class SampleStart extends State<BookingStatus> {
   }
 }
 
-// class BookingStatus extends StatelessWidget {
-//   final int index;
-//   BookingStatus({this.index});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         appBar: AppBar(
-//           title: Text("booking status"),
-//         ),
-//         body: ListView.builder(
-//             itemBuilder: (BuildContext context, int index) {
-//               return Card(
-//                   child: Row(children: <Widget>[
-//                 Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: <Widget>[
-//                       Text("sample schedule",
-//                           textAlign: TextAlign.left,
-//                           style: TextStyle(
-//                             fontWeight: FontWeight.bold,
-//                             fontSize: 25,
-//                           )),
-//                       Text("Instructor name",
-//                           textAlign: TextAlign.left,
-//                           style: TextStyle(
-//                             fontSize: 20,
-//                           )),
-//                       Text("XX:00 - XX:30",
-//                           textAlign: TextAlign.left,
-//                           style: TextStyle(
-//                             fontSize: 15,
-//                           )),
-//                     ]),
-//                 new Spacer(),
-//                 // RaisedButton(
-//                 //   onPressed: () => {},
-//                 //   textColor: Colors.white,
-//                 //   padding: const EdgeInsets.all(0),
-//                 //   child: Container(
-//                 //     decoration: BoxDecoration(
-//                 //       gradient: LinearGradient(
-//                 //         colors: <Color>[
-//                 //           Colors.pink[300],
-//                 //           Colors.purple[500],
-//                 //           Colors.purple[700],
-//                 //         ],
-//                 //       ),
-//                 //     ),
-//                 //     padding: const EdgeInsets.all(15),
-//                 //     child: Icon(Icons.video_call_rounded),
-//                 //   ),
-//                 // ),
-//                 RaisedButton(
-//                     child: Icon(Icons.video_call_rounded),
-//                     onPressed: () => {
-//                           Navigator.push(
-//                               context, SlideLeftRoute(page: IndexPage()))
-//                         })
-//               ]));
-//             },
-//             itemCount: 10));
-//   }
-// }
 // ignore: missing_return
 Future<List> fetchSessionResults() async {
   try {
