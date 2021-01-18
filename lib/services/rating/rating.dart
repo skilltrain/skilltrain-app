@@ -5,11 +5,15 @@ import 'package:file_picker/file_picker.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:http/http.dart' as http;
+import 'package:skilltrain/main_app/trainer/pages/instructor_view/instructor_view.dart';
 import 'dart:convert';
 import '../../utils/sliders.dart';
 import '../../main_app/trainee/home_page_trainee.dart';
 
 class Rating extends StatefulWidget {
+  final instructorName;
+  Rating({this.instructorName});
+
   @override
   _InstructorBioUpdateState createState() => _InstructorBioUpdateState();
 }
@@ -52,26 +56,6 @@ class _InstructorBioUpdateState extends State<Rating> {
         _uploadProfilePicFileResult = result.key;
       });
       print(_uploadProfilePicFileResult);
-    } catch (e) {
-      print('UploadFile Err: ' + e.toString());
-    }
-  }
-
-  void _uploadSessionPhoto() async {
-    try {
-      File local = await FilePicker.getFile(type: FileType.image);
-      var key = new DateTime.now().millisecondsSinceEpoch.toString();
-      key = "images/trainers/$_user/sessionPhoto/" + key;
-      Map<String, String> metadata = <String, String>{};
-      metadata['type'] = 'sessionPhoto';
-      S3UploadFileOptions options = S3UploadFileOptions(
-          accessLevel: StorageAccessLevel.guest, metadata: metadata);
-      UploadFileResult result = await Amplify.Storage.uploadFile(
-          key: key, local: local, options: options);
-      setState(() {
-        _uploadClassFileResult = result.key;
-      });
-      print(_uploadClassFileResult);
     } catch (e) {
       print('UploadFile Err: ' + e.toString());
     }
@@ -136,6 +120,7 @@ class _InstructorBioUpdateState extends State<Rating> {
                     ),
                     child: Column(
                       children: [
+                        Text(widget.instructorName),
                         Text(
                           "How was the today's lesson?",
                           style: TextStyle(
