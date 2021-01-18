@@ -12,8 +12,6 @@ import '../components/fetchTrainers.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import '../components/headings.dart';
 
-// test added by Hide
-
 class HomePageTrainee extends StatefulWidget {
   final VoidCallback shouldLogOut;
   HomePageTrainee({Key key, this.shouldLogOut}) : super(key: key);
