@@ -12,6 +12,15 @@ class InstructorBio extends StatelessWidget {
     List<Widget> stars = [];
     for (var i = 0; i < data["avgRating"]; i++) {
       stars.add(Icon(Icons.star, color: Colors.yellow[700], size: 14));
+
+      if (i == data["avgRating"].round() - 1) {
+        print("number of ratings");
+        stars.add(Text("(" + data["numberOfRatings"].toString() + ")",
+            style: TextStyle(
+              fontWeight: FontWeight.w300,
+              fontSize: 10,
+            )));
+      }
     }
     return Scaffold(
         appBar: AppBar(
@@ -31,7 +40,9 @@ class InstructorBio extends StatelessWidget {
                         fontSize: 30,
                       )),
                   Spacer(),
-                  Row(children: stars),
+                  Row(
+                    children: stars,
+                  ),
                 ]),
               ),
               Padding(
@@ -68,8 +79,8 @@ class InstructorBio extends StatelessWidget {
                       ],
                     ),
                   ),
-                  padding: const EdgeInsets.all(10),
-                  child: const Text('check availability now! >>>',
+                  padding: EdgeInsets.all(10),
+                  child: Text('check availability now! >>>',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
