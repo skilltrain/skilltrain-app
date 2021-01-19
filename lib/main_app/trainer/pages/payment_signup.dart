@@ -1,8 +1,7 @@
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:skilltrain/utils/overlay_text.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,9 +23,7 @@ class PaymentSignup extends StatefulWidget {
 
 class _PaymentState extends State<PaymentSignup> {
   bool _saving = false;
-  bool _finished = false;
   String _response;
-  bool _selected = false;
   String test = '';
 
   DateTime currenty = DateTime.now();
@@ -859,7 +856,6 @@ class _PaymentState extends State<PaymentSignup> {
                           print(response.body);
                           setState(() {
                             _saving = false;
-                            _finished = true;
                             if (response.statusCode == 200) {
                               _response = "Account Created!";
                               showDialog(
@@ -883,11 +879,7 @@ class _PaymentState extends State<PaymentSignup> {
                                           buttonText: 'CLOSE'));
                             }
                           });
-                          Future.delayed(const Duration(seconds: 4), () {
-                            setState(() {
-                              _finished = false;
-                            });
-                          });
+                          Future.delayed(const Duration(seconds: 4), () {});
                         },
                         child: Text(
                           "Submit",
