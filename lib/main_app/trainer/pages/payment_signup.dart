@@ -10,6 +10,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../../../utils/gender_selector.dart';
 import 'package:spannable_grid/spannable_grid.dart';
+import '../../../utils/alert_dialogue.dart';
 
 class PaymentSignup extends StatefulWidget {
   final List<CognitoUserAttribute> userAttributes;
@@ -836,43 +837,65 @@ class _PaymentState extends State<PaymentSignup> {
                       print('Cell ${cell.id} changed');
                     },
                   ),
-                  const Divider(height: 20),
-                  RaisedButton(
-                      onPressed: () async {
-                        setState(() {
-                          _saving = true;
-                        });
-                        print(widget.userAttributes);
-                        print(infoObj);
-                        var response = await http.put(
-                            "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe",
-                            headers: <String, String>{
-                              'Content-Type': 'application/json; charset=UTF-8',
-                            },
-                            body: convert.jsonEncode(infoObj));
-                        print(response.statusCode);
-                        print(response.body);
-                        setState(() {
-                          _saving = false;
-                          _finished = true;
-                          if (response.statusCode == 200) {
-                            _response = "Account Created!";
-                          } else {
-                            final message = response.body.substring(
-                                response.body.indexOf(':') + 1,
-                                response.body.length - 2);
-                            _response = message;
-                          }
-                        });
-                        Future.delayed(const Duration(seconds: 4), () {
+                  const Divider(height: 10),
+                  ButtonTheme(
+                      minWidth: MediaQuery.of(context).size.width,
+                      height: 60,
+                      child: RaisedButton(
+                        onPressed: () async {
                           setState(() {
-                            _finished = false;
+                            _saving = true;
                           });
-                        });
-                      },
-                      child: Text("Submit"),
-                      color: Colors.blueAccent,
-                      textColor: Colors.white)
+                          print(widget.userAttributes);
+                          print(infoObj);
+                          var response = await http.put(
+                              "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe",
+                              headers: <String, String>{
+                                'Content-Type':
+                                    'application/json; charset=UTF-8',
+                              },
+                              body: convert.jsonEncode(infoObj));
+                          print(response.statusCode);
+                          print(response.body);
+                          setState(() {
+                            _saving = false;
+                            _finished = true;
+                            if (response.statusCode == 200) {
+                              _response = "Account Created!";
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialogue(
+                                          title: 'Success!',
+                                          content: _response,
+                                          buttonText: 'CLOSE'));
+                            } else {
+                              final message = response.body.substring(
+                                  response.body.indexOf(':') + 1,
+                                  response.body.length - 1);
+                              _response = message;
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialogue(
+                                          title: 'Error',
+                                          content: _response,
+                                          buttonText: 'CLOSE'));
+                            }
+                          });
+                          Future.delayed(const Duration(seconds: 4), () {
+                            setState(() {
+                              _finished = false;
+                            });
+                          });
+                        },
+                        child: Text(
+                          "Submit",
+                          style: TextStyle(fontSize: 40),
+                        ),
+                        color: Colors.blueAccent,
+                        textColor: Colors.white,
+                      )),
                 ],
               ),
             ),
