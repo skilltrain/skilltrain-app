@@ -65,6 +65,30 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Container(
           width: double.infinity,
           child: Column(children: [
+            Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  color:Colors.green,
+                  child:Image.asset('assets/images/signup.png',fit: BoxFit.cover),
+
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 200,
+                  child:
+                    Column(children:[
+                      new Spacer(),
+                      Text("Find your workout buddy", style: TextStyle(
+                                                                color: Colors.white, 
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 26.0,
+                                                                ),),
+                      new Spacer(),
+                      ]
+                  ),
+              )],
+            ),
             // User or Trainer
             Center(child: radioButton()),
             // Sign Up Form

@@ -20,9 +20,34 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          minimum: EdgeInsets.symmetric(horizontal: 40),
-          child: Stack(children: [
+      body: 
+        Column(
+          children: [
+              Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  color:Colors.green,
+                  child:Image.asset('assets/images/login.png',fit: BoxFit.cover),
+
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 250,
+                  child:
+                    Column(children:[
+                      new Spacer(),
+                      Text("Let's start new acitivity", style: TextStyle(
+                                                                color: Colors.white, 
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 26.0,
+                                                                ),),
+                      new Spacer(),
+                      ]
+                  ),
+              )],
+            ),
+            Padding(padding: EdgeInsets.only(bottom: 8.0),),
             _loginForm(),
             Container(
               alignment: Alignment.bottomCenter,
@@ -30,7 +55,9 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: widget.shouldShowSignUp,
                   child: Text('Don\'t have an account? Sign up.')),
             )
-          ])),
+          
+          ]
+),
     );
   }
 
