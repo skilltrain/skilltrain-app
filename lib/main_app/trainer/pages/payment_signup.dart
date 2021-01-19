@@ -1,3 +1,4 @@
+import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:skilltrain/utils/overlay_text.dart';
@@ -11,6 +12,9 @@ import '../../../utils/gender_selector.dart';
 import 'package:spannable_grid/spannable_grid.dart';
 
 class PaymentSignup extends StatefulWidget {
+  final List<CognitoUserAttribute> userAttributes;
+  PaymentSignup({Key key, this.userAttributes}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return new _PaymentState();
@@ -63,7 +67,7 @@ class _PaymentState extends State<PaymentSignup> {
         "town": "台東区"
       },
       "dob": {"day": "28", "month": "12", "year": "1993"},
-      "email": "ejaustinforbes@gmail.com",
+      "email": "",
       "gender": "male",
       "first_name_kanji": "東",
       "first_name_kana": "ア",
@@ -79,22 +83,20 @@ class _PaymentState extends State<PaymentSignup> {
   };
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    getTrainerEmail();
+    getUsername();
+  }
+
+  void getUsername() async {
     final prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
     infoObj['username'] = username;
-  }
-
-  Future getTrainerEmail() async {
-    final prefs = await SharedPreferences.getInstance();
-    final username = prefs.getString('username');
-    final trainerData = await http.get(
-        "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers?username=$username");
-    final trainerDataDecoded = convert.jsonDecode(trainerData.body);
-    infoObj["individual"]["email"] = trainerDataDecoded[0]['email'];
-    infoObj["username"] = username;
+    widget.userAttributes.forEach((attribute) {
+      if (attribute.getName() == 'email') {
+        infoObj['individual']['email'] = attribute.getValue();
+      }
+    });
   }
 
   final columnSpan = 4;
@@ -213,7 +215,7 @@ class _PaymentState extends State<PaymentSignup> {
       SpannableGridCellData(
         column: 1,
         row: 1,
-        columnSpan: 1,
+        columnSpan: 4,
         rowSpan: 2,
         id: "Icon gender",
         child: Container(
@@ -225,9 +227,9 @@ class _PaymentState extends State<PaymentSignup> {
     );
     genderCells.add(
       SpannableGridCellData(
-        column: 2,
+        column: 4,
         row: 1,
-        columnSpan: columnSpan,
+        columnSpan: columnSpan * 4,
         rowSpan: 2,
         id: "a",
         child: Container(
@@ -321,7 +323,7 @@ class _PaymentState extends State<PaymentSignup> {
       SpannableGridCellData(
         column: 1,
         row: 1,
-        columnSpan: 1,
+        columnSpan: 8,
         rowSpan: 1,
         id: "Icon birthday",
         child: Container(
@@ -333,25 +335,18 @@ class _PaymentState extends State<PaymentSignup> {
     );
     birthdayCells.add(
       SpannableGridCellData(
-        column: 2,
+        column: 7,
         row: 1,
-        columnSpan: columnSpan,
+        columnSpan: 16,
         rowSpan: 1,
         id: "birthday",
-        child: Container(
-          alignment: Alignment.topLeft,
-          child: Center(
-              child: new ListTile(
-                  leading: new TextButton(
-            onPressed: () {
-              _selectDate(context);
-              print(currentDate);
-            },
-            child: new Text(
-              'Birthday',
-              style: new TextStyle(fontSize: 26),
-            ),
-          ))),
+        child: new TextButton(
+          onPressed: () {
+            _selectDate(context);
+            print(currentDate);
+          },
+          child: new Text('  Birthday          ',
+              style: new TextStyle(fontSize: 26), textAlign: TextAlign.left),
         ),
       ),
     );
@@ -747,7 +742,7 @@ class _PaymentState extends State<PaymentSignup> {
                   const Divider(height: 10),
                   SpannableGrid(
                     rowHeight: 45,
-                    columns: 5,
+                    columns: 20,
                     rows: 2,
                     cells: genderCells,
                     spacing: 1,
@@ -780,7 +775,7 @@ class _PaymentState extends State<PaymentSignup> {
                   const Divider(height: 10),
                   SpannableGrid(
                     rowHeight: 50,
-                    columns: 5,
+                    columns: 40,
                     rows: 1,
                     cells: birthdayCells,
                     spacing: 0,
@@ -792,7 +787,7 @@ class _PaymentState extends State<PaymentSignup> {
                       height: 50,
                       child:
                           Text('$currentDate', style: TextStyle(fontSize: 20)),
-                      alignment: Alignment(-0.31, 0.0)),
+                      alignment: Alignment(-0.46, 0.0)),
                   const Divider(height: 10),
                   SpannableGrid(
                     rowHeight: 50,
@@ -843,6 +838,7 @@ class _PaymentState extends State<PaymentSignup> {
                         setState(() {
                           _saving = true;
                         });
+                        print(widget.userAttributes);
                         print(infoObj);
                         var response = await http.put(
                             "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe",

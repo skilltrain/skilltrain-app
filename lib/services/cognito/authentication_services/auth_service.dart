@@ -20,6 +20,7 @@ class AuthService {
   final authStateController = StreamController<AuthState>();
   AuthCredentials _credentials;
   bool isTrainer;
+  List<CognitoUserAttribute> attributes;
 
   void showSignUp() {
     final state = AuthState(authFlowStatus: AuthFlowStatus.signUp);
@@ -44,7 +45,7 @@ class AuthService {
     final authDetails = new AuthenticationDetails(
         username: _credentials.username, password: _credentials.password);
     await user.authenticateUser(authDetails);
-    List<CognitoUserAttribute> attributes = await user.getUserAttributes();
+    attributes = await user.getUserAttributes();
     attributes.forEach((attribute) {
       if (attribute.getName() == 'custom:isTrainer') {
         if (attribute.getValue() == 'true') {

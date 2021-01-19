@@ -1,3 +1,4 @@
+import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
@@ -12,7 +13,9 @@ import '../../services/rating/rating.dart';
 
 class HomePageTrainer extends StatefulWidget {
   final VoidCallback shouldLogOut;
-  HomePageTrainer({Key key, this.shouldLogOut}) : super(key: key);
+  final List<CognitoUserAttribute> userAttributes;
+  HomePageTrainer({Key key, this.shouldLogOut, this.userAttributes})
+      : super(key: key);
 
   @override
   SampleStart createState() => SampleStart();
@@ -72,7 +75,9 @@ class SampleStart extends State<HomePageTrainer> {
               onTap: () {
                 Navigator.push(
                   context,
-                  SlideLeftRoute(page: PaymentSignup()),
+                  SlideLeftRoute(
+                      page:
+                          PaymentSignup(userAttributes: widget.userAttributes)),
                 );
               },
             ),
