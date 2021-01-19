@@ -29,6 +29,9 @@ exports.handler = async (event, context, callback) => {
       price: data.price,
       genre: data.genre,
       stripe: data.stripe,
+      avgRating: data.avgRating,
+      numberOfRatings: data.numberOfRatings,
+      totalRating: data.totalRating,
     },
   };
   let responseBody;
