@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 250,
+                  height: 320,
                   child:
                     Column(children:[
                       new Spacer(),
@@ -45,7 +45,19 @@ class _LoginPageState extends State<LoginPage> {
                       new Spacer(),
                       ]
                   ),
-              )],
+              ),
+              Container(
+                  width: double.infinity,
+                  height: 240,
+                  child:
+                    Center(
+                      child:Container(
+                        height: 50,
+                        child:Image.asset('assets/images/skillTrain-logo.png'),
+                      ),
+                      )
+                ),           
+              ],
             ),
             Padding(padding: EdgeInsets.only(bottom: 8.0),),
             _loginForm(),
