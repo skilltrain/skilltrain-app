@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:skilltrain/utils/overlay_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class PaymentSignup extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return new PaymentState();
+    return new _PaymentState();
   }
 }
 
-class PaymentState extends State<PaymentSignup> {
-  final Map<String, dynamic> infoObj = {
+class _PaymentState extends State<PaymentSignup> {
+  bool _saving = false;
+  bool _finished = false;
+  String _response;
+
+  Map<String, dynamic> infoObj = {
     "individual": {
       "address_kana": {
         "city": "トウキョウ",
@@ -38,349 +45,409 @@ class PaymentState extends State<PaymentSignup> {
       "last_name_kana": "ア",
       "phone": "+815031362394"
     },
-    "external_account": {"account_number": "0001234", "routing_number": "1100000"},
+    "external_account": {
+      "account_number": "0001234",
+      "routing_number": "1100000"
+    },
     "username": ""
   };
 
   @override
+  void initState() {
+    super.initState();
+    getTrainerEmail();
+  }
+
+  Future getTrainerEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final trainerData = await http.get(
+        "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers?username=$username");
+    final trainerDataDecoded = convert.jsonDecode(trainerData.body);
+    infoObj["individual"]["email"] = trainerDataDecoded[0]['email'];
+    infoObj["username"] = username;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final bottom = MediaQuery.of(context).viewInsets.bottom;
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: Text('Payment Informatin Fillout Form'),
+          title: Text('Payment sign up'),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            height: 1400,
-            child: Column(
-              children: <Widget>[
-                Text('Please fill out below information',
-                    style: TextStyle(fontSize: 20, color: Colors.black),
-                    textAlign: TextAlign.left),
-                new Spacer(),
-                Column(
-                  children: <Widget>[
-                    Text('address_kana',
-                        style: TextStyle(fontSize: 15.0, color: Colors.black),
-                        textAlign: TextAlign.left),
-                    TextFormField(
-                      initialValue: "トウキョウ",
-                      onChanged: (text) {
-                        infoObj["individual"]["address_kana"]["city"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'city'),
-                    ),
-                    TextFormField(
-                      initialValue: "２－３９ー７",
-                      onChanged: (text) {
-                        infoObj["individual"]["address_kana"]["line1"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'line1'),
-                    ),
-                    TextFormField(
-                      initialValue: "イリヤ",
-                      onChanged: (text) {
-                        infoObj["individual"]["address_kana"]["line2"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'line2'),
-                    ),
-                    TextFormField(
-                      initialValue: "110-0013",
-                      onChanged: (text) {
-                        infoObj["individual"]["address_kana"]["postal_code"] =
-                            text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'postal_code'),
-                    ),
-                    TextFormField(
-                      initialValue: "トウキョウト",
-                      onChanged: (text) {
-                        infoObj["individual"]["address_kana"]["state"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'state'),
-                    ),
-                    TextFormField(
-                      initialValue: "イリヤ",
-                      onChanged: (text) {
-                        infoObj["individual"]["address_kana"]["town"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'town'),
-                    ),
-                    Text('address_kanji',
-                        style: TextStyle(fontSize: 15.0, color: Colors.black),
-                        textAlign: TextAlign.left),
-                    TextFormField(
-                      initialValue: "東京",
-                      onChanged: (text) {
-                        infoObj["individual"]["address_kanji"]["city"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'city'),
-                    ),
-                    TextFormField(
-                      initialValue: "２－３９ー７",
-                      onChanged: (text) {
-                        infoObj["individual"]["address_kanji"]["line1"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'line1'),
-                    ),
-                    TextFormField(
-                      initialValue: "入谷",
-                      onChanged: (text) {
-                        infoObj["individual"]["address_kanji"]["line2"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'line2'),
-                    ),
-                    TextFormField(
-                      initialValue: "110-0013",
-                      onChanged: (text) {
-                        infoObj["individual"]["address_kanji"]["postal_code"] =
-                            text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'postal_code'),
-                    ),
-                    TextFormField(
-                      initialValue: "東京都",
-                      onChanged: (text) {
-                        infoObj["individual"]["address_kanji"]["state"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'state'),
-                    ),
-                    TextFormField(
-                      initialValue: "台東区",
-                      onChanged: (text) {
-                        infoObj["individual"]["address_kanji"]["town"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'town'),
-                    ),
-                    Text('date of birth',
-                        style: TextStyle(fontSize: 15.0, color: Colors.black),
-                        textAlign: TextAlign.left),
-                    TextFormField(
-                      initialValue: "28",
-                      onChanged: (text) {
-                        infoObj["dob"]["day"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'day'),
-                    ),
-                    TextFormField(
-                      initialValue: "12",
-                      onChanged: (text) {
-                        infoObj["dob"]["month"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'month'),
-                    ),
-                    TextFormField(
-                      initialValue: "1993",
-                      onChanged: (text) {
-                        infoObj["dob"]["year"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'year'),
-                    ),
-                    Text('other information',
-                        style: TextStyle(fontSize: 15.0, color: Colors.black),
-                        textAlign: TextAlign.left),
-                    TextFormField(
-                      initialValue: "ejaustinforbesjp@gmail.com",
-                      onChanged: (text) {
-                        infoObj["individual"]["email"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'email'),
-                    ),
-                    TextFormField(
-                      initialValue: "male",
-                      onChanged: (text) {
-                        infoObj["gender"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'gender'),
-                    ),
-                    TextFormField(
-                      initialValue: "",
-                      onChanged: (text) {
-                        infoObj['username'] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'username'),
-                    ),
-                    TextFormField(
-                      initialValue: "和",
-                      onChanged: (text) {
-                        infoObj["first_name_kanji"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'first_name_kanji'),
-                    ),
-                    TextFormField(
-                      initialValue: "ア",
-                      onChanged: (text) {
-                        infoObj["first_name_kana"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'first_name_kana'),
-                    ),
-                    TextFormField(
-                      initialValue: "和",
-                      onChanged: (text) {
-                        infoObj["last_name_kanji"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'last_name_kanji'),
-                    ),
-                    TextFormField(
-                      initialValue: "ア",
-                      onChanged: (text) {
-                        infoObj["last_name_kana"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'last_name_kana'),
-                    ),
-                    TextFormField(
-                      initialValue: "+815031362394",
-                      onChanged: (text) {
-                        infoObj["individual"]["phone"] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'phone'),
-                    ),
-                    Text('bank account',
-                        style: TextStyle(fontSize: 15.0, color: Colors.black),
-                        textAlign: TextAlign.left),
-                    TextFormField(
-                      initialValue: "0001234",
-                      onChanged: (text) {
-                        infoObj["external_account"]['account_number'] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'account_number'),
-                    ),
-                    TextFormField(
-                      initialValue: "1100000",
-                      onChanged: (text) {
-                        infoObj["external_account"]['routing_number'] = text;
-                      },
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(width: 1)),
-                          hintText: 'routing_number'),
-                    ),
-                    InkWell(
-                      highlightColor: Colors.red.shade300,
-                      splashColor: Colors.red.shade100,
-                      child: Text(
-                        "Stripe terms of agreement",
-                        style: TextStyle(
-                            color: Colors.blue,
-                            decoration: TextDecoration.underline,
-                            fontSize: 18),
-                      ),
-                      onTap: () async {
-                        if (await canLaunch(
-                            "https://stripe.com/en-gb-jp/connect-account/legal")) {
-                          await launch(
-                              "https://stripe.com/en-gb-jp/connect-account/legal");
-                        }
-                      },
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: RaisedButton(
-                              onPressed: () async {
-                                print(infoObj);
-                                var response = await http.put(
-                                    "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe",
-                                    headers: <String, String>{
-                                      'Content-Type':
-                                          'application/json; charset=UTF-8',
-                                    },
-                                    body: convert.jsonEncode(infoObj));
-                                print(response.statusCode);
-                                print(response.body);
+        body: ModalProgressHUD(
+            child: SingleChildScrollView(
+              reverse: true,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                height: 1620,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: bottom),
+                  child: Stack(children: <Widget>[
+                    OverlayText(
+                        text: _saving
+                            ? "Creating payment account"
+                            : _finished
+                                ? _response
+                                : "test",
+                        color: Colors.deepPurple.withOpacity(1.0),
+                        alignment: Alignment(0, 0.35)),
+                    Column(
+                      children: <Widget>[
+                        Text('Please complete the information below',
+                            style: TextStyle(fontSize: 20, color: Colors.black),
+                            textAlign: TextAlign.left),
+                        new Spacer(),
+                        Column(
+                          children: <Widget>[
+                            Text('address_kana',
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Colors.black),
+                                textAlign: TextAlign.left),
+                            TextFormField(
+                              initialValue: "トウキョウ",
+                              onChanged: (text) {
+                                infoObj["individual"]["address_kana"]["city"] =
+                                    text;
                               },
-                              child: Text("Submit"),
-                              color: Colors.blueAccent,
-                              textColor: Colors.white,
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'city'),
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+                            TextFormField(
+                              initialValue: "２－３９ー７",
+                              onChanged: (text) {
+                                infoObj["individual"]["address_kana"]["line1"] =
+                                    text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'line1'),
+                            ),
+                            TextFormField(
+                              initialValue: "イリヤ",
+                              onChanged: (text) {
+                                infoObj["individual"]["address_kana"]["line2"] =
+                                    text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'line2'),
+                            ),
+                            TextFormField(
+                              initialValue: "110-0013",
+                              onChanged: (text) {
+                                infoObj["individual"]["address_kana"]
+                                    ["postal_code"] = text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'postal_code'),
+                            ),
+                            TextFormField(
+                              initialValue: "トウキョウト",
+                              onChanged: (text) {
+                                infoObj["individual"]["address_kana"]["state"] =
+                                    text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'state'),
+                            ),
+                            TextFormField(
+                              initialValue: "イリヤ",
+                              onChanged: (text) {
+                                infoObj["individual"]["address_kana"]["town"] =
+                                    text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'town'),
+                            ),
+                            Text('address_kanji',
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Colors.black),
+                                textAlign: TextAlign.left),
+                            TextFormField(
+                              initialValue: "東京",
+                              onChanged: (text) {
+                                infoObj["individual"]["address_kanji"]["city"] =
+                                    text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'city'),
+                            ),
+                            TextFormField(
+                              initialValue: "２－３９ー７",
+                              onChanged: (text) {
+                                infoObj["individual"]["address_kanji"]
+                                    ["line1"] = text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'line1'),
+                            ),
+                            TextFormField(
+                              initialValue: "入谷",
+                              onChanged: (text) {
+                                infoObj["individual"]["address_kanji"]
+                                    ["line2"] = text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'line2'),
+                            ),
+                            TextFormField(
+                              initialValue: "110-0013",
+                              onChanged: (text) {
+                                infoObj["individual"]["address_kanji"]
+                                    ["postal_code"] = text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'postal_code'),
+                            ),
+                            TextFormField(
+                              initialValue: "東京都",
+                              onChanged: (text) {
+                                infoObj["individual"]["address_kanji"]
+                                    ["state"] = text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'state'),
+                            ),
+                            TextFormField(
+                              initialValue: "台東区",
+                              onChanged: (text) {
+                                infoObj["individual"]["address_kanji"]["town"] =
+                                    text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'town'),
+                            ),
+                            Text('date of birth',
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Colors.black),
+                                textAlign: TextAlign.left),
+                            TextFormField(
+                              initialValue: "28",
+                              onChanged: (text) {
+                                infoObj["dob"]["day"] = text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'day'),
+                            ),
+                            TextFormField(
+                              initialValue: "12",
+                              onChanged: (text) {
+                                infoObj["dob"]["month"] = text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'month'),
+                            ),
+                            TextFormField(
+                              initialValue: "1993",
+                              onChanged: (text) {
+                                infoObj["dob"]["year"] = text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'year'),
+                            ),
+                            Text('other information',
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Colors.black),
+                                textAlign: TextAlign.left),
+                            TextFormField(
+                              initialValue: "male",
+                              onChanged: (text) {
+                                infoObj["gender"] = text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'gender'),
+                            ),
+                            TextFormField(
+                              initialValue: "和",
+                              onChanged: (text) {
+                                infoObj["first_name_kanji"] = text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'first_name_kanji'),
+                            ),
+                            TextFormField(
+                              initialValue: "ア",
+                              onChanged: (text) {
+                                infoObj["first_name_kana"] = text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'first_name_kana'),
+                            ),
+                            TextFormField(
+                              initialValue: "和",
+                              onChanged: (text) {
+                                infoObj["last_name_kanji"] = text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'last_name_kanji'),
+                            ),
+                            TextFormField(
+                              initialValue: "ア",
+                              onChanged: (text) {
+                                infoObj["last_name_kana"] = text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'last_name_kana'),
+                            ),
+                            TextFormField(
+                              initialValue: "+815031362394",
+                              onChanged: (text) {
+                                infoObj["individual"]["phone"] = text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'phone'),
+                            ),
+                            Text('bank account',
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Colors.black),
+                                textAlign: TextAlign.left),
+                            TextFormField(
+                              initialValue: "0001234",
+                              onChanged: (text) {
+                                infoObj["external_account"]['account_number'] =
+                                    text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'account_number'),
+                            ),
+                            TextFormField(
+                              initialValue: "1100000",
+                              onChanged: (text) {
+                                infoObj["external_account"]['routing_number'] =
+                                    text;
+                              },
+                              decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide(width: 1)),
+                                  hintText: 'routing_number'),
+                            ),
+                            InkWell(
+                              highlightColor: Colors.red.shade300,
+                              splashColor: Colors.red.shade100,
+                              child: Text(
+                                "Stripe terms of agreement",
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    decoration: TextDecoration.underline,
+                                    fontSize: 18),
+                              ),
+                              onTap: () async {
+                                if (await canLaunch(
+                                    "https://stripe.com/en-gb-jp/connect-account/legal")) {
+                                  await launch(
+                                      "https://stripe.com/en-gb-jp/connect-account/legal");
+                                }
+                              },
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: RaisedButton(
+                                      onPressed: () async {
+                                        setState(() {
+                                          _saving = true;
+                                        });
+                                        print(infoObj);
+                                        var response = await http.put(
+                                            "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe",
+                                            headers: <String, String>{
+                                              'Content-Type':
+                                                  'application/json; charset=UTF-8',
+                                            },
+                                            body: convert.jsonEncode(infoObj));
+                                        print(response.statusCode);
+                                        print(response.body);
+                                        setState(() {
+                                          _saving = false;
+                                          _finished = true;
+                                          if (response.statusCode == 200) {
+                                            _response = "Account Created!";
+                                          } else {
+                                            final message = response.body
+                                                .substring(
+                                                    response.body.indexOf(':') +
+                                                        1,
+                                                    response.body.length - 2);
+                                            _response = message;
+                                          }
+                                        });
+                                        Future.delayed(
+                                            const Duration(seconds: 4), () {
+                                          setState(() {
+                                            _finished = false;
+                                          });
+                                        });
+                                      },
+                                      child: Text("Submit"),
+                                      color: Colors.blueAccent,
+                                      textColor: Colors.white,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  ]),
                 ),
-              ],
+              ),
             ),
-          ),
-        ));
+            inAsyncCall: _saving,
+            color: Colors.deepPurple,
+            progressIndicator: CircularProgressIndicator()));
   }
 }

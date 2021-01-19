@@ -1,6 +1,8 @@
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+// ignore: unused_import
+import 'package:skilltrain/main_app/trainer/pages/instructor_view/instructor_view.dart';
 import '../../../main_app/trainee/home_page_trainee.dart';
 import '../../../utils/sliders.dart';
 
@@ -10,6 +12,9 @@ import 'call_trainee.dart';
 // *********** 1to1 VC Mode *********** //
 
 class IndexPageTrainee extends StatefulWidget {
+  final instructorName;
+  IndexPageTrainee({this.instructorName});
+
   @override
   State<StatefulWidget> createState() => IndexState();
 }
@@ -109,7 +114,9 @@ class IndexState extends State<IndexPageTrainee> {
                       children: <Widget>[
                         Expanded(
                           child: RaisedButton(
-                            onPressed: onJoin,
+                            onPressed: () {
+                              onJoin();
+                            },
                             child: Text('Join'),
                             color: Colors.blueAccent,
                             textColor: Colors.white,
@@ -161,9 +168,9 @@ class IndexState extends State<IndexPageTrainee> {
         context,
         MaterialPageRoute(
           builder: (context) => CallPage(
-            channelName: _channelController.text,
-            role: _role,
-          ),
+              channelName: _channelController.text,
+              role: _role,
+              instructorName: widget.instructorName),
         ),
       );
     }

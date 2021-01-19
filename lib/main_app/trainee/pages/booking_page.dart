@@ -27,6 +27,7 @@ class BookingPage extends StatelessWidget {
   final int price;
   final int index;
   final Future<List> sessionResults = fetchSessionResults();
+  final DateTime stringDate = new DateTime.now().subtract(Duration(days: 1));
   BookingPage({this.index, this.trainerName, this.price});
 
   @override
@@ -35,48 +36,190 @@ class BookingPage extends StatelessWidget {
         appBar: AppBar(
           title: Text("booking"),
         ),
-        body: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                  child: Row(children: <Widget>[
-                Text("sample schedule",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                    )),
-                new Spacer(),
-                RaisedButton(
-                  onPressed: () {
-                    // Insert PUT method function to update user_username/sessionCode info in sessions table
-                    print(trainerName);
-                    print(traineeName);
-                    print(price);
-                    print(sessionCode(6));
-                    Navigator.push(
-                        context,
-                        SlideLeftRoute(
-                            page: MyHomePage(trainerUsername: trainerName)));
-                  },
-                  textColor: Colors.white,
-                  padding: const EdgeInsets.all(0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: <Color>[
-                          Colors.pink[300],
-                          Colors.purple[500],
-                          Colors.purple[700],
+        body: Column(
+          children: <Widget>[
+            FutureBuilder<List>(
+              future: sessionResults,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final List classArray = [];
+                  for (int i = 0; i < snapshot.data.length; i++) {
+                    if (snapshot.data[i]["trainer_username"] == trainerName &&
+                        snapshot.data[i]["complete"] == false &&
+                        snapshot.data[i]["status"] == false &&
+                        snapshot.data[i]["user_username"] == "" &&
+                        stringDate.isBefore(
+                            DateTime.parse(snapshot.data[i]["date"]))) {
+                      print(snapshot.data[i]["date"]);
+                      classArray.add(snapshot.data[i]);
+                      classArray.sort((a, b) {
+                        var adate = a["date"] + a["start_time"];
+                        var bdate = b["date"] + b["start_time"];
+                        return adate.compareTo(bdate);
+                      });
+                    } else
+                      print("something went wrong with fetched data");
+                  }
+                  return Container(
+                      height: MediaQuery.of(context).size.height - 87,
+                      width: double.infinity,
+                      child: Column(
+                        children: <Widget>[
+                          Center(
+                            child: SizedBox(
+                                height: MediaQuery.of(context).size.height - 87,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Card(
+                                        child: GestureDetector(
+                                            //画面遷移
+                                            onTap: () => {},
+                                            child: Column(
+                                              children: <Widget>[
+                                                Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: <Widget>[
+                                                            Text(
+                                                              classArray[index]
+                                                                  ["date"],
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 20,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                                classArray[index]
+                                                                        [
+                                                                        "start_time"] +
+                                                                    " - " +
+                                                                    classArray[
+                                                                            index]
+                                                                        [
+                                                                        "end_time"],
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 16,
+                                                                )),
+                                                          ]),
+                                                      new Spacer(),
+                                                      Text(
+                                                          "USD " +
+                                                              price.toString() +
+                                                              "/h ",
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 20,
+                                                          )),
+                                                      new Spacer(),
+                                                      ButtonTheme(
+                                                        minWidth: 30,
+                                                        child: RaisedButton(
+                                                          onPressed: () {
+                                                            // Insert PUT method function to update user_username/sessionCode info in sessions table
+                                                            print(traineeName);
+                                                            print(trainerName);
+                                                            print(price);
+                                                            print(classArray[
+                                                                index]["id"]);
+                                                            print(
+                                                                sessionCode(6));
+                                                            updateSession(
+                                                                classArray[
+                                                                        index]
+                                                                    ["id"]);
+                                                            Navigator.push(
+                                                                context,
+                                                                SlideLeftRoute(
+                                                                    page: MyHomePage(
+                                                                        trainerUsername:
+                                                                            trainerName)));
+                                                          },
+                                                          textColor:
+                                                              Colors.white,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(0),
+                                                          child: Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              gradient:
+                                                                  LinearGradient(
+                                                                colors: <Color>[
+                                                                  Colors.pink[
+                                                                      300],
+                                                                  Colors.purple[
+                                                                      500],
+                                                                  Colors.purple[
+                                                                      700],
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15),
+                                                            child: const Text(
+                                                                'book now'),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ]),
+                                              ],
+                                            )));
+                                  },
+                                  itemCount: classArray.length,
+                                )),
+                          )
                         ],
-                      ),
-                    ),
-                    padding: const EdgeInsets.all(15),
-                    child: const Text('booking now'),
-                  ),
-                ),
-              ]));
-            },
-            itemCount: 10));
+                      ));
+                } else if (snapshot.connectionState != ConnectionState.done) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return CircularProgressIndicator();
+              },
+            ),
+          ],
+        ));
   }
+}
+
+Future<http.Response> updateSession(input) {
+  return http.put(
+    "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions/$input",
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'user_username': traineeName,
+      'sessionCode': sessionCode(6),
+    }),
+  );
 }
 
 // ignore: missing_return

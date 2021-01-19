@@ -32,39 +32,7 @@ class Instructor extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(10),
             child: Column(
-              children: <Widget>[
-                new Spacer(),
-                InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    SlideRightRoute(page: InstructorUpcomingSchedule()),
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.all(
-                      10.0,
-                    ),
-                    width: 400,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black54, width: 3),
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.white70,
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        Image.asset('assets/images/confirmation.png',
-                            height: 150, fit: BoxFit.fill),
-                        Text(
-                          "Upcoming schedule",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30,
-                              color: Colors.black54),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+              children: <Widget>[                
                 new Spacer(),
                 InkWell(
                   onTap: () => Navigator.push(
@@ -84,7 +52,9 @@ class Instructor extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         Image.asset('assets/images/classRegister.png',
-                            height: 150, fit: BoxFit.fill),
+                            height: ((MediaQuery.of(context).size.height - 86) *
+                                0.19),
+                            fit: BoxFit.fill),
                         Text(
                           "Course registration",
                           textAlign: TextAlign.left,
@@ -116,7 +86,9 @@ class Instructor extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         Image.asset('assets/images/bio.png',
-                            height: 150, fit: BoxFit.fill),
+                            height: ((MediaQuery.of(context).size.height - 86) *
+                                0.19),
+                            fit: BoxFit.fill),
                         Text(
                           "Update bios",
                           textAlign: TextAlign.left,

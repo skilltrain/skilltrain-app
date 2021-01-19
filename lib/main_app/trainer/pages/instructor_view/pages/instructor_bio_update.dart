@@ -15,13 +15,15 @@ class InstructorBioUpdate extends StatefulWidget {
 class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   int index;
   // pic urls
+  //Leave this here I will use later
+  // ignore: unused_field
   String _uploadProfilePicFileResult = '';
   String _uploadClassFileResult = '';
 
   //Text field state
-  String _genre = "";
-  String _price = "";
-  String _bio = "";
+  String _genre;
+  int _price;
+  String _bio;
   //Current User
 
   String _user = "";
@@ -49,7 +51,6 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
       setState(() {
         _uploadProfilePicFileResult = result.key;
       });
-      print(_uploadProfilePicFileResult);
     } catch (e) {
       print('UploadFile Err: ' + e.toString());
     }
@@ -181,9 +182,11 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                       decoration: InputDecoration(labelText: 'genre'),
                       onChanged: (text) => _genre = text),
                   TextFormField(
-                      controller: TextEditingController(text: _price),
+                      // keyboardType: TextInputType.number,
+                      controller: TextEditingController(
+                          text: _price != null ? _price.toString() : ""),
                       decoration: InputDecoration(labelText: 'price'),
-                      onChanged: (text) => _price = text),
+                      onChanged: (text) => _price = int.parse(text)),
                   TextFormField(
                       controller: TextEditingController(text: _bio),
                       decoration: InputDecoration(
@@ -231,7 +234,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String, dynamic>{
         'bio': _bio,
         'price': _price,
         'genre': _genre,

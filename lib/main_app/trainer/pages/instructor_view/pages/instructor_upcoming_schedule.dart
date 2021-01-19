@@ -80,11 +80,17 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
                   final List classArray = [];
                   for (int i = 0; i < snapshot.data.length; i++) {
                     if (snapshot.data[i]["trainer_username"] == trainerName &&
+                        snapshot.data[i]["user_username"].length > 0 &&
                         DateTime.parse(stringDate).isBefore(
                             DateTime.parse(snapshot.data[i]["date"]))) {
                       print(stringDate);
                       print(snapshot.data[i]["date"]);
                       classArray.add(snapshot.data[i]);
+                      classArray.sort((a, b) {
+                        var adate = a["date"] + a["start_time"];
+                        var bdate = b["date"] + b["start_time"];
+                        return adate.compareTo(bdate);
+                      });
                     } else
                       print("something went wrong with fetched data");
                   }

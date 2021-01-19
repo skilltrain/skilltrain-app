@@ -17,46 +17,92 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _usernameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   var isTrainer = false;
+  final _formKey = GlobalKey<FormState>();
+
+  void _signUp() {
+    if (_formKey.currentState.validate()) {
+      // If the form is valid, display a snackbar. In the real world,
+      // you'd often call a server or save the information in a database.
+
+      final username = _usernameController.text.trim();
+      final email = _emailController.text.trim();
+      final password = _passwordController.text.trim();
+      final firstName = _firstNameController.text.trim();
+      final lastName = _lastNameController.text.trim();
+
+      print('username: $username');
+      print('email: $email');
+      print('password: $password');
+      print('isTrainer: $isTrainer');
+
+      final credentials = SignUpCredentials(
+          firstName: firstName,
+          lastName: lastName,
+          username: username,
+          email: email,
+          password: password,
+          isTrainer: isTrainer);
+      widget.didProvideCredentials(credentials);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
+        appBar: AppBar(
             title: SizedBox(
-                    height: kToolbarHeight,
-                    child: Image.asset('assets/images/skillTrain-logo.png', fit: BoxFit.scaleDown)),
+                height: kToolbarHeight,
+                child: Image.asset('assets/images/skillTrain-logo.png',
+                    fit: BoxFit.scaleDown)),
             centerTitle: true,
-          backgroundColor: Colors.purple),
-          body: SingleChildScrollView(
-          child: Container(
-            width: double.infinity,
-              child: Column(children: [
-                // Image of Fit Girl
-
+            backgroundColor: Colors.purple),
+        body: SingleChildScrollView(
+            child: Container(
+          width: double.infinity,
+          child: Column(children: [
+            Stack(
+              children: [
                 Container(
-                    alignment: Alignment.topCenter,
-                    child: Image.asset('assets/images/signupgirl.jpg')),
+                  width: double.infinity,
+                  color:Colors.green,
+                  child:Image.asset('assets/images/signup.png',fit: BoxFit.cover),
 
-                // Sign Up Form
-                _signUpForm(),
-
-                // Trainer of user radio button
-                Center(child: radioButton()),
-
-                // Login Button
+                ),
                 Container(
-                  alignment: Alignment.bottomCenter,
-                  child: FlatButton(
-                      onPressed: widget.shouldShowLogin,
-                      child: Text('Already have an account? Login.')),
-                )
-              ]),
-          )
-    )
-    );
+                  width: double.infinity,
+                  height: 200,
+                  child:
+                    Column(children:[
+                      new Spacer(),
+                      Text("Find your workout buddy", style: TextStyle(
+                                                                color: Colors.white, 
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 26.0,
+                                                                ),),
+                      new Spacer(),
+                      ]
+                  ),
+              )],
+            ),
+            // User or Trainer
+            Center(child: radioButton()),
+            // Sign Up Form
+            _signUpForm(),
+
+            // Login Button
+            Container(
+              alignment: Alignment.bottomCenter,
+              child: FlatButton(
+                  onPressed: widget.shouldShowLogin,
+                  child: Text('Already have an account? Login.')),
+            )
+          ]),
+        )));
   }
 
   Widget radioButton() {
@@ -93,56 +139,69 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _signUpForm() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        // Username TextField
-        TextField(
-          controller: _usernameController,
-          decoration:
-              InputDecoration(icon: Icon(Icons.person), labelText: 'Username'),
-        ),
+    return Form(
+      key: _formKey,
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter your first name';
+                }
+                return null;
+              },
+              controller: _firstNameController,
+              decoration: InputDecoration(
+                  icon: Icon(Icons.face), labelText: 'First Name'),
+            ),
+            TextFormField(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter your first name';
+                }
+                return null;
+              },
+              controller: _lastNameController,
+              decoration: InputDecoration(
+                  icon: Icon(Icons.account_box), labelText: 'Last Name'),
+            ),
 
-        // Email TextField
-        TextField(
-          controller: _emailController,
-          decoration:
-              InputDecoration(icon: Icon(Icons.mail), labelText: 'Email'),
-        ),
+            TextField(
+              controller: _usernameController,
+              decoration: InputDecoration(
+                  icon: Icon(Icons.person), labelText: 'Username'),
+            ),
 
-        // Password TextField
-        TextField(
-          controller: _passwordController,
-          decoration: InputDecoration(
-              icon: Icon(Icons.lock_open), labelText: 'Password'),
-          obscureText: true,
-          keyboardType: TextInputType.visiblePassword,
-        ),
+            // Email TextField
+            TextField(
+              controller: _emailController,
+              decoration:
+                  InputDecoration(icon: Icon(Icons.mail), labelText: 'Email'),
+            ),
 
-        // Sign Up Button
-        FlatButton(
-            onPressed: _signUp,
-            child: Text('Sign Up'),
-            color: Theme.of(context).accentColor)
-      ],
+            // Password TextField
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(
+                  icon: Icon(Icons.lock_open), labelText: 'Password'),
+              obscureText: true,
+              keyboardType: TextInputType.visiblePassword,
+            ),
+
+            // Sign Up Button
+            Container(
+              margin: EdgeInsets.only(top: 8),
+              child: FlatButton(
+                  onPressed: _signUp,
+                  child: Text('Sign Up', style: TextStyle(color: Colors.white)),
+                  color: Theme.of(context).accentColor),
+            )
+          ],
+        ),
+      ),
     );
-  }
-
-  void _signUp() {
-    final username = _usernameController.text.trim();
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
-
-    print('username: $username');
-    print('email: $email');
-    print('password: $password');
-    print('isTrainer: $isTrainer');
-
-    final credentials = SignUpCredentials(
-        username: username,
-        email: email,
-        password: password,
-        isTrainer: isTrainer);
-    widget.didProvideCredentials(credentials);
   }
 }

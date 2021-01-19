@@ -16,8 +16,15 @@ class LoginCredentials extends AuthCredentials {
 class SignUpCredentials extends AuthCredentials {
   final String email;
   final bool isTrainer;
+  final String lastName;
+  final String firstName;
 
   SignUpCredentials(
-      {String username, String password, this.email, this.isTrainer})
+      {String username,
+      String password,
+      this.email,
+      this.isTrainer,
+      this.lastName,
+      this.firstName})
       : super(username: username, password: password);
 }
