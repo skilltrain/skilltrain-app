@@ -54,6 +54,10 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  image_path: "assets/icon/icon.png"
+  android: true
+  ios: false
 
 # The following section is specific to Flutter.
 flutter:
