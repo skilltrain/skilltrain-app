@@ -1,5 +1,5 @@
 name: skilltrain
-description: A new Flutter project.
+description: skillTrain an app for personal trainers to work remotely and for gym junkies to get the best training they need.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -41,7 +41,7 @@ dependencies:
   url_launcher: ^3.0.3
   material_design_icons_flutter: 4.0.5855
   spannable_grid: ^0.1.0
-
+  flutter_launcher_icons: "^0.8.0"
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -55,6 +55,10 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  image_path: "assets/icon/icon.png"
+  android: true
+  ios: false
 
 # The following section is specific to Flutter.
 flutter:
@@ -70,6 +74,8 @@ flutter:
     - assets/images/classRegister.png
     - assets/images/crossfit.jpg
     - assets/images/skillTrain-logo.png
+    - assets/images/signup.png
+    - assets/images/login.png
     - .env
 
   # The following line ensures that the Material Icons font is

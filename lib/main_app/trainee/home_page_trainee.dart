@@ -134,102 +134,167 @@ class SampleStart extends State<HomePageTrainee> {
   }
 
   Widget build(BuildContext context) {
-    Widget trainerListView = FutureBuilder(
-      future: trainers,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Container(
-            height: 200,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) {
-                return SizedBox(
-                  width: 150,
-                  child: Card(
-                    child: InkWell(
-                        splashColor: Colors.purple,
-                        onTap: () => {
-                              Navigator.push(
-                                context,
-                                SlideRightRoute(
-                                    page: InstructorBio(
-                                        data: snapshot.data[index],
-                                        index: index)),
-                              )
-                            },
-                        child: Container(
-                            padding: EdgeInsets.all(0),
-                            child: Column(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(0),
-                                  child: Image.network(
-                                      snapshot.data[index]["profilePhoto"],
-                                      height: 150,
-                                      width: 150,
-                                      fit: BoxFit.fill),
-                                ),
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+    Widget trainerListView({filterType, bool filter}) {
+      return FutureBuilder(
+        future: trainers,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Container(
+              height: 200,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index) {
+                  List<Widget> stars = [];
+
+                  for (var i = 0; i < snapshot.data[index]["avgRating"]; i++) {
+                    stars.add(
+                        Icon(Icons.star, color: Colors.yellow[700], size: 7));
+                  }
+
+                  if (filter) {
+                    if (snapshot.data[index]["genre"] == filterType) {
+                      return SizedBox(
+                        width: 150,
+                        child: Card(
+                          child: InkWell(
+                              splashColor: Colors.purple,
+                              onTap: () => {
+                                    Navigator.push(
+                                      context,
+                                      SlideRightRoute(
+                                          page: InstructorBio(
+                                              data: snapshot.data[index],
+                                              index: index)),
+                                    )
+                                  },
+                              child: Container(
+                                  padding: EdgeInsets.all(0),
+                                  child: Column(
                                     children: [
-                                      Flexible(
-                                        child: Text(
-                                          snapshot.data[index]["username"],
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15),
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(0),
+                                        child: Image.network(
+                                            snapshot.data[index]
+                                                ["profilePhoto"],
+                                            height: 150,
+                                            width: 150,
+                                            fit: BoxFit.fill),
+                                      ),
+                                      Container(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                snapshot.data[index]
+                                                    ["username"],
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15),
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: stars,
+                                            )
+                                          ],
                                         ),
                                       ),
                                       Row(
-                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Icon(Icons.star,
-                                              color: Colors.yellow[700],
-                                              size: 7),
-                                          Icon(Icons.star,
-                                              color: Colors.yellow[700],
-                                              size: 7),
-                                          Icon(Icons.star,
-                                              color: Colors.yellow[700],
-                                              size: 7),
-                                          Icon(Icons.star,
-                                              color: Colors.black, size: 7),
-                                          Icon(Icons.star,
-                                              color: Colors.black, size: 7),
+                                          Text(snapshot.data[index]["genre"]),
+                                          Text(snapshot.data[index]["price"]
+                                                  .toString() +
+                                              'p/s')
                                         ],
                                       )
                                     ],
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  ))),
+                        ),
+                      );
+                    } else {
+                      return Container();
+                    }
+                  } else {
+                    return SizedBox(
+                      width: 150,
+                      child: Card(
+                        child: InkWell(
+                            splashColor: Colors.purple,
+                            onTap: () => {
+                                  Navigator.push(
+                                    context,
+                                    SlideRightRoute(
+                                        page: InstructorBio(
+                                            data: snapshot.data[index],
+                                            index: index)),
+                                  )
+                                },
+                            child: Container(
+                                padding: EdgeInsets.all(0),
+                                child: Column(
                                   children: [
-                                    Text(snapshot.data[index]["genre"]),
-                                    Text(snapshot.data[index]["price"]
-                                            .toString() +
-                                        'p/s')
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(0),
+                                      child: Image.network(
+                                          snapshot.data[index]["profilePhoto"],
+                                          height: 150,
+                                          width: 150,
+                                          fit: BoxFit.fill),
+                                    ),
+                                    Container(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              snapshot.data[index]["username"],
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15),
+                                            ),
+                                          ),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: stars,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(snapshot.data[index]["genre"]),
+                                        Text(snapshot.data[index]["price"]
+                                                .toString() +
+                                            'p/s')
+                                      ],
+                                    )
                                   ],
-                                )
-                              ],
-                            ))),
-                  ),
-                );
-              },
-              itemCount: snapshot.data.length,
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
+                                ))),
+                      ),
+                    );
+                  }
+                },
+                itemCount: snapshot.data.length,
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
 
-        // By default, show a loading spinner.
-        return CircularProgressIndicator();
-      },
-    );
+          // By default, show a loading spinner.
+          return CircularProgressIndicator();
+        },
+      );
+    }
 
     //Get upcoming sessions need to pass this to current bookings
     Widget upcomingSessionsView = FutureBuilder(
@@ -353,13 +418,13 @@ class SampleStart extends State<HomePageTrainee> {
             children: <Widget>[
               headerSection,
               sectionTitle(title: "Top Rated"),
-              trainerListView,
+              trainerListView(filter: false, filterType: "null"),
               sectionTitle(title: "Upcoming Sessions"),
               upcomingSessionsView,
               sectionTitle(title: "Running"),
-              trainerListView,
-              sectionTitle(title: "Weights"),
-              trainerListView
+              trainerListView(filter: true, filterType: 'Running'),
+              sectionTitle(title: "Yoga"),
+              trainerListView(filter: true, filterType: 'Yoga'),
             ],
           ),
         ),

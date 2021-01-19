@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:http/http.dart' as http;
-import 'package:skilltrain/main_app/trainee/pages/booking_status.dart';
 import 'dart:convert';
 import '../../../services/stripe/payment/direct_payment_page.dart';
 import '../../../utils/sliders.dart';
@@ -53,13 +52,8 @@ class BookingPage extends StatelessWidget {
                       print(snapshot.data[i]["date"]);
                       classArray.add(snapshot.data[i]);
                       classArray.sort((a, b) {
-                        var adate = a["date"];
-                        var bdate = b["date"];
-                        return adate.compareTo(bdate);
-                      });
-                      classArray.sort((a, b) {
-                        var adate = a["start_time"];
-                        var bdate = b["start_time"];
+                        var adate = a["date"] + a["start_time"];
+                        var bdate = b["date"] + b["start_time"];
                         return adate.compareTo(bdate);
                       });
                     } else
@@ -68,13 +62,11 @@ class BookingPage extends StatelessWidget {
                   return Container(
                       height: MediaQuery.of(context).size.height - 87,
                       width: double.infinity,
-
                       child: Column(
                         children: <Widget>[
                           Center(
                             child: SizedBox(
                                 height: MediaQuery.of(context).size.height - 87,
-
                                 child: ListView.builder(
                                   shrinkWrap: true,
                                   itemBuilder:
@@ -130,6 +122,18 @@ class BookingPage extends StatelessWidget {
                                                                   fontSize: 16,
                                                                 )),
                                                           ]),
+                                                      new Spacer(),
+                                                      Text(
+                                                          "USD " +
+                                                              price.toString() +
+                                                              "/h ",
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 20,
+                                                          )),
                                                       new Spacer(),
                                                       ButtonTheme(
                                                         minWidth: 30,
