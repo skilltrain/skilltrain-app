@@ -4,8 +4,11 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:flutter/material.dart';
+import 'package:skilltrain/main_app/trainer/home_page_trainer.dart';
+import 'package:skilltrain/utils/sliders.dart';
 
 import '../utils/settings.dart';
+import '../../../utils/sliders.dart';
 
 // *********** 1to1 VC Mode *********** //
 
@@ -197,7 +200,7 @@ class _CallPageState extends State<CallPage> {
             padding: const EdgeInsets.all(12.0),
           ),
           RawMaterialButton(
-            onPressed: () => _onCallEnd(context),
+            onPressed: () => _onCallEndTrainer(context),
             child: Icon(
               Icons.call_end,
               color: Colors.white,
@@ -275,8 +278,8 @@ class _CallPageState extends State<CallPage> {
     );
   }
 
-  void _onCallEnd(BuildContext context) {
-    Navigator.pop(context);
+  void _onCallEndTrainer(BuildContext context) {
+    Navigator.of(context).pop();
   }
 
   void _onToggleMute() {
@@ -294,7 +297,7 @@ class _CallPageState extends State<CallPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('SkillTrain-Session'),
+        title: Text('SkillTrain-Sessionhhhhhh'),
       ),
       backgroundColor: Colors.black,
       body: Center(

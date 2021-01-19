@@ -27,12 +27,26 @@ class _MyAppState extends State<MyApp> {
   final _authService = AuthService();
   // Instantiate Amplify
   Amplify amplifyInstance = Amplify();
+  bool isTrainerSignUp = false;
 
   @override
   void initState() {
     super.initState();
     _configureAmplify();
     _authService.checkAuthStatus();
+  }
+
+  // These two methods are needed to persist the state of the
+  // radio buttons on the sign up page. The variables stored in that page
+  // are erased when switching views like signup -> login -> signup, however
+  // the radio button position is kept in place. This way, the main app file
+  // stores the boolean.
+  void setTrainer(bool check) {
+    isTrainerSignUp = check;
+  }
+
+  bool getTrainer() {
+    return isTrainerSignUp;
   }
 
   void _configureAmplify() async {
@@ -82,7 +96,9 @@ class _MyAppState extends State<MyApp> {
                           child: SignUpPage(
                               didProvideCredentials:
                                   _authService.signUpWithCredentials,
-                              shouldShowLogin: _authService.showLogin)),
+                              shouldShowLogin: _authService.showLogin,
+                              setTrainer: setTrainer,
+                              getTrainer: getTrainer)),
                     if (snapshot.data.authFlowStatus ==
                         AuthFlowStatus.verification)
                       MaterialPage(
@@ -96,7 +112,8 @@ class _MyAppState extends State<MyApp> {
                         _authService.isTrainer)
                       MaterialPage(
                           child: HomePageTrainer(
-                              shouldLogOut: _authService.logOut)),
+                              shouldLogOut: _authService.logOut,
+                              userAttributes: _authService.attributes)),
                     if (snapshot.data.authFlowStatus ==
                             AuthFlowStatus.session &&
                         !_authService.isTrainer)

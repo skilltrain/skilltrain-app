@@ -21,7 +21,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: 
-        Column(
+      SingleChildScrollView(
+        child:Column(
           children: [
               Stack(
               children: [
@@ -69,7 +70,8 @@ class _LoginPageState extends State<LoginPage> {
             )
           
           ]
-),
+        ),
+      )
     );
   }
 

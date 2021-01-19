@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:skilltrain/main_app/components/dropdownwidget.dart';
+import 'package:skilltrain/main_app/common/dropdownwidget.dart';
 import './pages/booking_status.dart';
 import './pages/trainer_filter.dart';
 import 'dart:async';
@@ -8,9 +8,9 @@ import 'dart:convert';
 import './pages/instructor_bio.dart';
 import 'package:amplify_core/amplify_core.dart';
 import '../../utils/sliders.dart';
-import '../components/fetchTrainers.dart';
+import '../common/fetchTrainers.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import '../components/headings.dart';
+import '../common/headings.dart';
 
 class HomePageTrainee extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -314,7 +314,7 @@ class SampleStart extends State<HomePageTrainee> {
                           snapshot.data[index]['end_time'])),
                 );
               },
-              itemCount: 3,
+              itemCount: snapshot.data.length,
             );
           } else if (snapshot.connectionState == ConnectionState.waiting ??
               snapshot.connectionState == ConnectionState.active) {

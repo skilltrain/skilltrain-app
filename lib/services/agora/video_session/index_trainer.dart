@@ -5,7 +5,7 @@ import '../../../main_app/trainer/home_page_trainer.dart';
 import '../../../utils/sliders.dart';
 
 import 'dart:async';
-import 'call_trainee.dart';
+import 'call_trainer.dart';
 
 // *********** 1to1 VC Mode *********** //
 
