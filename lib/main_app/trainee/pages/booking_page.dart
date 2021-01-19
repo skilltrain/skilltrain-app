@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:http/http.dart' as http;
-import 'package:skilltrain/main_app/trainee/pages/booking_status.dart';
 import 'dart:convert';
 import '../../../services/stripe/payment/direct_payment_page.dart';
 import '../../../utils/sliders.dart';
