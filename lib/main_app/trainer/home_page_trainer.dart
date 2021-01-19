@@ -26,8 +26,8 @@ class HomePageTrainer extends StatefulWidget {
   SampleStart createState() => SampleStart();
 }
 
- //define date format
-  DateFormat format = DateFormat('yyyy-MM-dd');
+//define date format
+DateFormat format = DateFormat('yyyy-MM-dd');
 
 class SampleStart extends State<HomePageTrainer> {
   Future<List> sessionResults;
@@ -41,7 +41,6 @@ class SampleStart extends State<HomePageTrainer> {
   DateTime _date = new DateTime.now(); //default date value
   String stringDate = format.format(new DateTime.now()
       .subtract(Duration(days: 1))); //default date value for card
-
 
   Future getUrl(url) async {
     try {
@@ -63,105 +62,105 @@ class SampleStart extends State<HomePageTrainer> {
         primarySwatch: Colors.purple,
       ),
       home: Scaffold(
-        drawer: Drawer(
-            child: ListView(
-          children: <Widget>[
-            DrawerHeader(
-              child: Text(''),
-              decoration: BoxDecoration(
-                  color: Colors.orange[50],
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/crossfit.jpg"),
-                      fit: BoxFit.cover)),
-            ),
-            ListTile(
-              title: Text('Class registration'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  SlideLeftRoute(page: InstructorRegisterCourse()),
-                );
-              },
-            ),
-            ListTile(
-              title: Text('Bio update'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  SlideLeftRoute(page: InstructorBioUpdate()),
-                );
-              },
-            ),
-            ListTile(
-              title: Text('Payment signup'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  SlideLeftRoute(
-                      page:
-                          PaymentSignup(userAttributes: widget.userAttributes)),
-                );
-              },
-            ),
-            ListTile(
-              title: Text('Log out'),
-              onTap: widget.shouldLogOut,
-            ),
-          ],
-        ) // Populate the Drawer in the next step.
-            ),
-        appBar: AppBar(
-          title: SizedBox(
-              height: kToolbarHeight,
-              child: Image.asset('assets/images/skillTrain-logo.png',
-                  fit: BoxFit.scaleDown)),
-              centerTitle: true,
-        ),
-        body: 
-        Center(
-        child: Column(
-          children: <Widget>[
-            FutureBuilder<List>(
-              future: sessionResults,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final List classArray = [];
-                  for (int i = 0; i < snapshot.data.length; i++) {
-                    if (snapshot.data[i]["trainer_username"] == trainerName &&
-                        snapshot.data[i]["user_username"].length > 0 &&
-                        DateTime.parse(stringDate).isBefore(
-                            DateTime.parse(snapshot.data[i]["date"]))) {
-                      print(stringDate);
-                      print(snapshot.data[i]["date"]);
-                      classArray.add(snapshot.data[i]);
-                      classArray.sort((a, b) {
-                        var adate = a["date"] + a["start_time"];
-                        var bdate = b["date"] + b["start_time"];
-                        return adate.compareTo(bdate);
-                      });
-                    } else
-                      print("something went wrong with fetched data");
-                  }
+          drawer: Drawer(
+              child: ListView(
+            children: <Widget>[
+              DrawerHeader(
+                child: Text(''),
+                decoration: BoxDecoration(
+                    color: Colors.orange[50],
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/crossfit.jpg"),
+                        fit: BoxFit.cover)),
+              ),
+              ListTile(
+                title: Text('Class registration'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    SlideLeftRoute(page: InstructorRegisterCourse()),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('Bio update'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    SlideLeftRoute(page: InstructorBioUpdate()),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('Payment signup'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    SlideLeftRoute(
+                        page: PaymentSignup(
+                            userAttributes: widget.userAttributes)),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('Log out'),
+                onTap: widget.shouldLogOut,
+              ),
+            ],
+          ) // Populate the Drawer in the next step.
+              ),
+          appBar: AppBar(
+            title: SizedBox(
+                height: kToolbarHeight,
+                child: Image.asset('assets/images/skillTrain-logo.png',
+                    fit: BoxFit.scaleDown)),
+            centerTitle: true,
+          ),
+          body: Center(
+            child: Column(
+              children: <Widget>[
+                FutureBuilder<List>(
+                  future: sessionResults,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final List classArray = [];
+                      for (int i = 0; i < snapshot.data.length; i++) {
+                        if (snapshot.data[i]["trainer_username"] ==
+                                trainerName &&
+                            snapshot.data[i]["user_username"].length > 0 &&
+                            DateTime.parse(stringDate).isBefore(
+                                DateTime.parse(snapshot.data[i]["date"]))) {
+                          print(stringDate);
+                          print(snapshot.data[i]["date"]);
+                          classArray.add(snapshot.data[i]);
+                          classArray.sort((a, b) {
+                            var adate = a["date"] + a["start_time"];
+                            var bdate = b["date"] + b["start_time"];
+                            return adate.compareTo(bdate);
+                          });
+                        } else
+                          print("something went wrong with fetched data");
+                      }
 
 //calendar object
-                  return Container(
+                      return Container(
 //                      height: 678,
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(50.0),
-                      child: Column(
-                        children: <Widget>[
-                        Text('Welcome\n$trainerName!',
-                        style: TextStyle(
-                        color: Colors.grey[900],
-                        fontWeight: FontWeight.w800,
-                        fontSize: 50)),
-                          // new RaisedButton(
-                          //   onPressed: () => _selectDate(context),
-                          //   child: new Text('日付選択'),
-                          // ),
-                          SizedBox(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(50.0),
+                          child: Column(
+                            children: <Widget>[
+                              Text('Welcome\n$trainerName!',
+                                  style: TextStyle(
+                                      color: Colors.grey[900],
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 50)),
+                              // new RaisedButton(
+                              //   onPressed: () => _selectDate(context),
+                              //   child: new Text('日付選択'),
+                              // ),
+                              SizedBox(
 //                              height: 514,
-                              child: ListView.builder(
+                                  child: ListView.builder(
                                 shrinkWrap: true,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Card(
@@ -261,43 +260,44 @@ class SampleStart extends State<HomePageTrainer> {
                                 itemCount: classArray.length,
                               )),
                               Center(child: Text("last update:" + "$_date")),
-                        ],
-                      ));
+                            ],
+                          ));
 
 //calendar object
-                } else if (snapshot.connectionState != ConnectionState.done) {
-                  return CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-                return CircularProgressIndicator();
-              },
+                    } else if (snapshot.connectionState !=
+                        ConnectionState.done) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    return CircularProgressIndicator();
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-        )
-      ),
+          )),
     );
   }
 
+  // ignore: missing_return
   Future<List> fetchSessionResults() async {
-  try {
-    AuthUser res = await Amplify.Auth.getCurrentUser();
-    trainerName = res.username;
-    print("Current User Name = " + res.username);
+    try {
+      AuthUser res = await Amplify.Auth.getCurrentUser();
+      trainerName = res.username;
+      print("Current User Name = " + res.username);
 
-    final response = await http.get(
-        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions');
+      final response = await http.get(
+          'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions');
 
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load API params');
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw Exception('Failed to load API params');
+      }
+    } on AuthError catch (e) {
+      print(e);
     }
-  } on AuthError catch (e) {
-    print(e);
   }
-}
 
   Future<List> fetchApiResults() async {
     final response = await http.get(

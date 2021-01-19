@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 // ignore: unused_import
 import 'package:skilltrain/main_app/trainer/pages/instructor_view/instructor_view.dart';
-import '../../../main_app/trainee/home_page_trainee.dart';
-import '../../../utils/sliders.dart';
 
 import 'dart:async';
 import 'call_trainee.dart';
@@ -132,8 +130,10 @@ class IndexState extends State<IndexPageTrainee> {
                         Expanded(
                           child: RaisedButton(
                             onPressed: () => {
-                              Navigator.push(context,
-                                  SlideLeftRoute(page: HomePageTrainee()))
+                              Navigator.pop(context),
+                              Navigator.pop(context),
+                              // Navigator.push(context,
+                              //     SlideLeftRoute(page: HomePageTrainee()))
                             },
                             child: Icon(Icons.home),
                             color: Colors.grey,

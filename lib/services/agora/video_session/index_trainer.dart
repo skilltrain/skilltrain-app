@@ -1,8 +1,6 @@
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../../main_app/trainer/home_page_trainer.dart';
-import '../../../utils/sliders.dart';
 
 import 'dart:async';
 import 'call_trainer.dart';
@@ -125,8 +123,7 @@ class IndexState extends State<IndexPageTrainer> {
                         Expanded(
                           child: RaisedButton(
                             onPressed: () => {
-                              Navigator.push(context,
-                                  SlideLeftRoute(page: HomePageTrainer()))
+                              Navigator.pop(context),
                             },
                             child: Icon(Icons.home),
                             color: Colors.grey,

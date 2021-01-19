@@ -1,12 +1,9 @@
-import '../../services/cognito/authentication_services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:http/http.dart' as http;
 
 import 'dart:convert';
-import '../../utils/sliders.dart';
-import '../../main_app/trainee/home_page_trainee.dart';
 
 class Rating extends StatefulWidget {
   final instructorName;
@@ -18,7 +15,6 @@ class Rating extends StatefulWidget {
 
 class _InstructorBioUpdateState extends State<Rating> {
   int index;
-  final _authService = AuthService();
 
   void getUrl() async {
     try {
@@ -107,12 +103,7 @@ class _InstructorBioUpdateState extends State<Rating> {
                                 onTap: () {
                                   print("reputation score 1 is sent");
                                   postTrainerScore(1);
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee(
-                                            shouldLogOut: _authService.logOut)),
-                                      ));
+                                  Navigator.of(context).pop();
                                 },
                                 child: Text(
                                   "🙁",
@@ -126,12 +117,7 @@ class _InstructorBioUpdateState extends State<Rating> {
                                 onTap: () {
                                   print("reputation score 2 is sent");
                                   postTrainerScore(2);
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee(
-                                            shouldLogOut: _authService.logOut)),
-                                      ));
+                                  Navigator.of(context).pop();
                                 },
                                 child: Text("😑",
                                     style: TextStyle(
@@ -143,12 +129,7 @@ class _InstructorBioUpdateState extends State<Rating> {
                                 onTap: () {
                                   print("reputation score 3 is sent");
                                   postTrainerScore(3);
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee(
-                                            shouldLogOut: _authService.logOut)),
-                                      ));
+                                  Navigator.of(context).pop();
                                 },
                                 child: Text("😐",
                                     style: TextStyle(
@@ -160,12 +141,7 @@ class _InstructorBioUpdateState extends State<Rating> {
                                 onTap: () {
                                   print("reputation score 4 is sent");
                                   postTrainerScore(4);
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee(
-                                            shouldLogOut: _authService.logOut)),
-                                      ));
+                                  Navigator.of(context).pop();
                                 },
                                 child: Text("🙂",
                                     style: TextStyle(
@@ -177,12 +153,7 @@ class _InstructorBioUpdateState extends State<Rating> {
                                 onTap: () {
                                   print("reputation score 5 is sent");
                                   postTrainerScore(5);
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee(
-                                            shouldLogOut: _authService.logOut)),
-                                      ));
+                                  Navigator.of(context).pop();
                                 },
                                 child: Text("😀",
                                     style: TextStyle(
@@ -199,17 +170,5 @@ class _InstructorBioUpdateState extends State<Rating> {
             new Spacer(),
           ]),
         )));
-  }
-
-  Future<http.Response> putTrainerScore() {
-    String url =
-        "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/" +
-            widget.instructorName;
-    return http.put(
-      "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/",
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    );
   }
 }
