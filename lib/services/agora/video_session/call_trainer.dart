@@ -197,7 +197,7 @@ class _CallPageState extends State<CallPage> {
             padding: const EdgeInsets.all(12.0),
           ),
           RawMaterialButton(
-            onPressed: () => _onCallEnd(context),
+            onPressed: () => _onCallEndTrainer(context),
             child: Icon(
               Icons.call_end,
               color: Colors.white,
@@ -275,8 +275,8 @@ class _CallPageState extends State<CallPage> {
     );
   }
 
-  void _onCallEnd(BuildContext context) {
-    Navigator.pop(context);
+  void _onCallEndTrainer(BuildContext context) {
+    Navigator.of(context).pop();
   }
 
   void _onToggleMute() {

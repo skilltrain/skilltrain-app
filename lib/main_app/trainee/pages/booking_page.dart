@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:http/http.dart' as http;
+import 'package:skilltrain/main_app/trainer/pages/instructor_view/pages/instructor_register_course.dart';
 import 'dart:convert';
 import '../../../services/stripe/payment/direct_payment_page.dart';
 import '../../../utils/sliders.dart';
@@ -25,12 +26,12 @@ class BookingPage extends StatelessWidget {
   final String trainerName;
   final int price;
   final int index;
-  final Future<List> sessionResults = fetchSessionResults();
   final DateTime stringDate = new DateTime.now().subtract(Duration(days: 1));
   BookingPage({this.index, this.trainerName, this.price});
 
   @override
   Widget build(BuildContext context) {
+    final Future<List> sessionResults = fetchSessionResults(trainerName);
     return Scaffold(
         appBar: AppBar(
           title: Text("booking"),
@@ -50,14 +51,15 @@ class BookingPage extends StatelessWidget {
                         stringDate.isBefore(
                             DateTime.parse(snapshot.data[i]["date"]))) {
                       print(snapshot.data[i]["date"]);
+                      print(snapshot.data[i]["trainer_username"]);
+                      print(trainerName);
                       classArray.add(snapshot.data[i]);
                       classArray.sort((a, b) {
                         var adate = a["date"] + a["start_time"];
                         var bdate = b["date"] + b["start_time"];
                         return adate.compareTo(bdate);
                       });
-                    } else
-                      print("something went wrong with fetched data");
+                    }
                   }
                   return Container(
                       height: MediaQuery.of(context).size.height - 87,
@@ -222,14 +224,14 @@ Future<http.Response> updateSession(input) {
 }
 
 // ignore: missing_return
-Future<List> fetchSessionResults() async {
+Future<List> fetchSessionResults(input) async {
   try {
     AuthUser res = await Amplify.Auth.getCurrentUser();
     traineeName = res.username;
     print("Current Use Name = " + res.username);
 
     final response = await http.get(
-        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions');
+        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$input/sessions');
 
     if (response.statusCode == 200) {
       return json.decode(response.body);

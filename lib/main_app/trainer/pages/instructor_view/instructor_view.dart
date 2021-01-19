@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../utils/sliders.dart';
 import 'pages/instructor_bio_update.dart';
-import 'pages/instructor_upcoming_schedule.dart';
 import 'pages/instructor_register_course.dart';
 
 class Instructor extends StatelessWidget {
@@ -32,7 +31,7 @@ class Instructor extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(10),
             child: Column(
-              children: <Widget>[                
+              children: <Widget>[
                 new Spacer(),
                 InkWell(
                   onTap: () => Navigator.push(
