@@ -1,12 +1,9 @@
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter/material.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:http/http.dart' as http;
 
 import 'dart:convert';
-import '../../utils/sliders.dart';
-import '../../main_app/trainee/home_page_trainee.dart';
 
 class Rating extends StatefulWidget {
   final instructorName;
@@ -18,7 +15,6 @@ class Rating extends StatefulWidget {
 
 class _InstructorBioUpdateState extends State<Rating> {
   int index;
- 
 
   void getUrl() async {
     try {
@@ -107,11 +103,7 @@ class _InstructorBioUpdateState extends State<Rating> {
                                 onTap: () {
                                   print("reputation score 1 is sent");
                                   postTrainerScore(1);
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee()),
-                                      ));
+                                  Navigator.of(context).pop();
                                 },
                                 child: Text(
                                   "🙁",
@@ -125,11 +117,7 @@ class _InstructorBioUpdateState extends State<Rating> {
                                 onTap: () {
                                   print("reputation score 2 is sent");
                                   postTrainerScore(2);
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee()),
-                                      ));
+                                  Navigator.of(context).pop();
                                 },
                                 child: Text("😑",
                                     style: TextStyle(
@@ -141,11 +129,7 @@ class _InstructorBioUpdateState extends State<Rating> {
                                 onTap: () {
                                   print("reputation score 3 is sent");
                                   postTrainerScore(3);
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee()),
-                                      ));
+                                  Navigator.of(context).pop();
                                 },
                                 child: Text("😐",
                                     style: TextStyle(
@@ -157,11 +141,7 @@ class _InstructorBioUpdateState extends State<Rating> {
                                 onTap: () {
                                   print("reputation score 4 is sent");
                                   postTrainerScore(4);
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee()),
-                                      ));
+                                  Navigator.of(context).pop();
                                 },
                                 child: Text("🙂",
                                     style: TextStyle(
@@ -173,11 +153,7 @@ class _InstructorBioUpdateState extends State<Rating> {
                                 onTap: () {
                                   print("reputation score 5 is sent");
                                   postTrainerScore(5);
-                                  Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                        page: (HomePageTrainee()),
-                                      ));
+                                  Navigator.of(context).pop();
                                 },
                                 child: Text("😀",
                                     style: TextStyle(
@@ -195,6 +171,4 @@ class _InstructorBioUpdateState extends State<Rating> {
           ]),
         )));
   }
-
-
 }
