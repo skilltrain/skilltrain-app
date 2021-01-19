@@ -1,4 +1,4 @@
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import '../../services/cognito/authentication_services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
@@ -18,15 +18,7 @@ class Rating extends StatefulWidget {
 
 class _InstructorBioUpdateState extends State<Rating> {
   int index;
-  // pic urls
-  String _uploadProfilePicFileResult = '';
-  // ignore: unused_field
-  String _uploadClassFileResult = '';
-
-  //Text field state
-  String _genre = "";
-  String _price;
-  String _bio = "";
+  final _authService = AuthService();
 
   void getUrl() async {
     try {
@@ -118,7 +110,8 @@ class _InstructorBioUpdateState extends State<Rating> {
                                   Navigator.push(
                                       context,
                                       SlideRightRoute(
-                                        page: (HomePageTrainee()),
+                                        page: (HomePageTrainee(
+                                            shouldLogOut: _authService.logOut)),
                                       ));
                                 },
                                 child: Text(
@@ -136,7 +129,8 @@ class _InstructorBioUpdateState extends State<Rating> {
                                   Navigator.push(
                                       context,
                                       SlideRightRoute(
-                                        page: (HomePageTrainee()),
+                                        page: (HomePageTrainee(
+                                            shouldLogOut: _authService.logOut)),
                                       ));
                                 },
                                 child: Text("😑",
@@ -152,7 +146,8 @@ class _InstructorBioUpdateState extends State<Rating> {
                                   Navigator.push(
                                       context,
                                       SlideRightRoute(
-                                        page: (HomePageTrainee()),
+                                        page: (HomePageTrainee(
+                                            shouldLogOut: _authService.logOut)),
                                       ));
                                 },
                                 child: Text("😐",
@@ -168,7 +163,8 @@ class _InstructorBioUpdateState extends State<Rating> {
                                   Navigator.push(
                                       context,
                                       SlideRightRoute(
-                                        page: (HomePageTrainee()),
+                                        page: (HomePageTrainee(
+                                            shouldLogOut: _authService.logOut)),
                                       ));
                                 },
                                 child: Text("🙂",
@@ -184,7 +180,8 @@ class _InstructorBioUpdateState extends State<Rating> {
                                   Navigator.push(
                                       context,
                                       SlideRightRoute(
-                                        page: (HomePageTrainee()),
+                                        page: (HomePageTrainee(
+                                            shouldLogOut: _authService.logOut)),
                                       ));
                                 },
                                 child: Text("😀",
@@ -213,11 +210,6 @@ class _InstructorBioUpdateState extends State<Rating> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        'bio': _bio,
-        'price': _price,
-        'genre': _genre,
-      }),
     );
   }
 }
