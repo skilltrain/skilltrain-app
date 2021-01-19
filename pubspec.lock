@@ -339,6 +339,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.10-nullsafety.3"
+  material_design_icons_flutter:
+    dependency: "direct main"
+    description:
+      name: material_design_icons_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.5855"
   meta:
     dependency: transitive
     description:
@@ -533,6 +540,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0-nullsafety.4"
+  spannable_grid:
+    dependency: "direct main"
+    description:
+      name: spannable_grid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
   stack_trace:
     dependency: transitive
     description:

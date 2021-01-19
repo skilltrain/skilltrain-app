@@ -65,3 +65,4 @@ amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
 .vscode/launch.json
+.vscode/settings.json
