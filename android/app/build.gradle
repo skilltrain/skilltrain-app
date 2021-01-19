@@ -43,7 +43,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.skillTrain"
+        applicationId "com.skillTrain.skillTrain"
         // ELIOT - CAREFUL! THIS MIGHT CAUSE A STRIPE ERROR! VERSION IS HIGHER THAN TUTORIAL
         minSdkVersion 21
         targetSdkVersion 29
