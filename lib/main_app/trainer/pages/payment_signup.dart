@@ -105,10 +105,14 @@ class _PaymentState extends State<PaymentSignup> {
   String postcodeOne;
   String postcodeTwo;
 
-  GenderSelector _genderSelector = new GenderSelector();
-
   @override
   Widget build(BuildContext context) {
+    void selectedGender(Gender gender) {
+      infoObj['individual']['gender'] = gender.actualName;
+    }
+
+    GenderSelector _genderSelector =
+        new GenderSelector(shouldReturnGender: selectedGender);
     List<SpannableGridCellData> nameCells = [];
     nameCells.add(
       SpannableGridCellData(
@@ -382,7 +386,7 @@ class _PaymentState extends State<PaymentSignup> {
                 infoObj["individual"]["address_kanji"]["line1"] = text;
               },
               decoration: new InputDecoration(
-                hintText: "Line One Kana 住所1 漢字",
+                hintText: "Line One 住所1 漢字",
               ),
             ),
           ),

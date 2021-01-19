@@ -3,10 +3,11 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class Gender {
   String name;
+  String actualName;
   IconData icon;
   bool isSelected;
 
-  Gender(this.name, this.icon, this.isSelected);
+  Gender(this.name, this.actualName, this.icon, this.isSelected);
 }
 
 class CustomRadio extends StatelessWidget {
@@ -45,6 +46,9 @@ class CustomRadio extends StatelessWidget {
 }
 
 class GenderSelector extends StatefulWidget {
+  final shouldReturnGender;
+
+  const GenderSelector({Key key, this.shouldReturnGender}) : super(key: key);
   @override
   _GenderSelectorState createState() => _GenderSelectorState();
 }
@@ -55,9 +59,9 @@ class _GenderSelectorState extends State<GenderSelector> {
   @override
   void initState() {
     super.initState();
-    genders.add(new Gender("Male", MdiIcons.genderMale, false));
-    genders.add(new Gender("Female", MdiIcons.genderFemale, false));
-    genders.add(new Gender("Others", MdiIcons.genderTransgender, false));
+    genders.add(new Gender("Male", 'male', MdiIcons.genderMale, false));
+    genders.add(new Gender("Female", 'female', MdiIcons.genderFemale, false));
+    genders.add(new Gender("Other", 'male', MdiIcons.genderTransgender, false));
   }
 
   @override
@@ -73,6 +77,7 @@ class _GenderSelectorState extends State<GenderSelector> {
               setState(() {
                 genders.forEach((gender) => gender.isSelected = false);
                 genders[index].isSelected = true;
+                widget.shouldReturnGender(genders[index]);
               });
             },
             child: CustomRadio(genders[index]),
