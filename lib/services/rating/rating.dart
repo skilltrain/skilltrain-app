@@ -47,11 +47,11 @@ class _InstructorBioUpdateState extends State<Rating> {
       final decoded = json.decode(getResponse.body);
       final numberOfRatings = decoded["numberOfRatings"] + 1;
       final totalRating = decoded["totalRating"] + score;
-      final avgScore = totalRating / numberOfRatings;
+      final avgRating = totalRating / numberOfRatings;
       final req = {
         "numberOfRatings": numberOfRatings,
         "totalRating": totalRating,
-        "avgScore": avgScore
+        "avgRating": avgRating
       };
 
       final putResponse =
