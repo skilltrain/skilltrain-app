@@ -18,15 +18,7 @@ class Rating extends StatefulWidget {
 
 class _InstructorBioUpdateState extends State<Rating> {
   int index;
-  // pic urls
-  String _uploadProfilePicFileResult = '';
-  // ignore: unused_field
-  String _uploadClassFileResult = '';
-
-  //Text field state
-  String _genre = "";
-  String _price;
-  String _bio = "";
+ 
 
   void getUrl() async {
     try {
@@ -204,34 +196,5 @@ class _InstructorBioUpdateState extends State<Rating> {
         )));
   }
 
-  Future<http.Response> putTrainerScore() {
-    String url =
-        "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/" +
-            widget.instructorName;
-    return http.put(
-      "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/",
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'bio': _bio,
-        'price': _price,
-        'genre': _genre,
-      }),
-    );
-  }
+
 }
-//   Future<http.Response> updateTrainer() {
-//     return http.put(
-//       "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$_user",
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//       },
-//       body: jsonEncode(<String, String>{
-//         'bio': _bio,
-//         'price': _price,
-//         'genre': _genre,
-//       }),
-//     );
-//   }
-// }
