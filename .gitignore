@@ -10,6 +10,10 @@
 .svn/
 .env
 
+#Android Deployment
+key.properties
+key.jks
+
 # IntelliJ related
 *.iml
 *.ipr

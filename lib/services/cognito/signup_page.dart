@@ -54,13 +54,6 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: SizedBox(
-                height: kToolbarHeight,
-                child: Image.asset('assets/images/skillTrain-logo.png',
-                    fit: BoxFit.scaleDown)),
-            centerTitle: true,
-            backgroundColor: Colors.purple),
         body: SingleChildScrollView(
             child: Container(
           width: double.infinity,
@@ -71,11 +64,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   width: double.infinity,
                   color:Colors.green,
                   child:Image.asset('assets/images/signup.png',fit: BoxFit.cover),
-
                 ),
                 Container(
                   width: double.infinity,
-                  height: 200,
+                  height: 530,
                   child:
                     Column(children:[
                       new Spacer(),
@@ -87,7 +79,19 @@ class _SignUpPageState extends State<SignUpPage> {
                       new Spacer(),
                       ]
                   ),
-              )],
+              ),
+                Container(
+                  width: double.infinity,
+                  height: 450,
+                  child:
+                    Center(
+                      child:Container(
+                        height: 50,
+                        child:Image.asset('assets/images/skillTrain-logo.png'),
+                      ),
+                      )
+                ),              
+              ],
             ),
             // User or Trainer
             Center(child: radioButton()),
