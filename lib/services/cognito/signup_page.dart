@@ -7,8 +7,15 @@ SingingCharacter _character = SingingCharacter.lafayette;
 class SignUpPage extends StatefulWidget {
   final ValueChanged<SignUpCredentials> didProvideCredentials;
   final VoidCallback shouldShowLogin;
+  final setTrainer;
+  final getTrainer;
 
-  SignUpPage({Key key, this.didProvideCredentials, this.shouldShowLogin})
+  SignUpPage(
+      {Key key,
+      this.didProvideCredentials,
+      this.shouldShowLogin,
+      this.setTrainer,
+      this.getTrainer})
       : super(key: key);
 
   @override
@@ -40,6 +47,8 @@ class _SignUpPageState extends State<SignUpPage> {
       print('password: $password');
       print('isTrainer: $isTrainer');
 
+      isTrainer = widget.getTrainer();
+
       final credentials = SignUpCredentials(
           firstName: firstName,
           lastName: lastName,
@@ -56,57 +65,56 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
         body: SingleChildScrollView(
             child: Container(
-          width: double.infinity,
-          child: Column(children: [
-            Stack(
-              children: [
-                Container(
-                  width: double.infinity,
-                  color:Colors.green,
-                  child:Image.asset('assets/images/signup.png',fit: BoxFit.cover),
-                ),
-                Container(
-                  width: double.infinity,
-                  height: 530,
-                  child:
-                    Column(children:[
-                      new Spacer(),
-                      Text("Find your workout buddy", style: TextStyle(
-                                                                color: Colors.white, 
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 26.0,
-                                                                ),),
-                      new Spacer(),
-                      ]
-                  ),
-              ),
-                Container(
-                  width: double.infinity,
-                  height: 450,
-                  child:
-                    Center(
-                      child:Container(
-                        height: 50,
-                        child:Image.asset('assets/images/skillTrain-logo.png'),
-                      ),
-                      )
-                ),              
-              ],
-            ),
-            // User or Trainer
-            Center(child: radioButton()),
-            // Sign Up Form
-            _signUpForm(),
-
-            // Login Button
+      width: double.infinity,
+      child: Column(children: [
+        Stack(
+          children: [
             Container(
-              alignment: Alignment.bottomCenter,
-              child: FlatButton(
-                  onPressed: widget.shouldShowLogin,
-                  child: Text('Already have an account? Login.')),
-            )
-          ]),
-        )));
+              width: double.infinity,
+              color: Colors.green,
+              child: Image.asset('assets/images/signup.png', fit: BoxFit.cover),
+            ),
+            Container(
+              width: double.infinity,
+              height: 530,
+              child: Column(children: [
+                new Spacer(),
+                Text(
+                  "Find your workout buddy",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 26.0,
+                  ),
+                ),
+                new Spacer(),
+              ]),
+            ),
+            Container(
+                width: double.infinity,
+                height: 450,
+                child: Center(
+                  child: Container(
+                    height: 50,
+                    child: Image.asset('assets/images/skillTrain-logo.png'),
+                  ),
+                )),
+          ],
+        ),
+        // User or Trainer
+        Center(child: radioButton()),
+        // Sign Up Form
+        _signUpForm(),
+
+        // Login Button
+        Container(
+          alignment: Alignment.bottomCenter,
+          child: FlatButton(
+              onPressed: widget.shouldShowLogin,
+              child: Text('Already have an account? Login.')),
+        )
+      ]),
+    )));
   }
 
   Widget radioButton() {
@@ -121,6 +129,7 @@ class _SignUpPageState extends State<SignUpPage> {
               setState(() {
                 _character = value;
                 isTrainer = false;
+                widget.setTrainer(isTrainer);
               });
             },
           ),
@@ -134,6 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
               setState(() {
                 _character = value;
                 isTrainer = true;
+                widget.setTrainer(isTrainer);
               });
             },
           ),
