@@ -67,7 +67,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 280,
+                  height: 530,
                   child:
                     Column(children:[
                       new Spacer(),
@@ -82,7 +82,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
                 Container(
                   width: double.infinity,
-                  height: 200,
+                  height: 450,
                   child:
                     Center(
                       child:Container(

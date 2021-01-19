@@ -33,11 +33,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 320,
+                  height: 530,
                   child:
                     Column(children:[
                       new Spacer(),
-                      Text("Let's start new acitivity", style: TextStyle(
+                      Text("Let's start your day", style: TextStyle(
                                                                 color: Colors.white, 
                                                                 fontWeight: FontWeight.bold,
                                                                 fontSize: 26.0,
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Container(
                   width: double.infinity,
-                  height: 240,
+                  height: 450,
                   child:
                     Center(
                       child:Container(
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),           
               ],
             ),
-            Padding(padding: EdgeInsets.only(bottom: 8.0),),
+//            Padding(padding: EdgeInsets.only(bottom: 3.0),),
             _loginForm(),
             Container(
               alignment: Alignment.bottomCenter,
