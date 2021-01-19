@@ -22,6 +22,7 @@ class _PaymentState extends State<PaymentSignup> {
   bool _finished = false;
   String _response;
   bool _selected = false;
+  String test = '';
 
   DateTime currenty = DateTime.now();
   String currentDate =
@@ -37,6 +38,9 @@ class _PaymentState extends State<PaymentSignup> {
       setState(() {
         currentDate =
             new DateFormat("yyyy-MM-dd").format(pickedDate).toString();
+        infoObj['individual']['dob']['year'] = currentDate.substring(0, 5);
+        infoObj['individual']['dob']['month'] = currentDate.substring(5, 7);
+        infoObj['individual']['dob']['day'] = currentDate.substring(7, 9);
       });
   }
 
@@ -59,7 +63,7 @@ class _PaymentState extends State<PaymentSignup> {
         "town": "台東区"
       },
       "dob": {"day": "28", "month": "12", "year": "1993"},
-      "email": "",
+      "email": "ejaustinforbes@gmail.com",
       "gender": "male",
       "first_name_kanji": "東",
       "first_name_kana": "ア",
@@ -75,9 +79,12 @@ class _PaymentState extends State<PaymentSignup> {
   };
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     getTrainerEmail();
+    final prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    infoObj['username'] = username;
   }
 
   Future getTrainerEmail() async {
@@ -92,6 +99,11 @@ class _PaymentState extends State<PaymentSignup> {
 
   final columnSpan = 4;
   final iconSize = 35.0;
+
+  String postcodeOne;
+  String postcodeTwo;
+
+  GenderSelector _genderSelector = new GenderSelector();
 
   @override
   Widget build(BuildContext context) {
@@ -120,8 +132,11 @@ class _PaymentState extends State<PaymentSignup> {
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                infoObj['individual']["first_name_kanji"] = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      First Name (Kanji) 名 (漢字)",
+                hintText: "First Name (Kanji) 名 (漢字)",
               ),
             ),
           ),
@@ -138,8 +153,11 @@ class _PaymentState extends State<PaymentSignup> {
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                infoObj['individual']["last_name_kanji"] = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      Last Name (Kanji) 姓 (漢字)",
+                hintText: "Last Name (Kanji) 姓 (漢字)",
               ),
             ),
           ),
@@ -156,8 +174,11 @@ class _PaymentState extends State<PaymentSignup> {
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                infoObj['individual']["first_name_kana"] = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      First Name (Kana) 名 (カナ)",
+                hintText: "First Name (Kana) 名 (カナ)",
               ),
             ),
           ),
@@ -174,8 +195,11 @@ class _PaymentState extends State<PaymentSignup> {
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                infoObj['individual']["last_name_kana"] = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      Last Name (Kana) 姓 (カナ)",
+                hintText: "Last Name (Kana) 姓 (カナ)",
               ),
             ),
           ),
@@ -208,7 +232,7 @@ class _PaymentState extends State<PaymentSignup> {
         id: "a",
         child: Container(
           child: Center(
-            child: new GenderSelector(),
+            child: _genderSelector,
           ),
         ),
       ),
@@ -240,8 +264,11 @@ class _PaymentState extends State<PaymentSignup> {
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                infoObj["email"] = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      Email メールアドレス",
+                hintText: "Email メールアドレス",
               ),
             ),
           ),
@@ -275,8 +302,11 @@ class _PaymentState extends State<PaymentSignup> {
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                infoObj["individual"]["phone"] = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      Phone 電話番号",
+                hintText: "Phone 電話番号",
               ),
             ),
           ),
@@ -327,9 +357,9 @@ class _PaymentState extends State<PaymentSignup> {
     );
 
     /////////////////////////address//////////////////////////////
-    List<SpannableGridCellData> addressCells = [];
+    List<SpannableGridCellData> addressCellsKanji = [];
 
-    addressCells.add(
+    addressCellsKanji.add(
       SpannableGridCellData(
         column: 1,
         row: 1,
@@ -343,7 +373,7 @@ class _PaymentState extends State<PaymentSignup> {
         ),
       ),
     );
-    addressCells.add(
+    addressCellsKanji.add(
       SpannableGridCellData(
         column: 2,
         row: 1,
@@ -353,15 +383,18 @@ class _PaymentState extends State<PaymentSignup> {
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                infoObj["individual"]["address_kanji"]["line1"] = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      Line One 住所1",
+                hintText: "Line One Kana 住所1 漢字",
               ),
             ),
           ),
         ),
       ),
     );
-    addressCells.add(
+    addressCellsKanji.add(
       SpannableGridCellData(
         column: 2,
         row: 2,
@@ -371,15 +404,18 @@ class _PaymentState extends State<PaymentSignup> {
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                infoObj["individual"]["address_kanji"]["line2"] = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      Line Two 住所2",
+                hintText: "Line Two 住所2 漢字",
               ),
             ),
           ),
         ),
       ),
     );
-    addressCells.add(
+    addressCellsKanji.add(
       SpannableGridCellData(
         column: 2,
         row: 3,
@@ -389,15 +425,18 @@ class _PaymentState extends State<PaymentSignup> {
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                infoObj["individual"]["address_kanji"]["town"] = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      Town 町",
+                hintText: "Town 町 漢字",
               ),
             ),
           ),
         ),
       ),
     );
-    addressCells.add(
+    addressCellsKanji.add(
       SpannableGridCellData(
         column: 2,
         row: 4,
@@ -407,15 +446,18 @@ class _PaymentState extends State<PaymentSignup> {
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                infoObj["individual"]["address_kanji"]["city"] = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      City 都市",
+                hintText: "City 都市 漢字",
               ),
             ),
           ),
         ),
       ),
     );
-    addressCells.add(
+    addressCellsKanji.add(
       SpannableGridCellData(
         column: 2,
         row: 5,
@@ -425,44 +467,192 @@ class _PaymentState extends State<PaymentSignup> {
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                infoObj["individual"]["address_kanji"]["state"] = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      State 州",
+                hintText: "State 州　漢字",
               ),
             ),
           ),
         ),
       ),
     );
-    addressCells.add(
+
+    /////////////////////////address kana//////////////////////////////
+    List<SpannableGridCellData> addressCellsKana = [];
+
+    addressCellsKana.add(
+      SpannableGridCellData(
+        column: 1,
+        row: 1,
+        columnSpan: 1,
+        rowSpan: 1,
+        id: "Icon house",
+        child: Container(
+          child: Center(
+            child: new Icon(Icons.house, size: iconSize),
+          ),
+        ),
+      ),
+    );
+    addressCellsKana.add(
       SpannableGridCellData(
         column: 2,
-        row: 6,
-        columnSpan: 2,
+        row: 1,
+        columnSpan: columnSpan,
+        rowSpan: 1,
+        id: "line one",
+        child: Container(
+          child: Center(
+            child: new TextField(
+              onChanged: (text) {
+                infoObj["individual"]["address_kana"]["line1"] = text;
+              },
+              decoration: new InputDecoration(
+                hintText: "Line One 住所1 カナ",
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    addressCellsKana.add(
+      SpannableGridCellData(
+        column: 2,
+        row: 2,
+        columnSpan: columnSpan,
+        rowSpan: 1,
+        id: "line two",
+        child: Container(
+          child: Center(
+            child: new TextField(
+              onChanged: (text) {
+                infoObj["individual"]["address_kana"]["line2"] = text;
+              },
+              decoration: new InputDecoration(
+                hintText: "Line Two 住所2 カナ",
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    addressCellsKana.add(
+      SpannableGridCellData(
+        column: 2,
+        row: 3,
+        columnSpan: columnSpan,
+        rowSpan: 1,
+        id: "town",
+        child: Container(
+          child: Center(
+            child: new TextField(
+              onChanged: (text) {
+                infoObj["individual"]["address_kana"]["town"] = text;
+              },
+              decoration: new InputDecoration(
+                hintText: "Town 町 カナ",
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    addressCellsKana.add(
+      SpannableGridCellData(
+        column: 2,
+        row: 4,
+        columnSpan: columnSpan,
+        rowSpan: 1,
+        id: "City",
+        child: Container(
+          child: Center(
+            child: new TextField(
+              onChanged: (text) {
+                infoObj["individual"]["address_kana"]["city"] = text;
+              },
+              decoration: new InputDecoration(
+                hintText: "City 都市 カナ",
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    addressCellsKana.add(
+      SpannableGridCellData(
+        column: 2,
+        row: 5,
+        columnSpan: columnSpan,
+        rowSpan: 1,
+        id: "state",
+        child: Container(
+          child: Center(
+            child: new TextField(
+              onChanged: (text) {
+                infoObj["individual"]["address_kana"]["state"] = text;
+              },
+              decoration: new InputDecoration(
+                hintText: "State 州 カナ",
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+/////////////////////Postcode///////////
+    List<SpannableGridCellData> postcode = [];
+    postcode.add(
+      SpannableGridCellData(
+        column: 1,
+        row: 1,
+        columnSpan: 1,
+        rowSpan: 1,
+        id: "Icon house",
+        child: Container(
+          child: Center(
+            child: new Icon(Icons.local_post_office_rounded, size: iconSize),
+          ),
+        ),
+      ),
+    );
+    postcode.add(
+      SpannableGridCellData(
+        column: 2,
+        row: 1,
+        columnSpan: 1,
         rowSpan: 1,
         id: "postcode 郵便番号",
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                postcodeOne = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      000",
+                hintText: "000",
               ),
             ),
           ),
         ),
       ),
     );
-    addressCells.add(
+    postcode.add(
       SpannableGridCellData(
-        column: 4,
-        row: 6,
-        columnSpan: 2,
+        column: 3,
+        row: 1,
+        columnSpan: 1,
         rowSpan: 1,
         id: "postcode2",
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                postcodeTwo = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      0000",
+                hintText: "0000",
               ),
             ),
           ),
@@ -497,8 +687,11 @@ class _PaymentState extends State<PaymentSignup> {
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                infoObj["external_account"]["account_number"] = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      Account Number 口座番号",
+                hintText: "Account Number 口座番号",
               ),
             ),
           ),
@@ -515,8 +708,11 @@ class _PaymentState extends State<PaymentSignup> {
         child: Container(
           child: Center(
             child: new TextField(
+              onChanged: (text) {
+                infoObj["external_account"]["routing_number"] = text;
+              },
               decoration: new InputDecoration(
-                hintText: "      SWIFT code 店番",
+                hintText: "SWIFT code 店番",
               ),
             ),
           ),
@@ -601,8 +797,30 @@ class _PaymentState extends State<PaymentSignup> {
                   SpannableGrid(
                     rowHeight: 50,
                     columns: 5,
-                    rows: 6,
-                    cells: addressCells,
+                    rows: 5,
+                    cells: addressCellsKanji,
+                    spacing: 1,
+                    onCellChanged: (cell) {
+                      print('Cell ${cell.id} changed');
+                    },
+                  ),
+                  const Divider(height: 10),
+                  SpannableGrid(
+                    rowHeight: 50,
+                    columns: 5,
+                    rows: 5,
+                    cells: addressCellsKana,
+                    spacing: 1,
+                    onCellChanged: (cell) {
+                      print('Cell ${cell.id} changed');
+                    },
+                  ),
+                  const Divider(height: 10),
+                  SpannableGrid(
+                    rowHeight: 50,
+                    columns: 5,
+                    rows: 1,
+                    cells: postcode,
                     spacing: 1,
                     onCellChanged: (cell) {
                       print('Cell ${cell.id} changed');
@@ -619,6 +837,42 @@ class _PaymentState extends State<PaymentSignup> {
                       print('Cell ${cell.id} changed');
                     },
                   ),
+                  const Divider(height: 20),
+                  RaisedButton(
+                      onPressed: () async {
+                        setState(() {
+                          _saving = true;
+                        });
+                        print(infoObj);
+                        var response = await http.put(
+                            "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe",
+                            headers: <String, String>{
+                              'Content-Type': 'application/json; charset=UTF-8',
+                            },
+                            body: convert.jsonEncode(infoObj));
+                        print(response.statusCode);
+                        print(response.body);
+                        setState(() {
+                          _saving = false;
+                          _finished = true;
+                          if (response.statusCode == 200) {
+                            _response = "Account Created!";
+                          } else {
+                            final message = response.body.substring(
+                                response.body.indexOf(':') + 1,
+                                response.body.length - 2);
+                            _response = message;
+                          }
+                        });
+                        Future.delayed(const Duration(seconds: 4), () {
+                          setState(() {
+                            _finished = false;
+                          });
+                        });
+                      },
+                      child: Text("Submit"),
+                      color: Colors.blueAccent,
+                      textColor: Colors.white)
                 ],
               ),
             ),
