@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:skilltrain/utils/overlay_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert' as convert;
@@ -22,17 +23,20 @@ class _PaymentState extends State<PaymentSignup> {
   String _response;
   bool _selected = false;
 
-  DateTime currentDate = DateTime.now();
+  DateTime currenty = DateTime.now();
+  String currentDate =
+      new DateFormat("yyyy-MM-dd").format(DateTime.now()).toString();
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
         context: context,
-        initialDate: currentDate,
+        initialDate: currenty,
         firstDate: DateTime(2015),
         lastDate: DateTime(2050));
-    if (pickedDate != null && pickedDate != currentDate)
+    if (pickedDate != null && pickedDate != currenty)
       setState(() {
-        currentDate = pickedDate;
+        currentDate =
+            new DateFormat("yyyy-MM-dd").format(pickedDate).toString();
       });
   }
 
@@ -87,7 +91,7 @@ class _PaymentState extends State<PaymentSignup> {
   }
 
   final columnSpan = 4;
-  final iconSize = 30.0;
+  final iconSize = 35.0;
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +121,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   First Name (Kanji) 名 (漢字)",
+                hintText: "      First Name (Kanji) 名 (漢字)",
               ),
             ),
           ),
@@ -135,7 +139,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   Last Name (Kanji) 姓 (漢字)",
+                hintText: "      Last Name (Kanji) 姓 (漢字)",
               ),
             ),
           ),
@@ -153,7 +157,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   First Name (Kana) 名 (カナ)",
+                hintText: "      First Name (Kana) 名 (カナ)",
               ),
             ),
           ),
@@ -171,7 +175,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   Last Name (Kana) 姓 (カナ)",
+                hintText: "      Last Name (Kana) 姓 (カナ)",
               ),
             ),
           ),
@@ -237,7 +241,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   Email メールアドレス",
+                hintText: "      Email メールアドレス",
               ),
             ),
           ),
@@ -272,7 +276,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   Phone 電話番号",
+                hintText: "      Phone 電話番号",
               ),
             ),
           ),
@@ -305,22 +309,19 @@ class _PaymentState extends State<PaymentSignup> {
         rowSpan: 1,
         id: "birthday",
         child: Container(
+          alignment: Alignment.topLeft,
           child: Center(
               child: new ListTile(
-                  leading: new Text(_selected ? 'wow' : 'no"'),
-                  trailing: new TextButton(
-                    onPressed: () {
-                      _selectDate(context);
-                      print(currentDate);
-                    },
-                    child: new Text('Select'),
-                    key: UniqueKey(),
-                  )
-                  // trailing: const Icon(
-                  //   Icons.check_circle,
-                  //   color: Colors.green,
-                  // ),
-                  )),
+                  leading: new TextButton(
+            onPressed: () {
+              _selectDate(context);
+              print(currentDate);
+            },
+            child: new Text(
+              'Birthday',
+              style: new TextStyle(fontSize: 26),
+            ),
+          ))),
         ),
       ),
     );
@@ -353,7 +354,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   Line One 住所1",
+                hintText: "      Line One 住所1",
               ),
             ),
           ),
@@ -371,7 +372,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   Line Two 住所2",
+                hintText: "      Line Two 住所2",
               ),
             ),
           ),
@@ -389,7 +390,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   Town 町",
+                hintText: "      Town 町",
               ),
             ),
           ),
@@ -407,7 +408,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   City 都市",
+                hintText: "      City 都市",
               ),
             ),
           ),
@@ -425,7 +426,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   State 州",
+                hintText: "      State 州",
               ),
             ),
           ),
@@ -443,7 +444,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   000",
+                hintText: "      000",
               ),
             ),
           ),
@@ -461,7 +462,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   0000",
+                hintText: "      0000",
               ),
             ),
           ),
@@ -497,7 +498,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   Account Number 口座番号",
+                hintText: "      Account Number 口座番号",
               ),
             ),
           ),
@@ -515,7 +516,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               decoration: new InputDecoration(
-                hintText: "   SWIFT code 店番",
+                hintText: "      SWIFT code 店番",
               ),
             ),
           ),
@@ -537,7 +538,6 @@ class _PaymentState extends State<PaymentSignup> {
             child: SingleChildScrollView(
               child: new Column(
                 children: <Widget>[
-                  new Text('$currentDate'),
                   SpannableGrid(
                     rowHeight: 50,
                     columns: 5,
@@ -587,11 +587,16 @@ class _PaymentState extends State<PaymentSignup> {
                     columns: 5,
                     rows: 1,
                     cells: birthdayCells,
-                    spacing: 1,
+                    spacing: 0,
                     onCellChanged: (cell) {
                       print('Cell ${cell.id} changed');
                     },
                   ),
+                  new Container(
+                      height: 50,
+                      child:
+                          Text('$currentDate', style: TextStyle(fontSize: 20)),
+                      alignment: Alignment(-0.31, 0.0)),
                   const Divider(height: 10),
                   SpannableGrid(
                     rowHeight: 50,
