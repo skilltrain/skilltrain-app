@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:amplify_core/amplify_core.dart';
-import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'dart:convert';
+import 'package:skilltrain/main_app/common/headings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skilltrain/main_app/trainee/home_page_trainee.dart';
 
 class Rating extends StatefulWidget {
   final instructorName;
@@ -14,16 +15,11 @@ class Rating extends StatefulWidget {
 }
 
 class _InstructorBioUpdateState extends State<Rating> {
-  int index;
-
-  void getUrl() async {
-    try {
-      GetUrlResult result = await Amplify.Storage.getUrl(key: "myKey");
-      print(result.url);
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+  double rating = 3;
+  TextEditingController reviewController = new TextEditingController(text: '');
+  String username;
+  String serverResponse;
+  bool sendingReview = false;
 
   Future<Map> postTrainerScore(score) async {
     String url =
@@ -47,125 +43,130 @@ class _InstructorBioUpdateState extends State<Rating> {
         'Content-Type': 'application/json; charset=UTF-8',
       });
       if (putResponse.statusCode == 200) {
+        serverResponse = "Thank you for your review!";
       } else {
+        serverResponse = "I'm sorry, your response was not recorded.";
         throw Exception('Failed to load API params');
       }
-      return decoded["avgRating"];
+      return decoded;
     } else {
       throw Exception('Failed to load API params');
     }
   }
 
+  postReview() async {
+    String url =
+        "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/reviews/";
+
+    var request = {
+      'trainer_username': widget.instructorName,
+      'user_username': username,
+      'review': reviewController.text,
+      'rating': rating,
+    };
+
+    final putResponse = await http.post(url, body: json.encode(request));
+    if (putResponse.statusCode == 201) {
+      //show confirmation to user
+      print(putResponse);
+    } else {
+      throw Exception('Failed to post review');
+    }
+  }
+
+  void postReviewAndRating() async {
+    await postTrainerScore(rating);
+    if (reviewController.text.trim().length > 0) {
+      postReview();
+    }
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text("Review for " + widget.instructorName),
+        content: Text(serverResponse),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => HomePageTrainee()),
+                (Route<dynamic> route) => false,
+              );
+            },
+            child: new Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void initState() {
     super.initState();
+    getUsername();
+  }
+
+  void getUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    username = prefs.getString('username');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text(""),
+          title: Text("Rate your Trainer"),
         ),
         body: Center(
             child: Container(
           width: double.infinity,
           child: Column(children: <Widget>[
-            new Spacer(),
             Container(
                 padding: const EdgeInsets.all(
                   10.0,
                 ),
                 child: Column(children: <Widget>[
                   Container(
-                    width: 300,
-                    padding: const EdgeInsets.all(
-                      15.0,
+                      margin: EdgeInsets.symmetric(vertical: 16),
+                      child: sectionTitle(title: "How was your lesson today?")),
+                  RatingBar.builder(
+                    initialRating: rating,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
                     ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.purple[500], width: 3),
-                      borderRadius: BorderRadius.circular(25),
-                      color: Colors.white70,
-                    ),
-                    child: Column(
-                      children: [
-                        Text(widget.instructorName),
-                        Text(
-                          "How was the today's lesson?",
-                          style: TextStyle(
-                            fontFamily: 'OpenSans',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                    onRatingUpdate: (ratingInput) {
+                      rating = ratingInput;
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: TextFormField(
+                      controller: reviewController,
+                      maxLines: 6,
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.purple[700], width: 2.0),
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
-                        ),
-                        Row(
-                          children: [
-                            InkWell(
-                                onTap: () {
-                                  print("reputation score 1 is sent");
-                                  postTrainerScore(1);
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  "🙁",
-                                  style: TextStyle(
-                                    fontFamily: 'OpenSans',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 40,
-                                  ),
-                                )),
-                            InkWell(
-                                onTap: () {
-                                  print("reputation score 2 is sent");
-                                  postTrainerScore(2);
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("😑",
-                                    style: TextStyle(
-                                      fontFamily: 'OpenSans',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 40,
-                                    ))),
-                            InkWell(
-                                onTap: () {
-                                  print("reputation score 3 is sent");
-                                  postTrainerScore(3);
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("😐",
-                                    style: TextStyle(
-                                      fontFamily: 'OpenSans',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 40,
-                                    ))),
-                            InkWell(
-                                onTap: () {
-                                  print("reputation score 4 is sent");
-                                  postTrainerScore(4);
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("🙂",
-                                    style: TextStyle(
-                                      fontFamily: 'OpenSans',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 40,
-                                    ))),
-                            InkWell(
-                                onTap: () {
-                                  print("reputation score 5 is sent");
-                                  postTrainerScore(5);
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("😀",
-                                    style: TextStyle(
-                                      fontFamily: 'OpenSans',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 40,
-                                    ))),
-                          ],
-                        ),
-                      ],
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: InputBorder.none,
+                          hintText:
+                              'Write a review or just click submit to rate your trainer'),
                     ),
                   ),
+                  ElevatedButton(
+                      onPressed: () => {
+                            postReviewAndRating(),
+                          },
+                      child: Text("Submit"))
                 ])),
             new Spacer(),
           ]),
