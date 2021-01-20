@@ -182,55 +182,55 @@ class SampleStart extends State<InstructorRegisterCourse> {
                           },
                         ))),
                 Expanded(
-                  flex: 1,
-                  child: Container(
-                    width: double.infinity,
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      hint:
-                          Text(_selectedStartTime, textAlign: TextAlign.center),
-                      items: <String>[
-                        '09:00',
-                        '10:00',
-                        '11:00',
-                        '12:00',
-                        '13:00',
-                        '14:00',
-                        '15:00',
-                        '16:00',
-                        '17:00',
-                        '18:00',
-                        '19:00',
-                        '20:00',
-                        '21:00',
-                        '22:00',
-                        '23:00'
-                      ].map((String value) {
-                        return new DropdownMenuItem<String>(
-                          value: value,
-                          child: Center(
-                            child: new Text(value, textAlign: TextAlign.center),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        startTime = value;
-                        endTime = startTime.substring(0, 3) + "50";
-                        print("start time is" + startTime);
-                        print("end time  is" + endTime);
-                        setState(() {
-                          _selectedStartTime = value;
-                        });
-                      },
-                    ),
-                  ),
-                ),
+                    flex: 1,
+                    child: Container(
+                      width: double.infinity,
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        hint: Text(_selectedStartTime,
+                            textAlign: TextAlign.center),
+                        items: <String>[
+                          '09:00',
+                          '10:00',
+                          '11:00',
+                          '12:00',
+                          '13:00',
+                          '14:00',
+                          '15:00',
+                          '16:00',
+                          '17:00',
+                          '18:00',
+                          '19:00',
+                          '20:00',
+                          '21:00',
+                          '22:00',
+                          '23:00'
+                        ].map((String value) {
+                          return new DropdownMenuItem<String>(
+                            value: value,
+                            child: Center(
+                              child:
+                                  new Text(value, textAlign: TextAlign.center),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          startTime = value;
+                          endTime = startTime.substring(0, 3) + "50";
+                          print("start time is" + startTime);
+                          print("end time  is" + endTime);
+                          setState(() {
+                            _selectedStartTime = value;
+                          });
+                        },
+                      ),
+                    ))
               ],
             ),
             TextFormField(
                 controller: TextEditingController(text: description),
                 decoration: InputDecoration(
-                  labelText: 'Description',
+                  labelText: 'describe about course detail here',
                 ),
                 maxLines: 4,
                 minLines: 4,
@@ -307,7 +307,7 @@ Future<Map> postData() async {
     'end_time': endTime,
     'status': status,
     'complete': complete,
-    'description': description.trim(),
+    "description": description
   };
 
   print(json.encode(request));

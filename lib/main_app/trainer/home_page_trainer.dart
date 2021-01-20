@@ -12,6 +12,8 @@ import '../trainer/pages/instructor_view/pages/instructor_register_course.dart';
 import 'package:intl/intl.dart';
 import '../trainer/pages/instructor_view/pages/instructor_bio_update.dart';
 import './pages/payment_signup.dart';
+import '../trainer/pages/instructor_view/pages/instructor_session_detail.dart';
+import '../trainer/pages/instructor_view/pages/instructor_session_list.dart';
 
 String trainerName = "";
 
@@ -95,6 +97,15 @@ class SampleStart extends State<HomePageTrainer> {
                   Navigator.push(
                     context,
                     SlideLeftRoute(page: InstructorRegisterCourse()),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('Update session details'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    SlideLeftRoute(page: SessionList()),
                   );
                 },
               ),
@@ -196,7 +207,16 @@ class SampleStart extends State<HomePageTrainer> {
                                   return Card(
                                       child: GestureDetector(
                                           //画面遷移
-                                          onTap: () => {},
+                                          onTap: () => {
+                                                // print("testing tap action"),
+                                                Navigator.push(
+                                                    context,
+                                                    SlideLeftRoute(
+                                                        page: InstructorSessionDetail(
+                                                            sessionID: snapshot
+                                                                    .data[index]
+                                                                ['id']))),
+                                              },
                                           child: Column(
                                             children: <Widget>[
                                               Row(

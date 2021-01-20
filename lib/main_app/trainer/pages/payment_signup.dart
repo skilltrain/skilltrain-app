@@ -912,7 +912,7 @@ class _PaymentState extends State<PaymentSignup> {
                         ),
                         color: widget.active
                             ? Colors.blueAccent
-                            : Colors.greenAccent,
+                            : Colors.lightGreenAccent[400],
                         textColor: Colors.white,
                       )),
                 ],
