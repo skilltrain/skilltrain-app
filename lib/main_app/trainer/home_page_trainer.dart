@@ -11,7 +11,7 @@ import '../../services/agora/video_session/index_trainer.dart';
 import '../trainer/pages/instructor_view/pages/instructor_register_course.dart';
 import 'package:intl/intl.dart';
 import '../trainer/pages/instructor_view/pages/instructor_bio_update.dart';
-import '../../services/streambuilders/payment_signup/payment_signup_streamer.dart';
+import './pages/payment_signup.dart';
 
 String trainerName = "";
 
@@ -32,11 +32,25 @@ DateFormat format = DateFormat('yyyy-MM-dd');
 
 class SampleStart extends State<HomePageTrainer> {
   Future<List> sessionResults;
+  bool signedUpPayment = false;
 
   @override
   void initState() {
     super.initState();
     sessionResults = fetchSessionResults();
+    widget.userAttributes.forEach((attribute) {
+      if (attribute.getName() == 'custom:paymentSignedUp') {
+        if (attribute.getValue() == 'true') {
+          signUpPayment();
+        }
+      }
+    });
+  }
+
+  void signUpPayment() {
+    setState(() {
+      signedUpPayment = true;
+    });
   }
 
   //calendar object
@@ -97,7 +111,25 @@ class SampleStart extends State<HomePageTrainer> {
                 title: Text('Log out'),
                 onTap: widget.shouldLogOut,
               ),
-              PaymentSignUp(cognitoUser: widget.cognitoUser),
+              signedUpPayment
+                  ? ListTile(
+                      title: Text('Complete'),
+                      onTap: () {
+                        print('show signup');
+                      })
+                  : ListTile(
+                      title: Text('Sign up now'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          SlideLeftRoute(
+                              page: PaymentSignup(
+                                  userAttributes: widget.userAttributes,
+                                  cognitoUser: widget.cognitoUser,
+                                  signUpComplete: signUpPayment)),
+                        );
+                        print('show complete');
+                      }),
             ],
           )),
           appBar: AppBar(
