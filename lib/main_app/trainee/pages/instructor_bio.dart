@@ -120,6 +120,9 @@ class _InstructorBioState extends State<InstructorBio> {
                       )),
                 ),
               ),
+              Container(
+                  margin: EdgeInsets.all(10),
+                  child: Text("Reviews", style: TextStyle(fontSize: 24))),
               FutureBuilder(
                 future: reviews,
                 builder: (context, snapshot) {

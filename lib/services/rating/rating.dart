@@ -168,7 +168,6 @@ class _RatingState extends State<Rating> {
                           },
                       child: Text("Submit"))
                 ])),
-            new Spacer(),
           ]),
         )));
   }

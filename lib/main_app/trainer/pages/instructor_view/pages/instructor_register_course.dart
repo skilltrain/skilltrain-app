@@ -182,61 +182,61 @@ class SampleStart extends State<InstructorRegisterCourse> {
                           },
                         ))),
                 Expanded(
-                  flex: 1,
-                  child: Container(
-                    width: double.infinity,
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      hint:
-                          Text(_selectedStartTime, textAlign: TextAlign.center),
-                      items: <String>[
-                        '09:00',
-                        '10:00',
-                        '11:00',
-                        '12:00',
-                        '13:00',
-                        '14:00',
-                        '15:00',
-                        '16:00',
-                        '17:00',
-                        '18:00',
-                        '19:00',
-                        '20:00',
-                        '21:00',
-                        '22:00',
-                        '23:00'
-                      ].map((String value) {
-                        return new DropdownMenuItem<String>(
-                          value: value,
-                          child: Center(
-                            child: new Text(value, textAlign: TextAlign.center),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        startTime = value;
-                        endTime = startTime.substring(0, 3) + "50";
-                        print("start time is" + startTime);
-                        print("end time  is" + endTime);
-                        setState(() {
-                          _selectedStartTime = value;
-                        });
-                      },
-                    ),
-
-                ],
-              ),
-              TextFormField(
-                      controller: TextEditingController(text: description),
-                      decoration: InputDecoration(
-                        labelText: 'describe about course detail here',
+                    flex: 1,
+                    child: Container(
+                      width: double.infinity,
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        hint: Text(_selectedStartTime,
+                            textAlign: TextAlign.center),
+                        items: <String>[
+                          '09:00',
+                          '10:00',
+                          '11:00',
+                          '12:00',
+                          '13:00',
+                          '14:00',
+                          '15:00',
+                          '16:00',
+                          '17:00',
+                          '18:00',
+                          '19:00',
+                          '20:00',
+                          '21:00',
+                          '22:00',
+                          '23:00'
+                        ].map((String value) {
+                          return new DropdownMenuItem<String>(
+                            value: value,
+                            child: Center(
+                              child:
+                                  new Text(value, textAlign: TextAlign.center),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          startTime = value;
+                          endTime = startTime.substring(0, 3) + "50";
+                          print("start time is" + startTime);
+                          print("end time  is" + endTime);
+                          setState(() {
+                            _selectedStartTime = value;
+                          });
+                        },
                       ),
-                      maxLines: 4,
-                      minLines: 4,
-                      onChanged: (text) => description = text),
-              new Spacer(),
-              RaisedButton(
-
+                    ))
+              ],
+            ),
+            TextFormField(
+                controller: TextEditingController(text: description),
+                decoration: InputDecoration(
+                  labelText: 'describe about course detail here',
+                ),
+                maxLines: 4,
+                minLines: 4,
+                onChanged: (text) => description = text),
+            new Spacer(),
+            RaisedButton(
               onPressed: () async {
                 postData();
               },
@@ -268,28 +268,6 @@ class SampleStart extends State<InstructorRegisterCourse> {
   }
 }
 
-// ignore: missing_return
-/*
-Future<List> fetchApiResults() async {
-  try {
-    AuthUser res = await Amplify.Auth.getCurrentUser();
-    userName = res.username;
-    print("Current User Name = " + res.username);
-
-    final response = await http.get(
-        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers');
-
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load API params');
-    }
-  } on AuthError catch (e) {
-    print(e);
-  }
-}
-*/
-
 Future<Map> postData() async {
   AuthUser res = await Amplify.Auth.getCurrentUser();
   userName = res.username;
@@ -298,17 +276,17 @@ Future<Map> postData() async {
       "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions";
 
   var request = {
-        'trainer_username': userName,
-        'user_username': "",
-        'id': year + "-" +  month + "-" + day + startTime + userName,
-        'sessionCode': year + "-" +  month + "-" + day + startTime + userName,
-        'date':  year + "-" +  month + "-" + day,
-        'start_time': startTime,
-        'end_time': endTime,
-        'status': status,
-        'complete': complete,
-        "description": description
-    };
+    'trainer_username': userName,
+    'user_username': "",
+    'id': year + "-" + month + "-" + day + startTime + userName,
+    'sessionCode': year + "-" + month + "-" + day + startTime + userName,
+    'date': year + "-" + month + "-" + day,
+    'start_time': startTime,
+    'end_time': endTime,
+    'status': status,
+    'complete': complete,
+    "description": description
+  };
 
   print(json.encode(request));
 
