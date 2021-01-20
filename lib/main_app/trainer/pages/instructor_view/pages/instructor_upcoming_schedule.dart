@@ -213,11 +213,19 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
 
 //calendar object
                 } else if (snapshot.connectionState != ConnectionState.done) {
-                  return CircularProgressIndicator();
+                  return Container(
+                      height: MediaQuery.of(context).size.height - 87,
+                      decoration:
+                          new BoxDecoration(color: Colors.deepPurple[100]),
+                      child: Center(child: CircularProgressIndicator()));
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 }
-                return CircularProgressIndicator();
+                return Container(
+                    height: MediaQuery.of(context).size.height - 87,
+                    decoration:
+                        new BoxDecoration(color: Colors.deepPurple[100]),
+                    child: Center(child: CircularProgressIndicator()));
               },
             ),
           ],

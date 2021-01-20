@@ -293,7 +293,10 @@ class SampleStart extends State<HomePageTrainee> {
           }
 
           // By default, show a loading spinner.
-          return CircularProgressIndicator();
+          return Container(
+              height: MediaQuery.of(context).size.height - 87,
+              decoration: new BoxDecoration(color: Colors.deepPurple[100]),
+              child: Center(child: CircularProgressIndicator()));
         },
       );
     }
@@ -320,7 +323,10 @@ class SampleStart extends State<HomePageTrainee> {
             );
           } else if (snapshot.connectionState == ConnectionState.waiting ??
               snapshot.connectionState == ConnectionState.active) {
-            CircularProgressIndicator();
+            Container(
+                height: MediaQuery.of(context).size.height - 87,
+                decoration: new BoxDecoration(color: Colors.deepPurple[100]),
+                child: Center(child: CircularProgressIndicator()));
           }
           return Container(
               child: Padding(
