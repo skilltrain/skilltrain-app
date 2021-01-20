@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                 )),
           ],
         ),
-//            Padding(padding: EdgeInsets.only(bottom: 3.0),),
+        Container(height: 20),
         _loginForm(),
         Container(
           alignment: Alignment.bottomCenter,
