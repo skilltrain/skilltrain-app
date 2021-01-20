@@ -847,7 +847,7 @@ class _PaymentState extends State<PaymentSignup> {
                       minWidth: MediaQuery.of(context).size.width,
                       height: 60,
                       child: RaisedButton(
-                        onPressed: widget.active
+                        onPressed: !widget.active
                             ? null
                             : () async {
                                 setState(() {
