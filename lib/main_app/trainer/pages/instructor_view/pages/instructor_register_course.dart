@@ -262,10 +262,9 @@ class SampleStart extends State<InstructorRegisterCourse> {
               ),
             ),
           ],
-        )
-          ]),
+        )),
       ),
-    ));
+    );
   }
 }
 
