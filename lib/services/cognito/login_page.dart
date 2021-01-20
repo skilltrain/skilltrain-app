@@ -20,59 +20,51 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: 
-      SingleChildScrollView(
-        child:Column(
+        body: SingleChildScrollView(
+      child: Column(children: [
+        Stack(
           children: [
-              Stack(
-              children: [
-                Container(
-                  width: double.infinity,
-                  color:Colors.green,
-                  child:Image.asset('assets/images/login.png',fit: BoxFit.cover),
-
-                ),
-                Container(
-                  width: double.infinity,
-                  height: 530,
-                  child:
-                    Column(children:[
-                      new Spacer(),
-                      Text("Let's start your day", style: TextStyle(
-                                                                color: Colors.white, 
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 26.0,
-                                                                ),),
-                      new Spacer(),
-                      ]
-                  ),
-              ),
-              Container(
-                  width: double.infinity,
-                  height: 450,
-                  child:
-                    Center(
-                      child:Container(
-                        height: 50,
-                        child:Image.asset('assets/images/skillTrain-logo.png'),
-                      ),
-                      )
-                ),           
-              ],
-            ),
-//            Padding(padding: EdgeInsets.only(bottom: 3.0),),
-            _loginForm(),
             Container(
-              alignment: Alignment.bottomCenter,
-              child: FlatButton(
-                  onPressed: widget.shouldShowSignUp,
-                  child: Text('Don\'t have an account? Sign up.')),
-            )
-          
-          ]
+              width: double.infinity,
+              height: 450,
+              color: Colors.green,
+              child: Image.asset('assets/images/login.png', fit: BoxFit.cover),
+            ),
+            Container(
+              width: double.infinity,
+              height: 450,
+              child: Text(
+                "Let's start your day",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 26.0,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              alignment: Alignment(0.0, 0.2),
+            ),
+            Container(
+                width: double.infinity,
+                height: 450,
+                child: Center(
+                  child: Container(
+                    height: 50,
+                    child: Image.asset('assets/images/skillTrain-logo.png'),
+                  ),
+                )),
+          ],
         ),
-      )
-    );
+//            Padding(padding: EdgeInsets.only(bottom: 3.0),),
+        _loginForm(),
+        Container(
+          alignment: Alignment.bottomCenter,
+          child: FlatButton(
+              onPressed: widget.shouldShowSignUp,
+              child: Text('Don\'t have an account? Sign up.')),
+        )
+      ]),
+    ));
   }
 
   Widget _loginForm() {
