@@ -7,12 +7,11 @@ import 'package:amplify_core/amplify_core.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../../utils/sliders.dart';
-import './pages/payment_signup.dart';
 import '../../services/agora/video_session/index_trainer.dart';
 import '../trainer/pages/instructor_view/pages/instructor_register_course.dart';
 import 'package:intl/intl.dart';
 import '../trainer/pages/instructor_view/pages/instructor_bio_update.dart';
-import '../../services/streambuilders/payment_signup/payment_signup_service.dart';
+import '../../services/streambuilders/payment_signup/payment_signup_streamer.dart';
 
 String trainerName = "";
 
@@ -32,12 +31,11 @@ class HomePageTrainer extends StatefulWidget {
 DateFormat format = DateFormat('yyyy-MM-dd');
 
 class SampleStart extends State<HomePageTrainer> {
-  final _paymentSignUpService = new PaymentSignUpService();
   Future<List> sessionResults;
+
   @override
   void initState() {
     super.initState();
-    _paymentSignUpService.showUnsignedPage();
     sessionResults = fetchSessionResults();
   }
 
@@ -95,42 +93,13 @@ class SampleStart extends State<HomePageTrainer> {
                   );
                 },
               ),
-              StreamBuilder<PaymentSignUpState>(
-                  stream: _paymentSignUpService.paymentSignUpController.stream,
-                  builder: (context, snapshot) {
-                    if (snapshot.data != null) {
-                      if (snapshot.data.paymentSignUpFlowStatus ==
-                          PaymentSignUpFlowStatus.unsigned)
-                        return ListTile(
-                          title: Text('Payment signup'),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              SlideLeftRoute(
-                                  page: PaymentSignup(
-                                      userAttributes: widget.userAttributes,
-                                      cognitoUser: widget.cognitoUser,
-                                      signUpComplete: _paymentSignUpService
-                                          .showSignedPage)),
-                            );
-                          },
-                        );
-                      else {
-                        return ListTile(
-                          title: Text('Complete'),
-                        );
-                      }
-                    } else {
-                      return Text('w');
-                    }
-                  }),
               ListTile(
                 title: Text('Log out'),
                 onTap: widget.shouldLogOut,
               ),
+              PaymentSignUp(cognitoUser: widget.cognitoUser),
             ],
-          ) // Populate the Drawer in the next step.
-              ),
+          )),
           appBar: AppBar(
             title: SizedBox(
                 height: kToolbarHeight,
