@@ -223,20 +223,20 @@ class SampleStart extends State<InstructorRegisterCourse> {
                         });
                       },
                     ),
-                  ),
-                ),
-              ],
-            ),
-            TextFormField(
-                controller: TextEditingController(text: description),
-                decoration: InputDecoration(
-                  labelText: 'Description',
-                ),
-                maxLines: 4,
-                minLines: 4,
-                onChanged: (text) => description = text),
-            new Spacer(),
-            RaisedButton(
+
+                ],
+              ),
+              TextFormField(
+                      controller: TextEditingController(text: description),
+                      decoration: InputDecoration(
+                        labelText: 'describe about course detail here',
+                      ),
+                      maxLines: 4,
+                      minLines: 4,
+                      onChanged: (text) => description = text),
+              new Spacer(),
+              RaisedButton(
+
               onPressed: () async {
                 postData();
               },
@@ -298,17 +298,17 @@ Future<Map> postData() async {
       "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions";
 
   var request = {
-    'trainer_username': userName,
-    'user_username': "",
-    'id': year + "-" + month + "-" + day + startTime + userName,
-    'sessionCode': year + "-" + month + "-" + day + startTime + userName,
-    'date': year + "-" + month + "-" + day,
-    'start_time': startTime,
-    'end_time': endTime,
-    'status': status,
-    'complete': complete,
-    'description': description.trim(),
-  };
+        'trainer_username': userName,
+        'user_username': "",
+        'id': year + "-" +  month + "-" + day + startTime + userName,
+        'sessionCode': year + "-" +  month + "-" + day + startTime + userName,
+        'date':  year + "-" +  month + "-" + day,
+        'start_time': startTime,
+        'end_time': endTime,
+        'status': status,
+        'complete': complete,
+        "description": description
+    };
 
   print(json.encode(request));
 
