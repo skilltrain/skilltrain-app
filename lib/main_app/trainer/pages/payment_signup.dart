@@ -1,7 +1,6 @@
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +12,11 @@ import '../../../utils/alert_dialogue.dart';
 
 class PaymentSignup extends StatefulWidget {
   final List<CognitoUserAttribute> userAttributes;
-  PaymentSignup({Key key, this.userAttributes}) : super(key: key);
+  final CognitoUser cognitoUser;
+  final VoidCallback signUpComplete;
+  PaymentSignup(
+      {Key key, this.userAttributes, this.cognitoUser, this.signUpComplete})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -854,7 +857,7 @@ class _PaymentState extends State<PaymentSignup> {
                               body: convert.jsonEncode(infoObj));
                           print(response.statusCode);
                           print(response.body);
-                          setState(() {
+                          setState(() async {
                             _saving = false;
                             if (response.statusCode == 200) {
                               _response = "Account Created!";
@@ -865,6 +868,19 @@ class _PaymentState extends State<PaymentSignup> {
                                           title: 'Success!',
                                           content: _response,
                                           buttonText: 'CLOSE'));
+                              Navigator.pop(context);
+                              widget.signUpComplete();
+                              final List<CognitoUserAttribute> attributes = [];
+                              attributes.add(new CognitoUserAttribute(
+                                  name: 'custom:paymentSignedUp',
+                                  value: 'true'));
+                              try {
+                                final response = await widget.cognitoUser
+                                    .updateAttributes(attributes);
+                                print(response);
+                              } catch (e) {
+                                print('Failed to add user attribute $e');
+                              }
                             } else {
                               final message = response.body.substring(
                                   response.body.indexOf(':') + 1,

@@ -112,8 +112,10 @@ class _MyAppState extends State<MyApp> {
                         _authService.isTrainer)
                       MaterialPage(
                           child: HomePageTrainer(
-                              shouldLogOut: _authService.logOut,
-                              userAttributes: _authService.attributes)),
+                        shouldLogOut: _authService.logOut,
+                        userAttributes: _authService.attributes,
+                        cognitoUser: _authService.cognitoUser,
+                      )),
                     if (snapshot.data.authFlowStatus ==
                             AuthFlowStatus.session &&
                         !_authService.isTrainer)

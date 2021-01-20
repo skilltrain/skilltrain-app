@@ -10,16 +10,18 @@ import '../../utils/sliders.dart';
 import './pages/payment_signup.dart';
 import '../../services/agora/video_session/index_trainer.dart';
 import '../trainer/pages/instructor_view/pages/instructor_register_course.dart';
-// ignore: unused_import
 import 'package:intl/intl.dart';
 import '../trainer/pages/instructor_view/pages/instructor_bio_update.dart';
+import '../../services/streambuilders/payment_signup/payment_signup_service.dart';
 
 String trainerName = "";
 
 class HomePageTrainer extends StatefulWidget {
   final VoidCallback shouldLogOut;
   final List<CognitoUserAttribute> userAttributes;
-  HomePageTrainer({Key key, this.shouldLogOut, this.userAttributes})
+  final CognitoUser cognitoUser;
+  HomePageTrainer(
+      {Key key, this.shouldLogOut, this.userAttributes, this.cognitoUser})
       : super(key: key);
 
   @override
@@ -30,10 +32,12 @@ class HomePageTrainer extends StatefulWidget {
 DateFormat format = DateFormat('yyyy-MM-dd');
 
 class SampleStart extends State<HomePageTrainer> {
+  final _paymentSignUpService = new PaymentSignUpService();
   Future<List> sessionResults;
   @override
   void initState() {
     super.initState();
+    _paymentSignUpService.showUnsignedPage();
     sessionResults = fetchSessionResults();
   }
 
@@ -91,17 +95,35 @@ class SampleStart extends State<HomePageTrainer> {
                   );
                 },
               ),
-              ListTile(
-                title: Text('Payment signup'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    SlideLeftRoute(
-                        page: PaymentSignup(
-                            userAttributes: widget.userAttributes)),
-                  );
-                },
-              ),
+              StreamBuilder<PaymentSignUpState>(
+                  stream: _paymentSignUpService.paymentSignUpController.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot.data != null) {
+                      if (snapshot.data.paymentSignUpFlowStatus ==
+                          PaymentSignUpFlowStatus.unsigned)
+                        return ListTile(
+                          title: Text('Payment signup'),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              SlideLeftRoute(
+                                  page: PaymentSignup(
+                                      userAttributes: widget.userAttributes,
+                                      cognitoUser: widget.cognitoUser,
+                                      signUpComplete: _paymentSignUpService
+                                          .showSignedPage)),
+                            );
+                          },
+                        );
+                      else {
+                        return ListTile(
+                          title: Text('Complete'),
+                        );
+                      }
+                    } else {
+                      return Text('w');
+                    }
+                  }),
               ListTile(
                 title: Text('Log out'),
                 onTap: widget.shouldLogOut,
@@ -141,10 +163,7 @@ class SampleStart extends State<HomePageTrainer> {
                         } else
                           print("something went wrong with fetched data");
                       }
-
-//calendar object
                       return Container(
-//                      height: 678,
                           width: double.infinity,
                           padding: const EdgeInsets.all(50.0),
                           child: Column(
@@ -154,10 +173,6 @@ class SampleStart extends State<HomePageTrainer> {
                                       color: Colors.grey[900],
                                       fontWeight: FontWeight.w800,
                                       fontSize: 50)),
-                              // new RaisedButton(
-                              //   onPressed: () => _selectDate(context),
-                              //   child: new Text('日付選択'),
-                              // ),
                               SizedBox(
 //                              height: 514,
                                   child: ListView.builder(
@@ -262,8 +277,6 @@ class SampleStart extends State<HomePageTrainer> {
                               Center(child: Text("last update:" + "$_date")),
                             ],
                           ));
-
-//calendar object
                     } else if (snapshot.connectionState !=
                         ConnectionState.done) {
                       return Container(
