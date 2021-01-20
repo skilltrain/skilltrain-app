@@ -113,12 +113,11 @@ class SampleStart extends State<HomePageTrainer> {
               ),
               signedUpPayment
                   ? ListTile(
-                      title: Text('Complete'),
-                      onTap: () {
-                        print('show signup');
-                      })
-                  : ListTile(
-                      title: Text('Sign up now'),
+                      title: Text('Add your bank details'),
+                      trailing: new Icon(
+                        Icons.check_circle_sharp,
+                        color: Colors.green,
+                      ),
                       onTap: () {
                         Navigator.push(
                           context,
@@ -126,9 +125,24 @@ class SampleStart extends State<HomePageTrainer> {
                               page: PaymentSignup(
                                   userAttributes: widget.userAttributes,
                                   cognitoUser: widget.cognitoUser,
-                                  signUpComplete: signUpPayment)),
+                                  signUpComplete: signUpPayment,
+                                  active:
+                                      !signedUpPayment //whether the page is usable or not!
+                                  )),
                         );
-                        print('show complete');
+                      })
+                  : ListTile(
+                      title: Text('Add your bank details'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          SlideLeftRoute(
+                              page: PaymentSignup(
+                                  userAttributes: widget.userAttributes,
+                                  cognitoUser: widget.cognitoUser,
+                                  signUpComplete: signUpPayment,
+                                  active: !signedUpPayment)),
+                        );
                       }),
             ],
           )),
