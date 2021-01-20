@@ -16,7 +16,7 @@ class Rating extends StatefulWidget {
 
 class _RatingState extends State<Rating> {
   double rating = 3;
-  TextEditingController reviewController = new TextEditingController(text: '');
+  TextEditingController reviewController = new TextEditingController();
   String username;
 
   Future<Map> postTrainerScore(score) async {
@@ -64,7 +64,6 @@ class _RatingState extends State<Rating> {
 
     final putResponse = await http.post(url, body: json.encode(request));
     if (putResponse.statusCode == 201) {
-      //show confirmation to user
       print(putResponse);
     } else {
       throw Exception('Failed to post review');
@@ -137,7 +136,7 @@ class _RatingState extends State<Rating> {
                           fillColor: Colors.white,
                           border: InputBorder.none,
                           hintText:
-                              'Write a review or just click submit to rate your trainer'),
+                              'Write a review or just click submit to rate your trainer!'),
                     ),
                   ),
                   ElevatedButton(
