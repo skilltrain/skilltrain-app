@@ -37,7 +37,11 @@ exports.handler = async function (event, context) {
 
   try {
     const data = await ddb.scan(params).promise();
+    responseBody = data.Items.sort((a, b) =>
+      a.avgRating > b.avgRating ? -1 : 1
+    );
     responseBody = JSON.stringify(data.Items);
+
     statusCode = 200;
   } catch (error) {
     responseBody = `Unable to get Trainers: ${error}`;

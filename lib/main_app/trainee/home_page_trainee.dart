@@ -207,9 +207,11 @@ class SampleStart extends State<HomePageTrainee> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(snapshot.data[index]["genre"]),
-                                          Text(snapshot.data[index]["price"]
-                                                  .toString() +
-                                              'p/s')
+                                          Text(
+                                            snapshot.data[index]["price"]
+                                                    .toString() +
+                                                'p/s',
+                                          )
                                         ],
                                       )
                                     ],
@@ -317,7 +319,7 @@ class SampleStart extends State<HomePageTrainee> {
                           snapshot.data[index]['end_time'])),
                 );
               },
-              itemCount: snapshot.data.length,
+              itemCount: 3,
             );
           } else if (snapshot.connectionState == ConnectionState.waiting ??
               snapshot.connectionState == ConnectionState.active) {
