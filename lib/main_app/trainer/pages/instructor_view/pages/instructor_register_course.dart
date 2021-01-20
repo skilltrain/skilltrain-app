@@ -15,7 +15,7 @@ String startTime = "";
 String endTime = "";
 bool status = false;
 bool complete = false;
-String _detail = "";
+String description = "";
 
 String _selectedYear = "Year";
 String _selectedMonth = "Month";
@@ -184,13 +184,13 @@ class SampleStart extends State<InstructorRegisterCourse> {
                 ],
               ),
               TextFormField(
-                      controller: TextEditingController(text: _detail),
+                      controller: TextEditingController(text: description),
                       decoration: InputDecoration(
-                        labelText: 'bio',
+                        labelText: 'describe about course detail here',
                       ),
                       maxLines: 4,
                       minLines: 4,
-                      onChanged: (text) => _detail = text),
+                      onChanged: (text) => description = text),
               new Spacer(),
               RaisedButton(
               onPressed: () async {
@@ -264,7 +264,8 @@ Future<List> postData() async {
         'start_time': startTime,
         'end_time': endTime,
         'status': status,
-        'complete': complete
+        'complete': complete,
+        "description": description
     };
 
   print(json.encode(request));
