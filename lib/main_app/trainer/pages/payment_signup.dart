@@ -1,7 +1,6 @@
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +12,16 @@ import '../../../utils/alert_dialogue.dart';
 
 class PaymentSignup extends StatefulWidget {
   final List<CognitoUserAttribute> userAttributes;
-  PaymentSignup({Key key, this.userAttributes}) : super(key: key);
+  final CognitoUser cognitoUser;
+  final VoidCallback signUpComplete;
+  final bool active;
+  PaymentSignup(
+      {Key key,
+      this.userAttributes,
+      this.cognitoUser,
+      this.signUpComplete,
+      this.active})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -839,53 +847,72 @@ class _PaymentState extends State<PaymentSignup> {
                       minWidth: MediaQuery.of(context).size.width,
                       height: 60,
                       child: RaisedButton(
-                        onPressed: () async {
-                          setState(() {
-                            _saving = true;
-                          });
-                          print(widget.userAttributes);
-                          print(infoObj);
-                          var response = await http.put(
-                              "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe",
-                              headers: <String, String>{
-                                'Content-Type':
-                                    'application/json; charset=UTF-8',
+                        onPressed: widget.active
+                            ? null
+                            : () async {
+                                setState(() {
+                                  _saving = true;
+                                });
+                                print(widget.userAttributes);
+                                print(infoObj);
+                                var response = await http.put(
+                                    "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe",
+                                    headers: <String, String>{
+                                      'Content-Type':
+                                          'application/json; charset=UTF-8',
+                                    },
+                                    body: convert.jsonEncode(infoObj));
+                                print(response.statusCode);
+                                print(response.body);
+                                setState(() async {
+                                  _saving = false;
+                                  if (response.statusCode == 200) {
+                                    _response = "Account Created!";
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            AlertDialogue(
+                                                title: 'Success!',
+                                                content: _response,
+                                                buttonText: 'CLOSE'));
+                                    Navigator.pop(context);
+                                    widget.signUpComplete();
+                                    final List<CognitoUserAttribute>
+                                        attributes = [];
+                                    attributes.add(new CognitoUserAttribute(
+                                        name: 'custom:paymentSignedUp',
+                                        value: 'true'));
+                                    try {
+                                      final response = await widget.cognitoUser
+                                          .updateAttributes(attributes);
+                                      print(response);
+                                    } catch (e) {
+                                      print('Failed to add user attribute $e');
+                                    }
+                                  } else {
+                                    final message = response.body.substring(
+                                        response.body.indexOf(':') + 1,
+                                        response.body.length - 1);
+                                    _response = message;
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            AlertDialogue(
+                                                title: 'Error',
+                                                content: _response,
+                                                buttonText: 'CLOSE'));
+                                  }
+                                });
+                                Future.delayed(
+                                    const Duration(seconds: 4), () {});
                               },
-                              body: convert.jsonEncode(infoObj));
-                          print(response.statusCode);
-                          print(response.body);
-                          setState(() {
-                            _saving = false;
-                            if (response.statusCode == 200) {
-                              _response = "Account Created!";
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialogue(
-                                          title: 'Success!',
-                                          content: _response,
-                                          buttonText: 'CLOSE'));
-                            } else {
-                              final message = response.body.substring(
-                                  response.body.indexOf(':') + 1,
-                                  response.body.length - 1);
-                              _response = message;
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialogue(
-                                          title: 'Error',
-                                          content: _response,
-                                          buttonText: 'CLOSE'));
-                            }
-                          });
-                          Future.delayed(const Duration(seconds: 4), () {});
-                        },
                         child: Text(
-                          "Submit",
+                          widget.active ? "Submit" : "Complete",
                           style: TextStyle(fontSize: 40),
                         ),
-                        color: Colors.blueAccent,
+                        color: widget.active
+                            ? Colors.blueAccent
+                            : Colors.lightGreenAccent[400],
                         textColor: Colors.white,
                       )),
                 ],

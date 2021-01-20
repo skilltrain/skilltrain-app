@@ -42,6 +42,7 @@ class _InstructorSessionDetailState extends State<InstructorSessionDetail> {
   String _selectedEndTime = "Start time";
   String _detailsDescription = "details";
 
+  // ignore: unused_field
   String _user = "";
   void _getCurrentUser() async {
     try {

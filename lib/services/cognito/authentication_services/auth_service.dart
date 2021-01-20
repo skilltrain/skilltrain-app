@@ -21,6 +21,7 @@ class AuthService {
   AuthCredentials _credentials;
   bool isTrainer;
   List<CognitoUserAttribute> attributes;
+  CognitoUser cognitoUser;
 
   void showSignUp() {
     final state = AuthState(authFlowStatus: AuthFlowStatus.signUp);
@@ -41,11 +42,11 @@ class AuthService {
       final password = prefs.getString('password');
       _credentials = LoginCredentials(username: username, password: password);
     }
-    final CognitoUser user = new CognitoUser(_credentials.username, userPool);
+    cognitoUser = new CognitoUser(_credentials.username, userPool);
     final authDetails = new AuthenticationDetails(
         username: _credentials.username, password: _credentials.password);
-    await user.authenticateUser(authDetails);
-    attributes = await user.getUserAttributes();
+    await cognitoUser.authenticateUser(authDetails);
+    attributes = await cognitoUser.getUserAttributes();
     attributes.forEach((attribute) {
       if (attribute.getName() == 'custom:isTrainer') {
         if (attribute.getValue() == 'true') {
@@ -91,7 +92,8 @@ class AuthService {
     try {
       final userAttributes = {
         'email': credentials.email,
-        'isTrainer': credentials.isTrainer.toString()
+        'isTrainer': credentials.isTrainer.toString(),
+        'paymentSignedUp': 'false',
       };
       await Amplify.Auth.signUp(
           username: credentials.username,
