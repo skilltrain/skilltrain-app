@@ -268,28 +268,6 @@ class SampleStart extends State<InstructorRegisterCourse> {
   }
 }
 
-// ignore: missing_return
-/*
-Future<List> fetchApiResults() async {
-  try {
-    AuthUser res = await Amplify.Auth.getCurrentUser();
-    userName = res.username;
-    print("Current User Name = " + res.username);
-
-    final response = await http.get(
-        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers');
-
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load API params');
-    }
-  } on AuthError catch (e) {
-    print(e);
-  }
-}
-*/
-
 Future<Map> postData() async {
   AuthUser res = await Amplify.Auth.getCurrentUser();
   userName = res.username;
