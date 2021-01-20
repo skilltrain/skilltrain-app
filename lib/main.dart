@@ -125,9 +125,10 @@ class _MyAppState extends State<MyApp> {
                 );
               } else {
                 return Container(
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(),
-                );
+                    height: MediaQuery.of(context).size.height - 87,
+                    decoration:
+                        new BoxDecoration(color: Colors.deepPurple[100]),
+                    child: Center(child: CircularProgressIndicator()));
               }
             }));
   }
