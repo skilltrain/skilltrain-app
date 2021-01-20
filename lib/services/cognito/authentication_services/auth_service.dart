@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 // Specify session flow
-enum AuthFlowStatus { login, signUp, verification, tutorial, session, loading }
+enum AuthFlowStatus { login, signUp, verification, tutorial, session }
 
 class AuthState {
   final AuthFlowStatus authFlowStatus;
