@@ -7,12 +7,11 @@ import 'package:amplify_core/amplify_core.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../../utils/sliders.dart';
-import './pages/payment_signup.dart';
 import '../../services/agora/video_session/index_trainer.dart';
 import '../trainer/pages/instructor_view/pages/instructor_register_course.dart';
-// ignore: unused_import
 import 'package:intl/intl.dart';
 import '../trainer/pages/instructor_view/pages/instructor_bio_update.dart';
+import './pages/payment_signup.dart';
 import '../trainer/pages/instructor_view/pages/instructor_session_detail.dart';
 import '../trainer/pages/instructor_view/pages/instructor_session_list.dart';
 
@@ -21,7 +20,9 @@ String trainerName = "";
 class HomePageTrainer extends StatefulWidget {
   final VoidCallback shouldLogOut;
   final List<CognitoUserAttribute> userAttributes;
-  HomePageTrainer({Key key, this.shouldLogOut, this.userAttributes})
+  final CognitoUser cognitoUser;
+  HomePageTrainer(
+      {Key key, this.shouldLogOut, this.userAttributes, this.cognitoUser})
       : super(key: key);
 
   @override
@@ -33,10 +34,25 @@ DateFormat format = DateFormat('yyyy-MM-dd');
 
 class SampleStart extends State<HomePageTrainer> {
   Future<List> sessionResults;
+  bool signedUpPayment = false;
+
   @override
   void initState() {
     super.initState();
     sessionResults = fetchSessionResults();
+    widget.userAttributes.forEach((attribute) {
+      if (attribute.getName() == 'custom:paymentSignedUp') {
+        if (attribute.getValue() == 'true') {
+          signUpPayment();
+        }
+      }
+    });
+  }
+
+  void signUpPayment() {
+    setState(() {
+      signedUpPayment = true;
+    });
   }
 
   //calendar object
@@ -103,23 +119,44 @@ class SampleStart extends State<HomePageTrainer> {
                 },
               ),
               ListTile(
-                title: Text('Payment signup'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    SlideLeftRoute(
-                        page: PaymentSignup(
-                            userAttributes: widget.userAttributes)),
-                  );
-                },
-              ),
-              ListTile(
                 title: Text('Log out'),
                 onTap: widget.shouldLogOut,
               ),
+              signedUpPayment
+                  ? ListTile(
+                      title: Text('Add your bank details'),
+                      trailing: new Icon(
+                        Icons.check_circle_sharp,
+                        color: Colors.green,
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          SlideLeftRoute(
+                              page: PaymentSignup(
+                                  userAttributes: widget.userAttributes,
+                                  cognitoUser: widget.cognitoUser,
+                                  signUpComplete: signUpPayment,
+                                  active:
+                                      !signedUpPayment //whether the page is usable or not!
+                                  )),
+                        );
+                      })
+                  : ListTile(
+                      title: Text('Add your bank details'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          SlideLeftRoute(
+                              page: PaymentSignup(
+                                  userAttributes: widget.userAttributes,
+                                  cognitoUser: widget.cognitoUser,
+                                  signUpComplete: signUpPayment,
+                                  active: !signedUpPayment)),
+                        );
+                      }),
             ],
-          ) // Populate the Drawer in the next step.
-              ),
+          )),
           appBar: AppBar(
             title: SizedBox(
                 height: kToolbarHeight,
@@ -152,10 +189,7 @@ class SampleStart extends State<HomePageTrainer> {
                         } else
                           print("something went wrong with fetched data");
                       }
-
-//calendar object
                       return Container(
-//                      height: 678,
                           width: double.infinity,
                           padding: const EdgeInsets.all(50.0),
                           child: Column(
@@ -165,10 +199,6 @@ class SampleStart extends State<HomePageTrainer> {
                                       color: Colors.grey[900],
                                       fontWeight: FontWeight.w800,
                                       fontSize: 50)),
-                              // new RaisedButton(
-                              //   onPressed: () => _selectDate(context),
-                              //   child: new Text('日付選択'),
-                              // ),
                               SizedBox(
 //                              height: 514,
                                   child: ListView.builder(
@@ -178,9 +208,15 @@ class SampleStart extends State<HomePageTrainer> {
                                       child: GestureDetector(
                                           //画面遷移
                                           onTap: () => {
-                                           // print("testing tap action"),
-                                            Navigator.push(context,SlideLeftRoute(page:InstructorSessionDetail(sessionID: snapshot.data[index]['id']))),
-                                          },
+                                                // print("testing tap action"),
+                                                Navigator.push(
+                                                    context,
+                                                    SlideLeftRoute(
+                                                        page: InstructorSessionDetail(
+                                                            sessionID: snapshot
+                                                                    .data[index]
+                                                                ['id']))),
+                                              },
                                           child: Column(
                                             children: <Widget>[
                                               Row(
@@ -276,8 +312,6 @@ class SampleStart extends State<HomePageTrainer> {
                               Center(child: Text("last update:" + "$_date")),
                             ],
                           ));
-
-//calendar object
                     } else if (snapshot.connectionState !=
                         ConnectionState.done) {
                       return Container(
