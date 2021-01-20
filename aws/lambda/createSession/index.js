@@ -10,7 +10,7 @@ exports.handler = function (event, context, callback) {
   const params = {
     TableName: "Sessions",
     Item: {
-      id:data.id,
+      id: data.id,
       trainer_username: data.trainer_username,
       user_username: data.user_username,
       date: data.date,
@@ -19,7 +19,7 @@ exports.handler = function (event, context, callback) {
       status: data.status,
       start_time: data.start_time,
       end_time: data.end_time,
-    
+      description: data.description,
     },
   };
 
