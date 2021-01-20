@@ -11,15 +11,13 @@ class Rating extends StatefulWidget {
   Rating({this.instructorName});
 
   @override
-  _InstructorBioUpdateState createState() => _InstructorBioUpdateState();
+  _RatingState createState() => _RatingState();
 }
 
-class _InstructorBioUpdateState extends State<Rating> {
+class _RatingState extends State<Rating> {
   double rating = 3;
   TextEditingController reviewController = new TextEditingController(text: '');
   String username;
-  String serverResponse;
-  bool sendingReview = false;
 
   Future<Map> postTrainerScore(score) async {
     String url =
@@ -43,9 +41,8 @@ class _InstructorBioUpdateState extends State<Rating> {
         'Content-Type': 'application/json; charset=UTF-8',
       });
       if (putResponse.statusCode == 200) {
-        serverResponse = "Thank you for your review!";
+        print("Successful");
       } else {
-        serverResponse = "I'm sorry, your response was not recorded.";
         throw Exception('Failed to load API params');
       }
       return decoded;
@@ -79,25 +76,6 @@ class _InstructorBioUpdateState extends State<Rating> {
     if (reviewController.text.trim().length > 0) {
       postReview();
     }
-    showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text("Review for " + widget.instructorName),
-        content: Text(serverResponse),
-        actions: <Widget>[
-          new FlatButton(
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => HomePageTrainee()),
-                (Route<dynamic> route) => false,
-              );
-            },
-            child: new Text('OK'),
-          ),
-        ],
-      ),
-    );
   }
 
   void initState() {
@@ -165,6 +143,28 @@ class _InstructorBioUpdateState extends State<Rating> {
                   ElevatedButton(
                       onPressed: () => {
                             postReviewAndRating(),
+                            showDialog(
+                              context: context,
+                              builder: (context) => new AlertDialog(
+                                title: new Text(
+                                    "Review for " + widget.instructorName),
+                                content: Text("Thank you for your Review"),
+                                actions: <Widget>[
+                                  new FlatButton(
+                                    onPressed: () {
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                HomePageTrainee()),
+                                        (Route<dynamic> route) => false,
+                                      );
+                                    },
+                                    child: new Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            )
                           },
                       child: Text("Submit"))
                 ])),
