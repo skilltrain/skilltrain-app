@@ -208,9 +208,11 @@ class SampleStart extends State<HomePageTrainee> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(snapshot.data[index]["genre"]),
-                                          Text(snapshot.data[index]["price"]
-                                                  .toString() +
-                                              'p/s')
+                                          Text(
+                                            snapshot.data[index]["price"]
+                                                    .toString() +
+                                                'p/s',
+                                          )
                                         ],
                                       )
                                     ],
@@ -292,7 +294,10 @@ class SampleStart extends State<HomePageTrainee> {
           }
 
           // By default, show a loading spinner.
-          return CircularProgressIndicator();
+          return Container(
+              height: MediaQuery.of(context).size.height - 87,
+              decoration: new BoxDecoration(color: Colors.deepPurple[100]),
+              child: Center(child: CircularProgressIndicator()));
         },
       );
     }
@@ -322,11 +327,14 @@ class SampleStart extends State<HomePageTrainee> {
                       ),
                 );
               },
-              itemCount: snapshot.data.length,
+              itemCount: 3,
             );
           } else if (snapshot.connectionState == ConnectionState.waiting ??
               snapshot.connectionState == ConnectionState.active) {
-            CircularProgressIndicator();
+            Container(
+                height: MediaQuery.of(context).size.height - 87,
+                decoration: new BoxDecoration(color: Colors.deepPurple[100]),
+                child: Center(child: CircularProgressIndicator()));
           }
           return Container(
               child: Padding(
