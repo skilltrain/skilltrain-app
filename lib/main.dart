@@ -120,21 +120,15 @@ class _MyAppState extends State<MyApp> {
                       MaterialPage(
                           child: HomePageTrainee(
                               shouldLogOut: _authService.logOut)),
-                    if (snapshot.data.authFlowStatus == AuthFlowStatus.loading)
-                      MaterialPage(
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
                   ],
                   onPopPage: (route, result) => route.didPop(result),
                 );
               } else {
                 return Container(
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(),
-                );
+                    height: MediaQuery.of(context).size.height - 87,
+                    decoration:
+                        new BoxDecoration(color: Colors.deepPurple[100]),
+                    child: Center(child: CircularProgressIndicator()));
               }
             }));
   }
