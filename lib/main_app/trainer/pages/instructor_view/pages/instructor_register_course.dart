@@ -223,8 +223,8 @@ class SampleStart extends State<InstructorRegisterCourse> {
                         });
                       },
                     ),
-
-                ],
+                  
+                  ),
               ),
               TextFormField(
                       controller: TextEditingController(text: description),
@@ -262,9 +262,10 @@ class SampleStart extends State<InstructorRegisterCourse> {
               ),
             ),
           ],
-        )),
+        )
+          ]),
       ),
-    );
+    ));
   }
 }
 
