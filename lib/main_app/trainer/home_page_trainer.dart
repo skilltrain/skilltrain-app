@@ -91,37 +91,6 @@ class SampleStart extends State<HomePageTrainer> {
                         image: AssetImage("assets/images/crossfit.jpg"),
                         fit: BoxFit.cover)),
               ),
-              ListTile(
-                title: Text('Class registration'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    SlideLeftRoute(page: InstructorRegisterCourse()),
-                  );
-                },
-              ),
-              ListTile(
-                title: Text('Update session details'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    SlideLeftRoute(page: SessionList()),
-                  );
-                },
-              ),
-              ListTile(
-                title: Text('Bio update'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    SlideLeftRoute(page: InstructorBioUpdate()),
-                  );
-                },
-              ),
-              ListTile(
-                title: Text('Log out'),
-                onTap: widget.shouldLogOut,
-              ),
               signedUpPayment
                   ? ListTile(
                       title: Text('Add your bank details'),
@@ -155,6 +124,48 @@ class SampleStart extends State<HomePageTrainer> {
                                   active: !signedUpPayment)),
                         );
                       }),
+              ListTile(
+                title: Text('Bio update'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    SlideLeftRoute(page: InstructorBioUpdate()),
+                  );
+                },
+              ),
+              signedUpPayment ? const Divider(height: 10) : Container(),
+              signedUpPayment
+                  ? ListTile(
+                      title: Text(
+                        'Class registration',
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          SlideLeftRoute(page: InstructorRegisterCourse()),
+                        );
+                      },
+                    )
+                  : ListTile(
+                      title: Text(
+                      'Class registration',
+                      style: (TextStyle(color: Colors.grey)),
+                    )),
+              signedUpPayment
+                  ? ListTile(
+                      title: Text('Update session details'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          SlideLeftRoute(page: SessionList()),
+                        );
+                      },
+                    )
+                  : Container(), // Empty container so it doesnt even appear
+              ListTile(
+                title: Text('Log out'),
+                onTap: widget.shouldLogOut,
+              ),
             ],
           )),
           appBar: AppBar(
@@ -213,7 +224,10 @@ class SampleStart extends State<HomePageTrainer> {
                                                     context,
                                                     SlideLeftRoute(
                                                         page: InstructorSessionDetail(
-                                                            sessionID: classArray[index]['id']))),
+                                                            sessionID:
+                                                                classArray[
+                                                                        index]
+                                                                    ['id']))),
                                               },
                                           child: Column(
                                             children: <Widget>[
