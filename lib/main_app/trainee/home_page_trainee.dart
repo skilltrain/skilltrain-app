@@ -39,13 +39,6 @@ class SampleStart extends State<HomePageTrainee> {
       final response = await http.get(
           'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/users/$user/sessions');
       if (response.statusCode == 200) {
-        final data = (json.decode(response.body));
-        if (data.length < 4) {
-          setState(() {
-            _trainersLoading = false;
-            _sessionsLoading = false;
-          });
-        }
         return json.decode(response.body);
       } else {
         throw Exception('Failed to load API params');
@@ -351,23 +344,31 @@ class SampleStart extends State<HomePageTrainee> {
         future: _upcomingSessions,
         builder: (context, snapshot) {
           if (snapshot.data != null && snapshot.data.length > 0) {
+            // If there is data, we want as many items as possible to show
+            // as long as it is no more than 3:
+            int itemCount = 3;
+            if (snapshot.data.length < 3) {
+              // The builder will return as many items as are present
+              itemCount = snapshot.data.length;
+            }
+
             return ListView.builder(
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 print(index);
-                if (index == 2) {
+                if (index == itemCount - 1) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     sessionsLoaded();
                   });
                 }
-
                 return Card(
                   margin:
                       EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 5),
                   child: ListTile(
                       title: Text(snapshot.data[index]["trainer_username"]),
-                      subtitle: Text(snapshot.data[index]['start_time'] + "-" +
+                      subtitle: Text(snapshot.data[index]['start_time'] +
+                          "-" +
                           snapshot.data[index]['end_time']),
                       onTap: () {
                         Navigator.push(
@@ -379,8 +380,12 @@ class SampleStart extends State<HomePageTrainee> {
                       }),
                 );
               },
-              itemCount: 3,
+              itemCount: itemCount,
             );
+          } else if (snapshot.data != null && snapshot.data.length == 0) {
+            // If the user has no sessions yet, call sessionsLoaded
+            // This is the difference between no data and data.length == 0
+            sessionsLoaded();
           } else if (snapshot.connectionState == ConnectionState.waiting ??
               snapshot.connectionState == ConnectionState.active) {
             Container(

@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'package:skilltrain/main_app/common/headings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skilltrain/main_app/trainee/home_page_trainee.dart';
+import 'package:skilltrain/services/agora/video_session/index_trainee.dart';
+import 'package:skilltrain/utils/sliders.dart';
 
 class Rating extends StatefulWidget {
   final instructorName;
@@ -136,19 +138,14 @@ class _RatingState extends State<Rating> {
                                 actions: <Widget>[
                                   new FlatButton(
                                     onPressed: () {
-                                      Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                HomePageTrainee()),
-                                        (Route<dynamic> route) => false,
-                                      );
+                                      Navigator.pop(context);
                                     },
                                     child: new Text('OK'),
                                   ),
                                 ],
                               ),
-                            )
+                            ),
+                            Navigator.pop(context)
                           },
                       child: Text("Submit"))
                 ])),
