@@ -12,7 +12,7 @@ import '../../utils/sliders.dart';
 import '../common/fetchTrainers.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import '../common/headings.dart';
-import '../trainer//pages/instructor_view/pages/instructor_session_detail.dart';
+import '../trainee/pages/trainee_session_detail.dart';
 
 class HomePageTrainee extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -331,6 +331,7 @@ class SampleStart extends State<HomePageTrainee> {
                       title: Text(snapshot.data[index]["trainer_username"]),
                       subtitle: Text(snapshot.data[index]['start_time'] +
                           snapshot.data[index]['end_time']),
+
                       onTap: () {
                         Navigator.push(
                           context,
@@ -339,6 +340,7 @@ class SampleStart extends State<HomePageTrainee> {
                                   sessionID: snapshot.data[index]['id'])),
                         );
                       }),
+
                 );
               },
               itemCount: 3,

@@ -4,6 +4,8 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../pages/instructor_session_list.dart';
+import '../../../../../utils/sliders.dart';
 
 class InstructorSessionDetail extends StatefulWidget {
   //session ID passed by top page
@@ -454,13 +456,58 @@ class _InstructorSessionDetailState extends State<InstructorSessionDetail> {
                                   margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
                                   child: RaisedButton(
                                     onPressed: () async {
-                                      final dynamic result =
-                                          await updateSessionDetails();
-                                      if (result.statusCode == 201) {
-                                        print("update successful");
-                                        Navigator.pop(context, false);
+
+                                      if (snapshot.data["user_username"].length > 0){
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return SimpleDialog(
+                                              title: Text("Already someone booked your lesson"),
+                                              children: <Widget>[
+                                                // コンテンツ領域
+                                                SimpleDialogOption(
+                                                  onPressed: () => 
+                                                  Navigator.push(
+                                                      context,
+                                                      //SlideRightRoute(
+                                                        //page: new SessionList(),
+                                                        new MaterialPageRoute(builder: (context) => new SessionList()
+                                                      )
+                                                      )
+                                                  ,
+                                                  child: Text("You can't cancel unless student cancel your lesson"),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+
                                       } else {
-                                        print("update unsuccesful");
+                                        final dynamic result =
+                                            await deleteSessionDetails();
+                                        if (result.statusCode == 201 || result.statusCode == 200) {
+                                          print("course delete successful");
+
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return SimpleDialog(
+                                              title: Text("Cancel request has been accepeted"),
+                                              children: <Widget>[
+                                                // コンテンツ領域
+                                                SimpleDialogOption(
+                                                  onPressed: () => Navigator.pop(context),
+                                                  child: Text(""),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+
+                                          Navigator.pop(context, false);
+                                        } else {
+                                          print("course delete unsuccesful");
+                                        }
                                       }
                                     },
                                     textColor: Colors.white,
@@ -549,4 +596,11 @@ class _InstructorSessionDetailState extends State<InstructorSessionDetail> {
       }),
     );
   }
+
+  Future<http.Response> deleteSessionDetails() async{
+    String url = "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions/" + widget.sessionID;
+    final response = await http.delete(url);
+    return response;
+  }
+
 }
