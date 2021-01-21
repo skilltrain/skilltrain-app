@@ -18,6 +18,7 @@ class InstructorSessionDetail extends StatefulWidget {
 class _InstructorSessionDetailState extends State<InstructorSessionDetail> {
   int index;
 
+  // ignore: unused_field
   String _uploadProfilePicFileResult = '';
 
   //Calendar parameters

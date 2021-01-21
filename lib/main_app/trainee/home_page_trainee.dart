@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:skilltrain/main_app/common/dropdownwidget.dart';
 import './pages/booking_status.dart';
 import './pages/trainer_filter.dart';
@@ -26,10 +27,8 @@ Future<List> fetchUserSessions() async {
   try {
     AuthUser res = await Amplify.Auth.getCurrentUser();
     String user = res.username;
-    print("Current Use Name = " + res.username);
     final response = await http.get(
         'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/users/$user/sessions');
-
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -41,33 +40,42 @@ Future<List> fetchUserSessions() async {
 }
 
 class SampleStart extends State<HomePageTrainee> {
-  String user;
-  Future trainers;
-  Future<List> upcomingSessions;
-  List listOfTrainers;
-
-  String genreFilter = "Weights";
-  String priceFilter = "<¥500";
-
-  getCurrentUser() async {
-    try {
-      AuthUser res = await Amplify.Auth.getCurrentUser();
-      user = res.username;
-      print(user);
-      setState(() {});
-      return;
-    } on AuthError catch (e) {
-      print(e);
-    }
-  }
+  String _user;
+  Future _trainers;
+  Future<List> _upcomingSessions;
+  String _genreFilter = "Weights";
+  String _priceFilter = "<¥500";
+  bool _trainersLoading = true;
+  bool _sessionsLoading = true;
 
   @override
   void initState() {
     super.initState();
     getCurrentUser();
-    trainers = fetchTrainers();
-    upcomingSessions = fetchUserSessions();
-    print(upcomingSessions);
+    _trainers = fetchTrainers();
+    _upcomingSessions = fetchUserSessions();
+  }
+
+  // Check the state of the other boolean, if both are false, update page
+  void trainersLoaded() {
+    _trainersLoading = false;
+    if (!_sessionsLoading) setState(() {});
+  }
+
+  void sessionsLoaded() {
+    _sessionsLoading = false;
+    if (!_trainersLoading) setState(() {});
+  }
+
+  void getCurrentUser() async {
+    try {
+      AuthUser res = await Amplify.Auth.getCurrentUser();
+      _user = res.username;
+      setState(() {});
+      return;
+    } on AuthError catch (e) {
+      print(e);
+    }
   }
 
   Widget filterButton({String buttonText}) {
@@ -87,20 +95,20 @@ class SampleStart extends State<HomePageTrainee> {
                     sectionTitle(
                         title: "What type of trainer are you looking for?"),
                     MyDropdownButton(
-                      value: genreFilter,
+                      value: _genreFilter,
                       items: ["Weights", "Running", "Yoga", "Rowing", "Other"],
                       onChanged: (String item) {
                         setState(() {
-                          genreFilter = item;
+                          _genreFilter = item;
                         });
                       },
                     ),
                     MyDropdownButton(
-                      value: priceFilter,
+                      value: _priceFilter,
                       items: ["<¥500", "<¥1000", "<¥1500", "<¥2000", "<¥3000"],
                       onChanged: (String item) {
                         setState(() {
-                          priceFilter = item;
+                          _priceFilter = item;
                         });
                       },
                     ),
@@ -115,12 +123,12 @@ class SampleStart extends State<HomePageTrainee> {
                             Navigator.push(
                                 context,
                                 SlideRightRoute(
-                                  page: TrainerFilter(genreFilter: genreFilter),
+                                  page:
+                                      TrainerFilter(genreFilter: _genreFilter),
                                 ));
                           },
                           child: Text("Search")),
                     ),
-                    // trainerListView
                   ]);
                 });
               });
@@ -137,9 +145,12 @@ class SampleStart extends State<HomePageTrainee> {
   Widget build(BuildContext context) {
     Widget trainerListView({filterType, bool filter}) {
       return FutureBuilder(
-        future: trainers,
+        future: _trainers,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              trainersLoaded();
+            });
             return Container(
               height: 200,
               child: ListView.builder(
@@ -292,21 +303,23 @@ class SampleStart extends State<HomePageTrainee> {
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           }
-
-          // By default, show a loading spinner.
-          return Container(
-              height: MediaQuery.of(context).size.height - 87,
-              decoration: new BoxDecoration(color: Colors.deepPurple[100]),
-              child: Center(child: CircularProgressIndicator()));
+          return
+              // Empty container same height as card while loading
+              Container(
+            height: 200,
+          );
         },
       );
     }
 
     //Get upcoming sessions need to pass this to current bookings
     Widget upcomingSessionsView = FutureBuilder(
-        future: upcomingSessions,
+        future: _upcomingSessions,
         builder: (context, snapshot) {
           if (snapshot.data != null && snapshot.data.length > 0) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              sessionsLoaded();
+            });
             return ListView.builder(
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
@@ -318,13 +331,14 @@ class SampleStart extends State<HomePageTrainee> {
                       title: Text(snapshot.data[index]["trainer_username"]),
                       subtitle: Text(snapshot.data[index]['start_time'] +
                           snapshot.data[index]['end_time']),
-                      onTap:(){
-                          print(snapshot.data[index]['id']);
-                          Navigator.push(context,SlideLeftRoute(page:InstructorSessionDetail(sessionID: snapshot.data[index]['id'])),
-                );
-
-                      }
-                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          SlideLeftRoute(
+                              page: InstructorSessionDetail(
+                                  sessionID: snapshot.data[index]['id'])),
+                        );
+                      }),
                 );
               },
               itemCount: 3,
@@ -332,32 +346,32 @@ class SampleStart extends State<HomePageTrainee> {
           } else if (snapshot.connectionState == ConnectionState.waiting ??
               snapshot.connectionState == ConnectionState.active) {
             Container(
-                height: MediaQuery.of(context).size.height - 87,
-                decoration: new BoxDecoration(color: Colors.deepPurple[100]),
-                child: Center(child: CircularProgressIndicator()));
+              height: 100,
+            );
           }
           return Container(
+              height: 200,
               child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                      "It looks like you don't have any upcoming sessions!"),
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                          "It looks like you don't have any upcoming sessions!"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Why don't you book some?"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: filterButton(
+                          buttonText: "Find Someone to Help you Workout"),
+                    )
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text("Why don't you book some?"),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: filterButton(
-                      buttonText: "Find Someone to Help you Workout"),
-                )
-              ],
-            ),
-          ));
+              ));
         });
 
     //Header widget for homescreen
@@ -367,7 +381,7 @@ class SampleStart extends State<HomePageTrainee> {
           children: [
             Row(
               children: [
-                Text('Welcome\n$user!',
+                Text('Welcome\n$_user!',
                     style: TextStyle(
                         color: Colors.grey[900],
                         fontWeight: FontWeight.w800,
@@ -395,56 +409,59 @@ class SampleStart extends State<HomePageTrainee> {
         primarySwatch: Colors.purple,
       ),
       home: Scaffold(
-        drawer: Drawer(
-            child: ListView(
-          children: <Widget>[
-            DrawerHeader(
-              child: Text(''),
-              decoration: BoxDecoration(
-                  color: Colors.orange[50],
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/crossfit.jpg"),
-                      fit: BoxFit.cover)),
-            ),
-            ListTile(
-              title: Text('Booking status'),
-              onTap: () => {
-                Navigator.push(
-                  context,
-                  SlideLeftRoute(page: BookingStatus()),
-                )
-              },
-            ),
-            ListTile(
-              title: Text('Log out'),
-              onTap: widget.shouldLogOut,
-            ),
-          ],
-        )),
-        appBar: AppBar(
-          title: SizedBox(
-              height: kToolbarHeight,
-              child: Image.asset('assets/images/skillTrain-logo.png',
-                  fit: BoxFit.scaleDown)),
-          centerTitle: true,
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+          drawer: Drawer(
+              child: ListView(
             children: <Widget>[
-              headerSection,
-              sectionTitle(title: "Top Rated"),
-              trainerListView(filter: false, filterType: "null"),
-              sectionTitle(title: "Upcoming Sessions"),
-              upcomingSessionsView,
-              sectionTitle(title: "Running"),
-              trainerListView(filter: true, filterType: 'Running'),
-              sectionTitle(title: "Yoga"),
-              trainerListView(filter: true, filterType: 'Yoga'),
+              DrawerHeader(
+                child: Text(''),
+                decoration: BoxDecoration(
+                    color: Colors.orange[50],
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/crossfit.jpg"),
+                        fit: BoxFit.cover)),
+              ),
+              ListTile(
+                title: Text('Booking status'),
+                onTap: () => {
+                  Navigator.push(
+                    context,
+                    SlideLeftRoute(page: BookingStatus()),
+                  )
+                },
+              ),
+              ListTile(
+                title: Text('Log out'),
+                onTap: widget.shouldLogOut,
+              ),
             ],
+          )),
+          appBar: AppBar(
+            title: SizedBox(
+                height: kToolbarHeight,
+                child: Image.asset('assets/images/skillTrain-logo.png',
+                    fit: BoxFit.scaleDown)),
+            centerTitle: true,
           ),
-        ),
-      ),
+          body: ModalProgressHUD(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    headerSection,
+                    sectionTitle(title: "Top Rated"),
+                    trainerListView(filter: false, filterType: "null"),
+                    sectionTitle(title: "Upcoming Sessions"),
+                    upcomingSessionsView,
+                    sectionTitle(title: "Running"),
+                    trainerListView(filter: true, filterType: 'Running'),
+                    sectionTitle(title: "Yoga"),
+                    trainerListView(filter: true, filterType: 'Yoga'),
+                  ],
+                ),
+              ),
+              inAsyncCall: (_trainersLoading && _sessionsLoading),
+              color: Colors.deepPurple,
+              progressIndicator: CircularProgressIndicator())),
     );
   }
 }
