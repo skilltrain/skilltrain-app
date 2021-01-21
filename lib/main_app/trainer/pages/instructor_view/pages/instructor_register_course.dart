@@ -238,7 +238,7 @@ class SampleStart extends State<InstructorRegisterCourse> {
             new Spacer(),
             RaisedButton(
               onPressed: () async {
-                postData();
+                postData(context);
               },
               textColor: Colors.white,
               padding: const EdgeInsets.all(0),
@@ -268,7 +268,7 @@ class SampleStart extends State<InstructorRegisterCourse> {
   }
 }
 
-Future<Map> postData() async {
+Future<Map> postData(BuildContext context) async {
   AuthUser res = await Amplify.Auth.getCurrentUser();
   userName = res.username;
 
@@ -295,6 +295,25 @@ Future<Map> postData() async {
       headers: {"Content-Type": "application/json"});
   if (response.statusCode == 200) {
     print("new calendar record POST request successful");
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+            title: Text("New course has been registered"),
+            children: <Widget>[
+              // コンテンツ領域
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(context),
+                child: Text(""),
+              ),
+            ],
+          );
+        },
+      );
+
+    Navigator.pop(context);
+
     return json.decode(response.body);
   } else {
     print(response.statusCode);
