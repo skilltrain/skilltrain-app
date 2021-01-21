@@ -12,7 +12,6 @@ import '../../utils/sliders.dart';
 import '../common/fetchTrainers.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import '../common/headings.dart';
-import '../trainee/pages/trainee_session_detail.dart';
 import '../trainer/pages/instructor_view/pages/instructor_session_detail.dart';
 
 class HomePageTrainee extends StatefulWidget {
@@ -23,23 +22,6 @@ class HomePageTrainee extends StatefulWidget {
   SampleStart createState() => SampleStart();
 }
 
-// ignore: missing_return
-Future<List> fetchUserSessions() async {
-  try {
-    AuthUser res = await Amplify.Auth.getCurrentUser();
-    String user = res.username;
-    final response = await http.get(
-        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/users/$user/sessions');
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load API params');
-    }
-  } on AuthError catch (e) {
-    print(e);
-  }
-}
-
 class SampleStart extends State<HomePageTrainee> {
   String _user;
   Future _trainers;
@@ -48,6 +30,30 @@ class SampleStart extends State<HomePageTrainee> {
   String _priceFilter = "<¥500";
   bool _trainersLoading = true;
   bool _sessionsLoading = true;
+
+  // ignore: missing_return
+  Future<List> fetchUserSessions() async {
+    try {
+      AuthUser res = await Amplify.Auth.getCurrentUser();
+      String user = res.username;
+      final response = await http.get(
+          'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/users/$user/sessions');
+      if (response.statusCode == 200) {
+        final data = (json.decode(response.body));
+        if (data.length < 4) {
+          setState(() {
+            _trainersLoading = false;
+            _sessionsLoading = false;
+          });
+        }
+        return json.decode(response.body);
+      } else {
+        throw Exception('Failed to load API params');
+      }
+    } on AuthError catch (e) {
+      print(e);
+    }
+  }
 
   @override
   void initState() {
@@ -363,7 +369,6 @@ class SampleStart extends State<HomePageTrainee> {
                       title: Text(snapshot.data[index]["trainer_username"]),
                       subtitle: Text(snapshot.data[index]['start_time'] + "-" +
                           snapshot.data[index]['end_time']),
-
                       onTap: () {
                         Navigator.push(
                           context,
@@ -372,7 +377,6 @@ class SampleStart extends State<HomePageTrainee> {
                                   sessionID: snapshot.data[index]['id'])),
                         );
                       }),
-
                 );
               },
               itemCount: 3,
