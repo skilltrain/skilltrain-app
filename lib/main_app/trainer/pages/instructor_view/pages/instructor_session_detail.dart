@@ -5,7 +5,6 @@ import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../pages/instructor_session_list.dart';
-import '../../../../../utils/sliders.dart';
 
 class InstructorSessionDetail extends StatefulWidget {
   //session ID passed by top page
