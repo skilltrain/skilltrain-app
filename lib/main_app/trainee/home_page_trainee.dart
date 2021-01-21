@@ -357,6 +357,7 @@ class SampleStart extends State<HomePageTrainee> {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 print(index);
+                // The LAST element will have a post-build callback to update the widget's state
                 if (index == itemCount - 1) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     sessionsLoaded();
