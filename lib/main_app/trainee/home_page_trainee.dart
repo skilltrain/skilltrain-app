@@ -13,6 +13,7 @@ import '../common/fetchTrainers.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import '../common/headings.dart';
 import '../trainer/pages/instructor_view/pages/instructor_session_detail.dart';
+import '../trainee/pages/trainee_session_detail.dart';
 
 class HomePageTrainee extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -374,7 +375,7 @@ class SampleStart extends State<HomePageTrainee> {
                         Navigator.push(
                           context,
                           SlideLeftRoute(
-                              page: InstructorSessionDetail(
+                              page: TraineeSessionDetail(
                                   sessionID: snapshot.data[index]['id'])),
                         );
                       }),
