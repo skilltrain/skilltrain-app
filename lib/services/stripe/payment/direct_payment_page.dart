@@ -9,8 +9,9 @@ import '../../../utils/alert_dialogue.dart';
 class DirectPaymentPage extends StatefulWidget {
   final String trainerUsername;
   final String title;
+  final int price;
 
-  DirectPaymentPage({Key key, this.title, this.trainerUsername})
+  DirectPaymentPage({Key key, this.title, this.trainerUsername, this.price})
       : super(key: key);
 
   @override
