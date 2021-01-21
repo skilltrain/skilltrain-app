@@ -144,10 +144,13 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                                         height: 150, fit: BoxFit.fill),
                                       ])
                         ),
+                        Text("Upload profile photo")
+                        /*
                         RaisedButton(
                           onPressed: _uploadProfilePic,
                           child: const Text('Upload Profile Pic'),
                         ),
+                        */
                       ],
                     ),
                     // child: Column(
@@ -180,10 +183,24 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                     ),
                     child: Column(
                       children: [
+
+                        InkWell(
+                          onTap:(){
+                            _uploadSessionPhoto();
+                          },
+                          child: Column(
+                            children: [Image.asset('assets/images/bio.png',
+                                        height: 150, fit: BoxFit.fill),
+                                      ])
+                        ),
+                        Text("Upload Session Photo")
+
+                      /*
                         RaisedButton(
                           onPressed: _uploadSessionPhoto,
                           child: const Text('Upload Session Photo'),
                         ),
+                        */
                       ],
                     ),
                   ),
