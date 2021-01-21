@@ -358,7 +358,7 @@ class SampleStart extends State<HomePageTrainee> {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 print(index);
-                if (index == itemCount) {
+                if (index == itemCount - 1) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     sessionsLoaded();
                   });
