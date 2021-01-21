@@ -367,7 +367,7 @@ class SampleStart extends State<HomePageTrainee> {
                       EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 5),
                   child: ListTile(
                       title: Text(snapshot.data[index]["trainer_username"]),
-                      subtitle: Text(snapshot.data[index]['start_time'] +
+                      subtitle: Text(snapshot.data[index]['start_time'] + "-" +
                           snapshot.data[index]['end_time']),
                       onTap: () {
                         Navigator.push(
