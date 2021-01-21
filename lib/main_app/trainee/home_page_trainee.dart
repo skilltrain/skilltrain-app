@@ -367,7 +367,8 @@ class SampleStart extends State<HomePageTrainee> {
                       EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 5),
                   child: ListTile(
                       title: Text(snapshot.data[index]["trainer_username"]),
-                      subtitle: Text(snapshot.data[index]['start_time'] + "-" +
+                      subtitle: Text(snapshot.data[index]['start_time'] +
+                          "-" +
                           snapshot.data[index]['end_time']),
                       onTap: () {
                         Navigator.push(
@@ -381,7 +382,7 @@ class SampleStart extends State<HomePageTrainee> {
               },
               itemCount: itemCount,
             );
-          } else if (snapshot.data.length == 0) {
+          } else if (snapshot.data != null && snapshot.data.length == 0) {
             // If the user has no sessions yet, call sessionsLoaded
             // This is the difference between no data and data.length == 0
             sessionsLoaded();
