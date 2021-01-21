@@ -5,10 +5,12 @@ import './booking_page.dart';
 import '../../../utils/sliders.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 class InstructorBio extends StatefulWidget {
   final Map data;
   final index;
+
   InstructorBio({this.data, this.index});
 
   @override
@@ -77,7 +79,6 @@ class _InstructorBioState extends State<InstructorBio> {
               Padding(
                 padding: const EdgeInsets.only(left: 36, bottom: 36),
                 child: Text(widget.data["firstName"] + "!",
-                    textAlign: TextAlign.left,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -97,7 +98,9 @@ class _InstructorBioState extends State<InstructorBio> {
                         height: 150,
                         child: Row(children: [
                           Column(children: [
-                            BlackHeading(title: widget.data["firstName"]),
+                            blackHeading(
+                                title: widget.data["firstName"],
+                                underline: false),
                             Row(
                               children: stars,
                             ),
@@ -148,143 +151,135 @@ class _InstructorBioState extends State<InstructorBio> {
                           );
                         },
                       ),
+                    ),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 36.0, top: 24),
+                          child:
+                              blackHeading(title: "Reviews", underline: true),
+                        )),
+                    FutureBuilder(
+                      future: reviews,
+                      builder: (context, snapshot) {
+                        if (snapshot.data != null && snapshot.data.length > 0) {
+                          return Padding(
+                            padding:
+                                const EdgeInsets.only(top: 8.0, bottom: 36),
+                            child: Container(
+                              height: 150,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: snapshot.data.length,
+                                  // shrinkWrap: true,
+                                  // physics: const ClampingScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    DateTime date =
+                                        DateTime.fromMillisecondsSinceEpoch(
+                                            snapshot.data[index]["timestamp"]);
+                                    var format = new DateFormat("yMd");
+                                    var dateString = format.format(date);
+
+                                    List<Widget> stars = [];
+
+                                    for (var i = 0;
+                                        i < snapshot.data[index]["rating"];
+                                        i++) {
+                                      stars.add(Icon(Icons.star,
+                                          color: Colors.cyanAccent, size: 12));
+                                    }
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: 300,
+                                        child: Card(
+                                            child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 16.0, top: 16),
+                                                  child: Text(
+                                                      snapshot.data[index][
+                                                              "user_username"] +
+                                                          " - ",
+                                                      style: TextStyle(
+                                                          fontSize: 16)),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      EdgeInsets.only(top: 16),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: stars,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            Spacer(),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Center(
+                                                child: Text(
+                                                  '"' +
+                                                      snapshot.data[index]
+                                                          ["review"] +
+                                                      '"',
+                                                  style: TextStyle(
+                                                      color: Colors.grey[800]),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            ),
+                                            Spacer(),
+                                            Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(dateString),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          );
+                        } else if (snapshot.connectionState ==
+                                ConnectionState.waiting ??
+                            snapshot.connectionState ==
+                                ConnectionState.active) {
+                          Container(
+                              height: MediaQuery.of(context).size.height - 87,
+                              decoration: new BoxDecoration(
+                                  color: Colors.deepPurple[100]),
+                              child:
+                                  Center(child: CircularProgressIndicator()));
+                        }
+                        return Container(
+                            child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(64.0),
+                                child: Text(
+                                    "It looks like this trainer has no reviews!"),
+                              ),
+                            ],
+                          ),
+                        ));
+                      },
                     )
                   ])),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(children: <Widget>[
-                  Text(widget.data["firstName"] + " " + widget.data["lastName"],
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                      )),
-                  Spacer(),
-                  Row(
-                    children: stars,
-                  ),
-                ]),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  widget.data["bio"],
-                  style: TextStyle(
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    SlideLeftRoute(
-                        page: BookingPage(
-                      price: widget.data["price"],
-                      trainerName: widget.data["username"],
-                      index: widget.index,
-                    )),
-                  );
-                },
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(0),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: <Color>[
-                        Colors.pink[300],
-                        Colors.purple[500],
-                        Colors.purple[700],
-                      ],
-                    ),
-                  ),
-                  padding: EdgeInsets.all(10),
-                  child: Text('check availability now! >>>',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                      )),
-                ),
-              ),
-              Container(
-                  margin: EdgeInsets.all(10),
-                  child: Text("Reviews", style: TextStyle(fontSize: 24))),
-              FutureBuilder(
-                future: reviews,
-                builder: (context, snapshot) {
-                  if (snapshot.data != null && snapshot.data.length > 0) {
-                    return ListView.builder(
-                        itemCount: snapshot.data.length,
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          List<Widget> stars = [];
-
-                          for (var i = 0;
-                              i < snapshot.data[index]["rating"];
-                              i++) {
-                            stars.add(Icon(Icons.star,
-                                color: Colors.yellow[700], size: 12));
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Card(
-                                child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                      snapshot.data[index]["user_username"],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15)),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: stars,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                              snapshot.data[index]["timestamp"])
-                                          .toString()),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(snapshot.data[index]["review"]),
-                                ),
-                              ],
-                            )),
-                          );
-                        });
-                  } else if (snapshot.connectionState ==
-                          ConnectionState.waiting ??
-                      snapshot.connectionState == ConnectionState.active) {
-                    Container(
-                        height: MediaQuery.of(context).size.height - 87,
-                        decoration:
-                            new BoxDecoration(color: Colors.deepPurple[100]),
-                        child: Center(child: CircularProgressIndicator()));
-                  }
-                  return Container(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                              "It looks like this trainer has no reviews!"),
-                        ),
-                      ],
-                    ),
-                  ));
-                },
-              )
             ],
           ),
         ));
