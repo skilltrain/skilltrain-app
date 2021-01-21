@@ -52,19 +52,36 @@ class SampleStart extends State<HomePageTrainee> {
   void initState() {
     super.initState();
     getCurrentUser();
-    _trainers = fetchTrainers();
-    _upcomingSessions = fetchUserSessions();
+    if (_trainersLoading && _sessionsLoading) {
+      _trainers = fetchTrainers();
+      _upcomingSessions = fetchUserSessions();
+    }
   }
 
   // Check the state of the other boolean, if both are false, update page
+  // This is complicated logic to check if both trainers and sessions are loaded
   void trainersLoaded() {
+    if (!_trainersLoading)
+      return; // Because the futures keep reloading and running the builder, which runs this method
     _trainersLoading = false;
-    if (!_sessionsLoading) setState(() {});
+    if (!_sessionsLoading)
+      // If both are false, both sessions + trainers are loaded, so call setState with these
+      // aysnc loader disappears when both booleans are false and setState is called
+      setState(() {
+        _sessionsLoading = false;
+        _trainersLoading = false;
+      });
   }
 
+  // Both methods are talking to each other
   void sessionsLoaded() {
+    if (!_sessionsLoading) return;
     _sessionsLoading = false;
-    if (!_trainersLoading) setState(() {});
+    if (!_trainersLoading)
+      setState(() {
+        _sessionsLoading = false;
+        _trainersLoading = false;
+      });
   }
 
   void getCurrentUser() async {
@@ -148,14 +165,24 @@ class SampleStart extends State<HomePageTrainee> {
         future: _trainers,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              trainersLoaded();
-            });
+            print('snapshot');
+
             return Container(
               height: 200,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
+                  print(index);
+
+                  // If it's the last element, the element says 'all trainers loaded'
+                  // It has to be called as PostFrameCallback as, if the sessions have also loaded
+                  // , then a setState call is required, but setState cannot be called while the
+                  // widget is building like in here...
+                  if (index == snapshot.data.length - 1) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      trainersLoaded();
+                    });
+                  }
                   List<Widget> stars = [];
 
                   for (var i = 0; i < snapshot.data[index]["avgRating"]; i++) {
@@ -317,13 +344,17 @@ class SampleStart extends State<HomePageTrainee> {
         future: _upcomingSessions,
         builder: (context, snapshot) {
           if (snapshot.data != null && snapshot.data.length > 0) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              sessionsLoaded();
-            });
             return ListView.builder(
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (context, index) {
+                print(index);
+                if (index == 2) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    sessionsLoaded();
+                  });
+                }
+
                 return Card(
                   margin:
                       EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 5),
@@ -459,7 +490,7 @@ class SampleStart extends State<HomePageTrainee> {
                   ],
                 ),
               ),
-              inAsyncCall: (_trainersLoading && _sessionsLoading),
+              inAsyncCall: (_trainersLoading || _sessionsLoading),
               color: Colors.deepPurple,
               progressIndicator: CircularProgressIndicator())),
     );
