@@ -155,7 +155,7 @@ class BookingPage extends StatelessWidget {
                                                             Navigator.push(
                                                                 context,
                                                                 SlideLeftRoute(
-                                                                    page: MyHomePage(
+                                                                    page: DirectPaymentPage(
                                                                         trainerUsername:
                                                                             trainerName)));
                                                           },

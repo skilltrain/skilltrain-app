@@ -6,17 +6,18 @@ import 'dart:convert';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../../../utils/alert_dialogue.dart';
 
-class MyHomePage extends StatefulWidget {
+class DirectPaymentPage extends StatefulWidget {
   final String trainerUsername;
   final String title;
 
-  MyHomePage({Key key, this.title, this.trainerUsername}) : super(key: key);
+  DirectPaymentPage({Key key, this.title, this.trainerUsername})
+      : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _DirectPaymentPageState createState() => _DirectPaymentPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _DirectPaymentPageState extends State<DirectPaymentPage> {
   String text = 'Click the button to start the payment';
   double totalCost = 1000;
   double tip = 0.0;
