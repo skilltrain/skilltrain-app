@@ -12,6 +12,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:intl/intl.dart';
 import '../../../utils/sliders.dart';
+import '../pages/trainee_session_detail.dart';
 
 String traineeName = "";
 
@@ -83,7 +84,16 @@ class SampleStart extends State<BookingStatus> {
                             return Card(
                                 child: GestureDetector(
                                     //画面遷移
-                                    onTap: () => {},
+                                    onTap: () => {
+
+                                    Navigator.push(
+                                      context,
+                                      SlideLeftRoute(
+                                          page: TraineeSessionDetail(
+                                              sessionID: classArray[index]['id'])),
+                                    )
+
+                                    },
                                     child: Column(
                                       children: <Widget>[
                                         Row(

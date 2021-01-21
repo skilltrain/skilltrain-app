@@ -8,33 +8,33 @@ exports.handler = async (event, context, callback) => {
   const dateUpdated = new Date().getTime();
   const data = JSON.parse(event.body);
 
-const generateUpdateQuery = (fields) => {
+  const generateUpdateQuery = fields => {
     let exp = {
-        UpdateExpression: 'set',
-        ExpressionAttributeNames: {},
-        ExpressionAttributeValues: {}
-    }
+      UpdateExpression: "set",
+      ExpressionAttributeNames: {},
+      ExpressionAttributeValues: {},
+    };
     Object.entries(fields).forEach(([key, item]) => {
-        exp.UpdateExpression += ` #${key} = :${key},`;
-        exp.ExpressionAttributeNames[`#${key}`] = key;
-        exp.ExpressionAttributeValues[`:${key}`] = item
-    })
+      exp.UpdateExpression += ` #${key} = :${key},`;
+      exp.ExpressionAttributeNames[`#${key}`] = key;
+      exp.ExpressionAttributeValues[`:${key}`] = item;
+    });
     exp.UpdateExpression = exp.UpdateExpression.slice(0, -1);
-    return exp
-}
+    return exp;
+  };
 
-let expression = generateUpdateQuery(data)
+  let expression = generateUpdateQuery(data);
 
-let params = {
+  let params = {
     TableName: "Sessions",
-        Key: {
+    Key: {
       id: event.pathParameters.id,
     },
     ReturnValues: "ALL_NEW",
-    ...expression
-}
+    ...expression,
+  };
 
-console.log(params);
+  console.log(params);
   let responseBody;
   let statusCode;
 
@@ -43,7 +43,7 @@ console.log(params);
     responseBody = JSON.stringify(data);
     statusCode = 201;
   } catch (err) {
-    responseBody = `Unable to update trainer: ${err}`;
+    responseBody = `Unable to update session: ${err}`;
     statusCode = 403;
   }
 
@@ -54,7 +54,6 @@ console.log(params);
     },
     body: responseBody,
   };
-    console.log(response);
+  console.log(response);
   return response;
 };
-

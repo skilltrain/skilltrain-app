@@ -134,10 +134,23 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+
+                        InkWell(
+                          onTap:(){
+                            _uploadProfilePic();
+                          },
+                          child: Column(
+                            children: [Image.asset('assets/images/bio.png',
+                                        height: 150, fit: BoxFit.fill),
+                                      ])
+                        ),
+                        Text("Upload profile photo")
+                        /*
                         RaisedButton(
                           onPressed: _uploadProfilePic,
                           child: const Text('Upload Profile Pic'),
                         ),
+                        */
                       ],
                     ),
                     // child: Column(
@@ -170,10 +183,24 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                     ),
                     child: Column(
                       children: [
+
+                        InkWell(
+                          onTap:(){
+                            _uploadSessionPhoto();
+                          },
+                          child: Column(
+                            children: [Image.asset('assets/images/bio.png',
+                                        height: 150, fit: BoxFit.fill),
+                                      ])
+                        ),
+                        Text("Upload Session Photo")
+
+                      /*
                         RaisedButton(
                           onPressed: _uploadSessionPhoto,
                           child: const Text('Upload Session Photo'),
                         ),
+                        */
                       ],
                     ),
                   ),
@@ -199,9 +226,26 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
             RaisedButton(
               onPressed: () async {
                 final dynamic result = await updateTrainer();
-                result.statusCode == 201
-                    ? print("update successful")
-                    : print("update unsuccesful");
+                if(result.statusCode == 201 || result.statusCode == 200){
+                  print("update successful");
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return SimpleDialog(
+                        title: Text("Instructor bios successfully updated"),
+                        children: <Widget>[
+                          // コンテンツ領域
+                          SimpleDialogOption(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(""),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  print("update unsuccesful");
+                }
               },
               textColor: Colors.white,
               padding: const EdgeInsets.all(0),

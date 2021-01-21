@@ -4,9 +4,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'dart:convert';
 import 'package:skilltrain/main_app/common/headings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:skilltrain/main_app/trainee/home_page_trainee.dart';
-import 'package:skilltrain/services/agora/video_session/index_trainee.dart';
-import 'package:skilltrain/utils/sliders.dart';
 
 class Rating extends StatefulWidget {
   final instructorName;
@@ -108,21 +105,6 @@ class _RatingState extends State<Rating> {
                   Container(
                       margin: EdgeInsets.symmetric(vertical: 16),
                       child: sectionTitle(title: "How was your lesson today?")),
-                  RatingBar.builder(
-                    initialRating: rating,
-                    minRating: 1,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                    onRatingUpdate: (ratingInput) {
-                      rating = ratingInput;
-                    },
-                  ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: TextFormField(

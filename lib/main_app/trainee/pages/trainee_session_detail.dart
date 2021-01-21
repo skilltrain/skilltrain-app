@@ -81,6 +81,7 @@ class _InstructorSessionDetailState extends State<TraineeSessionDetail> {
     super.initState();
     _getCurrentUser();
     print("前のページから受け取ったID" + widget.sessionID);
+    print("trainee_session_detailに到達");
   }
 
   @override
@@ -120,7 +121,7 @@ class _InstructorSessionDetailState extends State<TraineeSessionDetail> {
                                       child: Text(snapshot.data["date"], textAlign: TextAlign.left, style:TextStyle(color: Colors.black54, fontSize: 20)),                                  
                                     ),
 
-                                                                      Container(
+                                      Container(
                                       width:double.infinity,
                                       margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
                                       child: Text("Start time", textAlign: TextAlign.left ,style: TextStyle(fontSize: 15))),                                
@@ -187,22 +188,34 @@ class _InstructorSessionDetailState extends State<TraineeSessionDetail> {
                                       child: Text(_detailsDescription)
                                     ),
 
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                              children: [
-
                                             Container(
                                               margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
                                               child: RaisedButton(
                                                     onPressed: () async {
-                                                      
-                                                        final dynamic result = await updateSessionDetails();
-                                                        if(result.statusCode == 201){
-                                                          print("cancel successful");
-                                                          Navigator.pop(context, false);
-                                                        } else {
-                                                          print("cancel unsuccesful");
-                                                        }
+
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (_) {
+                                                          return AlertDialog(
+                                                            title: Text("Refund/Cancellation Policy"),
+                                                            content: Text("Course fee once paid will not be refunded. Are you sure to cancel the booking?"),
+                                                            actions: <Widget>[
+                                                              // ボタン領域
+                                                              FlatButton(
+                                                                child: Text("Cancel"),
+                                                                onPressed: () => Navigator.pop(context),
+                                                              ),
+                                                              FlatButton(
+                                                                child: Text("OK"),
+                                                                onPressed: () => {
+                                                                    updateSessionDetails(),
+                                                                    Navigator.pop(context),
+                                                                },                                                                
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      );                                                    
 
                                                     },
                                                     textColor: Colors.white,
@@ -228,8 +241,7 @@ class _InstructorSessionDetailState extends State<TraineeSessionDetail> {
                                                     ),
                                                   ),
                                               ),
-                                              ],
-                                            ),
+                                            
                                 ],
                               )
                               )
@@ -248,17 +260,26 @@ class _InstructorSessionDetailState extends State<TraineeSessionDetail> {
   }
 
   Future<http.Response> updateSessionDetails() {
+    print("updateSessionDetails called");
     String url = "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions/" + widget.sessionID;
+    final dynamic result = http.put(
+                            url,
+                            headers: <String, String>{
+                              'Content-Type': 'application/json; charset=UTF-8',
+                            },
+                            body: jsonEncode(<String, dynamic>{
+                              'user_username': "",
+                            }),
+                          );
 
-    return http.put(
-      url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'user_username': "",
-      }),
-    );
+    if(result.statusCode == 201){
+      print("cancel successful");
+      Navigator.pop(context, false);
+      return result;
+    } else {
+      print("cancel unsuccesful");
+    }
+    return null;
   }
 
 }
