@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import './authentication_services/auth_credentials.dart';
+import '../../utils/alert_dialogue.dart';
 
 enum SingingCharacter { lafayette, jefferson }
 SingingCharacter _character = SingingCharacter.lafayette;
 
 class SignUpPage extends StatefulWidget {
-  final ValueChanged<SignUpCredentials> didProvideCredentials;
+  final Future<List> Function(SignUpCredentials signUpCredentials)
+      didProvideCredentials;
   final VoidCallback shouldShowLogin;
   final setTrainer;
   final getTrainer;
@@ -30,8 +32,13 @@ class _SignUpPageState extends State<SignUpPage> {
   final _passwordController = TextEditingController();
   var isTrainer = false;
   final _formKey = GlobalKey<FormState>();
+  final userNames = [];
 
-  void _signUp() {
+  void initState() {
+    super.initState();
+  }
+
+  void _signUp() async {
     if (_formKey.currentState.validate()) {
       // If the form is valid, display a snackbar. In the real world,
       // you'd often call a server or save the information in a database.
@@ -56,7 +63,15 @@ class _SignUpPageState extends State<SignUpPage> {
           email: email,
           password: password,
           isTrainer: isTrainer);
-      widget.didProvideCredentials(credentials);
+      final signUpResponse = await widget.didProvideCredentials(credentials);
+      if (signUpResponse[0] == "errors") {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialogue(
+                title: 'Error',
+                content: signUpResponse[1],
+                buttonText: 'CLOSE'));
+      }
     }
   }
 
@@ -174,7 +189,7 @@ class _SignUpPageState extends State<SignUpPage> {
             TextFormField(
               validator: (value) {
                 if (value.isEmpty) {
-                  return 'Please enter your first name';
+                  return 'Please enter your last name';
                 }
                 return null;
               },
@@ -183,21 +198,40 @@ class _SignUpPageState extends State<SignUpPage> {
                   icon: Icon(Icons.account_box), labelText: 'Last Name'),
             ),
 
-            TextField(
+            TextFormField(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter a username';
+                }
+                return null;
+              },
               controller: _usernameController,
               decoration: InputDecoration(
                   icon: Icon(Icons.person), labelText: 'Username'),
             ),
 
-            // Email TextField
-            TextField(
+            TextFormField(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter an email';
+                }
+                return null;
+              },
               controller: _emailController,
               decoration:
                   InputDecoration(icon: Icon(Icons.mail), labelText: 'Email'),
             ),
 
-            // Password TextField
-            TextField(
+            TextFormField(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter a password';
+                }
+                if (value.length < 7) {
+                  return 'Password must be at least six characters';
+                }
+                return null;
+              },
               controller: _passwordController,
               decoration: InputDecoration(
                   icon: Icon(Icons.lock_open), labelText: 'Password'),

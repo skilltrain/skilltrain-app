@@ -22,6 +22,8 @@ class AuthService {
   bool isTrainer;
   List<CognitoUserAttribute> attributes;
   CognitoUser cognitoUser;
+  final userPool = new CognitoUserPool(
+      "ap-northeast-1_4KL7XZGPF", "2gog45e490ahlnk1hq0dp18ck4");
 
   void showSignUp() {
     final state = AuthState(authFlowStatus: AuthFlowStatus.signUp);
@@ -34,8 +36,6 @@ class AuthService {
   }
 
   Future checkTrainer() async {
-    final userPool = new CognitoUserPool(
-        "ap-northeast-1_4KL7XZGPF", "2gog45e490ahlnk1hq0dp18ck4");
     if (_credentials == null) {
       final prefs = await SharedPreferences.getInstance();
       final username = prefs.getString('username');
@@ -88,22 +88,41 @@ class AuthService {
     return loginResult;
   }
 
-  void signUpWithCredentials(SignUpCredentials credentials) async {
+  Future<List> signUpWithCredentials(SignUpCredentials credentials) async {
+    var signUpResult = ['no errors'];
     try {
-      final userAttributes = {
-        'email': credentials.email,
-        'isTrainer': credentials.isTrainer.toString(),
-        'paymentSignedUp': 'false',
-      };
-      await Amplify.Auth.signUp(
-          username: credentials.username,
-          password: credentials.password,
-          options: CognitoSignUpOptions(userAttributes: userAttributes));
+      final userAttributes = [
+        new AttributeArg(
+            name: 'custom:isTrainer', value: credentials.isTrainer.toString()),
+        new AttributeArg(name: 'custom:paymentSignedUp', value: 'false'),
+        new AttributeArg(name: 'email', value: credentials.email),
+      ];
+      final response = await userPool.signUp(
+          credentials.username, credentials.password,
+          userAttributes: userAttributes);
+      print(response);
       this._credentials = credentials;
       final state = AuthState(authFlowStatus: AuthFlowStatus.verification);
       authStateController.add(state);
-    } on AuthError catch (authError) {
-      print('Failed to sign up - ${authError.cause}');
+      return signUpResult;
+    } catch (e) {
+      signUpResult[0] = 'errors';
+      final errorDetail = e.message.substring(e.message.indexOf(':') + 1);
+      if (errorDetail.contains('password')) {
+        // This shouldn't trigger, as form will be validated in frontend logic
+        if (errorDetail.contains('length')) {
+          signUpResult.add('Password must be at least six characters');
+        }
+      }
+      if (errorDetail.contains('User')) {
+        signUpResult.add(errorDetail);
+      }
+      if (errorDetail.contains('email')) {
+        if (errorDetail.contains('format')) {
+          signUpResult.add(errorDetail.substring(0, errorDetail.length - 1));
+        }
+      }
+      return signUpResult;
     }
   }
 
