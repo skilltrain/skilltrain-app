@@ -12,3 +12,11 @@ Widget sectionTitle({String title}) {
             color: Colors.grey[900], fontSize: 35, fontWeight: FontWeight.w800),
       ));
 }
+
+Widget BlackHeading({String title}) {
+  return Text(
+    title,
+    style: TextStyle(
+        color: Colors.black, fontSize: 36, fontWeight: FontWeight.bold),
+  );
+}
