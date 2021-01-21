@@ -275,9 +275,11 @@ class _InstructorSessionDetailState extends State<TraineeSessionDetail> {
     if(result.statusCode == 201){
       print("cancel successful");
       Navigator.pop(context, false);
+      return result;
     } else {
       print("cancel unsuccesful");
     }
+    return null;
   }
 
 }
