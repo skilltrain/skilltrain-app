@@ -213,9 +213,7 @@ class SampleStart extends State<HomePageTrainer> {
                                                     context,
                                                     SlideLeftRoute(
                                                         page: InstructorSessionDetail(
-                                                            sessionID: snapshot
-                                                                    .data[index]
-                                                                ['id']))),
+                                                            sessionID: classArray[index]['id']))),
                                               },
                                           child: Column(
                                             children: <Widget>[
