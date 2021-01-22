@@ -13,6 +13,7 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:intl/intl.dart';
 import '../../../utils/sliders.dart';
 import '../pages/trainee_session_detail.dart';
+import '../../common/sessionCards.dart';
 
 String traineeName = "";
 
@@ -103,124 +104,116 @@ class SampleStart extends State<BookingStatus> {
 
 
                           //card
-                            return Card(
-                              child:Container(
-                                height: 80,
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                child: GestureDetector(
-                                    //画面遷移
-                                    onTap: () => {
-
-                                    Navigator.push(
+                            return 
+                            
+                            InkWell(
+                              onTap: ()=>{
+                                Navigator.push(
                                       context,
                                       SlideLeftRoute(
                                           page: TraineeSessionDetail(
                                               sessionID: classArray[index]['id'])),
                                     )
+                              },
+                              child:
+                              
+                              sessionCards( name: classArray[index]["trainer_username"],
+                                            date: classArray[index]["date"],
+                                            startTime: classArray[index]["start_time"],
+                                            endTime: classArray[index]["end_time"],
+                                            context: context
+                                          ),
 
-                                    },
-                                    child: Column(
-                                      children: <Widget>[
-                                        new Spacer(),
+                            /*
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
+                                child: Container(
+                                height: 80,
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      new Spacer(),
 
-                                        Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
 
-                                              new Spacer(),
+                                            new Spacer(),
 
-                                              Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      classArray[index]["date"] + "  " + 
-                                                      classArray[index]["start_time"] + " - " +
-                                                      classArray[index]["end_time"], 
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 20,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "With " +
-                                                          classArray[index][
-                                                              "trainer_username"],
-                                                      textAlign: TextAlign.left,
-                                                    ),
-                                                  ]),
+                                          Container(
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  width:MediaQuery.of(context).size.width *0.4,
+                                                  child:Text("Trainer",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(fontSize: 15,),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width:MediaQuery.of(context).size.width *0.4,
+                                                  child:Text(
+                                                        classArray[index][
+                                                            "trainer_username"],
+                                                    style: TextStyle(fontSize: 20,),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
 
-/*
-                                                    Text(
-                                                        classArray[index]
-                                                                ["start_time"] +
-                                                            " - " +
-                                                            classArray[index]
-                                                                ["end_time"],
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 20,
-                                                        )),
-*/
-                                              new Spacer(),
+                                            new Spacer(),
 
-                                            /*
-                                              Column(
+                                            Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
-                                                    "Session Code",
-                                                    textAlign: TextAlign.right,
+                                                    classArray[index]["date"] + "  ",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20,
+                                                    ),
                                                   ),
+
                                                   Text(
-                                                      classArray[index]
-                                                          ["sessionCode"],
-                                                      textAlign:
-                                                          TextAlign.right,
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15,
-                                                      ))
-                                                ],
-                                              ),
-                                            */
+                                                    classArray[index]["start_time"] + " - " +
+                                                    classArray[index]["end_time"], 
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
 
-//                                              new Spacer(),
 
-                                              /*
-                                              ButtonTheme(
-                                                minWidth: 30,
-                                                child: RaisedButton(
-                                                    child: Icon(Icons
-                                                        .video_call_rounded),
-                                                    onPressed: () => {
-                                                          Navigator.push(
-                                                              context,
-                                                              SlideLeftRoute(
-                                                                  page: IndexPageTrainee(
-                                                                      instructorName:
-                                                                          classArray[index]
-                                                                              [
-                                                                              "trainer_username"])))
-                                                        }),
-                                              ),
-                                              */
+                                                  ]),
+                                              new Spacer(),
                                             ]),
                                           new Spacer(),
                                       ],
-                                    )))
-                                  );
+                                    )
+                                    //)
+                                    )
+
+                              ),
+                            */
+
+                            );                            
+//                            Card(
+//                              child:
+//                                  );
 
 
                           },
