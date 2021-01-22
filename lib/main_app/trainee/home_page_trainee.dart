@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:skilltrain/main_app/common/buttons.dart';
 import 'package:skilltrain/main_app/common/dropdownwidget.dart';
+import 'package:skilltrain/main_app/common/sessionCards.dart';
 import './pages/booking_status.dart';
 import './pages/trainer_filter.dart';
 import 'dart:async';
@@ -109,8 +111,13 @@ class SampleStart extends State<HomePageTrainee> {
                 return StatefulBuilder(
                     builder: (BuildContext context, StateSetter setState) {
                   return Column(children: [
-                    sectionTitle(
-                        title: "What type of trainer are you looking for?"),
+                    Padding(
+                      padding: const EdgeInsets.all(36),
+                      child: blackHeading(
+                          title: "What type of trainer are you looking for?",
+                          underline: false,
+                          purple: false),
+                    ),
                     MyDropdownButton(
                       value: _genreFilter,
                       items: ["Weights", "Running", "Yoga", "Rowing", "Other"],
@@ -130,22 +137,32 @@ class SampleStart extends State<HomePageTrainee> {
                       },
                     ),
                     Padding(
-                      padding: EdgeInsets.only(
-                          top: 40, left: 60, right: 60, bottom: 0),
-                      child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              side: BorderSide(color: Colors.black, width: 2)),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                SlideRightRoute(
-                                  page:
-                                      TrainerFilter(genreFilter: _genreFilter),
-                                ));
-                          },
-                          child: Text("Search")),
-                    ),
+                        padding: EdgeInsets.only(
+                            top: 40, left: 60, right: 60, bottom: 0),
+                        child: cyanButton(
+                            text: "Search",
+                            function: () {
+                              Navigator.push(
+                                  context,
+                                  SlideRightRoute(
+                                    page: TrainerFilter(
+                                        genreFilter: _genreFilter),
+                                  ));
+                            })
+                        // child: FlatButton(
+                        //     shape: RoundedRectangleBorder(
+                        //         borderRadius: BorderRadius.circular(25.0),
+                        //         side: BorderSide(color: Colors.black, width: 2)),
+                        // onPressed: () {
+                        //   Navigator.push(
+                        //       context,
+                        //       SlideRightRoute(
+                        //         page:
+                        //             TrainerFilter(genreFilter: _genreFilter),
+                        //       ));
+                        // },
+                        //     child: Text("Search")),
+                        ),
                   ]);
                 });
               });
@@ -202,6 +219,7 @@ class SampleStart extends State<HomePageTrainee> {
                       return SizedBox(
                         width: 170,
                         child: Card(
+                          elevation: 4,
                           child: InkWell(
                               splashColor: Colors.purple,
                               onTap: () => {
@@ -304,6 +322,7 @@ class SampleStart extends State<HomePageTrainee> {
                     return SizedBox(
                       width: 170,
                       child: Card(
+                        elevation: 4,
                         child: InkWell(
                             splashColor: Colors.purple,
                             onTap: () => {
@@ -435,23 +454,37 @@ class SampleStart extends State<HomePageTrainee> {
                     sessionsLoaded();
                   });
                 }
-                return Card(
-                  margin:
-                      EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 5),
-                  child: ListTile(
-                      title: Text(snapshot.data[index]["trainer_username"]),
-                      subtitle: Text(snapshot.data[index]['start_time'] +
-                          "-" +
-                          snapshot.data[index]['end_time']),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          SlideLeftRoute(
-                              page: TraineeSessionDetail(
-                                  sessionID: snapshot.data[index]['id'])),
-                        );
-                      }),
-                );
+                return sessionCard(
+                    name: snapshot.data[index]["trainer_username"],
+                    date: snapshot.data[index]["date"],
+                    startTime: snapshot.data[index]["start_time"],
+                    endTime: snapshot.data[index]["end_time"],
+                    context: context,
+                    function: () => {
+                          Navigator.push(
+                            context,
+                            SlideLeftRoute(
+                                page: TraineeSessionDetail(
+                                    sessionID: snapshot.data[index]['id'])),
+                          )
+                        });
+                // return Card(
+                //   margin:
+                //       EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 5),
+                //   child: ListTile(
+                //       title: Text(snapshot.data[index]["trainer_username"]),
+                //       subtitle: Text(snapshot.data[index]['start_time'] +
+                //           "-" +
+                //           snapshot.data[index]['end_time']),
+                //       onTap: () {
+                // Navigator.push(
+                //   context,
+                //   SlideLeftRoute(
+                //       page: TraineeSessionDetail(
+                //           sessionID: snapshot.data[index]['id'])),
+                // );
+                //       }),
+                // );
               },
               itemCount: itemCount,
             );
@@ -465,29 +498,30 @@ class SampleStart extends State<HomePageTrainee> {
               height: 100,
             );
           }
-          return Container(
-              height: 200,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+          return Center(
+            child: Container(
                 child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                          "It looks like you don't have any upcoming sessions!"),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("Why don't you book some?"),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: filterButton(
-                          buttonText: "Find Someone to Help you Workout"),
-                    )
-                  ],
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 36, vertical: 0),
+                  child: Text(
+                      "It looks like you don't have any upcoming sessions!",
+                      style: TextStyle(fontSize: 24)),
                 ),
-              ));
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Text("Why don't you book some?",
+                      style: TextStyle(fontSize: 24)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 36),
+                  child: filterButton(
+                      buttonText: "Find Someone to Help you Workout"),
+                )
+              ],
+            )),
+          );
         });
 
     //Header widget for homescreen
@@ -592,7 +626,7 @@ class SampleStart extends State<HomePageTrainee> {
                     ),
                     Container(
                       margin: EdgeInsets.only(
-                          top: 30, left: 50, right: 50, bottom: 60),
+                          top: 30, left: 50, right: 50, bottom: 30),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -607,11 +641,55 @@ class SampleStart extends State<HomePageTrainee> {
                         ],
                       ),
                     ),
-                    upcomingSessionsView,
-                    sectionTitle(title: "Running"),
-                    trainerListView(filter: true, filterType: 'Running'),
-                    sectionTitle(title: "Yoga"),
-                    trainerListView(filter: true, filterType: 'Yoga'),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 54.0),
+                      child: upcomingSessionsView,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Colors.purple,
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(36.0),
+                            child: Row(
+                              children: [
+                                Icon(Icons.directions_run,
+                                    color: Colors.white, size: 18),
+                                sectionTitle(title: "  Running Trainers"),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 36),
+                            child: trainerListView(
+                                filter: true, filterType: 'Running'),
+                          ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 36.0, right: 36, bottom: 36, top: 14),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.self_improvement,
+                                        color: Colors.white, size: 18),
+                                    sectionTitle(title: "  Yoga Trainers"),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 36),
+                                child: trainerListView(
+                                    filter: true, filterType: 'Yoga'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

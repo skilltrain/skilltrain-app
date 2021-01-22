@@ -41,90 +41,79 @@ class SampleStart extends State<BookingStatus> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(
-            color: Colors.black), //change your color here
-        title: Text('Booked sessions'),
-        centerTitle: true,
-        automaticallyImplyLeading: true,
-        leading: IconButton(
-            onPressed: () => Navigator.pop(context, false),
-            icon: Icon(Icons.arrow_back)),
-      ),
-      body: 
-      Container(
-        width: double.infinity,
-        color: Colors.purple,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          iconTheme:
+              IconThemeData(color: Colors.black), //change your color here
+          title: Text('Booked sessions'),
+          centerTitle: true,
+          automaticallyImplyLeading: true,
+          leading: IconButton(
+              onPressed: () => Navigator.pop(context, false),
+              icon: Icon(Icons.arrow_back)),
+        ),
+        body: Container(
+          width: double.infinity,
+          color: Colors.purple,
+          child: Column(
+            children: <Widget>[
+              FutureBuilder<List>(
+                future: sessionResults,
+                // ignore: missing_return
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final List classArray = [];
+                    for (int i = 0; i < snapshot.data.length; i++) {
+                      if (snapshot.data[i]["user_username"] == traineeName &&
+                          DateTime.parse(stringDate).isBefore(
+                              DateTime.parse(snapshot.data[i]["date"]))) {
+                        classArray.add(snapshot.data[i]);
+                        classArray.sort((a, b) {
+                          var adate = a["date"] + a["start_time"];
+                          var bdate = b["date"] + b["start_time"];
+                          return adate.compareTo(bdate);
+                        });
+                      } else
+                        print("something went wrong with fetched data");
+                    }
 
-        child: 
+                    return SingleChildScrollView(
+                        child: Center(
+                            child: Container(
+                                color: Colors.purple,
+                                height: MediaQuery.of(context).size.height - 87,
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                child: Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                        child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        //card
+                                        return InkWell(
+                                          onTap: () => {
+                                            Navigator.push(
+                                              context,
+                                              SlideLeftRoute(
+                                                  page: TraineeSessionDetail(
+                                                      sessionID:
+                                                          classArray[index]
+                                                              ['id'])),
+                                            )
+                                          },
+                                          child: sessionCard(
+                                              name: classArray[index]
+                                                  ["trainer_username"],
+                                              date: classArray[index]["date"],
+                                              startTime: classArray[index]
+                                                  ["start_time"],
+                                              endTime: classArray[index]
+                                                  ["end_time"],
+                                              context: context),
 
-      Column(
-        children: <Widget>[
-
-          FutureBuilder<List>(
-            future: sessionResults,
-            // ignore: missing_return
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final List classArray = [];
-                for (int i = 0; i < snapshot.data.length; i++) {
-                  if (snapshot.data[i]["user_username"] == traineeName &&
-                      DateTime.parse(stringDate)
-                          .isBefore(DateTime.parse(snapshot.data[i]["date"]))) {
-                    classArray.add(snapshot.data[i]);
-                    classArray.sort((a, b) {
-                      var adate = a["date"] + a["start_time"];
-                      var bdate = b["date"] + b["start_time"];
-                      return adate.compareTo(bdate);
-                    });
-                  } else
-                    print("something went wrong with fetched data");
-                }
-
-                return 
-                SingleChildScrollView(
-                child: Center(
-
-                  child: Container(
-                    color: Colors.purple,
-                    height: MediaQuery.of(context).size.height - 87,
-                    width:MediaQuery.of(context).size.width * 0.9,
-                    
-                    child: Column(
-                      children: <Widget>[
-
-                        SizedBox(
-                          child: ListView.builder(
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-
-
-                          //card
-                            return 
-                            
-                            InkWell(
-                              onTap: ()=>{
-                                Navigator.push(
-                                      context,
-                                      SlideLeftRoute(
-                                          page: TraineeSessionDetail(
-                                              sessionID: classArray[index]['id'])),
-                                    )
-                              },
-                              child:
-                              
-                              sessionCards( name: classArray[index]["trainer_username"],
-                                            date: classArray[index]["date"],
-                                            startTime: classArray[index]["start_time"],
-                                            endTime: classArray[index]["end_time"],
-                                            context: context
-                                          ),
-
-                            /*
+                                          /*
                               Card(
                                 shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0)),
@@ -209,42 +198,31 @@ class SampleStart extends State<BookingStatus> {
 
                               ),
                             */
-
-                            );                            
+                                        );
 //                            Card(
 //                              child:
 //                                  );
-
-
-                          },
-                          itemCount: classArray.length,
-                        )
-                        ),
-
-
-
-                        Center(child: Text("last update:" + "$_date")),
-
-                      ],
-                    )
-                  )
-                )
-                );
-              } else if (snapshot.connectionState != ConnectionState.done) {
-                return Container(
-                    height: MediaQuery.of(context).size.height - 87,
-                    decoration:
-                        new BoxDecoration(color: Colors.deepPurple[100]),
-                    child: Center(child: CircularProgressIndicator()));
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-            },
+                                      },
+                                      itemCount: classArray.length,
+                                    )),
+                                    Center(
+                                        child: Text("last update:" + "$_date")),
+                                  ],
+                                ))));
+                  } else if (snapshot.connectionState != ConnectionState.done) {
+                    return Container(
+                        height: MediaQuery.of(context).size.height - 87,
+                        decoration:
+                            new BoxDecoration(color: Colors.deepPurple[100]),
+                        child: Center(child: CircularProgressIndicator()));
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-      )
-    );
+        ));
   }
 }
 

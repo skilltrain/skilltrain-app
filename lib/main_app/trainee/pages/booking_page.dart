@@ -3,6 +3,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:http/http.dart' as http;
 import 'package:skilltrain/main_app/common/headings.dart';
+import 'package:skilltrain/main_app/common/sessionCards.dart';
 import 'dart:convert';
 import '../../../services/stripe/payment/direct_payment_page.dart';
 import '../../../utils/sliders.dart';
@@ -41,6 +42,7 @@ class BookingPage extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(left: 36, bottom: 64, top: 64),
@@ -50,7 +52,7 @@ class BookingPage extends StatelessWidget {
                     blackHeading(
                         title: trainerName + "'s",
                         underline: false,
-                        purple: true),
+                        purple: false),
                     blackHeading(
                         title: "Sessions", underline: true, purple: true),
                   ],
@@ -107,123 +109,39 @@ class BookingPage extends StatelessWidget {
                               physics: const ClampingScrollPhysics(),
                               itemBuilder: (BuildContext context, int index) {
                                 return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 8),
-                                  child: GestureDetector(
-                                    onTap: () => {
-                                      Navigator.push(
-                                          context,
-                                          SlideLeftRoute(
-                                              page: DirectPaymentPage(
-                                                  trainerUsername:
-                                                      trainerName)))
-                                    },
-                                    child: Card(
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 7,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              bottom: 8.0),
-                                                      child: Container(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                          bottom: 1,
-                                                          // This can be the space you need betweeb text and underline
-                                                        ),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                border: Border(
-                                                                    bottom:
-                                                                        BorderSide(
-                                                          color:
-                                                              Colors.cyanAccent,
-                                                          width: 4.0,
-
-                                                          // This would be the width of the underline
-                                                        ))),
-                                                        child: Text(
-                                                          genre,
-                                                          style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 18,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                        classArray[index][
-                                                                        "description"]
-                                                                    .length >
-                                                                2
-                                                            ? classArray[index]
-                                                                ["description"]
-                                                            : "This trainer has not added any details about this session.",
-                                                        style: TextStyle(
-                                                          color:
-                                                              Colors.grey[700],
-                                                          fontSize: 14,
-                                                        ))
-                                                  ]),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 3,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Column(
-                                                      children: [
-                                                        Text(
-                                                            classArray[index]
-                                                                ["date"],
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 14,
-                                                            )),
-                                                        Text(
-                                                            classArray[index]
-                                                                ["start_time"],
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 14,
-                                                            )),
-                                                      ],
-                                                    ),
-                                                    Icon(Icons
-                                                        .keyboard_arrow_right)
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 24, vertical: 8),
+                                    child: bookingCard(
+                                        genre: genre,
+                                        description: classArray[index]
+                                            ["description"],
+                                        startTime: classArray[index]
+                                            ["start_time"],
+                                        endTime: classArray[index]["end_time"],
+                                        date: classArray[index]["date"],
+                                        context: context,
+                                        function: () => {
+                                              Navigator.push(
+                                                  context,
+                                                  SlideLeftRoute(
+                                                      page: DirectPaymentPage(
+                                                          trainerUsername:
+                                                              trainerName,
+                                                          genre: genre,
+                                                          description:
+                                                              classArray[index][
+                                                                  "description"],
+                                                          startTime: classArray[
+                                                                  index]
+                                                              ["start_time"],
+                                                          endTime:
+                                                              classArray[index]
+                                                                  ["end_time"],
+                                                          date:
+                                                              classArray[index]
+                                                                  ["date"],
+                                                          price: price)))
+                                            }));
                               },
                               itemCount: classArray.length,
                             )

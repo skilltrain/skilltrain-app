@@ -25,10 +25,7 @@ class _MyDropdownButtonState extends State<MyDropdownButton> {
       margin: EdgeInsets.only(bottom: 15),
       child: DecoratedBox(
         decoration: ShapeDecoration(
-          color: Colors.cyan[600],
           shape: RoundedRectangleBorder(
-            side: BorderSide(
-                width: 0, style: BorderStyle.solid, color: Colors.cyan),
             borderRadius: BorderRadius.all(Radius.circular(25.0)),
           ),
         ),
@@ -36,17 +33,17 @@ class _MyDropdownButtonState extends State<MyDropdownButton> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 40.0, vertical: 0.0),
             child: DropdownButton<String>(
+              underline: Container(color: Colors.transparent),
               value: widget.value,
-              icon: Icon(Icons.keyboard_arrow_down, color: Colors.white),
+              icon: Icon(Icons.keyboard_arrow_down, color: Colors.grey[900]),
               iconSize: 24,
-              elevation: 16,
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold),
               onChanged: widget.onChanged,
               items: widget.items.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value, style: TextStyle(color: Colors.grey[900])),
+                  child: Text(value,
+                      style: TextStyle(color: Colors.grey[900], fontSize: 18)),
                 );
               }).toList(),
             )),
