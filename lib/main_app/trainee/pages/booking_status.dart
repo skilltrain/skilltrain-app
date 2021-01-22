@@ -40,8 +40,13 @@ class SampleStart extends State<BookingStatus> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+            color: Colors.black), //change your color here
         title: Text('Booked sessions'),
         centerTitle: true,
         automaticallyImplyLeading: true,
@@ -49,8 +54,16 @@ class SampleStart extends State<BookingStatus> {
             onPressed: () => Navigator.pop(context, false),
             icon: Icon(Icons.arrow_back)),
       ),
-      body: Column(
+      body: 
+      Container(
+        width: double.infinity,
+        color: Colors.purple,
+
+        child: 
+
+      Column(
         children: <Widget>[
+
           FutureBuilder<List>(
             future: sessionResults,
             // ignore: missing_return
@@ -72,30 +85,31 @@ class SampleStart extends State<BookingStatus> {
                 }
 
                 return 
-                Center(
+                SingleChildScrollView(
+                child: Center(
+
                   child: Container(
                     color: Colors.purple,
                     height: MediaQuery.of(context).size.height - 87,
-                    width:MediaQuery.of(context).size.width * 1.0,
+                    width:MediaQuery.of(context).size.width * 0.9,
                     
                     child: Column(
                       children: <Widget>[
+
                         SizedBox(
-                            child: ListView.builder(
+                          child: ListView.builder(
                           shrinkWrap: true,
                           itemBuilder: (BuildContext context, int index) {
-                            return Card(
 
+
+                          //card
+                            return Card(
                               child:Container(
-                                margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-/*
+                                height: 80,
+                                width: MediaQuery.of(context).size.width * 0.8,
                                 decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.purple[500], width: 1),
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white70,
-                                ),
-*/
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
                                 child: GestureDetector(
                                     //画面遷移
                                     onTap: () => {
@@ -110,6 +124,8 @@ class SampleStart extends State<BookingStatus> {
                                     },
                                     child: Column(
                                       children: <Widget>[
+                                        new Spacer(),
+
                                         Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -201,17 +217,25 @@ class SampleStart extends State<BookingStatus> {
                                               ),
                                               */
                                             ]),
+                                          new Spacer(),
                                       ],
-                                    ))));
+                                    )))
+                                  );
+
+
                           },
                           itemCount: classArray.length,
-                        )),
+                        )
+                        ),
+
+
 
                         Center(child: Text("last update:" + "$_date")),
 
                       ],
                     )
                   )
+                )
                 );
               } else if (snapshot.connectionState != ConnectionState.done) {
                 return Container(
@@ -226,6 +250,7 @@ class SampleStart extends State<BookingStatus> {
           ),
         ],
       ),
+      )
     );
   }
 }
