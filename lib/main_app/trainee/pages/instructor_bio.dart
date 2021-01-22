@@ -61,6 +61,7 @@ class _InstructorBioState extends State<InstructorBio> {
     return Scaffold(
         backgroundColor: Colors.purple,
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Color(0xFFFFFFFF),
           title: Text(widget.data["firstName"] + " " + widget.data["lastName"]),
         ),
@@ -100,7 +101,8 @@ class _InstructorBioState extends State<InstructorBio> {
                           Column(children: [
                             blackHeading(
                                 title: widget.data["firstName"],
-                                underline: false),
+                                underline: false,
+                                purple: false),
                             Row(
                               children: stars,
                             ),
@@ -156,8 +158,8 @@ class _InstructorBioState extends State<InstructorBio> {
                         alignment: Alignment.centerLeft,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 36.0, top: 24),
-                          child:
-                              blackHeading(title: "Reviews", underline: true),
+                          child: blackHeading(
+                              title: "Reviews", underline: true, purple: true),
                         )),
                     FutureBuilder(
                       future: reviews,

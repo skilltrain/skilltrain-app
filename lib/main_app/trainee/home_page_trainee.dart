@@ -96,7 +96,7 @@ class SampleStart extends State<HomePageTrainee> {
   }
 
   Widget filterButton({String buttonText}) {
-    return RaisedButton(
+    return ElevatedButton(
         onPressed: () {
           showModalBottomSheet(
               shape: RoundedRectangleBorder(
@@ -151,12 +151,19 @@ class SampleStart extends State<HomePageTrainee> {
               });
         },
         child: Text(buttonText,
-            style: TextStyle(fontSize: 15, color: Colors.grey[700])),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        color: Colors.white,
-        padding: EdgeInsets.all(15.0));
+            style: TextStyle(fontSize: 15, color: Colors.white)),
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+          primary: Colors.cyanAccent, // background
+          onPrimary: Colors.white, // foreground
+        ));
+    // shape: RoundedRectangleBorder(
+    //   borderRadius: BorderRadius.circular(8),
+    // ),
+    // color: Colors.white,
+    // padding: EdgeInsets.all(15.0));
   }
 
   Widget build(BuildContext context) {
@@ -168,7 +175,7 @@ class SampleStart extends State<HomePageTrainee> {
             print('snapshot');
 
             return Container(
-              height: 200,
+              height: 250,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
@@ -187,13 +194,13 @@ class SampleStart extends State<HomePageTrainee> {
 
                   for (var i = 0; i < snapshot.data[index]["avgRating"]; i++) {
                     stars.add(
-                        Icon(Icons.star, color: Colors.yellow[700], size: 7));
+                        Icon(Icons.star, color: Colors.cyanAccent, size: 12));
                   }
 
                   if (filter) {
                     if (snapshot.data[index]["genre"] == filterType) {
                       return SizedBox(
-                        width: 150,
+                        width: 170,
                         child: Card(
                           child: InkWell(
                               splashColor: Colors.purple,
@@ -210,16 +217,22 @@ class SampleStart extends State<HomePageTrainee> {
                                   padding: EdgeInsets.all(0),
                                   child: Column(
                                     children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(0),
-                                        child: Image.network(
-                                            snapshot.data[index]
-                                                ["profilePhoto"],
-                                            height: 150,
-                                            width: 150,
-                                            fit: BoxFit.fill),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(0),
+                                          child: Image.network(
+                                              snapshot.data[index]
+                                                  ["profilePhoto"],
+                                              height: 120,
+                                              width: 180,
+                                              fit: BoxFit.fill),
+                                        ),
                                       ),
                                       Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -231,7 +244,7 @@ class SampleStart extends State<HomePageTrainee> {
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 15),
+                                                    fontSize: 18),
                                               ),
                                             ),
                                             Row(
@@ -241,16 +254,43 @@ class SampleStart extends State<HomePageTrainee> {
                                           ],
                                         ),
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              snapshot.data[index]["genre"],
+                                              style: TextStyle(
+                                                  color: Colors.grey[700]),
+                                            ),
+                                            Text(
+                                                "¥" +
+                                                    snapshot.data[index]
+                                                            ["price"]
+                                                        .toString(),
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold))
+                                          ],
+                                        ),
+                                      ),
+                                      Column(
                                         children: [
-                                          Text(snapshot.data[index]["genre"]),
-                                          Text(
-                                            snapshot.data[index]["price"]
-                                                    .toString() +
-                                                'p/s',
-                                          )
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                              maxLines: 3,
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.grey[700]),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
                                         ],
                                       )
                                     ],
@@ -262,7 +302,7 @@ class SampleStart extends State<HomePageTrainee> {
                     }
                   } else {
                     return SizedBox(
-                      width: 150,
+                      width: 170,
                       child: Card(
                         child: InkWell(
                             splashColor: Colors.purple,
@@ -279,15 +319,21 @@ class SampleStart extends State<HomePageTrainee> {
                                 padding: EdgeInsets.all(0),
                                 child: Column(
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(0),
-                                      child: Image.network(
-                                          snapshot.data[index]["profilePhoto"],
-                                          height: 150,
-                                          width: 150,
-                                          fit: BoxFit.fill),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(0),
+                                        child: Image.network(
+                                            snapshot.data[index]
+                                                ["profilePhoto"],
+                                            height: 120,
+                                            width: 180,
+                                            fit: BoxFit.fill),
+                                      ),
                                     ),
                                     Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -298,7 +344,7 @@ class SampleStart extends State<HomePageTrainee> {
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 15),
+                                                  fontSize: 18),
                                             ),
                                           ),
                                           Row(
@@ -308,14 +354,41 @@ class SampleStart extends State<HomePageTrainee> {
                                         ],
                                       ),
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            snapshot.data[index]["genre"],
+                                            style: TextStyle(
+                                                color: Colors.grey[700]),
+                                          ),
+                                          Text(
+                                              "¥" +
+                                                  snapshot.data[index]["price"]
+                                                      .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold))
+                                        ],
+                                      ),
+                                    ),
+                                    Column(
                                       children: [
-                                        Text(snapshot.data[index]["genre"]),
-                                        Text(snapshot.data[index]["price"]
-                                                .toString() +
-                                            'p/s')
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                            maxLines: 3,
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey[700]),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
                                       ],
                                     )
                                   ],
@@ -419,18 +492,21 @@ class SampleStart extends State<HomePageTrainee> {
 
     //Header widget for homescreen
     Widget headerSection = Container(
-        margin: EdgeInsets.only(top: 30, left: 50, right: 50, bottom: 20),
+        margin: EdgeInsets.only(top: 30, left: 50, right: 50, bottom: 60),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text('Welcome\n$_user!',
-                    style: TextStyle(
-                        color: Colors.grey[900],
-                        fontWeight: FontWeight.w800,
-                        fontSize: 50)),
-              ],
-            ),
+            blackHeading(title: "Welcome", underline: false, purple: true),
+            blackHeading(title: '$_user!', underline: true, purple: true),
+            // Row(
+            //   children: [
+            //     Text('Welcome\n$_user!',
+            //         style: TextStyle(
+            //             color: Colors.grey[900],
+            //             fontWeight: FontWeight.w800,
+            //             fontSize: 50)),
+            //   ],
+            // ),
             SizedBox(height: 15),
             Row(
               children: [
@@ -438,7 +514,7 @@ class SampleStart extends State<HomePageTrainee> {
                     style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w600,
-                        fontSize: 20)),
+                        fontSize: 16)),
                 Spacer(),
                 filterButton(buttonText: "Find your Trainer")
               ],
@@ -479,21 +555,58 @@ class SampleStart extends State<HomePageTrainee> {
             ],
           )),
           appBar: AppBar(
-            title: SizedBox(
-                height: kToolbarHeight,
-                child: Image.asset('assets/images/skillTrain-logo.png',
-                    fit: BoxFit.scaleDown)),
-            centerTitle: true,
+            iconTheme: IconThemeData(color: Colors.black),
+            backgroundColor: Color(0xFFFFFFFF),
           ),
           body: ModalProgressHUD(
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     headerSection,
-                    sectionTitle(title: "Top Rated"),
-                    trainerListView(filter: false, filterType: "null"),
-                    sectionTitle(title: "Upcoming Sessions"),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Colors.purple,
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(36.0),
+                            child: Row(
+                              children: [
+                                Icon(Icons.fitness_center,
+                                    color: Colors.white, size: 18),
+                                sectionTitle(title: "  Top Rated Trainers"),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 36),
+                            child: trainerListView(
+                                filter: false, filterType: "null"),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: 30, left: 50, right: 50, bottom: 60),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          blackHeading(
+                              title: "Upcoming",
+                              underline: false,
+                              purple: true),
+                          blackHeading(
+                              title: "Sessions!",
+                              underline: true,
+                              purple: false),
+                        ],
+                      ),
+                    ),
                     upcomingSessionsView,
                     sectionTitle(title: "Running"),
                     trainerListView(filter: true, filterType: 'Running'),
