@@ -71,17 +71,31 @@ class SampleStart extends State<BookingStatus> {
                     print("something went wrong with fetched data");
                 }
 
-                return Container(
+                return 
+                Center(
+                  child: Container(
+                    color: Colors.purple,
                     height: MediaQuery.of(context).size.height - 87,
-                    width: double.infinity,
+                    width:MediaQuery.of(context).size.width * 1.0,
+                    
                     child: Column(
                       children: <Widget>[
-                        Center(child: Text("last update:" + "$_date")),
                         SizedBox(
                             child: ListView.builder(
                           shrinkWrap: true,
                           itemBuilder: (BuildContext context, int index) {
                             return Card(
+
+                              child:Container(
+                                margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+/*
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.purple[500], width: 1),
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white70,
+                                ),
+*/
                                 child: GestureDetector(
                                     //画面遷移
                                     onTap: () => {
@@ -102,12 +116,17 @@ class SampleStart extends State<BookingStatus> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: <Widget>[
+
+                                              new Spacer(),
+
                                               Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: <Widget>[
                                                     Text(
-                                                      classArray[index]["date"],
+                                                      classArray[index]["date"] + "  " + 
+                                                      classArray[index]["start_time"] + " - " +
+                                                      classArray[index]["end_time"], 
                                                       textAlign: TextAlign.left,
                                                       style: TextStyle(
                                                         fontWeight:
@@ -115,6 +134,15 @@ class SampleStart extends State<BookingStatus> {
                                                         fontSize: 20,
                                                       ),
                                                     ),
+                                                    Text(
+                                                      "With " +
+                                                          classArray[index][
+                                                              "trainer_username"],
+                                                      textAlign: TextAlign.left,
+                                                    ),
+                                                  ]),
+
+/*
                                                     Text(
                                                         classArray[index]
                                                                 ["start_time"] +
@@ -126,16 +154,12 @@ class SampleStart extends State<BookingStatus> {
                                                         style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          fontSize: 16,
+                                                          fontSize: 20,
                                                         )),
-                                                    Text(
-                                                      "With " +
-                                                          classArray[index][
-                                                              "trainer_username"],
-                                                      textAlign: TextAlign.left,
-                                                    ),
-                                                  ]),
+*/
                                               new Spacer(),
+
+                                            /*
                                               Column(
                                                 children: <Widget>[
                                                   Text(
@@ -154,7 +178,11 @@ class SampleStart extends State<BookingStatus> {
                                                       ))
                                                 ],
                                               ),
-                                              new Spacer(),
+                                            */
+
+//                                              new Spacer(),
+
+                                              /*
                                               ButtonTheme(
                                                 minWidth: 30,
                                                 child: RaisedButton(
@@ -171,14 +199,20 @@ class SampleStart extends State<BookingStatus> {
                                                                               "trainer_username"])))
                                                         }),
                                               ),
+                                              */
                                             ]),
                                       ],
-                                    )));
+                                    ))));
                           },
                           itemCount: classArray.length,
                         )),
+
+                        Center(child: Text("last update:" + "$_date")),
+
                       ],
-                    ));
+                    )
+                  )
+                );
               } else if (snapshot.connectionState != ConnectionState.done) {
                 return Container(
                     height: MediaQuery.of(context).size.height - 87,
