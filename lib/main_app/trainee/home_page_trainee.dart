@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:skilltrain/main_app/common/buttons.dart';
 import 'package:skilltrain/main_app/common/dropdownwidget.dart';
+import 'package:skilltrain/main_app/common/sessionCards.dart';
 import './pages/booking_status.dart';
 import './pages/trainer_filter.dart';
 import 'dart:async';
@@ -218,6 +219,7 @@ class SampleStart extends State<HomePageTrainee> {
                       return SizedBox(
                         width: 170,
                         child: Card(
+                          elevation: 4,
                           child: InkWell(
                               splashColor: Colors.purple,
                               onTap: () => {
@@ -320,6 +322,7 @@ class SampleStart extends State<HomePageTrainee> {
                     return SizedBox(
                       width: 170,
                       child: Card(
+                        elevation: 4,
                         child: InkWell(
                             splashColor: Colors.purple,
                             onTap: () => {
@@ -451,23 +454,37 @@ class SampleStart extends State<HomePageTrainee> {
                     sessionsLoaded();
                   });
                 }
-                return Card(
-                  margin:
-                      EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 5),
-                  child: ListTile(
-                      title: Text(snapshot.data[index]["trainer_username"]),
-                      subtitle: Text(snapshot.data[index]['start_time'] +
-                          "-" +
-                          snapshot.data[index]['end_time']),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          SlideLeftRoute(
-                              page: TraineeSessionDetail(
-                                  sessionID: snapshot.data[index]['id'])),
-                        );
-                      }),
-                );
+                return sessionCard(
+                    name: snapshot.data[index]["trainer_username"],
+                    date: snapshot.data[index]["date"],
+                    startTime: snapshot.data[index]["start_time"],
+                    endTime: snapshot.data[index]["end_time"],
+                    context: context,
+                    function: () => {
+                          Navigator.push(
+                            context,
+                            SlideLeftRoute(
+                                page: TraineeSessionDetail(
+                                    sessionID: snapshot.data[index]['id'])),
+                          )
+                        });
+                // return Card(
+                //   margin:
+                //       EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 5),
+                //   child: ListTile(
+                //       title: Text(snapshot.data[index]["trainer_username"]),
+                //       subtitle: Text(snapshot.data[index]['start_time'] +
+                //           "-" +
+                //           snapshot.data[index]['end_time']),
+                //       onTap: () {
+                // Navigator.push(
+                //   context,
+                //   SlideLeftRoute(
+                //       page: TraineeSessionDetail(
+                //           sessionID: snapshot.data[index]['id'])),
+                // );
+                //       }),
+                // );
               },
               itemCount: itemCount,
             );
@@ -609,7 +626,7 @@ class SampleStart extends State<HomePageTrainee> {
                     ),
                     Container(
                       margin: EdgeInsets.only(
-                          top: 30, left: 50, right: 50, bottom: 60),
+                          top: 30, left: 50, right: 50, bottom: 30),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -624,7 +641,10 @@ class SampleStart extends State<HomePageTrainee> {
                         ],
                       ),
                     ),
-                    upcomingSessionsView,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 54.0),
+                      child: upcomingSessionsView,
+                    ),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
