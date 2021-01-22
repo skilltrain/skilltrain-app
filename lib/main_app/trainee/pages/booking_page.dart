@@ -36,6 +36,7 @@ class BookingPage extends StatelessWidget {
     final Future<List> sessionResults = fetchSessionResults(trainerName);
     return Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Color(0xFFFFFFFF),
         ),
         body: SingleChildScrollView(
@@ -46,8 +47,12 @@ class BookingPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    blackHeading(title: trainerName + "'s", underline: false),
-                    blackHeading(title: "Sessions", underline: true),
+                    blackHeading(
+                        title: trainerName + "'s",
+                        underline: false,
+                        purple: true),
+                    blackHeading(
+                        title: "Sessions", underline: true, purple: true),
                   ],
                 ),
               ),
