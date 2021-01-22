@@ -146,10 +146,10 @@ class _InstructorBioState extends State<InstructorBio> {
                             context,
                             SlideLeftRoute(
                                 page: BookingPage(
-                              price: widget.data["price"],
-                              trainerName: widget.data["username"],
-                              index: widget.index,
-                            )),
+                                    price: widget.data["price"],
+                                    trainerName: widget.data["username"],
+                                    index: widget.index,
+                                    genre: widget.data["genre"])),
                           );
                         },
                       ),

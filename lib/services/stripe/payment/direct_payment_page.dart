@@ -1,16 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:skilltrain/main_app/common/buttons.dart';
+import 'package:skilltrain/main_app/common/headings.dart';
+import 'package:skilltrain/main_app/trainer/pages/instructor_view/pages/instructor_register_course.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../../../utils/alert_dialogue.dart';
+import 'package:intl/intl.dart';
 
 class DirectPaymentPage extends StatefulWidget {
   final String trainerUsername;
   final String title;
+  final String genre;
+  final String description;
+  final String startTime;
+  final String endTime;
+  final int price;
+  final String date;
 
-  DirectPaymentPage({Key key, this.title, this.trainerUsername})
+  DirectPaymentPage(
+      {Key key,
+      this.title,
+      this.trainerUsername,
+      this.date,
+      this.description,
+      this.startTime,
+      this.endTime,
+      this.genre,
+      this.price})
       : super(key: key);
 
   @override
@@ -237,28 +256,108 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime newDate = DateTime.parse(widget.date);
+    var format = new DateFormat("MMMEd");
+    var dateString = format.format(newDate);
+
     return Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
+          backgroundColor: Color(0xFFFFFFFF),
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
-          title: Text('Payment'),
         ),
         body: ModalProgressHUD(
             inAsyncCall: showSpinner,
-            child: Center(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+                    Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 36, bottom: 64, top: 64),
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                  FlatButton(
-                    onPressed: () {
-                      checkIfNativePayReady();
-                    },
-                    child: Text(
-                      'Amount to pay: ¥${amount.toString()}',
-                      style: TextStyle(fontSize: 20.0),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    blackHeading(
+                        title: "Book", underline: false, purple: false),
+                    blackHeading(
+                        title: "Session", underline: true, purple: true),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 36, vertical: 36),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16.0),
+                      topRight: Radius.circular(16.0),
+                      bottomLeft: Radius.zero,
+                      bottomRight: Radius.zero,
                     ),
+                    color: Colors.purple,
                   ),
-                  Text(text),
-                ]))));
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(widget.trainerUsername,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24)),
+                          Text(dateString,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20))
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(widget.genre,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20)),
+                            Text("¥" + widget.price.toString(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24))
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 36.0),
+                        child: Text(
+                          description.length > 2
+                              ? description
+                              : "This trainer has not added any details about this session.",
+                          maxLines: 3,
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 36.0),
+                        child: cyanButton(
+                            text: "Pay Now",
+                            function: () => checkIfNativePayReady()),
+                      ),
+                      // FlatButton(
+                      //   onPressed: () {
+                      //     checkIfNativePayReady();
+                      //   },
+                      //   child: Text(
+                      //     'Amount to pay: ¥${amount.toString()}',
+                      //     style: TextStyle(fontSize: 20.0),
+                      //   ),
+                      // ),
+                      // Text(text),
+                    ],
+                  ),
+                ),
+              ),
+            ])));
   }
 }
