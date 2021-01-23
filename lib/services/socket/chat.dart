@@ -3,18 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:http/http.dart' as http;
 
-class AWSRealtimeSocketTutorialPage extends StatefulWidget {
-  AWSRealtimeSocketTutorialPage(
-      {@required this.socketChannel, @required this.sessionID});
+class ChatService extends StatefulWidget {
+  ChatService({@required this.socketChannel, @required this.sessionID});
   final WebSocketChannel socketChannel;
   final String sessionID;
   @override
-  _AWSRealtimeSocketTutorialPageState createState() =>
-      _AWSRealtimeSocketTutorialPageState();
+  _ChatServiceState createState() => _ChatServiceState();
 }
 
-class _AWSRealtimeSocketTutorialPageState
-    extends State<AWSRealtimeSocketTutorialPage> {
+class _ChatServiceState extends State<ChatService> {
   String socketData;
   var messages;
   @override
