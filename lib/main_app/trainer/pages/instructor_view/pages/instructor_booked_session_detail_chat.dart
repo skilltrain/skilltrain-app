@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:skilltrain/main_app/common/buttons.dart';
 import 'package:skilltrain/main_app/common/headings.dart';
 import 'package:skilltrain/main_app/trainer/pages/instructor_view/pages/instructor_register_course.dart';
 import 'package:skilltrain/services/agora/video_session/index_trainer.dart';
