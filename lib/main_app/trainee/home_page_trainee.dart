@@ -478,7 +478,7 @@ class SampleStart extends State<HomePageTrainee> {
                 onTap: () => {
                   Navigator.push(
                     context,
-                    SlideLeftRoute(page: IndexPageBroadcast()),
+                    SlideLeftRoute(page: IndexPageLiveStream()),
                   )
                 },
               ),

@@ -52,9 +52,9 @@ class IndexState extends State<IndexPageAudience> {
               Expanded(
                 flex: 3,
                 child: Container(
-                  child: Text('Join Live Stream Session',
+                  child: Text('Join A Live Stream Session',
                       style: TextStyle(
-                          fontSize: 30.0,
+                          fontSize: 28.0,
                           fontWeight: FontWeight.w900,
                           color: Colors.purple)),
                 ),

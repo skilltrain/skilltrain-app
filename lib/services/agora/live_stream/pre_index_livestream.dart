@@ -10,15 +10,15 @@ import 'index_audience.dart';
 
 // *********** 1to1 VC Mode *********** //
 
-class IndexPageBroadcast extends StatefulWidget {
+class IndexPageLiveStream extends StatefulWidget {
   final instructorName;
-  IndexPageBroadcast({this.instructorName});
+  IndexPageLiveStream({this.instructorName});
 
   @override
   State<StatefulWidget> createState() => IndexState();
 }
 
-class IndexState extends State<IndexPageBroadcast> {
+class IndexState extends State<IndexPageLiveStream> {
   /// create a channelController to retrieve text value
   final _channelController = TextEditingController();
 
@@ -61,7 +61,14 @@ class IndexState extends State<IndexPageBroadcast> {
                       children: <Widget>[
                         Expanded(
                           child: RaisedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return IndexPageStreamer();
+                                }),
+                              );
+                            },
                             child: Text('Create a room'),
                             color: Colors.blueAccent,
                             textColor: Colors.white,

@@ -5,12 +5,36 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:skilltrain/main_app/trainer/pages/instructor_view/instructor_view.dart';
 
 import 'dart:async';
-import 'call_streamer.dart';
+import 'call_audience.dart';
+import 'dart:math';
 
 // *********** 1to1 VC Mode *********** //
 
+bool flag = false;
+String msg = "";
+String code = "";
+
+String sessionCode(int length) {
+  const _randomeChars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  const _charsLength = _randomeChars.length;
+
+  final rand = new Random();
+  final codeUnits = new List.generate(length, (index) {
+    final n = rand.nextInt(_charsLength);
+    return _randomeChars.codeUnitAt(n);
+  });
+  return new String.fromCharCodes(codeUnits);
+}
+
+void triggerFunc() {
+  flag = true;
+  // code = sessionCode(6);
+  return;
+}
+
 class IndexPageStreamer extends StatefulWidget {
-  IndexPageStreamer();
+  final instructorName;
+  IndexPageStreamer({this.instructorName});
 
   @override
   State<StatefulWidget> createState() => IndexState();
@@ -34,120 +58,105 @@ class IndexState extends State<IndexPageStreamer> {
 
   @override
   Widget build(BuildContext context) {
+    // String msg = "";
+    // if (flag == true) {
+    //   msg = "Your session code is " + sessionCode(6);
+    // }
+
     return Scaffold(
       appBar: AppBar(
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text('SkillTrain-Session'),
+        title: Text('Live Stream Session'),
       ),
       body: Center(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          height: 333,
+          height: 350,
           child: Column(
             children: <Widget>[
               Expanded(
                 flex: 3,
                 child: Container(
-                  child: Text('Join as : Trainee',
+                  child: Text('Create A Live Stream Room',
                       style: TextStyle(
-                          fontSize: 45.0,
+                          fontSize: 28.0,
                           fontWeight: FontWeight.w900,
                           color: Colors.purple)),
                 ),
               ),
-              Column(
+              Column(children: <Widget>[
+                RaisedButton(
+                  onPressed: () {
+                    triggerFunc();
+                  },
+                  child: Text('get a token'),
+                  color: Colors.black87,
+                  textColor: Colors.white,
+                ),
+                Text(code)
+              ]),
+              Row(
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                          child: TextField(
-                        controller: _channelController,
-                        decoration: InputDecoration(
-                          errorText: _validateError
-                              ? 'Channel name is mandatory'
-                              : null,
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(width: 1),
-                          ),
-                          hintText: 'Channel name',
-                        ),
-                      ))
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      // ListTile(
-                      //   title: Text(ClientRole.Broadcaster.toString()),
-                      //   leading: Radio(
-                      //     value: ClientRole.Broadcaster,
-                      //     groupValue: _role,
-                      //     onChanged: (ClientRole value) {
-                      //       setState(() {
-                      //         _role = value;
-                      //       });
-                      //     },
-                      //   ),
-                      // ),
-                      // ListTile(
-                      //   title: Text(ClientRole.Audience.toString()),
-                      //   leading: Radio(
-                      //     value: ClientRole.Audience,
-                      //     groupValue: _role,
-                      //     onChanged: (ClientRole value) {
-                      //       setState(() {
-                      //         _role = value;
-                      //       });
-                      //     },
-                      //   ),
-                      // )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: RaisedButton(
-                            onPressed: () {
-                              onJoin();
-                            },
-                            child: Text('Join'),
-                            color: Colors.blueAccent,
-                            textColor: Colors.white,
-                          ),
-                        )
-                      ],
+                  Expanded(
+                      child: TextField(
+                    controller: _channelController,
+                    decoration: InputDecoration(
+                      errorText:
+                          _validateError ? 'Channel name is mandatory' : null,
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(width: 1),
+                      ),
+                      hintText: 'Channel name',
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: RaisedButton(
-                            onPressed: () => {
-                              Navigator.pop(context),
-                              Navigator.pop(context),
-                              // Navigator.push(context,
-                              //     SlideLeftRoute(page: HomePageTrainee()))
-                            },
-                            child: Icon(Icons.home),
-                            color: Colors.grey,
-                            textColor: Colors.white,
-                          ),
-                        )
-                      ],
-                    ),
-                  )
+                  ))
                 ],
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: RaisedButton(
+                        onPressed: () {
+                          onJoin();
+                        },
+                        child: Text('Join'),
+                        color: Colors.blueAccent,
+                        textColor: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: RaisedButton(
+                        onPressed: () => {
+                          Navigator.pop(context),
+                          Navigator.pop(context),
+                          // Navigator.push(context,
+                          //     SlideLeftRoute(page: HomePageTrainee()))
+                        },
+                        child: Icon(Icons.home),
+                        color: Colors.grey,
+                        textColor: Colors.white,
+                      ),
+                    )
+                  ],
+                ),
+              )
             ],
           ),
+          // ],
         ),
       ),
+      // ),
     );
   }
 
@@ -167,9 +176,9 @@ class IndexState extends State<IndexPageStreamer> {
         context,
         MaterialPageRoute(
           builder: (context) => CallPage(
-            channelName: _channelController.text,
-            role: _role,
-          ),
+              channelName: _channelController.text,
+              role: _role,
+              instructorName: widget.instructorName),
         ),
       );
     }
