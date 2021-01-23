@@ -1,10 +1,4 @@
-import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
-// ignore: unused_import
-import 'package:skilltrain/main_app/trainer/pages/instructor_view/instructor_view.dart';
-
-import 'dart:async';
 import 'index_streamer.dart';
 import 'index_audience.dart';
 
@@ -23,9 +17,6 @@ class IndexState extends State<IndexPageLiveStream> {
   final _channelController = TextEditingController();
 
   /// if channel textField is validated to have error
-  bool _validateError = false;
-
-  ClientRole _role = ClientRole.Broadcaster;
 
   @override
   void dispose() {
