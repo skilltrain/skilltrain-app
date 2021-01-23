@@ -13,6 +13,7 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:intl/intl.dart';
 import '../../../utils/sliders.dart';
 import '../pages/trainee_session_detail.dart';
+import '../../common/sessionCards.dart';
 
 String traineeName = "";
 
@@ -41,158 +42,187 @@ class SampleStart extends State<BookingStatus> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Booked sessions'),
-        centerTitle: true,
-        automaticallyImplyLeading: true,
-        leading: IconButton(
-            onPressed: () => Navigator.pop(context, false),
-            icon: Icon(Icons.arrow_back)),
-      ),
-      body: Column(
-        children: <Widget>[
-          FutureBuilder<List>(
-            future: sessionResults,
-            // ignore: missing_return
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final List classArray = [];
-                for (int i = 0; i < snapshot.data.length; i++) {
-                  if (snapshot.data[i]["user_username"] == traineeName &&
-                      DateTime.parse(stringDate)
-                          .isBefore(DateTime.parse(snapshot.data[i]["date"]))) {
-                    classArray.add(snapshot.data[i]);
-                    classArray.sort((a, b) {
-                      var adate = a["date"] + a["start_time"];
-                      var bdate = b["date"] + b["start_time"];
-                      return adate.compareTo(bdate);
-                    });
-                  } else
-                    print("something went wrong with fetched data");
-                }
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          iconTheme:
+              IconThemeData(color: Colors.black), //change your color here
+          title: Text('Booked sessions'),
+          centerTitle: true,
+          automaticallyImplyLeading: true,
+          leading: IconButton(
+              onPressed: () => Navigator.pop(context, false),
+              icon: Icon(Icons.arrow_back)),
+        ),
+        body: Container(
+          width: double.infinity,
+          color: Colors.purple,
+          child: Column(
+            children: <Widget>[
+              FutureBuilder<List>(
+                future: sessionResults,
+                // ignore: missing_return
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final List classArray = [];
+                    for (int i = 0; i < snapshot.data.length; i++) {
+                      if (snapshot.data[i]["user_username"] == traineeName &&
+                          DateTime.parse(stringDate).isBefore(
+                              DateTime.parse(snapshot.data[i]["date"]))) {
+                        classArray.add(snapshot.data[i]);
+                        classArray.sort((a, b) {
+                          var adate = a["date"] + a["start_time"];
+                          var bdate = b["date"] + b["start_time"];
+                          return adate.compareTo(bdate);
+                        });
+                      } else
+                        print("something went wrong with fetched data");
+                    }
 
-                return Container(
-                    height: MediaQuery.of(context).size.height - 87,
-                    width: double.infinity,
-                    child: Column(
-                      children: <Widget>[
-                        Center(child: Text("last update:" + "$_date")),
-                        SizedBox(
-                            child: ListView.builder(
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Card(
-                                child: GestureDetector(
-                                    //画面遷移
-                                    onTap: () => {
+                    return SingleChildScrollView(
+                        child: Center(
+                            child: Container(
+                                color: Colors.purple,
+                                height: MediaQuery.of(context).size.height - 87,
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                child: Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                        child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        //card
+                                        return InkWell(
+                                          onTap: () => {
+                                            Navigator.push(
+                                              context,
+                                              SlideLeftRoute(
+                                                  page: TraineeSessionDetail(
+                                                      sessionID:
+                                                          classArray[index]
+                                                              ['id'])),
+                                            )
+                                          },
+                                          child: sessionCard(
+                                              name: classArray[index]
+                                                  ["trainer_username"],
+                                              date: classArray[index]["date"],
+                                              startTime: classArray[index]
+                                                  ["start_time"],
+                                              endTime: classArray[index]
+                                                  ["end_time"],
+                                              context: context),
 
-                                    Navigator.push(
-                                      context,
-                                      SlideLeftRoute(
-                                          page: TraineeSessionDetail(
-                                              sessionID: classArray[index]['id'])),
-                                    )
+                                          /*
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
+                                child: Container(
+                                height: 80,
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      new Spacer(),
 
-                                    },
-                                    child: Column(
-                                      children: <Widget>[
-                                        Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      classArray[index]["date"],
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 20,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                        classArray[index]
-                                                                ["start_time"] +
-                                                            " - " +
-                                                            classArray[index]
-                                                                ["end_time"],
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 16,
-                                                        )),
-                                                    Text(
-                                                      "With " +
-                                                          classArray[index][
-                                                              "trainer_username"],
-                                                      textAlign: TextAlign.left,
-                                                    ),
-                                                  ]),
-                                              new Spacer(),
-                                              Column(
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+
+                                            new Spacer(),
+
+                                          Container(
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  width:MediaQuery.of(context).size.width *0.4,
+                                                  child:Text("Trainer",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(fontSize: 15,),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width:MediaQuery.of(context).size.width *0.4,
+                                                  child:Text(
+                                                        classArray[index][
+                                                            "trainer_username"],
+                                                    style: TextStyle(fontSize: 20,),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+
+                                            new Spacer(),
+
+                                            Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
-                                                    "Session Code",
-                                                    textAlign: TextAlign.right,
+                                                    classArray[index]["date"] + "  ",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20,
+                                                    ),
                                                   ),
+
                                                   Text(
-                                                      classArray[index]
-                                                          ["sessionCode"],
-                                                      textAlign:
-                                                          TextAlign.right,
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15,
-                                                      ))
-                                                ],
-                                              ),
+                                                    classArray[index]["start_time"] + " - " +
+                                                    classArray[index]["end_time"], 
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
+
+
+                                                  ]),
                                               new Spacer(),
-                                              ButtonTheme(
-                                                minWidth: 30,
-                                                child: RaisedButton(
-                                                    child: Icon(Icons
-                                                        .video_call_rounded),
-                                                    onPressed: () => {
-                                                          Navigator.push(
-                                                              context,
-                                                              SlideLeftRoute(
-                                                                  page: IndexPageTrainee(
-                                                                      instructorName:
-                                                                          classArray[index]
-                                                                              [
-                                                                              "trainer_username"])))
-                                                        }),
-                                              ),
                                             ]),
+                                          new Spacer(),
                                       ],
-                                    )));
-                          },
-                          itemCount: classArray.length,
-                        )),
-                      ],
-                    ));
-              } else if (snapshot.connectionState != ConnectionState.done) {
-                return Container(
-                    height: MediaQuery.of(context).size.height - 87,
-                    decoration:
-                        new BoxDecoration(color: Colors.deepPurple[100]),
-                    child: Center(child: CircularProgressIndicator()));
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-            },
+                                    )
+                                    //)
+                                    )
+
+                              ),
+                            */
+                                        );
+//                            Card(
+//                              child:
+//                                  );
+                                      },
+                                      itemCount: classArray.length,
+                                    )),
+                                    Center(
+                                        child: Text("last update:" + "$_date")),
+                                  ],
+                                ))));
+                  } else if (snapshot.connectionState != ConnectionState.done) {
+                    return Container(
+                        height: MediaQuery.of(context).size.height - 87,
+                        decoration:
+                            new BoxDecoration(color: Colors.deepPurple[100]),
+                        child: Center(child: CircularProgressIndicator()));
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }
 

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:skilltrain/main_app/common/buttons.dart';
 import 'package:skilltrain/main_app/common/dropdownwidget.dart';
+<<<<<<< HEAD
 import 'package:skilltrain/services/agora/live_stream/pre_index_livestream.dart';
+=======
+import 'package:skilltrain/main_app/common/sessionCards.dart';
+>>>>>>> c12712599e4b32154073f58d62bcf39fb4f16615
 import './pages/booking_status.dart';
 import './pages/trainer_filter.dart';
 import 'dart:async';
@@ -97,7 +102,7 @@ class SampleStart extends State<HomePageTrainee> {
   }
 
   Widget filterButton({String buttonText}) {
-    return RaisedButton(
+    return ElevatedButton(
         onPressed: () {
           showModalBottomSheet(
               shape: RoundedRectangleBorder(
@@ -110,8 +115,13 @@ class SampleStart extends State<HomePageTrainee> {
                 return StatefulBuilder(
                     builder: (BuildContext context, StateSetter setState) {
                   return Column(children: [
-                    sectionTitle(
-                        title: "What type of trainer are you looking for?"),
+                    Padding(
+                      padding: const EdgeInsets.all(36),
+                      child: blackHeading(
+                          title: "What type of trainer are you looking for?",
+                          underline: false,
+                          purple: false),
+                    ),
                     MyDropdownButton(
                       value: _genreFilter,
                       items: ["Weights", "Running", "Yoga", "Rowing", "Other"],
@@ -131,33 +141,50 @@ class SampleStart extends State<HomePageTrainee> {
                       },
                     ),
                     Padding(
-                      padding: EdgeInsets.only(
-                          top: 40, left: 60, right: 60, bottom: 0),
-                      child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              side: BorderSide(color: Colors.black, width: 2)),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                SlideRightRoute(
-                                  page:
-                                      TrainerFilter(genreFilter: _genreFilter),
-                                ));
-                          },
-                          child: Text("Search")),
-                    ),
+                        padding: EdgeInsets.only(
+                            top: 40, left: 60, right: 60, bottom: 0),
+                        child: cyanButton(
+                            text: "Search",
+                            function: () {
+                              Navigator.push(
+                                  context,
+                                  SlideRightRoute(
+                                    page: TrainerFilter(
+                                        genreFilter: _genreFilter),
+                                  ));
+                            })
+                        // child: FlatButton(
+                        //     shape: RoundedRectangleBorder(
+                        //         borderRadius: BorderRadius.circular(25.0),
+                        //         side: BorderSide(color: Colors.black, width: 2)),
+                        // onPressed: () {
+                        //   Navigator.push(
+                        //       context,
+                        //       SlideRightRoute(
+                        //         page:
+                        //             TrainerFilter(genreFilter: _genreFilter),
+                        //       ));
+                        // },
+                        //     child: Text("Search")),
+                        ),
                   ]);
                 });
               });
         },
         child: Text(buttonText,
-            style: TextStyle(fontSize: 15, color: Colors.grey[700])),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        color: Colors.white,
-        padding: EdgeInsets.all(15.0));
+            style: TextStyle(fontSize: 15, color: Colors.white)),
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+          primary: Colors.cyanAccent, // background
+          onPrimary: Colors.white, // foreground
+        ));
+    // shape: RoundedRectangleBorder(
+    //   borderRadius: BorderRadius.circular(8),
+    // ),
+    // color: Colors.white,
+    // padding: EdgeInsets.all(15.0));
   }
 
   Widget build(BuildContext context) {
@@ -169,7 +196,7 @@ class SampleStart extends State<HomePageTrainee> {
             print('snapshot');
 
             return Container(
-              height: 200,
+              height: 250,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
@@ -188,14 +215,15 @@ class SampleStart extends State<HomePageTrainee> {
 
                   for (var i = 0; i < snapshot.data[index]["avgRating"]; i++) {
                     stars.add(
-                        Icon(Icons.star, color: Colors.yellow[700], size: 7));
+                        Icon(Icons.star, color: Colors.cyanAccent, size: 12));
                   }
 
                   if (filter) {
                     if (snapshot.data[index]["genre"] == filterType) {
                       return SizedBox(
-                        width: 150,
+                        width: 170,
                         child: Card(
+                          elevation: 4,
                           child: InkWell(
                               splashColor: Colors.purple,
                               onTap: () => {
@@ -211,16 +239,22 @@ class SampleStart extends State<HomePageTrainee> {
                                   padding: EdgeInsets.all(0),
                                   child: Column(
                                     children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(0),
-                                        child: Image.network(
-                                            snapshot.data[index]
-                                                ["profilePhoto"],
-                                            height: 150,
-                                            width: 150,
-                                            fit: BoxFit.fill),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(0),
+                                          child: Image.network(
+                                              snapshot.data[index]
+                                                  ["profilePhoto"],
+                                              height: 120,
+                                              width: 180,
+                                              fit: BoxFit.fill),
+                                        ),
                                       ),
                                       Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -232,7 +266,7 @@ class SampleStart extends State<HomePageTrainee> {
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 15),
+                                                    fontSize: 18),
                                               ),
                                             ),
                                             Row(
@@ -242,16 +276,43 @@ class SampleStart extends State<HomePageTrainee> {
                                           ],
                                         ),
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              snapshot.data[index]["genre"],
+                                              style: TextStyle(
+                                                  color: Colors.grey[700]),
+                                            ),
+                                            Text(
+                                                "¥" +
+                                                    snapshot.data[index]
+                                                            ["price"]
+                                                        .toString(),
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold))
+                                          ],
+                                        ),
+                                      ),
+                                      Column(
                                         children: [
-                                          Text(snapshot.data[index]["genre"]),
-                                          Text(
-                                            snapshot.data[index]["price"]
-                                                    .toString() +
-                                                'p/s',
-                                          )
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                              maxLines: 3,
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.grey[700]),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
                                         ],
                                       )
                                     ],
@@ -263,8 +324,9 @@ class SampleStart extends State<HomePageTrainee> {
                     }
                   } else {
                     return SizedBox(
-                      width: 150,
+                      width: 170,
                       child: Card(
+                        elevation: 4,
                         child: InkWell(
                             splashColor: Colors.purple,
                             onTap: () => {
@@ -280,15 +342,21 @@ class SampleStart extends State<HomePageTrainee> {
                                 padding: EdgeInsets.all(0),
                                 child: Column(
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(0),
-                                      child: Image.network(
-                                          snapshot.data[index]["profilePhoto"],
-                                          height: 150,
-                                          width: 150,
-                                          fit: BoxFit.fill),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(0),
+                                        child: Image.network(
+                                            snapshot.data[index]
+                                                ["profilePhoto"],
+                                            height: 120,
+                                            width: 180,
+                                            fit: BoxFit.fill),
+                                      ),
                                     ),
                                     Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -299,7 +367,7 @@ class SampleStart extends State<HomePageTrainee> {
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 15),
+                                                  fontSize: 18),
                                             ),
                                           ),
                                           Row(
@@ -309,14 +377,41 @@ class SampleStart extends State<HomePageTrainee> {
                                         ],
                                       ),
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            snapshot.data[index]["genre"],
+                                            style: TextStyle(
+                                                color: Colors.grey[700]),
+                                          ),
+                                          Text(
+                                              "¥" +
+                                                  snapshot.data[index]["price"]
+                                                      .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold))
+                                        ],
+                                      ),
+                                    ),
+                                    Column(
                                       children: [
-                                        Text(snapshot.data[index]["genre"]),
-                                        Text(snapshot.data[index]["price"]
-                                                .toString() +
-                                            'p/s')
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                            maxLines: 3,
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey[700]),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
                                       ],
                                     )
                                   ],
@@ -363,23 +458,37 @@ class SampleStart extends State<HomePageTrainee> {
                     sessionsLoaded();
                   });
                 }
-                return Card(
-                  margin:
-                      EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 5),
-                  child: ListTile(
-                      title: Text(snapshot.data[index]["trainer_username"]),
-                      subtitle: Text(snapshot.data[index]['start_time'] +
-                          "-" +
-                          snapshot.data[index]['end_time']),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          SlideLeftRoute(
-                              page: TraineeSessionDetail(
-                                  sessionID: snapshot.data[index]['id'])),
-                        );
-                      }),
-                );
+                return sessionCard(
+                    name: snapshot.data[index]["trainer_username"],
+                    date: snapshot.data[index]["date"],
+                    startTime: snapshot.data[index]["start_time"],
+                    endTime: snapshot.data[index]["end_time"],
+                    context: context,
+                    function: () => {
+                          Navigator.push(
+                            context,
+                            SlideLeftRoute(
+                                page: TraineeSessionDetail(
+                                    sessionID: snapshot.data[index]['id'])),
+                          )
+                        });
+                // return Card(
+                //   margin:
+                //       EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 5),
+                //   child: ListTile(
+                //       title: Text(snapshot.data[index]["trainer_username"]),
+                //       subtitle: Text(snapshot.data[index]['start_time'] +
+                //           "-" +
+                //           snapshot.data[index]['end_time']),
+                //       onTap: () {
+                // Navigator.push(
+                //   context,
+                //   SlideLeftRoute(
+                //       page: TraineeSessionDetail(
+                //           sessionID: snapshot.data[index]['id'])),
+                // );
+                //       }),
+                // );
               },
               itemCount: itemCount,
             );
@@ -393,45 +502,49 @@ class SampleStart extends State<HomePageTrainee> {
               height: 100,
             );
           }
-          return Container(
-              height: 200,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+          return Center(
+            child: Container(
                 child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                          "It looks like you don't have any upcoming sessions!"),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("Why don't you book some?"),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: filterButton(
-                          buttonText: "Find Someone to Help you Workout"),
-                    )
-                  ],
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 36, vertical: 0),
+                  child: Text(
+                      "It looks like you don't have any upcoming sessions!",
+                      style: TextStyle(fontSize: 24)),
                 ),
-              ));
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Text("Why don't you book some?",
+                      style: TextStyle(fontSize: 24)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 36),
+                  child: filterButton(
+                      buttonText: "Find Someone to Help you Workout"),
+                )
+              ],
+            )),
+          );
         });
 
     //Header widget for homescreen
     Widget headerSection = Container(
-        margin: EdgeInsets.only(top: 30, left: 50, right: 50, bottom: 20),
+        margin: EdgeInsets.only(top: 30, left: 50, right: 50, bottom: 60),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text('Welcome\n$_user!',
-                    style: TextStyle(
-                        color: Colors.grey[900],
-                        fontWeight: FontWeight.w800,
-                        fontSize: 50)),
-              ],
-            ),
+            blackHeading(title: "Welcome", underline: false, purple: true),
+            blackHeading(title: '$_user!', underline: true, purple: true),
+            // Row(
+            //   children: [
+            //     Text('Welcome\n$_user!',
+            //         style: TextStyle(
+            //             color: Colors.grey[900],
+            //             fontWeight: FontWeight.w800,
+            //             fontSize: 50)),
+            //   ],
+            // ),
             SizedBox(height: 15),
             Row(
               children: [
@@ -439,7 +552,7 @@ class SampleStart extends State<HomePageTrainee> {
                     style: TextStyle(
                         color: Colors.grey[700],
                         fontWeight: FontWeight.w600,
-                        fontSize: 20)),
+                        fontSize: 16)),
                 Spacer(),
                 filterButton(buttonText: "Find your Trainer")
               ],
@@ -489,26 +602,107 @@ class SampleStart extends State<HomePageTrainee> {
             ],
           )),
           appBar: AppBar(
-            title: SizedBox(
-                height: kToolbarHeight,
-                child: Image.asset('assets/images/skillTrain-logo.png',
-                    fit: BoxFit.scaleDown)),
-            centerTitle: true,
+            iconTheme: IconThemeData(color: Colors.black),
+            backgroundColor: Color(0xFFFFFFFF),
           ),
           body: ModalProgressHUD(
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     headerSection,
-                    sectionTitle(title: "Top Rated"),
-                    trainerListView(filter: false, filterType: "null"),
-                    sectionTitle(title: "Upcoming Sessions"),
-                    upcomingSessionsView,
-                    sectionTitle(title: "Running"),
-                    trainerListView(filter: true, filterType: 'Running'),
-                    sectionTitle(title: "Yoga"),
-                    trainerListView(filter: true, filterType: 'Yoga'),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Colors.purple,
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(36.0),
+                            child: Row(
+                              children: [
+                                Icon(Icons.fitness_center,
+                                    color: Colors.white, size: 18),
+                                sectionTitle(title: "  Top Rated Trainers"),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 36),
+                            child: trainerListView(
+                                filter: false, filterType: "null"),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: 30, left: 50, right: 50, bottom: 30),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          blackHeading(
+                              title: "Upcoming",
+                              underline: false,
+                              purple: true),
+                          blackHeading(
+                              title: "Sessions!",
+                              underline: true,
+                              purple: false),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 54.0),
+                      child: upcomingSessionsView,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Colors.purple,
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(36.0),
+                            child: Row(
+                              children: [
+                                Icon(Icons.directions_run,
+                                    color: Colors.white, size: 18),
+                                sectionTitle(title: "  Running Trainers"),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 36),
+                            child: trainerListView(
+                                filter: true, filterType: 'Running'),
+                          ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 36.0, right: 36, bottom: 36, top: 14),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.self_improvement,
+                                        color: Colors.white, size: 18),
+                                    sectionTitle(title: "  Yoga Trainers"),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 36),
+                                child: trainerListView(
+                                    filter: true, filterType: 'Yoga'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
