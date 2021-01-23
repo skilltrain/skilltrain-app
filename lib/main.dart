@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
+import 'package:skilltrain/services/socket/chat.dart';
+import 'package:web_socket_channel/io.dart';
 import 'amplifyconfiguration.dart';
 import './services/cognito/signup_page.dart';
 import './services/cognito/login_page.dart';
@@ -12,6 +14,7 @@ import './main_app/trainer/home_page_trainer.dart';
 import './main_app/trainee/home_page_trainee.dart';
 import './main_app/common/tutorial_flow.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+import 'services/socket/chat_login.dart';
 
 void main() async {
   await DotEnv().load('.env');
@@ -87,10 +90,15 @@ class _MyAppState extends State<MyApp> {
                   pages: [
                     if (snapshot.data.authFlowStatus == AuthFlowStatus.login)
                       MaterialPage(
-                          child: LoginPage(
-                              didProvideCredentials:
-                                  _authService.loginWithCredentials,
-                              shouldShowSignUp: _authService.showSignUp)),
+                        child: AWSRealtimeSocketTutorialChatPage(
+                            socketChannel: IOWebSocketChannel.connect(
+                                'wss://0rb4dy6kvi.execute-api.ap-northeast-1.amazonaws.com/dev/'),
+                            userName: "ellie"),
+                      ),
+                    // child: LoginPage(
+                    //     didProvideCredentials:
+                    //         _authService.loginWithCredentials,
+                    //     shouldShowSignUp: _authService.showSignUp)),
                     if (snapshot.data.authFlowStatus == AuthFlowStatus.signUp)
                       MaterialPage(
                           child: SignUpPage(
