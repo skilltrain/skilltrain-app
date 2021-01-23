@@ -91,6 +91,37 @@ class SampleStart extends State<HomePageTrainer> {
                         image: AssetImage("assets/images/crossfit.jpg"),
                         fit: BoxFit.cover)),
               ),
+              ListTile(
+                title: Text('Class registration'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    SlideLeftRoute(page: InstructorRegisterCourse()),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('Update session details'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    SlideLeftRoute(page: SessionList()),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('Bio update'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    SlideLeftRoute(page: InstructorBioUpdate()),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('Log out'),
+                onTap: widget.shouldLogOut,
+              ),
               signedUpPayment
                   ? ListTile(
                       title: Text('Add your bank details'),
@@ -124,48 +155,6 @@ class SampleStart extends State<HomePageTrainer> {
                                   active: !signedUpPayment)),
                         );
                       }),
-              ListTile(
-                title: Text('Bio update'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    SlideLeftRoute(page: InstructorBioUpdate()),
-                  );
-                },
-              ),
-              signedUpPayment ? const Divider(height: 10) : Container(),
-              signedUpPayment
-                  ? ListTile(
-                      title: Text(
-                        'Class registration',
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          SlideLeftRoute(page: InstructorRegisterCourse()),
-                        );
-                      },
-                    )
-                  : ListTile(
-                      title: Text(
-                      'Class registration',
-                      style: (TextStyle(color: Colors.grey)),
-                    )),
-              signedUpPayment
-                  ? ListTile(
-                      title: Text('Update session details'),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          SlideLeftRoute(page: SessionList()),
-                        );
-                      },
-                    )
-                  : Container(), // Empty container so it doesnt even appear
-              ListTile(
-                title: Text('Log out'),
-                onTap: widget.shouldLogOut,
-              ),
             ],
           )),
           appBar: AppBar(
@@ -260,123 +249,56 @@ class SampleStart extends State<HomePageTrainer> {
                                                 Navigator.push(
                                                     context,
                                                     SlideLeftRoute(
-                                                        page: InstructorSessionDetail(
-                                                            sessionID:
-                                                                classArray[
-                                                                        index]
-                                                                    ['id']))),
-                                              },
-                                          child: Column(
-                                            children: <Widget>[
-                                              Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: <Widget>[
-                                                          Text(
-                                                            classArray[index]
-                                                                ["date"],
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 20,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                              classArray[index][
-                                                                      "start_time"] +
-                                                                  " - " +
-                                                                  classArray[
-                                                                          index]
-                                                                      [
-                                                                      "end_time"],
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 16,
-                                                              )),
-                                                          Text(
-                                                            "With " +
-                                                                classArray[
-                                                                        index][
-                                                                    "user_username"],
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                          ),
-                                                        ]),
-                                                    new Spacer(),
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          "Session Code",
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                        ),
-                                                        Text(
-                                                            classArray[index]
-                                                                ["sessionCode"],
-                                                            textAlign:
-                                                                TextAlign.right,
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 15,
-                                                            ))
-                                                      ],
-                                                    ),
-                                                    new Spacer(),
-                                                    ButtonTheme(
-                                                      minWidth: 30,
-                                                      child: RaisedButton(
-                                                          child: Icon(Icons
-                                                              .video_call_rounded),
-                                                          onPressed: () => {
-                                                                Navigator.push(
-                                                                    context,
-                                                                    SlideLeftRoute(
-                                                                        page:
-                                                                            IndexPageTrainer()))
-                                                              }),
-                                                    ),
-                                                  ]),
-                                            ],
-                                          )));
-                                },
-                                itemCount: classArray.length,
-                              )),
-                              Center(child: Text("last update:" + "$_date")),
-                            ],
-                          ));
-                    } else if (snapshot.connectionState !=
-                        ConnectionState.done) {
-                      return Container(
-                          height: MediaQuery.of(context).size.height - 87,
-                          decoration:
-                              new BoxDecoration(color: Colors.deepPurple[100]),
-                          child: Center(child: CircularProgressIndicator()));
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-                    return Container(
-                        height: MediaQuery.of(context).size.height - 87,
-                        decoration:
-                            new BoxDecoration(color: Colors.deepPurple[100]),
-                        child: Center(child: CircularProgressIndicator()));
-                  },
+                                                        page: TrainerBookedSessionPage(
+                                                            id: classArray[index]
+                                                                ['id'],
+                                                            trainee: classArray[
+                                                                    index][
+                                                                "user_username"],
+                                                            date:
+                                                                classArray[index]
+                                                                    ["date"],
+                                                            startTime: classArray[index]
+                                                                ["start_time"],
+                                                            endTime: classArray[index]
+                                                                ["end_time"],
+                                                            description:
+                                                                classArray[index]
+                                                                    [
+                                                                    "description"],
+                                                            sessionCode:
+                                                                classArray[index]
+                                                                    ["sessionCode"])))
+                                              });
+//
+                                    },
+                                    itemCount: classArray.length,
+                                  )),
+                                  Center(
+                                      child: Text("last update:" + "$_date",
+                                          style:
+                                              TextStyle(color: Colors.white))),
+                                ],
+                              ))));
+                            } else if (snapshot.connectionState !=
+                                ConnectionState.done) {
+                              return Container(
+                                  height:
+                                      MediaQuery.of(context).size.height - 87,
+                                  decoration: new BoxDecoration(
+                                      color: Colors.deepPurple[100]),
+                                  child: Center(
+                                      child: CircularProgressIndicator()));
+                            } else if (snapshot.hasError) {
+                              return Text("${snapshot.error}");
+                            }
+                            return Container(
+                                child: Text("You have no upcoming sessions"));
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),

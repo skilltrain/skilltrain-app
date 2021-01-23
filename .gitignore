@@ -67,3 +67,8 @@ amplifytools.xcconfig
 .vscode/launch.json
 .vscode/settings.json
 pubspec.lock
+aws/serverless/.serverless/serverless.zip
+aws/serverless/.serverless/serverless-state.json
+aws/serverless/.serverless/custom-resources.zip
+aws/serverless/.serverless/cloudformation-template-update-stack.json
+aws/serverless/.serverless/cloudformation-template-create-stack.json
