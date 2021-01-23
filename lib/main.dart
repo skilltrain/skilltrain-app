@@ -92,7 +92,7 @@ class _MyAppState extends State<MyApp> {
                         child: AWSRealtimeSocketTutorialPage(
                           socketChannel: IOWebSocketChannel.connect(
                               'wss://e5q5rdsxf5.execute-api.ap-northeast-1.amazonaws.com/dev/'),
-                          sessionID: '2023-03-0512:00ath-trainer',
+                          sessionID: '2021-01-2312:00ath-trainer',
                           // userName: "ellie"
                         ),
                       ),

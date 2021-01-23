@@ -40,7 +40,11 @@ class _AWSRealtimeSocketTutorialPageState
     widget.socketChannel.sink.add(jsonEncode({
       "action": "writeMessage",
       "data": {
-        "body": {"msg": "cyant"}
+        "body": {
+          "msg": "cyant",
+          "sessionID": widget.sessionID,
+          "isTrainer": true
+        }
       }
     }));
   }
