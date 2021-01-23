@@ -14,7 +14,6 @@ import './main_app/trainer/home_page_trainer.dart';
 import './main_app/trainee/home_page_trainee.dart';
 import './main_app/common/tutorial_flow.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
-import 'services/socket/chat_login.dart';
 
 void main() async {
   await DotEnv().load('.env');
@@ -93,6 +92,7 @@ class _MyAppState extends State<MyApp> {
                         child: AWSRealtimeSocketTutorialPage(
                           socketChannel: IOWebSocketChannel.connect(
                               'wss://e5q5rdsxf5.execute-api.ap-northeast-1.amazonaws.com/dev/'),
+                          sessionID: '2023-03-0512:00ath-trainer',
                           // userName: "ellie"
                         ),
                       ),
