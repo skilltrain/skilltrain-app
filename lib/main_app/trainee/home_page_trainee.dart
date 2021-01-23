@@ -3,11 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:skilltrain/main_app/common/buttons.dart';
 import 'package:skilltrain/main_app/common/dropdownwidget.dart';
-<<<<<<< HEAD
 import 'package:skilltrain/services/agora/live_stream/pre_index_livestream.dart';
-=======
 import 'package:skilltrain/main_app/common/sessionCards.dart';
->>>>>>> c12712599e4b32154073f58d62bcf39fb4f16615
 import './pages/booking_status.dart';
 import './pages/trainer_filter.dart';
 import 'dart:async';

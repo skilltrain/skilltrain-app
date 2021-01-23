@@ -7,12 +7,9 @@ import 'package:skilltrain/main_app/trainer/pages/instructor_view/instructor_vie
 import 'dart:async';
 import 'call_audience.dart';
 import 'dart:math';
+import 'package:share/share.dart';
 
 // *********** 1to1 VC Mode *********** //
-
-bool flag = false;
-String msg = "";
-String code = "";
 
 String sessionCode(int length) {
   const _randomeChars = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -24,12 +21,6 @@ String sessionCode(int length) {
     return _randomeChars.codeUnitAt(n);
   });
   return new String.fromCharCodes(codeUnits);
-}
-
-void triggerFunc() {
-  flag = true;
-  // code = sessionCode(6);
-  return;
 }
 
 class IndexPageStreamer extends StatefulWidget {
@@ -47,7 +38,12 @@ class IndexState extends State<IndexPageStreamer> {
   /// if channel textField is validated to have error
   bool _validateError = false;
 
+  /// client = broadcaster or audience
   ClientRole _role = ClientRole.Broadcaster;
+
+  /// for session
+  bool flag = false;
+  String code = "";
 
   @override
   void dispose() {
@@ -58,11 +54,6 @@ class IndexState extends State<IndexPageStreamer> {
 
   @override
   Widget build(BuildContext context) {
-    // String msg = "";
-    // if (flag == true) {
-    //   msg = "Your session code is " + sessionCode(6);
-    // }
-
     return Scaffold(
       appBar: AppBar(
         leading: new IconButton(
@@ -87,17 +78,31 @@ class IndexState extends State<IndexPageStreamer> {
                           color: Colors.purple)),
                 ),
               ),
-              Column(children: <Widget>[
-                RaisedButton(
-                  onPressed: () {
-                    triggerFunc();
-                  },
-                  child: Text('get a token'),
-                  color: Colors.black87,
-                  textColor: Colors.white,
-                ),
-                Text(code)
-              ]),
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    RaisedButton(
+                        onPressed: () {
+                          setState(() {
+                            flag = !flag;
+                            code = sessionCode(6);
+                          });
+                        },
+                        child: flag ? Text(code) : Text("Get a token"),
+                        color: flag ? Colors.white : Colors.black87,
+                        textColor: flag ? Colors.black87 : Colors.white,
+                        shape: const OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(2)))),
+                    IconButton(
+                        icon: Icon(Icons.share),
+                        onPressed: () {
+                          Share.share(
+                              "Join my livestresm session! Here is my Channel session code: " +
+                                  code +
+                                  ".");
+                        })
+                  ]),
               Row(
                 children: <Widget>[
                   Expanded(
