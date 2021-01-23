@@ -13,7 +13,7 @@ exports.handler = async function (event, context) {
   let statusCode;
 
   try {
-    const data = await ddb.scan(params).promise();
+    const data = await ddb.scan(ddbparams).promise();
     responseBody = JSON.stringify(data.Items);
     statusCode = 200;
   } catch (error) {

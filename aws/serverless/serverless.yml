@@ -82,6 +82,16 @@ functions:
     events:
       - websocket:
           route: databaseStream
+  writeMessageHandler: 
+    handler: handler.writeMessageHandler
+    events:
+      - websocket:
+          route: writeMessage
+  getMessagesHandler:
+    handler: handler.getMessagesHandler
+    events:
+      - websocket:
+          route: getMessages
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

@@ -19,8 +19,11 @@ class _AWSRealtimeSocketTutorialPageState
     // Start listening socket stream
     widget.socketChannel.stream.listen((message) {
       print('Message from stream listen: $message');
+
+      _getMessages();
       setState(() => socketData = message);
     });
+    _getMessages();
     super.initState();
   }
 
@@ -37,10 +40,16 @@ class _AWSRealtimeSocketTutorialPageState
     int generatedInt = rng.nextInt(10000);
     // Write through lambda function & API Gateway
     widget.socketChannel.sink.add(jsonEncode({
-      "action": "databaseStream",
+      "action": "writeMessage",
       "data": {
-        "body": {"randNum": generatedInt, "msg": "tester from $generatedInt"}
+        "body": {"msg": "cyant"}
       }
+    }));
+  }
+
+  void _getMessages() {
+    widget.socketChannel.sink.add(jsonEncode({
+      "action": "getMessages",
     }));
   }
 

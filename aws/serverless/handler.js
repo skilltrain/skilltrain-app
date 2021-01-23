@@ -1,6 +1,8 @@
 'use strict';
 const AWS = require("aws-sdk");
 require("aws-sdk/clients/apigatewaymanagementapi");
+AWS.config.update({ region: "ap-northeast-1" });
+
 const success = {
   statusCode: 200
 };
@@ -29,6 +31,7 @@ module.exports.defaultHandler = async (event, context) => {
   };
   return apigwManagementApi.postToConnection(params).promise();
 };
+
 module.exports.databaseStreamHandler = async (event, context) => {
   console.log(JSON.stringify(event, null, 2));
   const body = JSON.parse(event.body);
@@ -50,6 +53,95 @@ module.exports.databaseStreamHandler = async (event, context) => {
   console.log('Params', params);
   return apigwManagementApi.postToConnection(params).promise();
 };
+
+module.exports.writeMessageHandler = async(event, context) => {
+  const body = JSON.parse(event.body);
+  const msg = body.data.body.msg;
+
+  let connectionId = event.requestContext.connectionId;
+  const endpoint = event.requestContext.domainName + "/" + event.requestContext.stage;
+  const apigwManagementApi = new AWS.ApiGatewayManagementApi({
+      apiVersion: "2018-11-29",
+      endpoint: endpoint
+    });
+
+  const ddb = new AWS.DynamoDB.DocumentClient();
+
+  const dbParams = {
+    TableName: "eliot-test",
+    Item: {
+      msg: msg,
+    },
+  };
+
+  try {
+    const data = await ddb.put(dbParams).promise();
+    // responseBody = JSON.stringify(data);
+    // statusCode = 201;
+  } catch (err) {
+    console.log(err);
+    // responseBody = `Unable to put trainer: ${err}`;
+    // statusCode = 403;
+  }
+
+  const params = {
+    ConnectionId: connectionId,
+    Data: JSON.stringify({connectionID: connectionId, msg:msg}),
+  };
+
+  return apigwManagementApi.postToConnection(params).promise();
+
+}
+
+module.exports.getMessagesHandler = async(event, context) => {
+  const ddb = new AWS.DynamoDB.DocumentClient();
+
+  let connectionId = event.requestContext.connectionId;
+  const endpoint = event.requestContext.domainName + "/" + event.requestContext.stage;
+  const apigwManagementApi = new AWS.ApiGatewayManagementApi({
+      apiVersion: "2018-11-29",
+      endpoint: endpoint
+    });
+
+  const ddbparams = {
+    TableName: "eliot-test",
+  };
+
+
+  let data;
+
+  try {
+    data = await ddb.scan(ddbparams).promise();
+  } catch (error) {
+    console.log(error);
+  }
+
+  const params = {
+    ConnectionId: connectionId,
+    Data: JSON.stringify({connectionID: connectionId, msg:data}),
+  };
+
+  return apigwManagementApi.postToConnection(params).promise();
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // module.exports.createConnectedUser = async (event, context) => {
 //   let response = {};
 //   console.log('Received event: ', JSON.stringify(event, null, 2));

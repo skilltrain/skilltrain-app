@@ -92,7 +92,7 @@ class _MyAppState extends State<MyApp> {
                       MaterialPage(
                         child: AWSRealtimeSocketTutorialPage(
                           socketChannel: IOWebSocketChannel.connect(
-                              'wss://0rb4dy6kvi.execute-api.ap-northeast-1.amazonaws.com/dev/'),
+                              'wss://e5q5rdsxf5.execute-api.ap-northeast-1.amazonaws.com/dev/'),
                           // userName: "ellie"
                         ),
                       ),
