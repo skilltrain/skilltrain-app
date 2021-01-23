@@ -4,6 +4,8 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../../../utils/sliders.dart';
+import '../../../services/agora/video_session/index_trainee.dart';
 
 class TraineeSessionDetail extends StatefulWidget {
     //session ID passed by top page
@@ -153,21 +155,65 @@ class _InstructorSessionDetailState extends State<TraineeSessionDetail> {
                                       child: Text(snapshot.data["trainer_username"], textAlign: TextAlign.left, style:TextStyle(color: Colors.black54, fontSize: 20)),                                  
                                     ),
 
-                                    Container(
-                                      width: double.infinity,
-                                      margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                      child: Text("Video session ID", textAlign: TextAlign.left, style: TextStyle(fontSize: 15)),
-                                    ),
+                                    Row(
+                                      children: [
 
-                                    Container(
-                                      width: double.infinity,
-                                      margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                      decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.purple[500], width: 1),
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white70,
-                                    ),
-                                      child: Text(snapshot.data["sessionCode"], textAlign: TextAlign.left, style: TextStyle(fontSize: 20, color: Colors.black54)),                                  
+                                      Column(
+                                        children:[
+
+                                          Container(
+                                            width:MediaQuery.of(context).size.width *0.5,
+                                            margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                            child: Text("Video session ID", textAlign: TextAlign.left, style: TextStyle(fontSize: 15)),
+                                          ),
+
+                                          Container(
+                                            width:MediaQuery.of(context).size.width *0.5,
+                                            margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                            decoration: BoxDecoration(
+                                            border: Border.all(color: Colors.purple[500], width: 1),
+                                            borderRadius: BorderRadius.circular(5),
+                                            color: Colors.white70,
+                                          ),
+                                            child: Text(snapshot.data["sessionCode"], textAlign: TextAlign.left, style: TextStyle(fontSize: 20, color: Colors.black54)),                                  
+                                          ),
+
+                                        ]
+                                      ),
+
+                                      Column(
+                                        children: [
+                                          Container(
+                                            height: 17,
+                                          ),
+
+                                          ButtonTheme(
+                                            minWidth: MediaQuery.of(context).size.width *0.45,
+                                            height: 25,
+                                            child: RaisedButton(
+                                              shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(5.0),
+                                              //side: BorderSide(color: Colors.red)
+                                            ),
+                                                child: Icon(Icons
+                                                    .video_call_rounded),
+                                                onPressed: () => {
+                                                  
+                                                      Navigator.push(
+                                                          context,
+                                                          SlideLeftRoute(
+                                                              page:
+                                                                  IndexPageTrainee()))
+                                                                  
+                                                    }),
+                                            ),
+
+                                        ],
+                                      ),
+                                      
+                                      
+
+                                      ],
                                     ),
 
                                     Container(
@@ -178,7 +224,7 @@ class _InstructorSessionDetailState extends State<TraineeSessionDetail> {
 
                                     Container(
                                       width: double.infinity,
-                                      height: 440,
+                                      height: 420,
                                       margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
                                       decoration: BoxDecoration(
                                       border: Border.all(color: Colors.purple[500], width: 1),
