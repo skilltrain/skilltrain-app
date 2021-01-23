@@ -9,12 +9,10 @@ import 'package:skilltrain/main_app/common/sessionCards.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../../utils/sliders.dart';
-import '../../services/agora/video_session/index_trainer.dart';
 import '../trainer/pages/instructor_view/pages/instructor_register_course.dart';
 import 'package:intl/intl.dart';
 import '../trainer/pages/instructor_view/pages/instructor_bio_update.dart';
 import './pages/payment_signup.dart';
-import '../trainer/pages/instructor_view/pages/instructor_session_detail.dart';
 import '../trainer/pages/instructor_view/pages/instructor_session_list.dart';
 import 'pages/instructor_view/pages/instructor_booked_session_detail_chat.dart';
 
@@ -159,13 +157,6 @@ class SampleStart extends State<HomePageTrainer> {
                       }),
             ],
           )),
-          // appBar: AppBar(
-          //   title: SizedBox(
-          //       height: kToolbarHeight,
-          //       child: Image.asset('assets/images/skillTrain-logo.png',
-          //           fit: BoxFit.scaleDown)),
-          //   centerTitle: true,
-          // ),
           appBar: AppBar(
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Color(0xFFFFFFFF),
@@ -204,8 +195,8 @@ class SampleStart extends State<HomePageTrainer> {
                             if (snapshot.hasData) {
                               final List classArray = [];
                               for (int i = 0; i < snapshot.data.length; i++) {
-                                if (snapshot.data[i]["trainer_username"] ==
-                                        trainerName &&
+                                if (snapshot.data[i]["user_username"].length >
+                                        0 &&
                                     DateTime.parse(stringDate).isBefore(
                                         DateTime.parse(
                                             snapshot.data[i]["date"]))) {
@@ -309,164 +300,6 @@ class SampleStart extends State<HomePageTrainer> {
                     ),
                   ),
                 ),
-//                 FutureBuilder<List>(
-//                   future: sessionResults,
-//                   builder: (context, snapshot) {
-//                     if (snapshot.hasData) {
-//                       final List classArray = [];
-//                       for (int i = 0; i < snapshot.data.length; i++) {
-//                         if (snapshot.data[i]["trainer_username"] ==
-//                                 trainerName &&
-//                             snapshot.data[i]["user_username"].length > 0 &&
-//                             DateTime.parse(stringDate).isBefore(
-//                                 DateTime.parse(snapshot.data[i]["date"]))) {
-//                           print(stringDate);
-//                           print(snapshot.data[i]["date"]);
-//                           classArray.add(snapshot.data[i]);
-//                           classArray.sort((a, b) {
-//                             var adate = a["date"] + a["start_time"];
-//                             var bdate = b["date"] + b["start_time"];
-//                             return adate.compareTo(bdate);
-//                           });
-//                         } else
-//                           print("something went wrong with fetched data");
-//                       }
-//                       return Container(
-//                           width: double.infinity,
-//                           padding: const EdgeInsets.all(50.0),
-//                           child: Column(
-//                             children: <Widget>[
-//                               SizedBox(
-// //                              height: 514,
-//                                   child: ListView.builder(
-//                                 shrinkWrap: true,
-//                                 itemBuilder: (BuildContext context, int index) {
-//                                   return Card(
-//                                       child: GestureDetector(
-//                                           //画面遷移
-//                                           onTap: () => {
-//                                                 // print("testing tap action"),
-//                                                 Navigator.push(
-//                                                     context,
-//                                                     SlideLeftRoute(
-//                                                         page: InstructorSessionDetail(
-//                                                             sessionID:
-//                                                                 classArray[
-//                                                                         index]
-//                                                                     ['id']))),
-//                                               },
-//                                           child: Column(
-//                                             children: <Widget>[
-//                                               Row(
-//                                                   mainAxisAlignment:
-//                                                       MainAxisAlignment.start,
-//                                                   crossAxisAlignment:
-//                                                       CrossAxisAlignment.center,
-//                                                   children: <Widget>[
-//                                                     Column(
-//                                                         crossAxisAlignment:
-//                                                             CrossAxisAlignment
-//                                                                 .start,
-//                                                         children: <Widget>[
-//                                                           Text(
-//                                                             classArray[index]
-//                                                                 ["date"],
-//                                                             textAlign:
-//                                                                 TextAlign.left,
-//                                                             style: TextStyle(
-//                                                               fontWeight:
-//                                                                   FontWeight
-//                                                                       .bold,
-//                                                               fontSize: 20,
-//                                                             ),
-//                                                           ),
-//                                                           Text(
-//                                                               classArray[index][
-//                                                                       "start_time"] +
-//                                                                   " - " +
-//                                                                   classArray[
-//                                                                           index]
-//                                                                       [
-//                                                                       "end_time"],
-//                                                               textAlign:
-//                                                                   TextAlign
-//                                                                       .left,
-//                                                               style: TextStyle(
-//                                                                 fontWeight:
-//                                                                     FontWeight
-//                                                                         .bold,
-//                                                                 fontSize: 16,
-//                                                               )),
-//                                                           Text(
-//                                                             "With " +
-//                                                                 classArray[
-//                                                                         index][
-//                                                                     "user_username"],
-//                                                             textAlign:
-//                                                                 TextAlign.left,
-//                                                           ),
-//                                                         ]),
-//                                                     new Spacer(),
-//                                                     Column(
-//                                                       children: <Widget>[
-//                                                         Text(
-//                                                           "Session Code",
-//                                                           textAlign:
-//                                                               TextAlign.right,
-//                                                         ),
-//                                                         Text(
-//                                                             classArray[index]
-//                                                                 ["sessionCode"],
-//                                                             textAlign:
-//                                                                 TextAlign.right,
-//                                                             style: TextStyle(
-//                                                               fontWeight:
-//                                                                   FontWeight
-//                                                                       .bold,
-//                                                               fontSize: 15,
-//                                                             ))
-//                                                       ],
-//                                                     ),
-//                                                     new Spacer(),
-//                                                     ButtonTheme(
-//                                                       minWidth: 30,
-//                                                       child: RaisedButton(
-//                                                           child: Icon(Icons
-//                                                               .video_call_rounded),
-//                                                           onPressed: () => {
-//                                                                 Navigator.push(
-//                                                                     context,
-//                                                                     SlideLeftRoute(
-//                                                                         page:
-//                                                                             IndexPageTrainer()))
-//                                                               }),
-//                                                     ),
-//                                                   ]),
-//                                             ],
-//                                           )));
-//                                 },
-//                                 itemCount: classArray.length,
-//                               )),
-//                               Center(child: Text("last update:" + "$_date")),
-//                             ],
-//                           ));
-//                     } else if (snapshot.connectionState !=
-//                         ConnectionState.done) {
-//                       return Container(
-//                           height: MediaQuery.of(context).size.height - 87,
-//                           decoration:
-//                               new BoxDecoration(color: Colors.deepPurple[100]),
-//                           child: Center(child: CircularProgressIndicator()));
-//                     } else if (snapshot.hasError) {
-//                       return Text("${snapshot.error}");
-//                     }
-//                     return Container(
-//                         height: MediaQuery.of(context).size.height - 87,
-//                         decoration:
-//                             new BoxDecoration(color: Colors.deepPurple[100]),
-//                         child: Center(child: CircularProgressIndicator()));
-//                   },
-//                 ),
               ],
             ),
           )),
@@ -479,10 +312,8 @@ class SampleStart extends State<HomePageTrainer> {
       AuthUser res = await Amplify.Auth.getCurrentUser();
       trainerName = res.username;
       print("Current User Name = " + res.username);
-
       final response = await http.get(
-          'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions');
-
+          'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$trainerName/sessions');
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {
@@ -490,21 +321,6 @@ class SampleStart extends State<HomePageTrainer> {
       }
     } on AuthError catch (e) {
       print(e);
-    }
-  }
-
-  Future<List> fetchApiResults() async {
-    final response = await http.get(
-        'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers');
-    if (response.statusCode == 200) {
-      var trainers = await json.decode(response.body);
-      for (var trainer in trainers) {
-        trainer["sessionPhoto"] = await getUrl(trainer["sessionPhoto"]);
-        trainer["profilePhoto"] = await getUrl(trainer["profilePhoto"]);
-      }
-      return trainers;
-    } else {
-      throw Exception('Failed to load API params');
     }
   }
 }
