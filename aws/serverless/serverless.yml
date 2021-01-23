@@ -27,25 +27,6 @@ provider:
   region: ap-northeast-1
   stage: dev
   profile: athelian
-  environment:
-    TABLE_NAME: flutter-chat-tbl
-    SERVICE_NAME: ${self:service}
-    STAGE_NAME: ${self:provider.stage}
-    REGION_NAME: ${self:provider.region}
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - dynamodb:*
-      Resource: "arn:aws:dynamodb:${self:provider.region}:*:*"
-    - Effect: "Allow"
-      Action:
-        - lambda:*
-      Resource: "arn:aws:lambda:${self:provider.region}:*:*"
-    - Effect: Allow
-      Action:
-        #- "execute-api:ManageConnections"
-        - "execute-api:*"
-      Resource: "arn:aws:execute-api:*:*:**/@connections/*"
   logs:
     websocket: true
 
@@ -84,104 +65,23 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  # Web sockets handlers
   connectionHandler:
-    handler: webSocketHandler.connectionHandler
+    handler: handler.connectionHandler
     events:
       - websocket:
           route: $connect
       - websocket:
           route: $disconnect
   defaultHandler:
-    handler: webSocketHandler.defaultHandler
-    events:
-      - websocket: $default
-  webSocketMessageHandler:
-    handler: webSocketHandler.webSocketMessageHandler
+    handler: handler.defaultHandler
     events:
       - websocket:
-          route: chatMessages
-# DynamoDB Stream Handler
-  chatTableStreamHandler:
-    handler: tableStreamHandler.chatTableStreamHandler
+          route: $default
+  databaseStreamHandler:
+    handler: handler.databaseStreamHandler
     events:
-      - stream:
-          type: dynamodb
-          batchSize: 1
-          startingPosition: LATEST
-          arn:
-            Fn::GetAtt: [flutterChatTable, StreamArn]
-# CONNECTED collection CRUD
-  createConnected:
-    handler: connectedHandler.createConnected
-    events:
-      - http:
-          path: ${self:service}/connected/createConnected
-          method: get
-  createConnectedUser:
-    handler: connectedHandler.createConnectedUser
-    events:
-      - http:
-          path: ${self:service}/connected/createConnectedUser
-          method: post
-          cors: true
-          integration: lambda
-          
-  getConnected:
-    handler: connectedHandler.getConnected
-    events:
-      - http:
-          path: ${self:service}/connected/getConnected
-          method: get
-          integration: lambda
-          
-  getConnectedUser:
-    handler: connectedHandler.getConnectedUser
-    events:
-      - http:
-          path: ${self:service}/connected/getConnectedUser
-          method: get
-          integration: lambda
-          
-  updateConnected:
-    handler: connectedHandler.updateConnected
-    events:
-      - http:
-          path: ${self:service}/connected/updateConnected
-          method: post
-          cors: true
-          integration: lambda
-          
-  # MSG Collection CRUD
-  createMessage:
-    handler: messageHandler.createMessage
-    events:
-      - http:
-          path: ${self:service}/messages/createMessage
-          method: get
-  createMessageUser:
-    handler: messageHandler.createMessageUser
-    events:
-      - http:
-          path: ${self:service}/messages/createMessageUser
-          method: post
-          cors: true
-          integration: lambda
-           
-  getMessage:
-    handler: messageHandler.getMessage
-    events:
-      - http:
-          path: ${self:service}/messages/getMessage
-          method: get
-          integration: lambda
-          
-  updateMessage:
-    handler: messageHandler.updateMessage
-    events:
-      - http:
-          path: ${self:service}/messages/updateMessage
-          method: post
+      - websocket:
+          route: databaseStream
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
@@ -233,25 +133,3 @@ functions:
 #     NewOutput:
 #       Description: "Description for the output"
 #       Value: "Some output value"
-
-resources:
-  Resources:
-    flutterChatTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: flutter-chat-tbl
-        AttributeDefinitions:
-          - AttributeName: collection
-            AttributeType: S  
-          - AttributeName: subCollection
-            AttributeType: S
-        KeySchema:
-          - AttributeName: collection
-            KeyType: HASH   # Partition Key
-          - AttributeName: subCollection
-            KeyType: RANGE  # Sort key
-        ProvisionedThroughput:
-          ReadCapacityUnits: 10
-          WriteCapacityUnits: 10
-        StreamSpecification:
-          StreamViewType: NEW_IMAGE

@@ -90,10 +90,11 @@ class _MyAppState extends State<MyApp> {
                   pages: [
                     if (snapshot.data.authFlowStatus == AuthFlowStatus.login)
                       MaterialPage(
-                        child: AWSRealtimeSocketTutorialChatPage(
-                            socketChannel: IOWebSocketChannel.connect(
-                                'wss://0rb4dy6kvi.execute-api.ap-northeast-1.amazonaws.com/dev/'),
-                            userName: "ellie"),
+                        child: AWSRealtimeSocketTutorialPage(
+                          socketChannel: IOWebSocketChannel.connect(
+                              'wss://0rb4dy6kvi.execute-api.ap-northeast-1.amazonaws.com/dev/'),
+                          // userName: "ellie"
+                        ),
                       ),
                     // child: LoginPage(
                     //     didProvideCredentials:
