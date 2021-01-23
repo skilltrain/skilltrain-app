@@ -15,7 +15,6 @@ import '../../utils/sliders.dart';
 import '../common/fetchTrainers.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import '../common/headings.dart';
-import '../trainee/pages/trainee_session_detail.dart';
 import 'pages/trainee_session_detail_chat.dart';
 
 class HomePageTrainee extends StatefulWidget {
@@ -191,8 +190,6 @@ class SampleStart extends State<HomePageTrainee> {
         future: _trainers,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            print('snapshot');
-
             return Container(
               height: 250,
               child: ListView.builder(
@@ -225,20 +222,20 @@ class SampleStart extends State<HomePageTrainee> {
                           child: InkWell(
                               splashColor: Colors.purple,
                               onTap: () => {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (_) {
-                                      return InstructorBio(
-                                          data: snapshot.data[index],
-                                          index: index);
-                                    }))
+                                    // Navigator.push(context,
+                                    //     MaterialPageRoute(builder: (_) {
+                                    //   return InstructorBio(
+                                    //       data: snapshot.data[index],
+                                    //       index: index);
+                                    // }))
 
-                                    // Navigator.push(
-                                    //   context,
-                                    //   SlideRightRoute(
-                                    // page: InstructorBio(
-                                    //     data: snapshot.data[index],
-                                    //     index: index)),
-                                    // )
+                                    Navigator.push(
+                                      context,
+                                      SlideRightRoute(
+                                          page: InstructorBio(
+                                              data: snapshot.data[index],
+                                              index: index)),
+                                    )
                                   },
                               child: Container(
                                   padding: EdgeInsets.all(0),
@@ -471,6 +468,7 @@ class SampleStart extends State<HomePageTrainee> {
                   });
                 }
                 return sessionCard(
+                    trainer: false,
                     name: snapshot.data[index]["trainer_username"],
                     date: snapshot.data[index]["date"],
                     startTime: snapshot.data[index]["start_time"],
@@ -573,7 +571,6 @@ class SampleStart extends State<HomePageTrainee> {
         ));
 
     return MaterialApp(
-      title: 'Skill train class list',
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),

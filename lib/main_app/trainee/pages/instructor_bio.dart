@@ -141,7 +141,7 @@ class _InstructorBioState extends State<InstructorBio> {
                                           widget.data["profilePhoto"],
                                           width: 150,
                                           height: 150,
-                                          fit: BoxFit.fitWidth,
+                                          fit: BoxFit.fill,
                                         ),
                                       ),
                                     ),
