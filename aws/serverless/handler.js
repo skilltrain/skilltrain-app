@@ -36,7 +36,15 @@ module.exports.defaultHandler = async (event, context) => {
 
 module.exports.writeMessageHandler = async(event, context) => {
   const body = JSON.parse(event.body);
+  const sessionID = body.data.body.sessionID;
   const msg = body.data.body.msg;
+  const isTrainer = body.data.body.isTrainer;
+  const time = new Date().toLocaleString();
+  const messageObject = {
+    isTrainer: isTrainer,
+    time: time,
+    msg: msg
+  };
 
   let connectionId = event.requestContext.connectionId;
   const endpoint = event.requestContext.domainName + "/" + event.requestContext.stage;
@@ -47,33 +55,55 @@ module.exports.writeMessageHandler = async(event, context) => {
 
   const ddb = new AWS.DynamoDB.DocumentClient();
 
-  const dbParams = {
-    TableName: "Sessions",
-    ExpressionAttributeNames: {
-      '#Y': 'messages'
-    },
-    ExpressionAttributeValues: {
-      ':y': ['hey']
-    },
-    Key: {
-      id: "2023-03-0512:00ath-trainer"
-    },
-    UpdateExpression: "SET #Y = list_append(#Y,:y)"
-  };
 
   try {
-    const data = await ddb.update(dbParams).promise();
-    // responseBody = JSON.stringify(data);
-    // statusCode = 201;
+    const dbParams = {
+      TableName: "Sessions",
+      ExpressionAttributeNames: {
+        '#Y': 'messages'
+      },
+      ExpressionAttributeValues: {
+        ':y': [messageObject]
+      },
+      Key: {
+        id: sessionID
+      },
+      UpdateExpression: "SET #Y = list_append(#Y,:y)"
+    };
+    
+    await ddb.update(dbParams).promise();
+    
   } catch (err) {
     console.log(err);
-    // responseBody = `Unable to put trainer: ${err}`;
-    // statusCode = 403;
+    // Failed, so it doesn't exist, or other error
+    // Try creating the item
+    console.log('next block');
+    try {
+      const dbParams = {
+        TableName: "Sessions",
+        ExpressionAttributeNames: {
+        '#Y': 'messages'
+        },
+        ExpressionAttributeValues: {
+          ':y': [messageObject]
+        },
+        Key: {
+          id: sessionID
+        },
+        ConditionExpression: "attribute_not_exists(messages)",
+        UpdateExpression: "SET #Y = :y"
+      };
+      
+      await ddb.update(dbParams).promise();
+
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   const params = {
     ConnectionId: connectionId,
-    Data: JSON.stringify({connectionID: connectionId, msg:msg}),
+    Data: JSON.stringify({connectionID: connectionId}),
   };
 
   return apigwManagementApi.postToConnection(params).promise();

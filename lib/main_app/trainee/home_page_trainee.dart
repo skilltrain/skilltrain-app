@@ -670,51 +670,51 @@ class SampleStart extends State<HomePageTrainee> {
                       padding: const EdgeInsets.only(bottom: 54.0),
                       child: upcomingSessionsView,
                     ),
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(8.0),
-                    //     color: Colors.purple,
-                    //   ),
-                    //   child: Column(
-                    //     children: [
-                    //       Padding(
-                    //         padding: const EdgeInsets.all(36.0),
-                    //         child: Row(
-                    //           children: [
-                    //             Icon(Icons.directions_run,
-                    //                 color: Colors.white, size: 18),
-                    //             sectionTitle(title: "  Running Trainers"),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //       Padding(
-                    //         padding: const EdgeInsets.only(bottom: 36),
-                    //         child: trainerListView(
-                    //             filter: true, filterType: 'Running'),
-                    //       ),
-                    //       Column(
-                    //         children: [
-                    //           Padding(
-                    //             padding: const EdgeInsets.only(
-                    //                 left: 36.0, right: 36, bottom: 36, top: 14),
-                    //             child: Row(
-                    //               children: [
-                    //                 Icon(Icons.self_improvement,
-                    //                     color: Colors.white, size: 18),
-                    //                 sectionTitle(title: "  Yoga Trainers"),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //           Padding(
-                    //             padding: const EdgeInsets.only(bottom: 36),
-                    //             child: trainerListView(
-                    //                 filter: true, filterType: 'Yoga'),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Colors.purple,
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(36.0),
+                            child: Row(
+                              children: [
+                                Icon(Icons.directions_run,
+                                    color: Colors.white, size: 18),
+                                sectionTitle(title: "  Running Trainers"),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 36),
+                            child: trainerListView(
+                                filter: true, filterType: 'Running'),
+                          ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 36.0, right: 36, bottom: 36, top: 14),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.self_improvement,
+                                        color: Colors.white, size: 18),
+                                    sectionTitle(title: "  Yoga Trainers"),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 36),
+                                child: trainerListView(
+                                    filter: true, filterType: 'Yoga'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
