@@ -455,53 +455,57 @@ class _InstructorSessionDetailState extends State<InstructorSessionDetail> {
                                   margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
                                   child: RaisedButton(
                                     onPressed: () async {
-
-                                      if (snapshot.data["user_username"].length > 0){
+                                      if (snapshot
+                                              .data["user_username"].length >
+                                          0) {
                                         showDialog(
                                           context: context,
                                           builder: (context) {
                                             return SimpleDialog(
-                                              title: Text("Already someone booked your lesson"),
+                                              title: Text(
+                                                  "Already someone booked your lesson"),
                                               children: <Widget>[
                                                 // コンテンツ領域
                                                 SimpleDialogOption(
-                                                  onPressed: () => 
-                                                  Navigator.push(
-                                                      context,
-                                                      //SlideRightRoute(
-                                                        //page: new SessionList(),
-                                                        new MaterialPageRoute(builder: (context) => new SessionList()
-                                                      )
-                                                      )
-                                                  ,
-                                                  child: Text("You can't cancel unless student cancel your lesson"),
+                                                  onPressed: () =>
+                                                      Navigator.push(
+                                                          context,
+                                                          //SlideRightRoute(
+                                                          //page: new SessionList(),
+                                                          new MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  new SessionList())),
+                                                  child: Text(
+                                                      "You can't cancel unless student cancel your lesson"),
                                                 ),
                                               ],
                                             );
                                           },
                                         );
-
                                       } else {
                                         final dynamic result =
                                             await deleteSessionDetails();
-                                        if (result.statusCode == 201 || result.statusCode == 200) {
+                                        if (result.statusCode == 201 ||
+                                            result.statusCode == 200) {
                                           print("course delete successful");
 
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return SimpleDialog(
-                                              title: Text("Cancel request has been accepeted"),
-                                              children: <Widget>[
-                                                // コンテンツ領域
-                                                SimpleDialogOption(
-                                                  onPressed: () => Navigator.pop(context),
-                                                  child: Text(""),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return SimpleDialog(
+                                                title: Text(
+                                                    "Cancel request has been accepeted"),
+                                                children: <Widget>[
+                                                  // コンテンツ領域
+                                                  SimpleDialogOption(
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    child: Text(""),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
 
                                           Navigator.pop(context, false);
                                         } else {
@@ -596,10 +600,11 @@ class _InstructorSessionDetailState extends State<InstructorSessionDetail> {
     );
   }
 
-  Future<http.Response> deleteSessionDetails() async{
-    String url = "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions/" + widget.sessionID;
+  Future<http.Response> deleteSessionDetails() async {
+    String url =
+        "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions/" +
+            widget.sessionID;
     final response = await http.delete(url);
     return response;
   }
-
 }
