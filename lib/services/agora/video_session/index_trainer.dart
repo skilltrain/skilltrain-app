@@ -8,6 +8,10 @@ import 'call_trainer.dart';
 // *********** 1to1 VC Mode *********** //
 
 class IndexPageTrainer extends StatefulWidget {
+  final String sessionCode;
+
+  IndexPageTrainer({this.sessionCode});
+
   @override
   State<StatefulWidget> createState() => IndexState();
 }

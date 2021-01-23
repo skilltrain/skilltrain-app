@@ -6,7 +6,6 @@ import 'package:skilltrain/main_app/common/headings.dart';
 import 'package:skilltrain/main_app/common/sessionCards.dart';
 import 'dart:convert';
 import '../../../services/stripe/payment/direct_payment_page.dart';
-import '../../../utils/sliders.dart';
 import 'dart:math';
 
 String traineeName = "";
@@ -121,26 +120,24 @@ class BookingPage extends StatelessWidget {
                                         date: classArray[index]["date"],
                                         context: context,
                                         function: () => {
-                                              Navigator.push(
-                                                  context,
-                                                  SlideLeftRoute(
-                                                      page: DirectPaymentPage(
-                                                          trainerUsername:
-                                                              trainerName,
-                                                          genre: genre,
-                                                          description:
-                                                              classArray[index][
-                                                                  "description"],
-                                                          startTime: classArray[
-                                                                  index]
-                                                              ["start_time"],
-                                                          endTime:
-                                                              classArray[index]
-                                                                  ["end_time"],
-                                                          date:
-                                                              classArray[index]
-                                                                  ["date"],
-                                                          price: price)))
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(
+                                                      builder: (_) {
+                                                return DirectPaymentPage(
+                                                    trainerUsername:
+                                                        trainerName,
+                                                    genre: genre,
+                                                    description:
+                                                        classArray[index]
+                                                            ["description"],
+                                                    startTime: classArray[index]
+                                                        ["start_time"],
+                                                    endTime: classArray[index]
+                                                        ["end_time"],
+                                                    date: classArray[index]
+                                                        ["date"],
+                                                    price: price);
+                                              }))
                                             }));
                               },
                               itemCount: classArray.length,
