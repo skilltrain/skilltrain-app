@@ -6,7 +6,6 @@ import 'package:skilltrain/main_app/common/headings.dart';
 import 'package:skilltrain/main_app/common/sessionCards.dart';
 import 'dart:convert';
 import '../../../services/stripe/payment/direct_payment_page.dart';
-import '../../../utils/sliders.dart';
 import 'dart:math';
 
 String traineeName = "";

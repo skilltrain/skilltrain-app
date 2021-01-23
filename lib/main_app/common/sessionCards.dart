@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 Widget sessionCard(
-    {String name,
+    {bool trainer,
+    String name,
     String date,
     String startTime,
     String endTime,
@@ -38,7 +39,7 @@ Widget sessionCard(
                             Container(
                               width: MediaQuery.of(context).size.width * 0.4,
                               child: Text(
-                                "Trainer",
+                                trainer ? "Trainee" : "Trainer",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold),

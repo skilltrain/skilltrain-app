@@ -190,8 +190,6 @@ class SampleStart extends State<HomePageTrainee> {
         future: _trainers,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            print('snapshot');
-
             return Container(
               height: 250,
               child: ListView.builder(
@@ -469,6 +467,7 @@ class SampleStart extends State<HomePageTrainee> {
                   });
                 }
                 return sessionCard(
+                    trainer: false,
                     name: snapshot.data[index]["trainer_username"],
                     date: snapshot.data[index]["date"],
                     startTime: snapshot.data[index]["start_time"],
@@ -571,7 +570,6 @@ class SampleStart extends State<HomePageTrainee> {
         ));
 
     return MaterialApp(
-      title: 'Skill train class list',
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),

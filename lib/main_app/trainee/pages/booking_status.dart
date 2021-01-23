@@ -131,6 +131,7 @@ class SampleStart extends State<BookingStatus> {
                                               )
                                             },
                                         child: sessionCard(
+                                            trainer: false,
                                             name: classArray[index]
                                                 ["trainer_username"],
                                             date: classArray[index]["date"],
