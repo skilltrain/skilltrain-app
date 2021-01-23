@@ -48,6 +48,7 @@ Widget sessionCard(
                               width: MediaQuery.of(context).size.width * 0.4,
                               child: Text(
                                 name,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
@@ -57,7 +58,6 @@ Widget sessionCard(
                           ],
                         ),
                       ),
-                      Spacer(),
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
