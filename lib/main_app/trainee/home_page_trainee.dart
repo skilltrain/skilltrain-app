@@ -16,6 +16,7 @@ import '../common/fetchTrainers.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import '../common/headings.dart';
 import '../trainee/pages/trainee_session_detail.dart';
+import 'pages/trainee_session_detail_chat.dart';
 
 class HomePageTrainee extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -224,13 +225,20 @@ class SampleStart extends State<HomePageTrainee> {
                           child: InkWell(
                               splashColor: Colors.purple,
                               onTap: () => {
-                                    Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                          page: InstructorBio(
-                                              data: snapshot.data[index],
-                                              index: index)),
-                                    )
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (_) {
+                                      return InstructorBio(
+                                          data: snapshot.data[index],
+                                          index: index);
+                                    }))
+
+                                    // Navigator.push(
+                                    //   context,
+                                    //   SlideRightRoute(
+                                    // page: InstructorBio(
+                                    //     data: snapshot.data[index],
+                                    //     index: index)),
+                                    // )
                                   },
                               child: Container(
                                   padding: EdgeInsets.all(0),
@@ -259,7 +267,7 @@ class SampleStart extends State<HomePageTrainee> {
                                             Flexible(
                                               child: Text(
                                                 snapshot.data[index]
-                                                    ["username"],
+                                                    ["firstName"],
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
@@ -320,26 +328,34 @@ class SampleStart extends State<HomePageTrainee> {
                       return Container();
                     }
                   } else {
-                    return SizedBox(
-                      width: 170,
-                      child: Card(
-                        elevation: 4,
-                        child: InkWell(
-                            splashColor: Colors.purple,
-                            onTap: () => {
-                                  Navigator.push(
-                                    context,
-                                    SlideRightRoute(
-                                        page: InstructorBio(
-                                            data: snapshot.data[index],
-                                            index: index)),
-                                  )
-                                },
-                            child: Container(
-                                padding: EdgeInsets.all(0),
-                                child: Column(
-                                  children: [
-                                    Padding(
+                    return Hero(
+                      tag: index,
+                      child: SizedBox(
+                        width: 170,
+                        child: Card(
+                          elevation: 4,
+                          child: InkWell(
+                              splashColor: Colors.purple,
+                              onTap: () => {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (_) {
+                                      return InstructorBio(
+                                          data: snapshot.data[index],
+                                          index: index);
+                                    }))
+
+                                    // Navigator.push(
+                                    //   context,
+                                    //   SlideRightRoute(
+                                    //       page: InstructorBio(
+                                    //           data: snapshot.data[index],
+                                    //           index: index)),
+                                    // )
+                                  },
+                              child: Column(
+                                children: [
+                                  Flexible(
+                                    child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(0),
@@ -351,68 +367,66 @@ class SampleStart extends State<HomePageTrainee> {
                                             fit: BoxFit.fill),
                                       ),
                                     ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Flexible(
-                                            child: Text(
-                                              snapshot.data[index]["username"],
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18),
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: stars,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            snapshot.data[index]["genre"],
-                                            style: TextStyle(
-                                                color: Colors.grey[700]),
-                                          ),
-                                          Text(
-                                              "¥" +
-                                                  snapshot.data[index]["price"]
-                                                      .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold))
-                                        ],
-                                      ),
-                                    ),
-                                    Column(
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                        Flexible(
                                           child: Text(
-                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                                            maxLines: 3,
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.grey[700]),
+                                            snapshot.data[index]["firstName"],
                                             overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18),
                                           ),
                                         ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: stars,
+                                        )
                                       ],
-                                    )
-                                  ],
-                                ))),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          snapshot.data[index]["genre"],
+                                          style: TextStyle(
+                                              color: Colors.grey[700]),
+                                        ),
+                                        Text(
+                                            "¥" +
+                                                snapshot.data[index]["price"]
+                                                    .toString(),
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold))
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                      maxLines: 3,
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey[700]),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  )
+                                ],
+                              )),
+                        ),
                       ),
                     );
                   }
@@ -465,7 +479,7 @@ class SampleStart extends State<HomePageTrainee> {
                           Navigator.push(
                             context,
                             SlideLeftRoute(
-                                page: TraineeSessionDetail(
+                                page: TraineeSessionDetailsPage(
                                     sessionID: snapshot.data[index]['id'])),
                           )
                         });
@@ -655,51 +669,51 @@ class SampleStart extends State<HomePageTrainee> {
                       padding: const EdgeInsets.only(bottom: 54.0),
                       child: upcomingSessionsView,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Colors.purple,
-                      ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(36.0),
-                            child: Row(
-                              children: [
-                                Icon(Icons.directions_run,
-                                    color: Colors.white, size: 18),
-                                sectionTitle(title: "  Running Trainers"),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 36),
-                            child: trainerListView(
-                                filter: true, filterType: 'Running'),
-                          ),
-                          Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 36.0, right: 36, bottom: 36, top: 14),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.self_improvement,
-                                        color: Colors.white, size: 18),
-                                    sectionTitle(title: "  Yoga Trainers"),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 36),
-                                child: trainerListView(
-                                    filter: true, filterType: 'Yoga'),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(8.0),
+                    //     color: Colors.purple,
+                    //   ),
+                    //   child: Column(
+                    //     children: [
+                    //       Padding(
+                    //         padding: const EdgeInsets.all(36.0),
+                    //         child: Row(
+                    //           children: [
+                    //             Icon(Icons.directions_run,
+                    //                 color: Colors.white, size: 18),
+                    //             sectionTitle(title: "  Running Trainers"),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //       Padding(
+                    //         padding: const EdgeInsets.only(bottom: 36),
+                    //         child: trainerListView(
+                    //             filter: true, filterType: 'Running'),
+                    //       ),
+                    //       Column(
+                    //         children: [
+                    //           Padding(
+                    //             padding: const EdgeInsets.only(
+                    //                 left: 36.0, right: 36, bottom: 36, top: 14),
+                    //             child: Row(
+                    //               children: [
+                    //                 Icon(Icons.self_improvement,
+                    //                     color: Colors.white, size: 18),
+                    //                 sectionTitle(title: "  Yoga Trainers"),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //           Padding(
+                    //             padding: const EdgeInsets.only(bottom: 36),
+                    //             child: trainerListView(
+                    //                 filter: true, filterType: 'Yoga'),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
