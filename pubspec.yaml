@@ -43,6 +43,8 @@ dependencies:
   spannable_grid: ^0.1.0
   flutter_launcher_icons: "^0.8.0"
   flutter_rating_bar: ^3.2.0+1
+  web_socket_channel: ^1.2.0
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -51,8 +53,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  integration_test:
-    sdk: flutter
+  # integration_test:
+  #   sdk: flutter
+  # Eliot - this seemed to be interfering with web_socket_channel
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
