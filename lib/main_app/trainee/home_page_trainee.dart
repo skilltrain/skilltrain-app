@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:skilltrain/main_app/common/buttons.dart';
 import 'package:skilltrain/main_app/common/dropdownwidget.dart';
+import 'package:skilltrain/services/agora/live_stream/pre_index_livestream.dart';
 import 'package:skilltrain/main_app/common/sessionCards.dart';
 import './pages/booking_status.dart';
 import './pages/trainer_filter.dart';
@@ -579,6 +580,15 @@ class SampleStart extends State<HomePageTrainee> {
                   Navigator.push(
                     context,
                     SlideLeftRoute(page: BookingStatus()),
+                  )
+                },
+              ),
+              ListTile(
+                title: Text('Live Stream'),
+                onTap: () => {
+                  Navigator.push(
+                    context,
+                    SlideLeftRoute(page: IndexPageLiveStream()),
                   )
                 },
               ),
