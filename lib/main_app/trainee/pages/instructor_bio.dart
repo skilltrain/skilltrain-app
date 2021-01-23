@@ -88,8 +88,8 @@ class _InstructorBioState extends State<InstructorBio> {
               Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(8),
-                          topLeft: Radius.circular(8)),
+                          topRight: Radius.circular(16),
+                          topLeft: Radius.circular(16)),
                       color: Colors.white),
                   child: Column(children: [
                     Padding(
