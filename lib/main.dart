@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
-import 'package:skilltrain/services/socket/chat.dart';
-import 'package:web_socket_channel/io.dart';
 import 'amplifyconfiguration.dart';
 import './services/cognito/signup_page.dart';
 import './services/cognito/login_page.dart';
