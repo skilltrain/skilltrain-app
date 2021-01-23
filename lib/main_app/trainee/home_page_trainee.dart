@@ -223,13 +223,20 @@ class SampleStart extends State<HomePageTrainee> {
                           child: InkWell(
                               splashColor: Colors.purple,
                               onTap: () => {
-                                    Navigator.push(
-                                      context,
-                                      SlideRightRoute(
-                                          page: InstructorBio(
-                                              data: snapshot.data[index],
-                                              index: index)),
-                                    )
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (_) {
+                                      return InstructorBio(
+                                          data: snapshot.data[index],
+                                          index: index);
+                                    }))
+
+                                    // Navigator.push(
+                                    //   context,
+                                    //   SlideRightRoute(
+                                    // page: InstructorBio(
+                                    //     data: snapshot.data[index],
+                                    //     index: index)),
+                                    // )
                                   },
                               child: Container(
                                   padding: EdgeInsets.all(0),
@@ -258,7 +265,7 @@ class SampleStart extends State<HomePageTrainee> {
                                             Flexible(
                                               child: Text(
                                                 snapshot.data[index]
-                                                    ["username"],
+                                                    ["firstName"],
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
@@ -319,99 +326,102 @@ class SampleStart extends State<HomePageTrainee> {
                       return Container();
                     }
                   } else {
-                    return SizedBox(
-                      width: 170,
-                      child: Card(
-                        elevation: 4,
-                        child: InkWell(
-                            splashColor: Colors.purple,
-                            onTap: () => {
-                                  Navigator.push(
-                                    context,
-                                    SlideRightRoute(
-                                        page: InstructorBio(
-                                            data: snapshot.data[index],
-                                            index: index)),
-                                  )
-                                },
-                            child: Container(
-                                padding: EdgeInsets.all(0),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(0),
-                                        child: Image.network(
-                                            snapshot.data[index]
-                                                ["profilePhoto"],
-                                            height: 120,
-                                            width: 180,
-                                            fit: BoxFit.fill),
-                                      ),
+                    return Hero(
+                      tag: index,
+                      child: SizedBox(
+                        width: 170,
+                        child: Card(
+                          elevation: 4,
+                          child: InkWell(
+                              splashColor: Colors.purple,
+                              onTap: () => {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (_) {
+                                      return InstructorBio(
+                                          data: snapshot.data[index],
+                                          index: index);
+                                    }))
+
+                                    // Navigator.push(
+                                    //   context,
+                                    //   SlideRightRoute(
+                                    //       page: InstructorBio(
+                                    //           data: snapshot.data[index],
+                                    //           index: index)),
+                                    // )
+                                  },
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(0),
+                                      child: Image.network(
+                                          snapshot.data[index]["profilePhoto"],
+                                          height: 120,
+                                          width: 180,
+                                          fit: BoxFit.fill),
                                     ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Flexible(
-                                            child: Text(
-                                              snapshot.data[index]["username"],
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18),
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: stars,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            snapshot.data[index]["genre"],
-                                            style: TextStyle(
-                                                color: Colors.grey[700]),
-                                          ),
-                                          Text(
-                                              "¥" +
-                                                  snapshot.data[index]["price"]
-                                                      .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold))
-                                        ],
-                                      ),
-                                    ),
-                                    Column(
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                        Flexible(
                                           child: Text(
-                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                                            maxLines: 3,
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.grey[700]),
+                                            snapshot.data[index]["firstName"],
                                             overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18),
                                           ),
                                         ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: stars,
+                                        )
                                       ],
-                                    )
-                                  ],
-                                ))),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          snapshot.data[index]["genre"],
+                                          style: TextStyle(
+                                              color: Colors.grey[700]),
+                                        ),
+                                        Text(
+                                            "¥" +
+                                                snapshot.data[index]["price"]
+                                                    .toString(),
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold))
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                      maxLines: 3,
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey[700]),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  )
+                                ],
+                              )),
+                        ),
                       ),
                     );
                   }

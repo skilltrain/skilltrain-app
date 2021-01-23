@@ -95,42 +95,52 @@ class _InstructorBioState extends State<InstructorBio> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 36, vertical: 36),
-                      child: SizedBox(
-                        height: 150,
-                        child: Row(children: [
-                          Column(children: [
-                            blackHeading(
-                                title: widget.data["firstName"],
-                                underline: false,
-                                purple: false),
-                            Row(
-                              children: stars,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(widget.data["genre"]),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Text("¥" + widget.data["price"].toString(),
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)),
-                            )
-                          ]),
-                          Spacer(),
-                          Column(children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.network(
-                                widget.data["profilePhoto"],
-                                width: 150,
-                                height: 150,
-                                fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                          ])
-                        ]),
+                      child: Hero(
+                        tag: widget.index,
+                        child: Material(
+                          child: SizedBox(
+                            height: 150,
+                            child: Row(children: [
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    blackHeading(
+                                        title: widget.data["firstName"],
+                                        underline: false,
+                                        purple: false),
+                                    Row(
+                                      children: stars,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(widget.data["genre"]),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(
+                                          "¥" + widget.data["price"].toString(),
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold)),
+                                    )
+                                  ]),
+                              Spacer(),
+                              Column(children: [
+                                Expanded(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.network(
+                                      widget.data["profilePhoto"],
+                                      width: 150,
+                                      height: 150,
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                                  ),
+                                ),
+                              ])
+                            ]),
+                          ),
+                        ),
                       ),
                     ),
                     Padding(
