@@ -67,4 +67,3 @@ amplifytools.xcconfig
 .vscode/launch.json
 .vscode/settings.json
 pubspec.lock
-lib/services/socket/chat_login.dart
