@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:flutter/semantics.dart';
-import 'package:skilltrain/main_app/common/buttons.dart';
 import 'package:skilltrain/main_app/common/headings.dart';
 // ignore: unused_import
 import '../home_page_trainee.dart';
