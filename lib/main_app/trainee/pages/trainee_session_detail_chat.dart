@@ -27,6 +27,13 @@ class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
       print('Message from stream listen: $message');
       _getMessages(widget.sessionID);
     });
+    //The cloud function is set to update only the connectionID if the user sends through
+    //an empty message, so, this can happen when the user first opens this page
+    //note that the connectionID will change every single time line 26 is run, therefore
+    //the connectionID must be updated everytime they open this page
+    //if the user personally sends through an empty string, no harm will be done as the
+    //connectionID will only update
+    _onWriteThroughSocket(' ');
     _getMessages(widget.sessionID);
     super.initState();
   }
@@ -51,7 +58,9 @@ class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
         }
       }
     };
-    messages.add(messageObject);
+    if (message != ' ') {
+      messages.add(messageObject);
+    }
     widget.socketChannel.sink.add(jsonEncode(messageObject));
   }
 
