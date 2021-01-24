@@ -41,7 +41,7 @@ class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
 
   void _onWriteThroughSocket(String message) async {
     // Write through lambda function & API Gateway
-    widget.socketChannel.sink.add(jsonEncode({
+    final messageObject = {
       "action": "writeMessage",
       "data": {
         "body": {
@@ -50,7 +50,9 @@ class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
           "isTrainer": false
         }
       }
-    }));
+    };
+    messages.add(messageObject);
+    widget.socketChannel.sink.add(jsonEncode(messageObject));
   }
 
   void _getMessages(String sessionID) async {
