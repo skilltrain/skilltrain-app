@@ -56,6 +56,7 @@ module.exports.writeMessageHandler = async(event, context) => {
   const ddb = new AWS.DynamoDB.DocumentClient();
 
 
+  //Add the message to the log, failsafe for if no current messages below
   try {
     const dbParams = {
       TableName: "Sessions",
@@ -101,6 +102,62 @@ module.exports.writeMessageHandler = async(event, context) => {
     }
   }
 
+  //Update current connection ID of relevant user
+  try {
+    const dbParams = {
+      TableName: "Sessions",
+      ExpressionAttributeNames: {
+        '#Y': isTrainer ? 'trainer_connectionID' : 'user_connectionID'
+      },
+      ExpressionAttributeValues: {
+        ':y': connectionId
+      },
+      Key: {
+        id: sessionID
+      },
+        UpdateExpression: "SET #Y = :y"    
+      
+    };
+    
+    await ddb.update(dbParams).promise();
+    
+  } catch (err) {
+    console.log(err);
+  }
+  
+  // Now, if both users are connected at the same time, we need to return a response
+  // to both connectionIDs
+  
+  
+  const ddbparams = {
+    TableName: "Sessions",
+    Key: {
+      id: sessionID,
+    },
+    ProjectionExpression: isTrainer ? 'user_connectionID' : 'trainer_connectionID'
+  };
+  
+  let partnerConnectionID;
+  
+  try {
+    const data = await ddb.get(ddbparams).promise();
+    console.log('parner connection ID!!!!!!!!!!!!!!', data);
+    partnerConnectionID = data.Item.user_connectionID;
+  } catch (error) {
+    console.log(error);
+  }
+  
+  if (partnerConnectionID != null) {
+    //If there is a partner ID, retrieve it and send a response to them (they may not be connected though)
+    const params = {
+      ConnectionId: partnerConnectionID,
+      Data: JSON.stringify({connectionID: partnerConnectionID}),
+    };
+    apigwManagementApi.postToConnection(params).promise();
+  }
+
+
+  // Send it to the original person
   const params = {
     ConnectionId: connectionId,
     Data: JSON.stringify({connectionID: connectionId}),
@@ -108,4 +165,4 @@ module.exports.writeMessageHandler = async(event, context) => {
 
   return apigwManagementApi.postToConnection(params).promise();
 
-}
+};
