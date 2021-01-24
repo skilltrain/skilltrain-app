@@ -19,7 +19,7 @@ String description = "";
 String _selectedYear = "Year";
 String _selectedMonth = "Month";
 String _selectedDate = "Day";
-String _selectedStartTime = "Start time";
+String _selectedStartTime = "Time";
 
 class InstructorRegisterCourse extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -33,6 +33,13 @@ class InstructorRegisterCourse extends StatefulWidget {
 class SampleStart extends State<InstructorRegisterCourse> {
   Future<List> futureApiResults;
   Future<ApiResults> resFromPostReq;
+  final _timeKey = GlobalKey<FormState>();
+  final _dayKey = GlobalKey<FormState>();
+  final _monthKey = GlobalKey<FormState>();
+  final _yearKey = GlobalKey<FormState>();
+
+  // ignore: unused_field
+  bool _autovalidate = false;
 
   @override
   void initState() {
@@ -58,12 +65,11 @@ class SampleStart extends State<InstructorRegisterCourse> {
         ),
         body: Center(
             child: Column(
-//          mainAxisSize: MainAxisSize.min,
-//          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: DropdownButton<String>(
+            Form(
+              key: _yearKey,
+              autovalidateMode: AutovalidateMode.always,
+              child: DropdownButtonFormField<String>(
                 isExpanded: true,
                 hint: Text(_selectedYear, textAlign: TextAlign.center),
                 items: <String>['2021', '2022', '2023', '2024', '2025']
@@ -75,6 +81,8 @@ class SampleStart extends State<InstructorRegisterCourse> {
                     ),
                   );
                 }).toList(),
+                validator: (value) =>
+                    value == null ? 'Please select a year' : null,
                 onChanged: (value) {
                   _selectedYear = value;
                   year = value;
@@ -89,8 +97,10 @@ class SampleStart extends State<InstructorRegisterCourse> {
               children: [
                 Expanded(
                   flex: 1,
-                  child: Container(
-                    child: DropdownButton<String>(
+                  child: Form(
+                    key: _monthKey,
+                    autovalidateMode: AutovalidateMode.always,
+                    child: DropdownButtonFormField<String>(
                       hint: Text(_selectedMonth, textAlign: TextAlign.center),
                       isExpanded: true,
                       items: <String>[
@@ -114,6 +124,8 @@ class SampleStart extends State<InstructorRegisterCourse> {
                           ),
                         );
                       }).toList(),
+                      validator: (value) =>
+                          value == null ? 'Please select a month' : null,
                       onChanged: (value) {
                         month = value;
                         print("month is" + value);
@@ -126,9 +138,10 @@ class SampleStart extends State<InstructorRegisterCourse> {
                 ),
                 Expanded(
                     flex: 1,
-                    child: Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        child: DropdownButton<String>(
+                    child: Form(
+                        key: _dayKey,
+                        autovalidateMode: AutovalidateMode.always,
+                        child: DropdownButtonFormField<String>(
                           isExpanded: true,
                           hint:
                               Text(_selectedDate, textAlign: TextAlign.center),
@@ -173,6 +186,8 @@ class SampleStart extends State<InstructorRegisterCourse> {
                               ),
                             );
                           }).toList(),
+                          validator: (value) =>
+                              value == null ? 'Please select a day' : null,
                           onChanged: (value) {
                             day = value;
                             print("month is" + day);
@@ -183,48 +198,50 @@ class SampleStart extends State<InstructorRegisterCourse> {
                         ))),
                 Expanded(
                     flex: 1,
-                    child: Container(
-                      width: double.infinity,
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        hint: Text(_selectedStartTime,
-                            textAlign: TextAlign.center),
-                        items: <String>[
-                          '09:00',
-                          '10:00',
-                          '11:00',
-                          '12:00',
-                          '13:00',
-                          '14:00',
-                          '15:00',
-                          '16:00',
-                          '17:00',
-                          '18:00',
-                          '19:00',
-                          '20:00',
-                          '21:00',
-                          '22:00',
-                          '23:00'
-                        ].map((String value) {
-                          return new DropdownMenuItem<String>(
-                            value: value,
-                            child: Center(
-                              child:
-                                  new Text(value, textAlign: TextAlign.center),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          startTime = value;
-                          endTime = startTime.substring(0, 3) + "50";
-                          print("start time is" + startTime);
-                          print("end time  is" + endTime);
-                          setState(() {
-                            _selectedStartTime = value;
-                          });
-                        },
-                      ),
-                    ))
+                    child: Form(
+                        key: _timeKey,
+                        autovalidateMode: AutovalidateMode.always,
+                        child: DropdownButtonFormField<String>(
+                          isExpanded: true,
+                          hint: Text(_selectedStartTime,
+                              textAlign: TextAlign.center),
+                          items: <String>[
+                            '09:00',
+                            '10:00',
+                            '11:00',
+                            '12:00',
+                            '13:00',
+                            '14:00',
+                            '15:00',
+                            '16:00',
+                            '17:00',
+                            '18:00',
+                            '19:00',
+                            '20:00',
+                            '21:00',
+                            '22:00',
+                            '23:00'
+                          ].map((String value) {
+                            return new DropdownMenuItem<String>(
+                              value: value,
+                              child: Center(
+                                child: new Text(value,
+                                    textAlign: TextAlign.center),
+                              ),
+                            );
+                          }).toList(),
+                          validator: (value) =>
+                              value == null ? 'Please select a time' : null,
+                          onChanged: (value) {
+                            startTime = value;
+                            endTime = startTime.substring(0, 3) + "50";
+                            print("start time is" + startTime);
+                            print("end time  is" + endTime);
+                            setState(() {
+                              _selectedStartTime = value;
+                            });
+                          },
+                        )))
               ],
             ),
             TextFormField(
@@ -238,7 +255,16 @@ class SampleStart extends State<InstructorRegisterCourse> {
             new Spacer(),
             RaisedButton(
               onPressed: () async {
-                postData(context);
+                if (_timeKey.currentState.validate() &&
+                    _dayKey.currentState.validate() &&
+                    _monthKey.currentState.validate() &&
+                    _yearKey.currentState.validate()) {
+                  postData(context);
+                } else {
+                  setState(() {
+                    _autovalidate = true;
+                  });
+                }
               },
               textColor: Colors.white,
               padding: const EdgeInsets.all(0),
@@ -297,20 +323,20 @@ Future<Map> postData(BuildContext context) async {
     print("new calendar record POST request successful");
 
     showDialog(
-        context: context,
-        builder: (context) {
-          return SimpleDialog(
-            title: Text("New course has been registered"),
-            children: <Widget>[
-              // コンテンツ領域
-              SimpleDialogOption(
-                onPressed: () => Navigator.pop(context),
-                child: Text(""),
-              ),
-            ],
-          );
-        },
-      );
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: Text("New course has been registered"),
+          children: <Widget>[
+            // コンテンツ領域
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context),
+              child: Text(""),
+            ),
+          ],
+        );
+      },
+    );
 
     Navigator.pop(context);
 
