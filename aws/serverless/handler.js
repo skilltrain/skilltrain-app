@@ -84,49 +84,12 @@ module.exports.writeMessageHandler = async(event, context) => {
     }
     return;
   }
-  
-  // Now, if both users are connected at the same time, we need to return a response
-  // to both connectionIDs
-  // Get the partner ID
-  
-  let partnerConnectionID;
-
-  const ddbparams = {
-    TableName: "Sessions",
-    Key: {
-      id: sessionID,
-    },
-    ProjectionExpression: isTrainer ? 'user_connectionID' : 'trainer_connectionID'
-  };
-  
-  try {
-    const data = await ddb.get(ddbparams).promise();
-    console.log('partner connection ID', data);
-    partnerConnectionID = isTrainer ? data.Item.user_connectionID : data.Item.trainer_connectionID;
-  } catch (error) {
-    console.log(error);
-  }
-  
-  if (partnerConnectionID != null) {
-    //If there is a partner ID, retrieve it and send a response to them (they may not be connected though)
-    const params = {
-      ConnectionId: partnerConnectionID,
-      Data: JSON.stringify({connectionID: partnerConnectionID}),
-    };
-    apigwManagementApi.postToConnection(params).promise();
-  }
 
 
-  // Send it to the original person
-  const params = {
-    ConnectionId: connectionId,
-    Data: JSON.stringify({connectionID: connectionId}),
-  };
 
-  apigwManagementApi.postToConnection(params).promise();
   
   
-  
+  console.log('attempt to put message in table');
 
   //Add the message to the log, failsafe for if no current messages below
   try {
@@ -148,6 +111,7 @@ module.exports.writeMessageHandler = async(event, context) => {
     
   } catch (err) {
     console.log(err);
+    console.log('attempt to add, as not existing');
     // Failed, so it doesn't exist, or other error
     // Try creating the item
     console.log('next block');
@@ -174,7 +138,37 @@ module.exports.writeMessageHandler = async(event, context) => {
     }
   }
   
-  return;
+    
+  // Now, if both users are connected at the same time, we need to return a response
+  // to both connectionIDs
+  // Get the partner ID
+  
+  let partnerConnectionID;
 
-
+  console.log('attempt to get partner id');
+  const ddbparams = {
+    TableName: "Sessions",
+    Key: {
+      id: sessionID,
+    },
+    ProjectionExpression: isTrainer ? 'user_connectionID' : 'trainer_connectionID'
+  };
+  console.log('finished attempt to get partner id');
+  
+  try {
+    const data = await ddb.get(ddbparams).promise();
+    console.log('partner connection ID', data);
+    partnerConnectionID = isTrainer ? data.Item.user_connectionID : data.Item.trainer_connectionID;
+  } catch (error) {
+    console.log(error);
+  }
+  
+  if (partnerConnectionID != null) {
+    //If there is a partner ID, retrieve it and send a response to them (they may not be connected though)
+    const params = {
+      ConnectionId: partnerConnectionID,
+      Data: JSON.stringify({connectionID: partnerConnectionID}),
+    };
+    return apigwManagementApi.postToConnection(params).promise();
+  }
 };
