@@ -13,7 +13,7 @@ import '../../../../../utils/sliders.dart';
 import 'instructor_bio_update.dart';
 // ignore: unused_import
 import '../../../../../services/agora/video_session/index_trainer.dart';
-import '../../instructor_view/pages/instructor_session_detail.dart';
+import 'instructor_session_update.dart';
 
 String trainerName = "";
 
@@ -70,31 +70,30 @@ class SampleStart extends State<SessionList> {
             backgroundColor: Colors.white,
             iconTheme:
                 IconThemeData(color: Colors.black), //change your color here
-            title: Text('Booked sessions'),
             centerTitle: true,
             automaticallyImplyLeading: true,
             leading: IconButton(
                 onPressed: () => Navigator.pop(context, false),
                 icon: Icon(Icons.arrow_back)),
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    padding: EdgeInsets.all(36),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        blackHeading(
-                            title: "Your Registered ",
-                            underline: false,
-                            purple: false),
-                        blackHeading(
-                            title: "Sessions", underline: true, purple: false)
-                      ],
-                    )),
-                Container(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                  padding: EdgeInsets.all(36),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      blackHeading(
+                          title: "Your Registered ",
+                          underline: false,
+                          purple: false),
+                      blackHeading(
+                          title: "Sessions", underline: true, purple: false)
+                    ],
+                  )),
+              Expanded(
+                child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(16),
@@ -155,12 +154,22 @@ class SampleStart extends State<SessionList> {
                                                 Navigator.push(
                                                   context,
                                                   SlideLeftRoute(
-                                                      page:
-                                                          InstructorSessionDetail(
-                                                              sessionID:
-                                                                  snapshot.data[
-                                                                          index]
-                                                                      ['id'])),
+                                                      page: InstructorSessionUpdate(
+                                                          date:
+                                                              classArray[index]
+                                                                  ["date"],
+                                                          description:
+                                                              classArray[index][
+                                                                  "description"],
+                                                          startTime: classArray[
+                                                                  index]
+                                                              ["start_time"],
+                                                          endTime:
+                                                              classArray[index]
+                                                                  ["end_time"],
+                                                          sessionID:
+                                                              classArray[index]
+                                                                  ['id'])),
                                                 )
                                               });
 //
@@ -193,8 +202,8 @@ class SampleStart extends State<SessionList> {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           )
 
 //         body: Column(
