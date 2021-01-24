@@ -10,8 +10,9 @@ import 'call_trainee.dart';
 // *********** 1to1 VC Mode *********** //
 
 class IndexPageTrainee extends StatefulWidget {
+  final String sessionCode;
   final instructorName;
-  IndexPageTrainee({this.instructorName});
+  IndexPageTrainee({this.instructorName, this.sessionCode});
 
   @override
   State<StatefulWidget> createState() => IndexState();

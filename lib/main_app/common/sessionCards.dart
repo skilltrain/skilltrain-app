@@ -28,9 +28,9 @@ Widget sessionCard(
           child: Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(left: 36, top: 24, bottom: 24),
+                padding: const EdgeInsets.only(left: 18, top: 24, bottom: 24),
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
