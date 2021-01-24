@@ -326,7 +326,7 @@ class SampleStart extends State<HomePageTrainee> {
                     }
                   } else {
                     return Hero(
-                      tag: index,
+                      tag: index + snapshot.data[index]["price"],
                       child: SizedBox(
                         width: 170,
                         child: Card(

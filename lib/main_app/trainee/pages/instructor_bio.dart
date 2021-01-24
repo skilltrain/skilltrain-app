@@ -98,8 +98,9 @@ class _InstructorBioState extends State<InstructorBio> {
                       child: SizedBox(
                         height: 150,
                         child: Hero(
-                          tag: widget.index,
+                          tag: widget.index + widget.data["price"],
                           child: Material(
+                            color: Colors.white,
                             child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
