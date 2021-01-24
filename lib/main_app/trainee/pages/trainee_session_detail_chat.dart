@@ -47,7 +47,7 @@ class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
         "body": {
           "msg": message,
           "sessionID": widget.sessionID,
-          "isTrainer": true
+          "isTrainer": false
         }
       }
     }));
@@ -90,7 +90,6 @@ class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
                           child: ListView.builder(
                             itemCount: messages.length,
                             itemBuilder: (BuildContext context, int index) {
-                              // print('${messages["messages"][index]["msg"]}');
                               return new Column(
                                 children: <Widget>[
                                   new Text('${messages[index]["msg"]}'),
