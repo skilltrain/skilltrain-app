@@ -118,37 +118,42 @@ class SampleStart extends State<BookingStatus> {
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     //card
-                                    return InkWell(
-                                        onTap: () => {
+                                    return sessionCard(
+                                        trainer: false,
+                                        name: classArray[index]
+                                            ["trainer_username"],
+                                        date: classArray[index]["date"],
+                                        startTime: classArray[index]
+                                            ["start_time"],
+                                        endTime: classArray[index]["end_time"],
+                                        context: context,
+                                        function: () => {
                                               Navigator.push(
                                                 context,
                                                 SlideLeftRoute(
-                                                    page: TraineeSessionDetail(
+                                                    page: TraineeSessionDetailsPage(
                                                         sessionID:
                                                             classArray[index]
-                                                                ['id'])),
+                                                                ['id'],
+                                                        trainer: classArray[index]
+                                                            [
+                                                            "trainer_username"],
+                                                        sessionCode:
+                                                            classArray[index]
+                                                                ["sessionCode"],
+                                                        date: classArray[index]
+                                                            ["date"],
+                                                        startTime:
+                                                            classArray[index]
+                                                                ["start_time"],
+                                                        endTime:
+                                                            classArray[index]
+                                                                ["end_time"],
+                                                        description: classArray[
+                                                                index]
+                                                            ["description"])),
                                               )
-                                            },
-                                        child: sessionCard(
-                                            trainer: false,
-                                            name: classArray[index]
-                                                ["trainer_username"],
-                                            date: classArray[index]["date"],
-                                            startTime: classArray[index]
-                                                ["start_time"],
-                                            endTime: classArray[index]
-                                                ["end_time"],
-                                            context: context,
-                                            function: () => {
-                                                  Navigator.push(
-                                                    context,
-                                                    SlideLeftRoute(
-                                                        page: TraineeSessionDetailsPage(
-                                                            sessionID: snapshot
-                                                                    .data[index]
-                                                                ['id'])),
-                                                  )
-                                                }));
+                                            });
 //
                                   },
                                   itemCount: classArray.length,
