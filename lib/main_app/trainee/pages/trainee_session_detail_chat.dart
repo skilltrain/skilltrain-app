@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:web_socket_channel/io.dart';
 
-//Eliot - I think we could use the same page for both trainer and user??
 class TraineeSessionDetailsPage extends StatefulWidget {
   final String sessionID;
   final socketChannel = IOWebSocketChannel.connect(
@@ -17,7 +16,7 @@ class TraineeSessionDetailsPage extends StatefulWidget {
 }
 
 class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
-  var messages;
+  var messages = [];
   final _messageController = TextEditingController();
 
   @override
@@ -27,6 +26,13 @@ class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
       print('Message from stream listen: $message');
       _getMessages(widget.sessionID);
     });
+    //The cloud function is set to update only the connectionID if the user sends through
+    //an empty message, so, this can happen when the user first opens this page
+    //note that the connectionID will change every single time line 26 is run, therefore
+    //the connectionID must be updated everytime they open this page
+    //if the user personally sends through an empty string, no harm will be done as the
+    //connectionID will only update
+    _onWriteThroughSocket(' ');
     _getMessages(widget.sessionID);
     super.initState();
   }
@@ -41,7 +47,7 @@ class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
 
   void _onWriteThroughSocket(String message) async {
     // Write through lambda function & API Gateway
-    widget.socketChannel.sink.add(jsonEncode({
+    final messageObject = {
       "action": "writeMessage",
       "data": {
         "body": {
@@ -50,7 +56,18 @@ class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
           "isTrainer": false
         }
       }
-    }));
+    };
+    // ' ' is for initial message to enter id into table, however if it isn't ' ',
+    // then we can update the local screen with setState, will not receive a response
+    // from the stream as it is not necessary, will not do any server calls
+    if (message != ' ') {
+      messages.add(
+          {'msg': message, 'sessionID': widget.sessionID, 'isTrainer': false});
+      setState(() {
+        messages = messages;
+      });
+    }
+    widget.socketChannel.sink.add(jsonEncode(messageObject));
   }
 
   void _getMessages(String sessionID) async {
@@ -58,7 +75,11 @@ class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
         'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions/messages?sessionID=$sessionID');
     final decodedData = await json.decode(data.body);
     setState(() {
-      messages = decodedData["messages"];
+      if (decodedData.length > 0) {
+        messages = decodedData["messages"];
+      } else {
+        messages = [];
+      }
     });
   }
 
