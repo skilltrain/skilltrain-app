@@ -110,13 +110,14 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
       label: 'Vendor A',
       amount: (totalCost + tip + tax).toString(),
     ));
-    amount = (totalCost + tip + tax).toInt();
-    print('amount in yen which will be charged = $amount');
+    // amount = (totalCost + tip + tax).toInt();
+
+    print('amount in yen which will be charged = ${widget.price}');
     //step 1: add card
     PaymentMethod paymentMethod = PaymentMethod();
     Token token = await StripePayment.paymentRequestWithNativePay(
       androidPayOptions: AndroidPayPaymentRequest(
-        totalPrice: (totalCost + tax + tip).toStringAsFixed(2),
+        totalPrice: widget.price.toStringAsFixed(2),
         currencyCode: 'JPY',
       ),
       applePayOptions: ApplePayPaymentOptions(
@@ -154,7 +155,7 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
     final connAccID = jsonDecode(idResponse.body);
     print(connAccID);
     final http.Response response = await http.post(
-        '$url?amount=$amount&currency=JPY&paym=${paymentMethod.id}&connAccID=$connAccID');
+        '$url?amount=${widget.price.toString()}&currency=JPY&paym=${paymentMethod.id}&connAccID=$connAccID');
     print('Now i decode');
     if (response.statusCode == 200) {
       final paymentIntentX = jsonDecode(response.body);
@@ -169,6 +170,7 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
               'Payment completed. ¥${paymentIntentX['paymentIntent']['amount'].toString()} succesfully charged';
           showSpinner = false;
         });
+        updateSession(widget.sessionId);
         await new Future.delayed(const Duration(seconds: 3));
         Navigator.pop(context);
       } else {
