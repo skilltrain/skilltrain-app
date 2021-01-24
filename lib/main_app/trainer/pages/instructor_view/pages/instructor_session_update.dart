@@ -1,11 +1,9 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter/material.dart';
 import 'package:amplify_core/amplify_core.dart';
-import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:http/http.dart' as http;
 import 'package:skilltrain/main_app/common/headings.dart';
 import 'dart:convert';
-import '../pages/instructor_session_list.dart';
 
 class InstructorSessionUpdate extends StatefulWidget {
   //session ID passed by top page
@@ -183,12 +181,6 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                 )
               ],
             ),
-            // FutureBuilder(
-            //     future: sessionData,
-            //     builder: (BuildContext context, snapshot) {
-            //       print(snapshot);
-            //       if (snapshot.hasData) {
-            // return
             Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -212,65 +204,7 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                           ],
                         ),
                       ),
-
-                      ///Containr(
                       Column(children: [
-                        // Container(
-                        //   width: double.infinity,
-                        //   child: Row(children: [
-                        //     Flexible(
-                        //       child: Container(
-                        //         width: MediaQuery.of(context)
-                        //                 .size
-                        //                 .width *
-                        //             0.16,
-                        //         child: Text("Year",
-                        //             textAlign: TextAlign.left,
-                        //             style: TextStyle(
-                        //                 fontSize: 10,
-                        //                 color: Colors.white)),
-                        //       ),
-                        //     ),
-                        //     Flexible(
-                        //       child: Container(
-                        //         width: MediaQuery.of(context)
-                        //                 .size
-                        //                 .width *
-                        //             0.33,
-                        //         child: Text("Month",
-                        //             textAlign: TextAlign.left,
-                        //             style: TextStyle(
-                        //                 fontSize: 10,
-                        //                 color: Colors.white)),
-                        //       ),
-                        //     ),
-                        //     Flexible(
-                        //       child: Container(
-                        //         width: MediaQuery.of(context)
-                        //                 .size
-                        //                 .width *
-                        //             0.16,
-                        //         child: Text("Date",
-                        //             textAlign: TextAlign.left,
-                        //             style: TextStyle(
-                        //                 fontSize: 10,
-                        //                 color: Colors.white)),
-                        //       ),
-                        //     ),
-                        //     Flexible(
-                        //       flex: 2,
-                        //       child: Container(
-                        //         width: MediaQuery.of(context)
-                        //                 .size
-                        //                 .width *
-                        //             0.33,
-                        //         child: Text("Start time",
-                        //             textAlign: TextAlign.left,
-                        //             style: TextStyle(fontSize: 10)),
-                        //       ),
-                        //     ),
-                        //   ]),
-                        // ),
                         Container(
                           width: double.infinity,
                           height: 40,
@@ -284,10 +218,6 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                               Flexible(
                                 flex: 1,
                                 child: Container(
-                                  // width: MediaQuery.of(context)
-                                  //         .size
-                                  //         .width *
-                                  //     0.24,
                                   child: DropdownButton<String>(
                                     isExpanded: true,
                                     hint: Text(_selectedYear,
@@ -324,10 +254,6 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                               Flexible(
                                 flex: 1,
                                 child: Container(
-                                  // width: MediaQuery.of(context)
-                                  //         .size
-                                  //         .width *
-                                  //     0.24,
                                   child: Container(
                                     child: DropdownButton<String>(
                                       hint: Text(_selectedMonth,
@@ -375,10 +301,6 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                               Flexible(
                                 flex: 1,
                                 child: Container(
-                                    // width: MediaQuery.of(context)
-                                    //         .size
-                                    //         .width *
-                                    //     0.14,
                                     child: DropdownButton<String>(
                                   isExpanded: true,
                                   hint: Text(_selectedDate,
@@ -500,7 +422,6 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                           ),
                         ),
                       ]),
-
                       Container(
                         width: double.infinity,
                         child: Padding(
@@ -514,7 +435,6 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                           ),
                         ),
                       ),
-
                       Container(
                         decoration: BoxDecoration(
                           border:
@@ -559,13 +479,7 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                           )),
                     ],
                   ),
-                ))
-            // } else if (snapshot.connectionState != ConnectionState.done) {
-            //   return Center(child: CircularProgressIndicator());
-            // } else {
-            //   return Text("データが存在しません");
-            // }
-            ,
+                )),
           ],
         ));
   }

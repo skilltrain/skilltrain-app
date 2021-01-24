@@ -91,114 +91,107 @@ class SampleStart extends State<SessionList> {
                           title: "Sessions", underline: true, purple: false)
                     ],
                   )),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(16),
-                      topLeft: Radius.circular(16),
-                    ),
-                    color: Colors.purple,
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(16),
+                    topLeft: Radius.circular(16),
                   ),
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 36.0, bottom: 36),
-                    child: Column(
-                      children: <Widget>[
-                        FutureBuilder<List>(
-                          future: sessionResults,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              final List classArray = [];
-                              for (int i = 0; i < snapshot.data.length; i++) {
-                                if (snapshot.data[i]["user_username"].length ==
-                                        0 &&
-                                    DateTime.parse(stringDate).isBefore(
-                                        DateTime.parse(
-                                            snapshot.data[i]["date"]))) {
-                                  classArray.add(snapshot.data[i]);
-                                  classArray.sort((a, b) {
-                                    var adate = a["date"] + a["start_time"];
-                                    var bdate = b["date"] + b["start_time"];
-                                    return adate.compareTo(bdate);
-                                  });
-                                } else
-                                  print(
-                                      "something went wrong with fetched data");
-                              }
-
-                              return SingleChildScrollView(
-                                  child: Center(
-                                      child: Container(
-                                          child: Column(
-                                children: <Widget>[
-                                  SizedBox(
-                                      child: ListView.builder(
-                                    physics: const ClampingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      //card
-                                      return sessionCard(
-                                          trainer: false,
-                                          name: classArray[index]
-                                              ["trainer_username"],
-                                          date: classArray[index]["date"],
-                                          startTime: classArray[index]
-                                              ["start_time"],
-                                          endTime: classArray[index]
-                                              ["end_time"],
-                                          context: context,
-                                          function: () => {
-                                                Navigator.push(
-                                                  context,
-                                                  SlideLeftRoute(
-                                                      page: InstructorSessionUpdate(
-                                                          date:
-                                                              classArray[index]
-                                                                  ["date"],
-                                                          description:
-                                                              classArray[index][
-                                                                  "description"],
-                                                          startTime: classArray[
-                                                                  index]
-                                                              ["start_time"],
-                                                          endTime:
-                                                              classArray[index]
-                                                                  ["end_time"],
-                                                          sessionID:
-                                                              classArray[index]
-                                                                  ['id'])),
-                                                )
-                                              });
-//
-                                    },
-                                    itemCount: classArray.length,
-                                  )),
-                                  Center(
-                                      child: Text("last update:" + "$_date",
-                                          style:
-                                              TextStyle(color: Colors.white))),
-                                ],
-                              ))));
-                            } else if (snapshot.connectionState !=
-                                ConnectionState.done) {
-                              return Container(
-                                  height:
-                                      MediaQuery.of(context).size.height - 87,
-                                  decoration: new BoxDecoration(
-                                      color: Colors.deepPurple[100]),
-                                  child: Center(
-                                      child: CircularProgressIndicator()));
-                            } else if (snapshot.hasError) {
-                              return Text("${snapshot.error}");
+                  color: Colors.purple,
+                ),
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 36.0, bottom: 36),
+                  child: Column(
+                    children: <Widget>[
+                      FutureBuilder<List>(
+                        future: sessionResults,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            final List classArray = [];
+                            for (int i = 0; i < snapshot.data.length; i++) {
+                              if (snapshot.data[i]["user_username"].length ==
+                                      0 &&
+                                  DateTime.parse(stringDate).isBefore(
+                                      DateTime.parse(
+                                          snapshot.data[i]["date"]))) {
+                                classArray.add(snapshot.data[i]);
+                                classArray.sort((a, b) {
+                                  var adate = a["date"] + a["start_time"];
+                                  var bdate = b["date"] + b["start_time"];
+                                  return adate.compareTo(bdate);
+                                });
+                              } else
+                                print("something went wrong with fetched data");
                             }
+
+                            return SingleChildScrollView(
+                                child: Center(
+                                    child: Container(
+                                        child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                    child: ListView.builder(
+                                  physics: const ClampingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    //card
+                                    return sessionCard(
+                                        trainer: false,
+                                        name: classArray[index]
+                                            ["trainer_username"],
+                                        date: classArray[index]["date"],
+                                        startTime: classArray[index]
+                                            ["start_time"],
+                                        endTime: classArray[index]["end_time"],
+                                        context: context,
+                                        function: () => {
+                                              Navigator.push(
+                                                context,
+                                                SlideLeftRoute(
+                                                    page: InstructorSessionUpdate(
+                                                        date: classArray[index]
+                                                            ["date"],
+                                                        description:
+                                                            classArray[index]
+                                                                ["description"],
+                                                        startTime:
+                                                            classArray[index]
+                                                                ["start_time"],
+                                                        endTime:
+                                                            classArray[index]
+                                                                ["end_time"],
+                                                        sessionID:
+                                                            classArray[index]
+                                                                ['id'])),
+                                              )
+                                            });
+//
+                                  },
+                                  itemCount: classArray.length,
+                                )),
+                                Center(
+                                    child: Text("last update:" + "$_date",
+                                        style: TextStyle(color: Colors.white))),
+                              ],
+                            ))));
+                          } else if (snapshot.connectionState !=
+                              ConnectionState.done) {
                             return Container(
-                                child: Text("You have no upcoming sessions"));
-                          },
-                        ),
-                      ],
-                    ),
+                                height: MediaQuery.of(context).size.height - 87,
+                                decoration: new BoxDecoration(
+                                    color: Colors.deepPurple[100]),
+                                child:
+                                    Center(child: CircularProgressIndicator()));
+                          } else if (snapshot.hasError) {
+                            return Text("${snapshot.error}");
+                          }
+                          return Container(
+                              child: Text("You have no upcoming sessions"));
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ),
