@@ -39,8 +39,6 @@ class SampleStart extends State<BookingStatus> {
 
   //calender object
   DateTime _date = new DateTime.now(); //defaulr date value
-  String stringDate =
-      format.format(new DateTime.now().subtract(Duration(days: 1)));
 
   @override
   Widget build(BuildContext context) {
@@ -70,9 +68,7 @@ class SampleStart extends State<BookingStatus> {
                           underline: false,
                           purple: false),
                       blackHeading(
-                          title: "Sessions" + stringDate,
-                          underline: true,
-                          purple: false)
+                          title: "Sessions", underline: true, purple: false)
                     ],
                   )),
               Container(
