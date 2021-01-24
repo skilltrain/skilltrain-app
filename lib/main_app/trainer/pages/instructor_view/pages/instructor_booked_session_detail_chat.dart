@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:skilltrain/main_app/common/headings.dart';
 import 'package:skilltrain/main_app/trainer/pages/instructor_view/pages/instructor_register_course.dart';
 import 'package:skilltrain/services/agora/video_session/index_trainer.dart';
+import 'package:skilltrain/utils/bubble.dart';
 import 'package:skilltrain/utils/sliders.dart';
 import 'package:web_socket_channel/io.dart';
 
@@ -66,17 +67,31 @@ class _TrainerBookedSessionPageState extends State<TrainerBookedSessionPage> {
 
   void _onWriteThroughSocket(String message) async {
     // Write through lambda function & API Gateway
+    var now = new DateTime.now();
+    final DateFormat formatter = new DateFormat('MMM-dd hh:mm aa');
+    final String formattedNow = formatter.format(now).toString();
+    print(formattedNow);
     final messageObject = {
       "action": "writeMessage",
       "data": {
-        "body": {"msg": message, "sessionID": widget.id, "isTrainer": true}
+        "body": {
+          "msg": message,
+          "sessionID": widget.id,
+          "isTrainer": true,
+          "time": formattedNow
+        }
       }
     };
     // ' ' is for initial message to enter id into table, however if it isn't ' ',
     // then we can update the local screen with setState, will not receive a response
     // from the stream as it is not necessary, will not do any server calls
     if (message != ' ') {
-      messages.add({'msg': message, 'sessionID': widget.id, 'isTrainer': true});
+      messages.add({
+        'msg': message,
+        'sessionID': widget.id,
+        'isTrainer': true,
+        'time': formattedNow
+      });
       setState(() {
         messages = messages;
       });
@@ -248,13 +263,12 @@ class _TrainerBookedSessionPageState extends State<TrainerBookedSessionPage> {
                             child: ListView.builder(
                               itemCount: messages.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return new Column(
-                                  children: <Widget>[
-                                    new Text('${messages[index]["msg"]}'),
-                                    new Divider(
-                                      height: 2.0,
-                                    ),
-                                  ],
+                                return new Bubble(
+                                  message: messages[index]['msg'],
+                                  time: messages[index]['time'],
+                                  isMe: !messages[index][
+                                      'isTrainer'], // This is wrong on purpose, right side for self looks better
+                                  delivered: true,
                                 );
                               },
                             ),
