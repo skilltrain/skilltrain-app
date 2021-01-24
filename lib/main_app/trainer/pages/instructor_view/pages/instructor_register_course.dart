@@ -400,7 +400,7 @@ class SampleStart extends State<InstructorRegisterCourse> {
                                     _timeKey.currentState.validate()) {
                                   final dynamic result =
                                       await postData(context);
-                                  if (result.statusCode == 201) {
+                                  if (result.statusCode == 200) {
                                     print("post successful");
                                     Navigator.pop(context, false);
                                   } else {
