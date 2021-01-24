@@ -3,12 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-<<<<<<< HEAD
 import 'package:skilltrain/main_app/common/headings.dart';
 import 'package:skilltrain/services/agora/video_session/index_trainee.dart';
 import 'package:skilltrain/utils/sliders.dart';
-=======
->>>>>>> a70344867f02019fc58e9bc7cdb2da36d56f160e
 import 'package:web_socket_channel/io.dart';
 import '../../../utils/bubble.dart';
 

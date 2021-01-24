@@ -500,7 +500,6 @@ class SampleStart extends State<HomePageTrainee> {
                             context,
                             SlideLeftRoute(
                                 page: TraineeSessionDetailsPage(
-<<<<<<< HEAD
                                     sessionID: snapshot.data[index]['id'],
                                     trainer: snapshot.data[index]
                                         ["trainer_username"],
@@ -512,9 +511,6 @@ class SampleStart extends State<HomePageTrainee> {
                                     endTime: snapshot.data[index]["end_time"],
                                     description: snapshot.data[index]
                                         ["description"])),
-=======
-                                    sessionID: classArray[index]['id'])),
->>>>>>> a70344867f02019fc58e9bc7cdb2da36d56f160e
                           )
                         });
               },
