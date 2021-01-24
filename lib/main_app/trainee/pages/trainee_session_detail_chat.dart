@@ -3,10 +3,14 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+<<<<<<< HEAD
 import 'package:skilltrain/main_app/common/headings.dart';
 import 'package:skilltrain/services/agora/video_session/index_trainee.dart';
 import 'package:skilltrain/utils/sliders.dart';
+=======
+>>>>>>> a70344867f02019fc58e9bc7cdb2da36d56f160e
 import 'package:web_socket_channel/io.dart';
+import '../../../utils/bubble.dart';
 
 class TraineeSessionDetailsPage extends StatefulWidget {
   final String sessionID;
@@ -65,13 +69,18 @@ class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
 
   void _onWriteThroughSocket(String message) async {
     // Write through lambda function & API Gateway
+    var now = new DateTime.now();
+    final DateFormat formatter = new DateFormat('MMM-dd hh:mm aa');
+    final String formattedNow = formatter.format(now).toString();
+    print(formattedNow);
     final messageObject = {
       "action": "writeMessage",
       "data": {
         "body": {
           "msg": message,
           "sessionID": widget.sessionID,
-          "isTrainer": false
+          "isTrainer": false,
+          "time": formattedNow
         }
       }
     };
@@ -79,8 +88,12 @@ class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
     // then we can update the local screen with setState, will not receive a response
     // from the stream as it is not necessary, will not do any server calls
     if (message != ' ') {
-      messages.add(
-          {'msg': message, 'sessionID': widget.sessionID, 'isTrainer': false});
+      messages.add({
+        'msg': message,
+        'sessionID': widget.sessionID,
+        'isTrainer': false,
+        'time': formattedNow
+      });
       setState(() {
         messages = messages;
       });
@@ -249,13 +262,12 @@ class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
                           child: ListView.builder(
                             itemCount: messages.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return new Column(
-                                children: <Widget>[
-                                  new Text('${messages[index]["msg"]}'),
-                                  new Divider(
-                                    height: 2.0,
-                                  ),
-                                ],
+                              return new Bubble(
+                                message: messages[index]['msg'],
+                                time: messages[index]['time'],
+                                isMe: messages[index][
+                                    'isTrainer'], // This is wrong on purpose, right side for self looks better
+                                delivered: true,
                               );
                             },
                           ),

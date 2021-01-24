@@ -38,8 +38,6 @@ class SampleStart extends State<BookingStatus> {
 
   //calender object
   DateTime _date = new DateTime.now(); //defaulr date value
-  String stringDate =
-      format.format(new DateTime.now().subtract(Duration(days: 1)));
 
   @override
   Widget build(BuildContext context) {
@@ -93,9 +91,10 @@ class SampleStart extends State<BookingStatus> {
                             for (int i = 0; i < snapshot.data.length; i++) {
                               if (snapshot.data[i]["user_username"] ==
                                       traineeName &&
-                                  DateTime.parse(stringDate).isBefore(
-                                      DateTime.parse(
-                                          snapshot.data[i]["date"]))) {
+                                  DateTime.parse(_date.toString()).isBefore(
+                                      DateTime.parse(snapshot.data[i]["date"] +
+                                          " " +
+                                          snapshot.data[i]["end_time"]))) {
                                 classArray.add(snapshot.data[i]);
                                 classArray.sort((a, b) {
                                   var adate = a["date"] + a["start_time"];

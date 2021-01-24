@@ -58,8 +58,8 @@ class SampleStart extends State<HomePageTrainer> {
 
   //calendar object
   DateTime _date = new DateTime.now(); //default date value
-  String stringDate = format.format(new DateTime.now()
-      .subtract(Duration(days: 1))); //default date value for card
+  // String stringDate = format.format(new DateTime.now()
+  //     .subtract(Duration(days: 1))); //default date value for card
 
   Future getUrl(url) async {
     try {
@@ -208,18 +208,18 @@ class SampleStart extends State<HomePageTrainer> {
                               for (int i = 0; i < snapshot.data.length; i++) {
                                 if (snapshot.data[i]["user_username"].length >
                                         0 &&
-                                    DateTime.parse(stringDate).isBefore(
-                                        DateTime.parse(
-                                            snapshot.data[i]["date"]))) {
+                                    DateTime.parse(_date.toString()).isBefore(
+                                        DateTime.parse(snapshot.data[i]
+                                                ["date"] +
+                                            " " +
+                                            snapshot.data[i]["end_time"]))) {
                                   classArray.add(snapshot.data[i]);
                                   classArray.sort((a, b) {
                                     var adate = a["date"] + a["start_time"];
                                     var bdate = b["date"] + b["start_time"];
                                     return adate.compareTo(bdate);
                                   });
-                                } else
-                                  print(
-                                      "something went wrong with fetched data");
+                                }
                               }
 
                               return SingleChildScrollView(
