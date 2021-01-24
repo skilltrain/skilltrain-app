@@ -115,8 +115,7 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
               onPressed: () => Navigator.pop(context, false),
               icon: Icon(Icons.arrow_back)),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        body: ListView(
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -190,288 +189,166 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
             //       print(snapshot);
             //       if (snapshot.hasData) {
             // return
-            Expanded(
-              child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(16),
-                      topLeft: Radius.circular(16),
-                    ),
-                    color: Colors.purple,
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(16),
+                    topLeft: Radius.circular(16),
                   ),
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.all(36.0),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 18.0),
-                          child: Row(
-                            children: [
-                              Icon(Icons.calendar_today,
-                                  color: Colors.white, size: 18),
-                              sectionTitle(title: " Date"),
-                            ],
-                          ),
+                  color: Colors.purple,
+                ),
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(36.0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 18.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.calendar_today,
+                                color: Colors.white, size: 18),
+                            sectionTitle(title: " Date"),
+                          ],
                         ),
+                      ),
 
-                        ///Containr(
-                        Column(children: [
-                          // Container(
-                          //   width: double.infinity,
-                          //   child: Row(children: [
-                          //     Flexible(
-                          //       child: Container(
-                          //         width: MediaQuery.of(context)
-                          //                 .size
-                          //                 .width *
-                          //             0.16,
-                          //         child: Text("Year",
-                          //             textAlign: TextAlign.left,
-                          //             style: TextStyle(
-                          //                 fontSize: 10,
-                          //                 color: Colors.white)),
-                          //       ),
-                          //     ),
-                          //     Flexible(
-                          //       child: Container(
-                          //         width: MediaQuery.of(context)
-                          //                 .size
-                          //                 .width *
-                          //             0.33,
-                          //         child: Text("Month",
-                          //             textAlign: TextAlign.left,
-                          //             style: TextStyle(
-                          //                 fontSize: 10,
-                          //                 color: Colors.white)),
-                          //       ),
-                          //     ),
-                          //     Flexible(
-                          //       child: Container(
-                          //         width: MediaQuery.of(context)
-                          //                 .size
-                          //                 .width *
-                          //             0.16,
-                          //         child: Text("Date",
-                          //             textAlign: TextAlign.left,
-                          //             style: TextStyle(
-                          //                 fontSize: 10,
-                          //                 color: Colors.white)),
-                          //       ),
-                          //     ),
-                          //     Flexible(
-                          //       flex: 2,
-                          //       child: Container(
-                          //         width: MediaQuery.of(context)
-                          //                 .size
-                          //                 .width *
-                          //             0.33,
-                          //         child: Text("Start time",
-                          //             textAlign: TextAlign.left,
-                          //             style: TextStyle(fontSize: 10)),
-                          //       ),
-                          //     ),
-                          //   ]),
-                          // ),
-                          Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(children: [
-                                Flexible(
-                                  flex: 1,
-                                  child: Container(
-                                    // width: MediaQuery.of(context)
-                                    //         .size
-                                    //         .width *
-                                    //     0.24,
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      hint: Text(_selectedYear,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black)),
-                                      items: <String>[
-                                        '2021',
-                                        '2022',
-                                        '2023',
-                                        '2024',
-                                        '2025'
-                                      ].map((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Center(
-                                            child: new Text(value,
-                                                textAlign: TextAlign.center),
-                                          ),
-                                        );
-                                      }).toList(),
-                                      onChanged: (value) {
-                                        _selectedYear = value;
-                                        year = value;
-                                        print("year is" + value);
-                                        setState(() {
-                                          _selectedYear = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Flexible(
-                                  flex: 1,
-                                  child: Container(
-                                    // width: MediaQuery.of(context)
-                                    //         .size
-                                    //         .width *
-                                    //     0.24,
-                                    child: Container(
-                                      child: DropdownButton<String>(
-                                        hint: Text(_selectedMonth,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black)),
-                                        isExpanded: true,
-                                        items: <String>[
-                                          '01',
-                                          '02',
-                                          '03',
-                                          '04',
-                                          '05',
-                                          '06',
-                                          '07',
-                                          '08',
-                                          '09',
-                                          '10',
-                                          '11',
-                                          '12'
-                                        ].map((String value) {
-                                          return new DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Center(
-                                              child: new Text(value,
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black)),
-                                            ),
-                                          );
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          month = value;
-                                          print("month is" + value);
-                                          setState(() {
-                                            _selectedMonth = value;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Flexible(
-                                  flex: 1,
-                                  child: Container(
-                                      // width: MediaQuery.of(context)
-                                      //         .size
-                                      //         .width *
-                                      //     0.14,
-                                      child: DropdownButton<String>(
+                      ///Containr(
+                      Column(children: [
+                        // Container(
+                        //   width: double.infinity,
+                        //   child: Row(children: [
+                        //     Flexible(
+                        //       child: Container(
+                        //         width: MediaQuery.of(context)
+                        //                 .size
+                        //                 .width *
+                        //             0.16,
+                        //         child: Text("Year",
+                        //             textAlign: TextAlign.left,
+                        //             style: TextStyle(
+                        //                 fontSize: 10,
+                        //                 color: Colors.white)),
+                        //       ),
+                        //     ),
+                        //     Flexible(
+                        //       child: Container(
+                        //         width: MediaQuery.of(context)
+                        //                 .size
+                        //                 .width *
+                        //             0.33,
+                        //         child: Text("Month",
+                        //             textAlign: TextAlign.left,
+                        //             style: TextStyle(
+                        //                 fontSize: 10,
+                        //                 color: Colors.white)),
+                        //       ),
+                        //     ),
+                        //     Flexible(
+                        //       child: Container(
+                        //         width: MediaQuery.of(context)
+                        //                 .size
+                        //                 .width *
+                        //             0.16,
+                        //         child: Text("Date",
+                        //             textAlign: TextAlign.left,
+                        //             style: TextStyle(
+                        //                 fontSize: 10,
+                        //                 color: Colors.white)),
+                        //       ),
+                        //     ),
+                        //     Flexible(
+                        //       flex: 2,
+                        //       child: Container(
+                        //         width: MediaQuery.of(context)
+                        //                 .size
+                        //                 .width *
+                        //             0.33,
+                        //         child: Text("Start time",
+                        //             textAlign: TextAlign.left,
+                        //             style: TextStyle(fontSize: 10)),
+                        //       ),
+                        //     ),
+                        //   ]),
+                        // ),
+                        Container(
+                          width: double.infinity,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(children: [
+                              Flexible(
+                                flex: 1,
+                                child: Container(
+                                  // width: MediaQuery.of(context)
+                                  //         .size
+                                  //         .width *
+                                  //     0.24,
+                                  child: DropdownButton<String>(
                                     isExpanded: true,
-                                    hint: Text(_selectedDate,
+                                    hint: Text(_selectedYear,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.black)),
                                     items: <String>[
-                                      '01',
-                                      '02',
-                                      '03',
-                                      '04',
-                                      '05',
-                                      '06',
-                                      '07',
-                                      '08',
-                                      '09',
-                                      '10',
-                                      '11',
-                                      '12',
-                                      '13',
-                                      '14',
-                                      '15',
-                                      '16',
-                                      '17',
-                                      '18',
-                                      '19',
-                                      '20',
-                                      '21',
-                                      '22',
-                                      '23',
-                                      '24',
-                                      '25',
-                                      '26',
-                                      '27',
-                                      '28',
-                                      '29',
-                                      '30',
-                                      '31',
+                                      '2021',
+                                      '2022',
+                                      '2023',
+                                      '2024',
+                                      '2025'
                                     ].map((String value) {
-                                      return new DropdownMenuItem<String>(
+                                      return DropdownMenuItem<String>(
                                         value: value,
                                         child: Center(
                                           child: new Text(value,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black)),
+                                              textAlign: TextAlign.center),
                                         ),
                                       );
                                     }).toList(),
                                     onChanged: (value) {
-                                      day = value;
-                                      print("month is" + day);
+                                      _selectedYear = value;
+                                      year = value;
+                                      print("year is" + value);
                                       setState(() {
-                                        _selectedDate = value;
+                                        _selectedYear = value;
                                       });
                                     },
-                                  )),
+                                  ),
                                 ),
-                                Flexible(
-                                  flex: 1,
+                              ),
+                              Flexible(
+                                flex: 1,
+                                child: Container(
+                                  // width: MediaQuery.of(context)
+                                  //         .size
+                                  //         .width *
+                                  //     0.24,
                                   child: Container(
-                                    // width: MediaQuery.of(context)
-                                    //         .size
-                                    //         .width *
-                                    //     0.35,
                                     child: DropdownButton<String>(
+                                      hint: Text(_selectedMonth,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black)),
                                       isExpanded: true,
-                                      hint: Text(_selectedStartTime,
-                                          textAlign: TextAlign.center),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black),
                                       items: <String>[
-                                        '09:00',
-                                        '10:00',
-                                        '11:00',
-                                        '12:00',
-                                        '13:00',
-                                        '14:00',
-                                        '15:00',
-                                        '16:00',
-                                        '17:00',
-                                        '18:00',
-                                        '19:00',
-                                        '20:00',
-                                        '21:00',
-                                        '22:00',
-                                        '23:00'
+                                        '01',
+                                        '02',
+                                        '03',
+                                        '04',
+                                        '05',
+                                        '06',
+                                        '07',
+                                        '08',
+                                        '09',
+                                        '10',
+                                        '11',
+                                        '12'
                                       ].map((String value) {
                                         return new DropdownMenuItem<String>(
                                           value: value,
@@ -485,87 +362,204 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                                         );
                                       }).toList(),
                                       onChanged: (value) {
-                                        _selectedStartTime = value;
-                                        _selectedEndTime =
-                                            _selectedStartTime.substring(0, 3) +
-                                                "50";
-                                        print("start time is" +
-                                            _selectedStartTime);
-                                        print(
-                                            "end time  is" + _selectedEndTime);
+                                        month = value;
+                                        print("month is" + value);
                                         setState(() {
-                                          _selectedStartTime = value;
+                                          _selectedMonth = value;
                                         });
                                       },
                                     ),
                                   ),
                                 ),
-                              ]),
-                            ),
-                          ),
-                        ]),
-
-                        Container(
-                          width: double.infinity,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 18.0),
-                            child: Row(
-                              children: [
-                                Icon(Icons.calendar_today,
-                                    color: Colors.white, size: 18),
-                                sectionTitle(title: " Session Description"),
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        Container(
-                          decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Colors.purple[500], width: 1),
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
-                          ),
-                          child: TextFormField(
-                              controller: TextEditingController(
-                                  text: _detailsDescription),
-                              decoration: InputDecoration(),
-                              maxLines: 8,
-                              minLines: 8,
-                              onChanged: (text) => _detailsDescription = text),
-                        ),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
                               ),
-                              primary: Colors.cyanAccent, // background
-                              onPrimary: Colors.white, // foreground
-                            ),
-                            onPressed: () async {
-                              final dynamic result =
-                                  await updateSessionDetails();
-                              if (result.statusCode == 201) {
-                                print("update successful");
-                                Navigator.pop(context, false);
-                              } else {
-                                print("update unsuccesful");
-                              }
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.update),
-                                Text(" Update",
+                              Flexible(
+                                flex: 1,
+                                child: Container(
+                                    // width: MediaQuery.of(context)
+                                    //         .size
+                                    //         .width *
+                                    //     0.14,
+                                    child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  hint: Text(_selectedDate,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black)),
+                                  items: <String>[
+                                    '01',
+                                    '02',
+                                    '03',
+                                    '04',
+                                    '05',
+                                    '06',
+                                    '07',
+                                    '08',
+                                    '09',
+                                    '10',
+                                    '11',
+                                    '12',
+                                    '13',
+                                    '14',
+                                    '15',
+                                    '16',
+                                    '17',
+                                    '18',
+                                    '19',
+                                    '20',
+                                    '21',
+                                    '22',
+                                    '23',
+                                    '24',
+                                    '25',
+                                    '26',
+                                    '27',
+                                    '28',
+                                    '29',
+                                    '30',
+                                    '31',
+                                  ].map((String value) {
+                                    return new DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Center(
+                                        child: new Text(value,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    day = value;
+                                    print("month is" + day);
+                                    setState(() {
+                                      _selectedDate = value;
+                                    });
+                                  },
+                                )),
+                              ),
+                              Flexible(
+                                flex: 1,
+                                child: Container(
+                                  // width: MediaQuery.of(context)
+                                  //         .size
+                                  //         .width *
+                                  //     0.35,
+                                  child: DropdownButton<String>(
+                                    isExpanded: true,
+                                    hint: Text(_selectedStartTime,
+                                        textAlign: TextAlign.center),
                                     style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                              ],
-                            )),
-                      ],
-                    ),
-                  )),
-            )
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                    items: <String>[
+                                      '09:00',
+                                      '10:00',
+                                      '11:00',
+                                      '12:00',
+                                      '13:00',
+                                      '14:00',
+                                      '15:00',
+                                      '16:00',
+                                      '17:00',
+                                      '18:00',
+                                      '19:00',
+                                      '20:00',
+                                      '21:00',
+                                      '22:00',
+                                      '23:00'
+                                    ].map((String value) {
+                                      return new DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Center(
+                                          child: new Text(value,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black)),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      _selectedStartTime = value;
+                                      _selectedEndTime =
+                                          _selectedStartTime.substring(0, 3) +
+                                              "50";
+                                      print(
+                                          "start time is" + _selectedStartTime);
+                                      print("end time  is" + _selectedEndTime);
+                                      setState(() {
+                                        _selectedStartTime = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ]),
+
+                      Container(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 18.0),
+                          child: Row(
+                            children: [
+                              Icon(Icons.calendar_today,
+                                  color: Colors.white, size: 18),
+                              sectionTitle(title: " Session Description"),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Container(
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(color: Colors.purple[500], width: 1),
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                        ),
+                        child: TextFormField(
+                            controller: TextEditingController(
+                                text: _detailsDescription),
+                            decoration: InputDecoration(),
+                            maxLines: 8,
+                            minLines: 8,
+                            onChanged: (text) => _detailsDescription = text),
+                      ),
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                            primary: Colors.cyanAccent, // background
+                            onPrimary: Colors.white, // foreground
+                          ),
+                          onPressed: () async {
+                            final dynamic result = await updateSessionDetails();
+                            if (result.statusCode == 201) {
+                              print("update successful");
+                              Navigator.pop(context, false);
+                            } else {
+                              print("update unsuccesful");
+                            }
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.update),
+                              Text(" Update",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                            ],
+                          )),
+                    ],
+                  ),
+                ))
             // } else if (snapshot.connectionState != ConnectionState.done) {
             //   return Center(child: CircularProgressIndicator());
             // } else {

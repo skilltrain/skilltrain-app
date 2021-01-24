@@ -76,8 +76,7 @@ class SampleStart extends State<SessionList> {
                 onPressed: () => Navigator.pop(context, false),
                 icon: Icon(Icons.arrow_back)),
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          body: ListView(
             children: [
               Container(
                   padding: EdgeInsets.all(36),
