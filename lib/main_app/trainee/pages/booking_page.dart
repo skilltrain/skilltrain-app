@@ -6,21 +6,8 @@ import 'package:skilltrain/main_app/common/headings.dart';
 import 'package:skilltrain/main_app/common/sessionCards.dart';
 import 'dart:convert';
 import '../../../services/stripe/payment/direct_payment_page.dart';
-import 'dart:math';
 
 String traineeName = "";
-
-String sessionCode(int length) {
-  const _randomeChars = "abcdefghijklmnopqrstuvwxyz0123456789";
-  const _charsLength = _randomeChars.length;
-
-  final rand = new Random();
-  final codeUnits = new List.generate(length, (index) {
-    final n = rand.nextInt(_charsLength);
-    return _randomeChars.codeUnitAt(n);
-  });
-  return new String.fromCharCodes(codeUnits);
-}
 
 class BookingPage extends StatelessWidget {
   final String trainerName;
@@ -124,19 +111,21 @@ class BookingPage extends StatelessWidget {
                                                   MaterialPageRoute(
                                                       builder: (_) {
                                                 return DirectPaymentPage(
-                                                    trainerUsername:
-                                                        trainerName,
-                                                    genre: genre,
-                                                    description:
-                                                        classArray[index]
-                                                            ["description"],
-                                                    startTime: classArray[index]
-                                                        ["start_time"],
-                                                    endTime: classArray[index]
-                                                        ["end_time"],
-                                                    date: classArray[index]
-                                                        ["date"],
-                                                    price: price);
+                                                  trainerUsername: trainerName,
+                                                  genre: genre,
+                                                  description: classArray[index]
+                                                      ["description"],
+                                                  startTime: classArray[index]
+                                                      ["start_time"],
+                                                  endTime: classArray[index]
+                                                      ["end_time"],
+                                                  date: classArray[index]
+                                                      ["date"],
+                                                  price: price,
+                                                  sessionId: classArray[index]
+                                                      ["id"],
+                                                  traineeUsername: traineeName,
+                                                );
                                               }))
                                             }));
                               },
@@ -164,19 +153,6 @@ class BookingPage extends StatelessWidget {
           ),
         ));
   }
-}
-
-Future<http.Response> updateSession(input) {
-  return http.put(
-    "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions/$input",
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'user_username': traineeName,
-      'sessionCode': sessionCode(6),
-    }),
-  );
 }
 
 // ignore: missing_return

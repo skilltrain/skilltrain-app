@@ -9,6 +9,19 @@ import 'dart:convert';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../../../utils/alert_dialogue.dart';
 import 'package:intl/intl.dart';
+import 'dart:math';
+
+String sessionCode(int length) {
+  const _randomeChars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  const _charsLength = _randomeChars.length;
+
+  final rand = new Random();
+  final codeUnits = new List.generate(length, (index) {
+    final n = rand.nextInt(_charsLength);
+    return _randomeChars.codeUnitAt(n);
+  });
+  return new String.fromCharCodes(codeUnits);
+}
 
 class DirectPaymentPage extends StatefulWidget {
   final String trainerUsername;
@@ -19,18 +32,22 @@ class DirectPaymentPage extends StatefulWidget {
   final String endTime;
   final int price;
   final String date;
+  final String sessionId;
+  final String traineeUsername;
 
-  DirectPaymentPage(
-      {Key key,
-      this.title,
-      this.trainerUsername,
-      this.date,
-      this.description,
-      this.startTime,
-      this.endTime,
-      this.genre,
-      this.price})
-      : super(key: key);
+  DirectPaymentPage({
+    Key key,
+    this.title,
+    this.trainerUsername,
+    this.date,
+    this.description,
+    this.startTime,
+    this.endTime,
+    this.genre,
+    this.price,
+    this.sessionId,
+    this.traineeUsername,
+  }) : super(key: key);
 
   @override
   _DirectPaymentPageState createState() => _DirectPaymentPageState();
@@ -239,6 +256,7 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
     paymentMethod = await StripePayment.paymentRequestWithCardForm(
       CardFormPaymentRequest(),
     ).then((PaymentMethod paymentMethod) {
+      updateSession(widget.sessionId);
       return paymentMethod;
     }).catchError((e) {
       print('Error Card: ${e.toString()}');
@@ -252,6 +270,19 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
                 content:
                     'It is not possible to pay with this card. Please try again with a different card',
                 buttonText: 'CLOSE'));
+  }
+
+  Future<http.Response> updateSession(input) {
+    return http.put(
+      "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions/$input",
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'user_username': widget.traineeUsername,
+        'sessionCode': sessionCode(6),
+      }),
+    );
   }
 
   @override
@@ -342,7 +373,9 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
                         padding: const EdgeInsets.only(top: 36.0),
                         child: cyanButton(
                             text: "Pay Now",
-                            function: () => checkIfNativePayReady()),
+                            function: () => {
+                                  checkIfNativePayReady(),
+                                }),
                       ),
                       // FlatButton(
                       //   onPressed: () {
