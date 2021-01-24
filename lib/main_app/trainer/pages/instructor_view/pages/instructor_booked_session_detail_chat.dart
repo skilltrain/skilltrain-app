@@ -286,9 +286,10 @@ class _TrainerBookedSessionPageState extends State<TrainerBookedSessionPage> {
                         ),
                         IconButton(
                             icon: Icon(Icons.send),
-                            onPressed: () => {
-                                  _onWriteThroughSocket(_messageController.text)
-                                }),
+                            onPressed: () {
+                              _onWriteThroughSocket(_messageController.text);
+                              _messageController.clear();
+                            })
                       ],
                     )
                   ],
