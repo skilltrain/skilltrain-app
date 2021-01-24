@@ -219,9 +219,7 @@ class SampleStart extends State<HomePageTrainer> {
                                     var bdate = b["date"] + b["start_time"];
                                     return adate.compareTo(bdate);
                                   });
-                                } else
-                                  print(
-                                      "something went wrong with fetched data");
+                                }
                               }
 
                               return SingleChildScrollView(
