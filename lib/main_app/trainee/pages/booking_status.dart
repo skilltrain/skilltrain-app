@@ -70,7 +70,9 @@ class SampleStart extends State<BookingStatus> {
                           underline: false,
                           purple: false),
                       blackHeading(
-                          title: "Sessions", underline: true, purple: false)
+                          title: "Sessions" + stringDate,
+                          underline: true,
+                          purple: false)
                     ],
                   )),
               Container(
@@ -94,9 +96,10 @@ class SampleStart extends State<BookingStatus> {
                             for (int i = 0; i < snapshot.data.length; i++) {
                               if (snapshot.data[i]["user_username"] ==
                                       traineeName &&
-                                  DateTime.parse(stringDate).isBefore(
-                                      DateTime.parse(
-                                          snapshot.data[i]["date"]))) {
+                                  DateTime.parse(_date.toString()).isBefore(
+                                      DateTime.parse(snapshot.data[i]["date"] +
+                                          " " +
+                                          snapshot.data[i]["end_time"]))) {
                                 classArray.add(snapshot.data[i]);
                                 classArray.sort((a, b) {
                                   var adate = a["date"] + a["start_time"];
