@@ -172,22 +172,22 @@ class SampleStart extends State<HomePageTrainer> {
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Color(0xFFFFFFFF),
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                    padding: EdgeInsets.all(36),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        blackHeading(
-                            title: "Welcome", underline: false, purple: false),
-                        blackHeading(
-                            title: trainerName, underline: true, purple: false)
-                      ],
-                    )),
-                Container(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                  padding: EdgeInsets.all(36),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      blackHeading(
+                          title: "Welcome", underline: false, purple: false),
+                      blackHeading(
+                          title: trainerName, underline: true, purple: false)
+                    ],
+                  )),
+              Expanded(
+                child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(16),
@@ -313,8 +313,8 @@ class SampleStart extends State<HomePageTrainer> {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           )),
     );
   }

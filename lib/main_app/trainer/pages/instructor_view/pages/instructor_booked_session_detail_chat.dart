@@ -72,8 +72,14 @@ class _TrainerBookedSessionPageState extends State<TrainerBookedSessionPage> {
         "body": {"msg": message, "sessionID": widget.id, "isTrainer": true}
       }
     };
+    // ' ' is for initial message to enter id into table, however if it isn't ' ',
+    // then we can update the local screen with setState, will not receive a response
+    // from the stream as it is not necessary, will not do any server calls
     if (message != ' ') {
-      messages.add(messageObject);
+      messages.add({'msg': message, 'sessionID': widget.id, 'isTrainer': true});
+      setState(() {
+        messages = messages;
+      });
     }
     widget.socketChannel.sink.add(jsonEncode(messageObject));
   }
@@ -83,7 +89,11 @@ class _TrainerBookedSessionPageState extends State<TrainerBookedSessionPage> {
         'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/sessions/messages?sessionID=$sessionID');
     final decodedData = await json.decode(data.body);
     setState(() {
-      messages = decodedData["messages"];
+      if (decodedData.length > 0) {
+        messages = decodedData["messages"];
+      } else {
+        messages = [];
+      }
     });
   }
 
