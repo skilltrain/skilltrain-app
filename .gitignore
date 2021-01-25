@@ -50,9 +50,8 @@ amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/logs
 amplify/mock-data
-amplify/backend
-# amplify/backend/amplify-meta.json
-# amplify/backend/awscloudformation
+amplify/backend/amplify-meta.json
+amplify/backend/awscloudformation
 amplify/backend/.temp
 build/
 dist/
@@ -64,11 +63,3 @@ amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
-.vscode/launch.json
-.vscode/settings.json
-pubspec.lock
-aws/serverless/.serverless/serverless.zip
-aws/serverless/.serverless/serverless-state.json
-aws/serverless/.serverless/custom-resources.zip
-aws/serverless/.serverless/cloudformation-template-update-stack.json
-aws/serverless/.serverless/cloudformation-template-create-stack.json
