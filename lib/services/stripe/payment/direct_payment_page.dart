@@ -296,11 +296,18 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
 
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Color(0xFFFFFFFF),
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
+          title: Image.asset(
+            'assets/icon/icon.png',
+            height: 36.0,
+            width: 36.0,
+          ),
         ),
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+
         body: ModalProgressHUD(
             inAsyncCall: showSpinner,
             child:

@@ -61,9 +61,14 @@ class _InstructorBioState extends State<InstructorBio> {
     return Scaffold(
         backgroundColor: Colors.purple,
         appBar: AppBar(
+          centerTitle: true,
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Color(0xFFFFFFFF),
-          title: Text(widget.data["firstName"] + " " + widget.data["lastName"]),
+          title: Image.asset(
+            'assets/icon/icon.png',
+            height: 36.0,
+            width: 36.0,
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(

@@ -60,11 +60,15 @@ class SampleStart extends State<InstructorRegisterCourse> {
         ),
         home: Scaffold(
             appBar: AppBar(
+              centerTitle: true,
+              title: Image.asset(
+                'assets/icon/icon.png',
+                height: 36.0,
+                width: 36.0,
+              ),
               backgroundColor: Colors.white,
               iconTheme:
                   IconThemeData(color: Colors.black), //change your color here
-              title: Text('Booked sessions'),
-              centerTitle: true,
               automaticallyImplyLeading: true,
               leading: IconButton(
                   onPressed: () => Navigator.pop(context, false),

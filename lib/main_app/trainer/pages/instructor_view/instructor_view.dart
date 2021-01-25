@@ -13,7 +13,14 @@ class Instructor extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("instructor page"),
+        centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Color(0xFFFFFFFF),
+        title: Image.asset(
+          'assets/icon/icon.png',
+          height: 36.0,
+          width: 36.0,
+        ),
       ),
       body: Column(children: <Widget>[
         Expanded(

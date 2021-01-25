@@ -121,9 +121,14 @@ class _TrainerBookedSessionPageState extends State<TrainerBookedSessionPage> {
         length: 2,
         child: Scaffold(
             appBar: AppBar(
+              centerTitle: true,
+              title: Image.asset(
+                'assets/icon/icon.png',
+                height: 36.0,
+                width: 36.0,
+              ),
               iconTheme: IconThemeData(color: Colors.black),
               backgroundColor: Color(0xFFFFFFFF),
-              title: Text("Session Details and Chat"),
               bottom: TabBar(
                 indicatorColor: Colors.cyanAccent,
                 tabs: [

@@ -1,6 +1,8 @@
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:skilltrain/main_app/common/buttons.dart';
+import 'package:skilltrain/main_app/common/headings.dart';
 // ignore: unused_import
 import 'package:skilltrain/main_app/trainer/pages/instructor_view/instructor_view.dart';
 
@@ -38,26 +40,39 @@ class IndexState extends State<IndexPageTrainee> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
+        centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
+        title: Image.asset(
+          'assets/icon/icon.png',
+          height: 36.0,
+          width: 36.0,
         ),
-        title: Text('SkillTrain-Session'),
       ),
       body: Center(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          height: 333,
+          padding: const EdgeInsets.symmetric(horizontal: 36),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Expanded(
-                flex: 3,
+              Padding(
+                padding: const EdgeInsets.only(top: 36),
                 child: Container(
-                  child: Text('Join as : Trainee',
-                      style: TextStyle(
-                          fontSize: 45.0,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.purple)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      blackHeading(
+                          title: "Are you", underline: false, purple: false),
+                      blackHeading(
+                          title: "READY?", underline: true, purple: true),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 60),
+                        child: Text(
+                            "Enter the channel name below to start your video session with your trainer!",
+                            style: TextStyle(fontSize: 25)),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Column(
@@ -113,40 +128,37 @@ class IndexState extends State<IndexPageTrainee> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Expanded(
-                          child: RaisedButton(
-                            onPressed: () {
-                              onJoin();
-                            },
-                            child: Text('Join'),
-                            color: Colors.blueAccent,
-                            textColor: Colors.white,
-                          ),
+                        cyanButton(
+                          text: "Join Session",
+                          function: () {
+                            onJoin();
+                          },
                         )
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: RaisedButton(
-                            onPressed: () => {
-                              Navigator.pop(context),
-                              Navigator.pop(context),
-                              // Navigator.push(context,
-                              //     SlideLeftRoute(page: HomePageTrainee()))
-                            },
-                            child: Icon(Icons.home),
-                            color: Colors.grey,
-                            textColor: Colors.white,
-                          ),
-                        )
-                      ],
-                    ),
-                  )
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(vertical: 10),
+                  //   child: Row(
+                  //     children: <Widget>[
+                  //       Expanded(
+                  //         child: RaisedButton(
+                  //           onPressed: () => {
+                  //             Navigator.pop(context),
+                  //             Navigator.pop(context),
+                  //             // Navigator.push(context,
+                  //             //     SlideLeftRoute(page: HomePageTrainee()))
+                  //           },
+                  //           child: Icon(Icons.home),
+                  //           color: Colors.grey,
+                  //           textColor: Colors.white,
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  // )
                 ],
               ),
             ],

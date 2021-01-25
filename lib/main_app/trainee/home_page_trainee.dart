@@ -532,30 +532,27 @@ class SampleStart extends State<HomePageTrainee> {
               height: 100,
             );
           }
-          return Center(
-            child: Container(
-                child: Column(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 36, vertical: 0),
-                  child: Text(
-                      "It looks like you don't have any upcoming sessions!",
-                      style: TextStyle(fontSize: 24)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Text("Why don't you book some?",
-                      style: TextStyle(fontSize: 24)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 36),
-                  child: filterButton(
-                      buttonText: "Find Someone to Help you Workout"),
-                )
-              ],
-            )),
-          );
+          return Container(
+              child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(24),
+                child: Text(
+                    "It looks like you don't have any upcoming sessions!",
+                    style: TextStyle(fontSize: 24)),
+              ),
+              Padding(
+                padding: EdgeInsets.all(24.0),
+                child: Text("Why don't you book some?",
+                    style: TextStyle(fontSize: 24)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 36),
+                child: filterButton(
+                    buttonText: "Find Someone to Help you Workout"),
+              )
+            ],
+          ));
         });
 
     //Header widget for homescreen
@@ -622,8 +619,14 @@ class SampleStart extends State<HomePageTrainee> {
             ],
           )),
           appBar: AppBar(
+            centerTitle: true,
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Color(0xFFFFFFFF),
+            title: Image.asset(
+              'assets/icon/icon.png',
+              height: 36.0,
+              width: 36.0,
+            ),
           ),
           body: ModalProgressHUD(
               child: SingleChildScrollView(
