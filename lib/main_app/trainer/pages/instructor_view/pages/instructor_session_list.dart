@@ -93,9 +93,8 @@ class SampleStart extends State<SessionList> {
                               if (snapshot.hasData) {
                                 final List classArray = [];
                                 for (int i = 0; i < snapshot.data.length; i++) {
-                                  if (snapshot.data[i]["user_username"]
-                                              .length ==
-                                          0 &&
+                                  if (
+                                    //snapshot.data[i]["user_username"].length == 0 &&
                                       DateTime.parse(stringDate).isBefore(
                                           DateTime.parse(
                                               snapshot.data[i]["date"]))) {
@@ -105,6 +104,7 @@ class SampleStart extends State<SessionList> {
                                       var bdate = b["date"] + b["start_time"];
                                       return adate.compareTo(bdate);
                                     });
+                                    print( "classArray data inside for loop" + classArray.toString());
                                   } else
                                     print(
                                         "something went wrong with fetched data");
@@ -196,6 +196,7 @@ Future<List> fetchSessionResults() async {
         'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$trainerName/sessions');
 
     if (response.statusCode == 200) {
+      print(response.body + "session list data");
       return json.decode(response.body);
     } else {
       throw Exception('Failed to load API params');
