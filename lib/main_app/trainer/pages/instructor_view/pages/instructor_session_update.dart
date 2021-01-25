@@ -4,6 +4,7 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:http/http.dart' as http;
 import 'package:skilltrain/main_app/common/headings.dart';
 import 'dart:convert';
+import '../pages/instructor_session_list.dart';
 
 class InstructorSessionUpdate extends StatefulWidget {
   //session ID passed by top page
@@ -462,7 +463,8 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                             final dynamic result = await updateSessionDetails();
                             if (result.statusCode == 201) {
                               print("update successful");
-                              Navigator.pop(context, false);
+//                              Navigator.pop(context, false);
+                              Navigator.push(  context,  MaterialPageRoute(builder: (context) => SessionList()),);
                             } else {
                               print("update unsuccesful");
                             }
