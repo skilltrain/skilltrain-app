@@ -47,8 +47,12 @@ class SampleStart extends State<BookingStatus> {
           backgroundColor: Colors.white,
           iconTheme:
               IconThemeData(color: Colors.black), //change your color here
-          title: Text('Booked sessions'),
           centerTitle: true,
+          title: Image.asset(
+            'assets/icon/icon.png',
+            height: 36.0,
+            width: 36.0,
+          ),
           automaticallyImplyLeading: true,
           leading: IconButton(
               onPressed: () => Navigator.pop(context, false),

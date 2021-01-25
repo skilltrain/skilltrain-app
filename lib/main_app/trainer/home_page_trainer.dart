@@ -170,8 +170,14 @@ class SampleStart extends State<HomePageTrainer> {
             ],
           )),
           appBar: AppBar(
+            centerTitle: true,
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Color(0xFFFFFFFF),
+            title: Image.asset(
+              'assets/icon/icon.png',
+              height: 36.0,
+              width: 36.0,
+            ),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
@@ -334,9 +340,8 @@ class SampleStart extends State<HomePageTrainer> {
       print("Current User Name = " + res.username);
       final trainerProfile = await http.get(
           'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$trainerName/');
-        firstName = await json.decode(trainerProfile.body)["firstName"];
-        print("first name = " + firstName);
-
+      firstName = await json.decode(trainerProfile.body)["firstName"];
+      print("first name = " + firstName);
 
       final response = await http.get(
           'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$trainerName/sessions');

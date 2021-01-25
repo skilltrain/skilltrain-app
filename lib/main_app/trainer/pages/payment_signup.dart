@@ -731,8 +731,14 @@ class _PaymentState extends State<PaymentSignup> {
         resizeToAvoidBottomInset: false,
         resizeToAvoidBottomPadding: false,
         appBar: AppBar(
+          centerTitle: true,
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Color(0xFFFFFFFF),
+          title: Image.asset(
+            'assets/icon/icon.png',
+            height: 36.0,
+            width: 36.0,
+          ),
         ),
         body: ModalProgressHUD(
             child: SingleChildScrollView(
