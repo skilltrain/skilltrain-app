@@ -13,6 +13,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import 'package:intl/intl.dart';
 import '../../../utils/sliders.dart';
+// ignore: unused_import
 import '../pages/trainee_session_detail.dart';
 import '../../common/sessionCards.dart';
 import 'trainee_session_detail_chat.dart';
