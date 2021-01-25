@@ -30,17 +30,45 @@ class AuthService {
     authStateController.add(state);
   }
 
+  void showVerification() {
+    final state = AuthState(authFlowStatus: AuthFlowStatus.verification);
+    authStateController.add(state);
+  }
+
   void showLogin() {
     final state = AuthState(authFlowStatus: AuthFlowStatus.login);
     authStateController.add(state);
   }
 
+  void showTutorial() {
+    final state = AuthState(authFlowStatus: AuthFlowStatus.tutorial);
+    authStateController.add(state);
+  }
+
+  void showSession() {
+    final state = AuthState(authFlowStatus: AuthFlowStatus.session);
+    authStateController.add(state);
+  }
+
+  Future<Map<String, String>> getLocallySavedUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final password = prefs.getString('password');
+    return {'username': username, 'password': password};
+  }
+
+  Future<void> setLocallySavedUser(String username, String password) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('username', username);
+    prefs.setString('password', password);
+    return;
+  }
+
   Future checkTrainer() async {
     if (_credentials == null) {
-      final prefs = await SharedPreferences.getInstance();
-      final username = prefs.getString('username');
-      final password = prefs.getString('password');
-      _credentials = LoginCredentials(username: username, password: password);
+      final savedUser = await getLocallySavedUser();
+      _credentials = LoginCredentials(
+          username: savedUser['username'], password: savedUser['password']);
     }
     cognitoUser = new CognitoUser(_credentials.username, userPool);
     final authDetails = new AuthenticationDetails(
@@ -58,19 +86,21 @@ class AuthService {
     });
   }
 
-  Future<List> loginWithCredentials(AuthCredentials credentials) async {
+  Future<List> loginWithCredentials(
+      AuthCredentials credentials, bool firstTime) async {
     var loginResult = ['no errors'];
     try {
       final userAuthenticationStatus = await Amplify.Auth.signIn(
           username: credentials.username, password: credentials.password);
       if (userAuthenticationStatus.isSignedIn) {
         this._credentials = credentials;
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setString('username', credentials.username);
-        prefs.setString('password', credentials.password);
+        await setLocallySavedUser(credentials.username, credentials.password);
         await this.checkTrainer();
-        final state = AuthState(authFlowStatus: AuthFlowStatus.session);
-        authStateController.add(state);
+        if (firstTime) {
+          showTutorial();
+        } else {
+          showSession();
+        }
       } else {
         print('User could not be signed in');
       }
@@ -97,13 +127,10 @@ class AuthService {
         new AttributeArg(name: 'custom:paymentSignedUp', value: 'false'),
         new AttributeArg(name: 'email', value: credentials.email),
       ];
-      final response = await userPool.signUp(
-          credentials.username, credentials.password,
+      await userPool.signUp(credentials.username, credentials.password,
           userAttributes: userAttributes);
-      print(response);
       this._credentials = credentials;
-      final state = AuthState(authFlowStatus: AuthFlowStatus.verification);
-      authStateController.add(state);
+      showVerification();
       return signUpResult;
     } catch (e) {
       signUpResult[0] = 'errors';
@@ -132,10 +159,8 @@ class AuthService {
       final result = await Amplify.Auth.confirmSignUp(
           username: _credentials.username, confirmationCode: verificationCode);
       if (result.isSignUpComplete) {
-        await loginWithCredentials(_credentials);
+        await loginWithCredentials(_credentials, true);
         await createUser(_credentials);
-        final state = AuthState(authFlowStatus: AuthFlowStatus.tutorial);
-        authStateController.add(state);
       }
     } on AuthError catch (authError) {
       verifyResult[0] = 'errors';
@@ -148,8 +173,7 @@ class AuthService {
   void logOut() async {
     try {
       await Amplify.Auth.signOut();
-      final state = AuthState(authFlowStatus: AuthFlowStatus.login);
-      authStateController.add(state);
+      showLogin();
     } on AuthError catch (authError) {
       print('Could not log out - ${authError.cause}');
     }
@@ -160,11 +184,9 @@ class AuthService {
       await Amplify.Auth.fetchAuthSession(
           options: CognitoSessionOptions(getAWSCredentials: true));
       await this.checkTrainer(); // Sufficiently blocks line 138 before 141
-      final state = AuthState(authFlowStatus: AuthFlowStatus.session);
-      authStateController.add(state);
+      showSession();
     } catch (e) {
-      final state = AuthState(authFlowStatus: AuthFlowStatus.login);
-      authStateController.add(state);
+      showLogin();
       print('Could not authenticate user - $e');
     }
   }
