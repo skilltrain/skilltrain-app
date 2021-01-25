@@ -54,114 +54,131 @@ class SampleStart extends State<BookingStatus> {
               onPressed: () => Navigator.pop(context, false),
               icon: Icon(Icons.arrow_back)),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                  padding: EdgeInsets.all(36),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      blackHeading(
-                          title: "Your Booked ",
-                          underline: false,
-                          purple: false),
-                      blackHeading(
-                          title: "Sessions", underline: true, purple: false)
-                    ],
-                  )),
-              FutureBuilder<List>(
-                future: sessionResults,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final List classArray = [];
-                    for (int i = 0; i < snapshot.data.length; i++) {
-                      if (snapshot.data[i]["user_username"] == traineeName &&
-                          DateTime.parse(_date.toString()).isBefore(
-                              DateTime.parse(snapshot.data[i]["date"] +
-                                  " " +
-                                  snapshot.data[i]["end_time"]))) {
-                        classArray.add(snapshot.data[i]);
-                        classArray.sort((a, b) {
-                          var adate = a["date"] + a["start_time"];
-                          var bdate = b["date"] + b["start_time"];
-                          return adate.compareTo(bdate);
-                        });
-                      } else
-                        print("something went wrong with fetched data");
-                    }
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+                padding: EdgeInsets.all(36),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    blackHeading(
+                        title: "Your Booked ", underline: false, purple: false),
+                    blackHeading(
+                        title: "Sessions", underline: true, purple: false)
+                  ],
+                )),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(16),
+                    topLeft: Radius.circular(16),
+                  ),
+                  color: Colors.purple,
+                ),
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 36.0, bottom: 36),
+                  child: FutureBuilder<List>(
+                    future: sessionResults,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final List classArray = [];
+                        for (int i = 0; i < snapshot.data.length; i++) {
+                          if (snapshot.data[i]["user_username"] ==
+                                  traineeName &&
+                              DateTime.parse(_date.toString()).isBefore(
+                                  DateTime.parse(snapshot.data[i]["date"] +
+                                      " " +
+                                      snapshot.data[i]["end_time"]))) {
+                            classArray.add(snapshot.data[i]);
+                            classArray.sort((a, b) {
+                              var adate = a["date"] + a["start_time"];
+                              var bdate = b["date"] + b["start_time"];
+                              return adate.compareTo(bdate);
+                            });
+                          } else
+                            print("something went wrong with fetched data");
+                        }
 
-                    return Container(
-                      padding: EdgeInsets.only(top: 36),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Colors.purple,
-                      ),
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height,
-                      child: Column(
-                        children: <Widget>[
-                          ListView.builder(
-                            physics: const ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              //card
-                              return sessionCard(
-                                  trainer: false,
-                                  name: classArray[index]["trainer_username"],
-                                  date: classArray[index]["date"],
-                                  startTime: classArray[index]["start_time"],
-                                  endTime: classArray[index]["end_time"],
-                                  context: context,
-                                  function: () => {
-                                        Navigator.push(
-                                          context,
-                                          SlideLeftRoute(
-                                              page: TraineeSessionDetailsPage(
-                                                  sessionID: classArray[index]
-                                                      ['id'],
-                                                  trainer: classArray[index]
-                                                      ["trainer_username"],
-                                                  sessionCode: classArray[index]
-                                                      ["sessionCode"],
-                                                  date: classArray[index]
-                                                      ["date"],
-                                                  startTime: classArray[index]
-                                                      ["start_time"],
-                                                  endTime: classArray[index]
-                                                      ["end_time"],
-                                                  description: classArray[index]
-                                                      ["description"])),
-                                        )
-                                      });
+                        return Center(
+                            child: Column(
+                          children: <Widget>[
+                            Expanded(
+                                child: SizedBox(
+                                    height: 500,
+                                    child: ListView.builder(
+                                      physics: const ClampingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        //card
+                                        return sessionCard(
+                                            trainer: false,
+                                            name: classArray[index]
+                                                ["trainer_username"],
+                                            date: classArray[index]["date"],
+                                            startTime: classArray[index]
+                                                ["start_time"],
+                                            endTime: classArray[index]
+                                                ["end_time"],
+                                            context: context,
+                                            function: () => {
+                                                  Navigator.push(
+                                                    context,
+                                                    SlideLeftRoute(
+                                                        page: TraineeSessionDetailsPage(
+                                                            sessionID:
+                                                                classArray[index]
+                                                                    ['id'],
+                                                            trainer:
+                                                                classArray[index]
+                                                                    [
+                                                                    "trainer_username"],
+                                                            sessionCode: classArray[index]
+                                                                ["sessionCode"],
+                                                            date:
+                                                                classArray[index]
+                                                                    ["date"],
+                                                            startTime: classArray[
+                                                                    index]
+                                                                ["start_time"],
+                                                            endTime: classArray[
+                                                                    index]
+                                                                ["end_time"],
+                                                            description:
+                                                                classArray[index]
+                                                                    ["description"])),
+                                                  )
+                                                });
 //
-                            },
-                            itemCount: classArray.length,
-                          ),
-                          Expanded(
-                            child: Center(
+                                      },
+                                      itemCount: classArray.length,
+                                    ))),
+                            Center(
                                 child: Text("last update:" + "$_date",
                                     style: TextStyle(color: Colors.white))),
-                          ),
-                        ],
-                      ),
-                    );
-                  } else if (snapshot.connectionState != ConnectionState.done) {
-                    return Container(
-                        height: MediaQuery.of(context).size.height - 87,
-                        decoration:
-                            new BoxDecoration(color: Colors.deepPurple[100]),
-                        child: Center(child: CircularProgressIndicator()));
-                  } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
-                  }
-                  return Container(
-                      child: Text("You have no upcoming sessions"));
-                },
+                          ],
+                        ));
+                      } else if (snapshot.connectionState !=
+                          ConnectionState.done) {
+                        return Container(
+                            height: MediaQuery.of(context).size.height - 87,
+                            decoration: new BoxDecoration(
+                                color: Colors.deepPurple[100]),
+                            child: Center(child: CircularProgressIndicator()));
+                      } else if (snapshot.hasError) {
+                        return Text("${snapshot.error}");
+                      }
+                      return Container(
+                          child: Text("You have no upcoming sessions"));
+                    },
+                  ),
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ));
   }
 }
