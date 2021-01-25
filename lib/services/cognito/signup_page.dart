@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import './authentication_services/auth_credentials.dart';
 import '../../utils/alert_dialogue.dart';
 
@@ -33,6 +34,7 @@ class _SignUpPageState extends State<SignUpPage> {
   var isTrainer = false;
   final _formKey = GlobalKey<FormState>();
   final userNames = [];
+  bool _signingUp = false;
 
   void initState() {
     super.initState();
@@ -43,6 +45,9 @@ class _SignUpPageState extends State<SignUpPage> {
       // If the form is valid, display a snackbar. In the real world,
       // you'd often call a server or save the information in a database.
 
+      setState(() {
+        _signingUp = true;
+      });
       final username = _usernameController.text.trim();
       final email = _emailController.text.trim();
       final password = _passwordController.text.trim();
@@ -72,64 +77,73 @@ class _SignUpPageState extends State<SignUpPage> {
                 content: signUpResponse[1],
                 buttonText: 'CLOSE'));
       }
+      setState(() {
+        _signingUp = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-            child: Container(
-      width: double.infinity,
-      child: Column(children: [
-        Stack(
-          children: [
-            Container(
+        body: ModalProgressHUD(
+            child: SingleChildScrollView(
+                child: Container(
               width: double.infinity,
-              color: Colors.green,
-              child: Image.asset('assets/images/signup.png', fit: BoxFit.cover),
-            ),
-            Container(
-              width: double.infinity,
-              height: 530,
               child: Column(children: [
-                new Spacer(),
-                Text(
-                  "Find your workout buddy",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 26.0,
-                  ),
+                Stack(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      color: Colors.green,
+                      child: Image.asset('assets/images/signup.png',
+                          fit: BoxFit.cover),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 530,
+                      child: Column(children: [
+                        new Spacer(),
+                        Text(
+                          "Find your workout buddy",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 26.0,
+                          ),
+                        ),
+                        new Spacer(),
+                      ]),
+                    ),
+                    Container(
+                        width: double.infinity,
+                        height: 450,
+                        child: Center(
+                          child: Container(
+                            height: 50,
+                            child: Image.asset(
+                                'assets/images/skillTrain-logo.png'),
+                          ),
+                        )),
+                  ],
                 ),
-                new Spacer(),
-              ]),
-            ),
-            Container(
-                width: double.infinity,
-                height: 450,
-                child: Center(
-                  child: Container(
-                    height: 50,
-                    child: Image.asset('assets/images/skillTrain-logo.png'),
-                  ),
-                )),
-          ],
-        ),
-        // User or Trainer
-        Center(child: radioButton()),
-        // Sign Up Form
-        _signUpForm(),
+                // User or Trainer
+                Center(child: radioButton()),
+                // Sign Up Form
+                _signUpForm(),
 
-        // Login Button
-        Container(
-          alignment: Alignment.bottomCenter,
-          child: FlatButton(
-              onPressed: widget.shouldShowLogin,
-              child: Text('Already have an account? Login.')),
-        )
-      ]),
-    )));
+                // Login Button
+                Container(
+                  alignment: Alignment.bottomCenter,
+                  child: FlatButton(
+                      onPressed: widget.shouldShowLogin,
+                      child: Text('Already have an account? Login.')),
+                )
+              ]),
+            )),
+            inAsyncCall: _signingUp,
+            color: Colors.deepPurple,
+            progressIndicator: CircularProgressIndicator()));
   }
 
   Widget radioButton() {
