@@ -16,10 +16,13 @@ import '../common/fetchTrainers.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import '../common/headings.dart';
 import 'pages/trainee_session_detail_chat.dart';
+import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 
 class HomePageTrainee extends StatefulWidget {
   final VoidCallback shouldLogOut;
-  HomePageTrainee({Key key, this.shouldLogOut}) : super(key: key);
+  final List<CognitoUserAttribute> userAttributes;
+  HomePageTrainee({Key key, this.shouldLogOut, this.userAttributes})
+      : super(key: key);
 
   @override
   SampleStart createState() => SampleStart();
@@ -88,14 +91,13 @@ class SampleStart extends State<HomePageTrainee> {
   }
 
   void getCurrentUser() async {
-    try {
-      AuthUser res = await Amplify.Auth.getCurrentUser();
-      _user = res.username;
-      setState(() {});
-      return;
-    } on AuthError catch (e) {
-      print(e);
-    }
+    widget.userAttributes.forEach((attribute) {
+      if (attribute.getName() == 'given_name') {
+        setState(() {
+          _user = attribute.getValue();
+        });
+      }
+    });
   }
 
   Widget filterButton({String buttonText}) {

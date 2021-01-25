@@ -16,9 +16,6 @@ import './pages/payment_signup.dart';
 import '../trainer/pages/instructor_view/pages/instructor_session_list.dart';
 import 'pages/instructor_view/pages/instructor_booked_session_detail_chat.dart';
 
-String trainerName = "";
-String firstName = "";
-
 class HomePageTrainer extends StatefulWidget {
   final VoidCallback shouldLogOut;
   final List<CognitoUserAttribute> userAttributes;
@@ -37,16 +34,23 @@ DateFormat format = DateFormat('yyyy-MM-dd');
 class SampleStart extends State<HomePageTrainer> {
   Future<List> sessionResults;
   bool signedUpPayment = false;
+  DateTime _date = new DateTime.now(); //default date value
+  String firstName;
 
   @override
   void initState() {
     super.initState();
     sessionResults = fetchSessionResults();
     widget.userAttributes.forEach((attribute) {
-      if (attribute.getName() == 'custom:paymentSignedUp') {
+      if (attribute.getName() == 'custom:paymentSigned') {
         if (attribute.getValue() == 'true') {
           signUpPayment();
         }
+      }
+      if (attribute.getName() == 'given_name') {
+        setState(() {
+          firstName = attribute.getValue();
+        });
       }
     });
   }
@@ -56,11 +60,6 @@ class SampleStart extends State<HomePageTrainer> {
       signedUpPayment = true;
     });
   }
-
-  //calendar object
-  DateTime _date = new DateTime.now(); //default date value
-  // String stringDate = format.format(new DateTime.now()
-  //     .subtract(Duration(days: 1))); //default date value for card
 
   Future getUrl(url) async {
     try {
@@ -237,7 +236,6 @@ class SampleStart extends State<HomePageTrainer> {
                                   });
                                 }
                               }
-
                               return SingleChildScrollView(
                                   child: Center(
                                       child: Container(
@@ -336,15 +334,8 @@ class SampleStart extends State<HomePageTrainer> {
   Future<List> fetchSessionResults() async {
     try {
       AuthUser res = await Amplify.Auth.getCurrentUser();
-      trainerName = res.username;
-      print("Current User Name = " + res.username);
-      final trainerProfile = await http.get(
-          'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$trainerName/');
-      firstName = await json.decode(trainerProfile.body)["firstName"];
-      print("first name = " + firstName);
-
       final response = await http.get(
-          'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$trainerName/sessions');
+          'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/${res.username}/sessions');
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {

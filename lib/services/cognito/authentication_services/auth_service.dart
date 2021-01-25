@@ -125,7 +125,7 @@ class AuthService {
       final userAttributes = [
         new AttributeArg(
             name: 'custom:isTrainer', value: credentials.isTrainer.toString()),
-        new AttributeArg(name: 'custom:paymentSignedUp', value: 'false'),
+        new AttributeArg(name: 'custom:paymentSigned', value: 'false'),
         new AttributeArg(name: 'email', value: credentials.email),
         new AttributeArg(name: 'given_name', value: credentials.firstName),
         new AttributeArg(name: 'family_name', value: credentials.lastName),
