@@ -126,7 +126,8 @@ class AuthService {
     }
   }
 
-  void verifyCode(String verificationCode) async {
+  Future<List> verifyCode(String verificationCode) async {
+    var verifyResult = ['no errors'];
     try {
       final result = await Amplify.Auth.confirmSignUp(
           username: _credentials.username, confirmationCode: verificationCode);
@@ -135,10 +136,13 @@ class AuthService {
         await createUser(_credentials);
         final state = AuthState(authFlowStatus: AuthFlowStatus.tutorial);
         authStateController.add(state);
-      } else {}
+      }
     } on AuthError catch (authError) {
+      verifyResult[0] = 'errors';
+      verifyResult.add(authError.exceptionList[1].detail);
       print('Could not verify code - ${authError.cause}');
     }
+    return verifyResult;
   }
 
   void logOut() async {
