@@ -55,6 +55,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
     }
   }
 
+  // ignore: unused_element
   void _uploadSessionPhoto() async {
     try {
       File local = await FilePicker.getFile(type: FileType.image);
