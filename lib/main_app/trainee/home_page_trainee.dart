@@ -451,76 +451,81 @@ class SampleStart extends State<HomePageTrainee> {
           if (snapshot.data != null && snapshot.data.length > 0) {
             // If there is data, we want as many items as possible to show
             // as long as it is no more than 3:
-            int itemCount = snapshot.data.length;
+            // int itemCount = classArray.length;
             // added by hide
             DateTime _date = new DateTime.now(); //default date value
-            if (snapshot.hasData) {
-              for (int i = 0; i < snapshot.data.length; i++) {
-                if (snapshot.data[i]["user_username"].length > 0 &&
-                    DateTime.parse(_date.toString()).isBefore(DateTime.parse(
-                        snapshot.data[i]["date"] +
-                            " " +
-                            snapshot.data[i]["end_time"]))) {
-                  classArray.add(snapshot.data[i]);
-                  classArray.sort((a, b) {
-                    var adate = a["date"] + a["start_time"];
-                    var bdate = b["date"] + b["start_time"];
-                    return adate.compareTo(bdate);
-                  });
-                }
+            for (int i = 0; i < snapshot.data.length; i++) {
+              if (snapshot.data[i]["user_username"].length > 0 &&
+                  DateTime.parse(_date.toString()).isBefore(DateTime.parse(
+                      snapshot.data[i]["date"] +
+                          " " +
+                          snapshot.data[i]["end_time"]))) {
+                classArray.add(snapshot.data[i]);
+                classArray.sort((a, b) {
+                  var adate = a["date"] + a["start_time"];
+                  var bdate = b["date"] + b["start_time"];
+                  return adate.compareTo(bdate);
+                });
               }
             }
-            // added by hide
-            // if (classArray.length < 3) {
-            //   // The builder will return as many items as are present
-            //   itemCount = classArray.length;
-            // }
-            return ListView.builder(
-              physics: const ClampingScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                print(index);
-                // The LAST element will have a post-build callback to update the widget's state
-                if (index == classArray.length - 1) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    sessionsLoaded();
-                  });
-                }
 
-                return sessionCard(
-                    trainer: false,
-                    name: classArray[index]["trainer_username"],
-                    date: classArray[index]["date"],
-                    startTime: classArray[index]["start_time"],
-                    endTime: classArray[index]["end_time"],
-                    context: context,
-                    function: () => {
-                          print(classArray.length),
-                          Navigator.push(
-                            context,
-                            SlideLeftRoute(
-                                page: TraineeSessionDetailsPage(
-                                    sessionID: classArray[index]['id'],
-                                    trainer: classArray[index]
-                                        ["trainer_username"],
-                                    sessionCode: classArray[index]
-                                        ["sessionCode"],
-                                    date: classArray[index]["date"],
-                                    startTime: classArray[index]["start_time"],
-                                    endTime: classArray[index]["end_time"],
-                                    description: classArray[index]
-                                        ["description"])),
-                          )
-                        });
-              },
-              itemCount: itemCount,
-            );
-          } else if (snapshot.data != null && snapshot.data.length == 0) {
+            if (classArray.length > 0) {
+              int itemCount = 3;
+              // added by hide
+              if (classArray.length < 3) {
+                // The builder will return as many items as are present
+                itemCount = classArray.length;
+              }
+              return ListView.builder(
+                physics: const ClampingScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  print(index);
+                  // The LAST element will have a post-build callback to update the widget's state
+                  if (index == classArray.length - 1) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      sessionsLoaded();
+                    });
+                  }
+
+                  return sessionCard(
+                      trainer: false,
+                      name: classArray[index]["trainer_username"],
+                      date: classArray[index]["date"],
+                      startTime: classArray[index]["start_time"],
+                      endTime: classArray[index]["end_time"],
+                      context: context,
+                      function: () => {
+                            print(itemCount),
+                            Navigator.push(
+                              context,
+                              SlideLeftRoute(
+                                  page: TraineeSessionDetailsPage(
+                                      sessionID: classArray[index]['id'],
+                                      trainer: classArray[index]
+                                          ["trainer_username"],
+                                      sessionCode: classArray[index]
+                                          ["sessionCode"],
+                                      date: classArray[index]["date"],
+                                      startTime: classArray[index]
+                                          ["start_time"],
+                                      endTime: classArray[index]["end_time"],
+                                      description: classArray[index]
+                                          ["description"])),
+                            )
+                          });
+                },
+                itemCount: itemCount,
+              );
+            }
+          } else if (classArray != null && classArray.length == 0) {
             // If the user has no sessions yet, call sessionsLoaded
             // This is the difference between no data and data.length == 0
             sessionsLoaded();
-          } else if (snapshot.connectionState == ConnectionState.waiting ??
-              snapshot.connectionState == ConnectionState.active) {
+          } else
+          // (snapshot.connectionState == ConnectionState.waiting ??
+          //     snapshot.connectionState == ConnectionState.active)
+          {
             Container(
               height: 100,
             );
