@@ -981,7 +981,7 @@ class _PaymentState extends State<PaymentSignup> {
                                       final List<CognitoUserAttribute>
                                           attributes = [];
                                       attributes.add(new CognitoUserAttribute(
-                                          name: 'custom:paymentSignedUp',
+                                          name: 'custom:paymentSigned',
                                           value: 'true'));
                                       try {
                                         final response = await widget

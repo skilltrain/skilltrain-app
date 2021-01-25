@@ -42,7 +42,7 @@ class SampleStart extends State<HomePageTrainer> {
     super.initState();
     sessionResults = fetchSessionResults();
     widget.userAttributes.forEach((attribute) {
-      if (attribute.getName() == 'custom:paymentSignedUp') {
+      if (attribute.getName() == 'custom:paymentSigned') {
         if (attribute.getValue() == 'true') {
           signUpPayment();
         }
