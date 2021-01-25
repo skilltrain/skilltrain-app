@@ -54,7 +54,8 @@ class SampleStart extends State<BookingStatus> {
               onPressed: () => Navigator.pop(context, false),
               icon: Icon(Icons.arrow_back)),
         ),
-        body: Column(
+        body: 
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
@@ -105,7 +106,9 @@ class SampleStart extends State<BookingStatus> {
                         return Center(
                             child: Column(
                           children: <Widget>[
+                            Expanded(child: 
                             SizedBox(
+                                height: 500,
                                 child: ListView.builder(
                               physics: const ClampingScrollPhysics(),
                               shrinkWrap: true,
@@ -144,7 +147,7 @@ class SampleStart extends State<BookingStatus> {
 //
                               },
                               itemCount: classArray.length,
-                            )),
+                            ))),
                             Center(
                                 child: Text("last update:" + "$_date",
                                     style: TextStyle(color: Colors.white))),
