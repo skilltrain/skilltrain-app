@@ -172,8 +172,17 @@ class SampleStart extends State<HomePageTrainer> {
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Color(0xFFFFFFFF),
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                SlideRightRoute(page: InstructorRegisterCourse()),
+              );
+            },
+            child: Icon(Icons.add),
+            backgroundColor: Colors.cyanAccent,
+          ),
+          body: ListView(
             children: <Widget>[
               Container(
                   padding: EdgeInsets.all(36),

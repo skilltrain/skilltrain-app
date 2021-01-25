@@ -7,7 +7,7 @@ import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:http/http.dart' as http;
 import 'package:skilltrain/main_app/common/buttons.dart';
 import 'dart:convert';
-
+import 'package:transparent_image/transparent_image.dart';
 import 'package:skilltrain/main_app/common/headings.dart';
 
 class InstructorBioUpdate extends StatefulWidget {
@@ -49,9 +49,7 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
           accessLevel: StorageAccessLevel.guest, metadata: metadata);
       UploadFileResult result = await Amplify.Storage.uploadFile(
           key: key, local: local, options: options);
-      setState(() {
-        _photo = result.key;
-      });
+      await getUrl(result.key);
     } catch (e) {
       print('UploadFile Err: ' + e.toString());
     }
@@ -82,6 +80,9 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
           accessLevel: StorageAccessLevel.guest, expires: 30000);
       GetUrlResult result =
           await Amplify.Storage.getUrl(key: key, options: options);
+      setState(() {
+        _photo = result.url;
+      });
       return result.url;
     } catch (e) {
       print(e.toString());
@@ -120,209 +121,145 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Color(0xFFFFFFFF),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            child: Column(children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    children: [
-                      Container(
-                          padding: EdgeInsets.all(36),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              blackHeading(
-                                  title: "Change Your ",
-                                  underline: false,
-                                  purple: false),
-                              blackHeading(
-                                  title: "Profile",
-                                  underline: true,
-                                  purple: true)
-                            ],
-                          )),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(18),
-                          image: _photo != null
-                              ? DecorationImage(
-                                  image: NetworkImage(_photo),
-                                )
-                              : null,
-                        ),
-                        width: 100,
-                        height: 100,
-                        // child: FadeInImage.assetNetwork(
-                        //   placeholder: "./../../assets/icon/icon.png",
-                        //   image: _photo,
-                        //   fit: BoxFit.fill,
-                        // ),
-                      ),
-                    ],
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Column(children: [
-                        cyanButton(
-                            text: "Upload a Profile Photo",
-                            function: () {
-                              _uploadProfilePic();
-                            }),
-                        Container(
-                          width: 100,
-                          child: DropdownButton<String>(
-                            hint: Text(_genre,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black)),
-                            isExpanded: true,
-                            items: <String>[
-                              'Cardio',
-                              'Weights',
-                              'Stretching',
-                              'Yoga',
-                              'Rowing',
-                              'General Fitness',
-                              'Running',
-                              'Core',
-                              'Other',
-                            ].map((String value) {
-                              return new DropdownMenuItem<String>(
-                                value: value,
-                                child: Center(
-                                  child: new Text(value,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black)),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              _genre = value;
-                              print("Genre is" + value);
-                              setState(() {
-                                _genre = value;
-                              });
-                            },
-                          ),
-                        ),
-                        Container(
-                          width: 100,
-                          child: Form(
-                            key: _priceKey,
-                            child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                controller: TextEditingController(
-                                    text: _price != null
-                                        ? _price.toString()
-                                        : ""),
-                                decoration: InputDecoration(labelText: 'Price'),
-                                validator: (value) =>
-                                    value == null ?? num.tryParse(value) == null
-                                        ? 'Please write a number'
-                                        : null,
-                                onChanged: (text) => _price = int.parse(text)),
-                          ),
-                        ),
-                        TextFormField(
-                            controller: TextEditingController(text: _bio),
-                            decoration: InputDecoration(
-                              labelText: 'bio',
+        body: Container(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.all(36),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            blackHeading(
+                                title: "Change Your ",
+                                underline: false,
+                                purple: false),
+                            blackHeading(
+                                title: "Profile", underline: true, purple: true)
+                          ],
+                        )),
+                    Container(
+                        child: _photo != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(16.0),
+                                child: FadeInImage.memoryNetwork(
+                                    placeholder: kTransparentImage,
+                                    image: _photo,
+                                    height: 80,
+                                    width: 120,
+                                    fit: BoxFit.fill),
+                              )
+                            : null),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Column(children: [
+                    cyanButton(
+                        text: "Upload a Profile Photo",
+                        function: () {
+                          _uploadProfilePic();
+                        }),
+                    Container(
+                      width: 100,
+                      child: DropdownButton<String>(
+                        hint: Text(_genre,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black)),
+                        isExpanded: true,
+                        items: <String>[
+                          'Cardio',
+                          'Weights',
+                          'Stretching',
+                          'Yoga',
+                          'Rowing',
+                          'General Fitness',
+                          'Running',
+                          'Core',
+                          'Other',
+                        ].map((String value) {
+                          return new DropdownMenuItem<String>(
+                            value: value,
+                            child: Center(
+                              child: new Text(value,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black)),
                             ),
-                            maxLines: 4,
-                            minLines: 4,
-                            onChanged: (text) => _bio = text),
-                        cyanButton(
-                            text: "Update Profile",
-                            function: () async {
-                              if (_priceKey.currentState.validate()) {
-                                final dynamic result = await updateTrainer();
-                                if (result.statusCode == 201 ||
-                                    result.statusCode == 200) {
-                                  print("update successful");
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return SimpleDialog(
-                                        title: Text(
-                                            "Instructor bios successfully updated"),
-                                        children: <Widget>[
-                                          // コンテンツ領域
-                                          SimpleDialogOption(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: Text(""),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                }
-                              } else {
-                                print("update unsuccesful");
-                              }
-                            })
-                      ]),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          _genre = value;
+                          print("Genre is" + value);
+                          setState(() {
+                            _genre = value;
+                          });
+                        },
+                      ),
                     ),
-                  ),
-
-                  // RaisedButton(
-                  //   onPressed: () async {
-                  //     if (_priceKey.currentState.validate()) {
-                  //       final dynamic result = await updateTrainer();
-                  //       if (result.statusCode == 201 ||
-                  //           result.statusCode == 200) {
-                  //         print("update successful");
-                  //         showDialog(
-                  //           context: context,
-                  //           builder: (context) {
-                  //             return SimpleDialog(
-                  //               title: Text(
-                  //                   "Instructor bios successfully updated"),
-                  //               children: <Widget>[
-                  //                 // コンテンツ領域
-                  //                 SimpleDialogOption(
-                  //                   onPressed: () => Navigator.pop(context),
-                  //                   child: Text(""),
-                  //                 ),
-                  //               ],
-                  //             );
-                  //           },
-                  //         );
-                  //       }
-                  //     } else {
-                  //       print("update unsuccesful");
-                  //     }
-                  //   },
-                  //   textColor: Colors.white,
-                  //   padding: const EdgeInsets.all(0),
-                  //   child: Container(
-                  //     width: double.infinity,
-                  //     decoration: BoxDecoration(
-                  //       gradient: LinearGradient(
-                  //         colors: <Color>[
-                  //           Colors.pink[300],
-                  //           Colors.purple[500],
-                  //           Colors.purple[700],
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     child: const Text('Update profile',
-                  //         textAlign: TextAlign.center,
-                  //         style: TextStyle(
-                  //           fontWeight: FontWeight.bold,
-                  //           fontSize: 30,
-                  //         )),
-                  //   ),
-                  // ),
-                ],
-              ),
-            ]),
+                    Container(
+                      width: 100,
+                      child: Form(
+                        key: _priceKey,
+                        child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            controller: TextEditingController(
+                                text: _price != null ? _price.toString() : ""),
+                            decoration: InputDecoration(labelText: 'Price'),
+                            validator: (value) =>
+                                value == null ?? num.tryParse(value) == null
+                                    ? 'Please write a number'
+                                    : null,
+                            onChanged: (text) => _price = int.parse(text)),
+                      ),
+                    ),
+                    TextFormField(
+                        controller: TextEditingController(text: _bio),
+                        decoration: InputDecoration(
+                          labelText: 'Bio Description',
+                        ),
+                        maxLines: 10,
+                        minLines: 4,
+                        onChanged: (text) => _bio = text),
+                    cyanButton(
+                        text: "Update Profile",
+                        function: () async {
+                          if (_priceKey.currentState.validate()) {
+                            final dynamic result = await updateTrainer();
+                            if (result.statusCode == 201 ||
+                                result.statusCode == 200) {
+                              print("update successful");
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return SimpleDialog(
+                                    title: Text(
+                                        "You have successfully updated your bio. Thank you!"),
+                                    children: <Widget>[
+                                      // コンテンツ領域
+                                      SimpleDialogOption(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text(""),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          } else {
+                            print("update unsuccesful");
+                          }
+                        })
+                  ]),
+                ),
+              ],
+            ),
           ),
         ));
   }
