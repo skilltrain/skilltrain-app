@@ -173,6 +173,7 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
         updateSession(widget.sessionId);
         await new Future.delayed(const Duration(seconds: 3));
         Navigator.pop(context);
+        Navigator.pop(context);
       } else {
         //step 4: there is a need to authenticate
         StripePayment.setStripeAccount(strAccount);

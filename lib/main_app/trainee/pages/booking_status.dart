@@ -105,46 +105,57 @@ class SampleStart extends State<BookingStatus> {
                         return Center(
                             child: Column(
                           children: <Widget>[
-                            SizedBox(
-                                child: ListView.builder(
-                              physics: const ClampingScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (BuildContext context, int index) {
-                                //card
-                                return sessionCard(
-                                    trainer: false,
-                                    name: classArray[index]["trainer_username"],
-                                    date: classArray[index]["date"],
-                                    startTime: classArray[index]["start_time"],
-                                    endTime: classArray[index]["end_time"],
-                                    context: context,
-                                    function: () => {
-                                          Navigator.push(
-                                            context,
-                                            SlideLeftRoute(
-                                                page: TraineeSessionDetailsPage(
-                                                    sessionID: classArray[index]
-                                                        ['id'],
-                                                    trainer: classArray[index]
-                                                        ["trainer_username"],
-                                                    sessionCode:
-                                                        classArray[index]
-                                                            ["sessionCode"],
-                                                    date: classArray[index]
-                                                        ["date"],
-                                                    startTime: classArray[index]
-                                                        ["start_time"],
-                                                    endTime: classArray[index]
-                                                        ["end_time"],
-                                                    description:
-                                                        classArray[index]
-                                                            ["description"])),
-                                          )
-                                        });
+                            Expanded(
+                                child: SizedBox(
+                                    height: 500,
+                                    child: ListView.builder(
+                                      physics: const ClampingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        //card
+                                        return sessionCard(
+                                            trainer: false,
+                                            name: classArray[index]
+                                                ["trainer_username"],
+                                            date: classArray[index]["date"],
+                                            startTime: classArray[index]
+                                                ["start_time"],
+                                            endTime: classArray[index]
+                                                ["end_time"],
+                                            context: context,
+                                            function: () => {
+                                                  Navigator.push(
+                                                    context,
+                                                    SlideLeftRoute(
+                                                        page: TraineeSessionDetailsPage(
+                                                            sessionID:
+                                                                classArray[index]
+                                                                    ['id'],
+                                                            trainer:
+                                                                classArray[index]
+                                                                    [
+                                                                    "trainer_username"],
+                                                            sessionCode: classArray[index]
+                                                                ["sessionCode"],
+                                                            date:
+                                                                classArray[index]
+                                                                    ["date"],
+                                                            startTime: classArray[
+                                                                    index]
+                                                                ["start_time"],
+                                                            endTime: classArray[
+                                                                    index]
+                                                                ["end_time"],
+                                                            description:
+                                                                classArray[index]
+                                                                    ["description"])),
+                                                  )
+                                                });
 //
-                              },
-                              itemCount: classArray.length,
-                            )),
+                                      },
+                                      itemCount: classArray.length,
+                                    ))),
                             Center(
                                 child: Text("last update:" + "$_date",
                                     style: TextStyle(color: Colors.white))),
