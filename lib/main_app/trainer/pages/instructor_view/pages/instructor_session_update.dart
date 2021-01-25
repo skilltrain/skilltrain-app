@@ -156,15 +156,15 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                                 children: <Widget>[
                                   // コンテンツ領域
                                   SimpleDialogOption(
-                                    onPressed: () => Navigator.pop(context),
+                                    onPressed: () => Navigator.push(  context,  MaterialPageRoute(builder: (context) => SessionList()),),
                                     child: Text(""),
                                   ),
                                 ],
                               );
                             },
                           );
-
-                          Navigator.pop(context, false);
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => SessionList()),);//
+//                          Navigator.pop(context, false);
                         } else {
                           print("course delete unsuccesful");
                         }
