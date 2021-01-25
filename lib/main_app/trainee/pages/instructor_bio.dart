@@ -63,7 +63,6 @@ class _InstructorBioState extends State<InstructorBio> {
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Color(0xFFFFFFFF),
-          title: Text(widget.data["firstName"] + " " + widget.data["lastName"]),
         ),
         body: SingleChildScrollView(
           child: Column(

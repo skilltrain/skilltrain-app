@@ -23,7 +23,7 @@ class AuthService {
   List<CognitoUserAttribute> attributes;
   CognitoUser cognitoUser;
   final userPool = new CognitoUserPool(
-      "ap-northeast-1_4KL7XZGPF", "2gog45e490ahlnk1hq0dp18ck4");
+      "ap-northeast-1_oS6Gjckyt", "2lmha2vleftrnk996svvk2jf7r");
 
   void showSignUp() {
     final state = AuthState(authFlowStatus: AuthFlowStatus.signUp);
