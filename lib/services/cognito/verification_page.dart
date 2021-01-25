@@ -31,7 +31,9 @@ class _VerificationPageState extends State<VerificationPage> {
           builder: (BuildContext context) => AlertDialogue(
               title: 'Error', content: verifyResult[1], buttonText: 'CLOSE'));
     }
-    _verifying = false;
+    setState(() {
+      _verifying = false;
+    });
   }
 
   @override
