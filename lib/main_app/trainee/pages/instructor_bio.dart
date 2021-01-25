@@ -100,6 +100,7 @@ class _InstructorBioState extends State<InstructorBio> {
                         child: Hero(
                           tag: widget.index,
                           child: Material(
+                            color: Colors.white,
                             child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
