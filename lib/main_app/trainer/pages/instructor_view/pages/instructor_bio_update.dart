@@ -142,20 +142,22 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                                 title: "Profile", underline: true, purple: true)
                           ],
                         )),
-                    Container(
+                  ],
+                ),
+                  Container(
+                    width: double.infinity,
                         child: _photo != null
                             ? ClipRRect(
-                                borderRadius: BorderRadius.circular(16.0),
+//                                borderRadius: BorderRadius.circular(16.0),
                                 child: FadeInImage.memoryNetwork(
                                     placeholder: kTransparentImage,
                                     image: _photo,
-                                    height: 80,
-                                    width: 120,
+//                                    height: 80,
+//                                    width: 120,
                                     fit: BoxFit.fill),
                               )
                             : null),
-                  ],
-                ),
+
                 Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: Column(children: [

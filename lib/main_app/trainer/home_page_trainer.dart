@@ -17,6 +17,7 @@ import '../trainer/pages/instructor_view/pages/instructor_session_list.dart';
 import 'pages/instructor_view/pages/instructor_booked_session_detail_chat.dart';
 
 String trainerName = "";
+String firstName = "";
 
 class HomePageTrainer extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -192,7 +193,7 @@ class SampleStart extends State<HomePageTrainer> {
                       blackHeading(
                           title: "Welcome", underline: false, purple: false),
                       blackHeading(
-                          title: trainerName, underline: true, purple: false)
+                          title: firstName, underline: true, purple: false)
                     ],
                   )),
               Expanded(
@@ -331,6 +332,12 @@ class SampleStart extends State<HomePageTrainer> {
       AuthUser res = await Amplify.Auth.getCurrentUser();
       trainerName = res.username;
       print("Current User Name = " + res.username);
+      final trainerProfile = await http.get(
+          'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$trainerName/');
+        firstName = await json.decode(trainerProfile.body)["firstName"];
+        print("first name = " + firstName);
+
+
       final response = await http.get(
           'https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$trainerName/sessions');
       if (response.statusCode == 200) {

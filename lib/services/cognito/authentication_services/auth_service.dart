@@ -96,9 +96,7 @@ class AuthService {
         this._credentials = credentials;
         await setLocallySavedUser(credentials.username, credentials.password);
         await this.checkTrainer();
-        if (firstTime) {
-          showTutorial();
-        } else {
+        if (!firstTime) {
           showSession();
         }
       } else {
@@ -113,6 +111,9 @@ class AuthService {
       }
       if (errorDetail.startsWith('User does not exist')) {
         loginResult.add("User does not exist");
+      } else {
+        //Fail safe for uncaught error
+        loginResult.add(authError.exceptionList[1].detail);
       }
     }
     return loginResult;
@@ -126,6 +127,8 @@ class AuthService {
             name: 'custom:isTrainer', value: credentials.isTrainer.toString()),
         new AttributeArg(name: 'custom:paymentSignedUp', value: 'false'),
         new AttributeArg(name: 'email', value: credentials.email),
+        new AttributeArg(name: 'given_name', value: credentials.firstName),
+        new AttributeArg(name: 'family_name', value: credentials.lastName),
       ];
       await userPool.signUp(credentials.username, credentials.password,
           userAttributes: userAttributes);
@@ -133,6 +136,7 @@ class AuthService {
       showVerification();
       return signUpResult;
     } catch (e) {
+      print(e);
       signUpResult[0] = 'errors';
       final errorDetail = e.message.substring(e.message.indexOf(':') + 1);
       if (errorDetail.contains('password')) {
@@ -148,6 +152,9 @@ class AuthService {
         if (errorDetail.contains('format')) {
           signUpResult.add(errorDetail.substring(0, errorDetail.length - 1));
         }
+      } else {
+        //Fail safe for uncaught error
+        signUpResult.add(e.message());
       }
       return signUpResult;
     }
