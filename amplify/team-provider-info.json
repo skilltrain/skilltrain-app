@@ -12,11 +12,11 @@
       "AmplifyAppId": "d1hm19k1vdzc5p"
     },
     "categories": {
-      "function": {
-        "skilltrainapp4b9ed2d7": {}
-      },
       "auth": {
         "skilltrainapp11701c7f11701c7f": {}
+      },
+      "function": {
+        "stripe-payment": {}
       }
     }
   }
