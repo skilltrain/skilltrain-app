@@ -23,7 +23,7 @@ class AuthService {
   List<CognitoUserAttribute> attributes;
   CognitoUser cognitoUser;
   final userPool = new CognitoUserPool(
-      "ap-northeast-1_4KL7XZGPF", "2gog45e490ahlnk1hq0dp18ck4");
+      "ap-northeast-1_oS6Gjckyt", "2lmha2vleftrnk996svvk2jf7r");
 
   void showSignUp() {
     final state = AuthState(authFlowStatus: AuthFlowStatus.signUp);
@@ -124,6 +124,8 @@ class AuthService {
             name: 'custom:isTrainer', value: credentials.isTrainer.toString()),
         new AttributeArg(name: 'custom:paymentSignedUp', value: 'false'),
         new AttributeArg(name: 'email', value: credentials.email),
+        new AttributeArg(name: 'given_name', value: credentials.firstName),
+        new AttributeArg(name: 'family_name', value: credentials.lastName),
       ];
       await userPool.signUp(credentials.username, credentials.password,
           userAttributes: userAttributes);
@@ -131,6 +133,7 @@ class AuthService {
       showVerification();
       return signUpResult;
     } catch (e) {
+      print(e);
       signUpResult[0] = 'errors';
       final errorDetail = e.message.substring(e.message.indexOf(':') + 1);
       if (errorDetail.contains('password')) {
