@@ -72,7 +72,9 @@ class IndexState extends State<IndexPageTrainer> {
                           border: UnderlineInputBorder(
                             borderSide: BorderSide(width: 1),
                           ),
-                          hintText: 'Channel name',
+                          hintText: "Session Code",
+                          helperText:
+                              "Your session code is : " + widget.sessionCode,
                         ),
                       ))
                     ],
