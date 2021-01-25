@@ -65,8 +65,9 @@ class IndexState extends State<IndexPageTrainee> {
                   Row(
                     children: <Widget>[
                       Expanded(
-                          child: TextField(
+                          child: TextFormField(
                         controller: _channelController,
+                        // initialValue: widget.sessionCode,
                         decoration: InputDecoration(
                           errorText: _validateError
                               ? 'Channel name is mandatory'
@@ -74,7 +75,9 @@ class IndexState extends State<IndexPageTrainee> {
                           border: UnderlineInputBorder(
                             borderSide: BorderSide(width: 1),
                           ),
-                          hintText: 'Channel name',
+                          hintText: "Session Code",
+                          helperText:
+                              "Your session code is : " + widget.sessionCode,
                         ),
                       ))
                     ],
