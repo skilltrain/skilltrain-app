@@ -6,9 +6,11 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:skilltrain/main_app/common/headings.dart';
 import '../../../utils/gender_selector.dart';
 import 'package:spannable_grid/spannable_grid.dart';
 import '../../../utils/alert_dialogue.dart';
+import '../../common/headings.dart';
 
 class PaymentSignup extends StatefulWidget {
   final List<CognitoUserAttribute> userAttributes;
@@ -729,192 +731,294 @@ class _PaymentState extends State<PaymentSignup> {
         resizeToAvoidBottomInset: false,
         resizeToAvoidBottomPadding: false,
         appBar: AppBar(
-          leading: new IconButton(
-            icon: new Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: Text('Payment sign up'),
+          iconTheme: IconThemeData(color: Colors.black),
+          backgroundColor: Color(0xFFFFFFFF),
         ),
         body: ModalProgressHUD(
             child: SingleChildScrollView(
               child: new Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SpannableGrid(
-                    rowHeight: 50,
-                    columns: 5,
-                    rows: 4,
-                    cells: nameCells,
-                    spacing: 2,
-                    onCellChanged: (cell) {
-                      print('Cell ${cell.id} changed');
-                    },
-                  ),
-                  const Divider(height: 10),
-                  SpannableGrid(
-                    rowHeight: 45,
-                    columns: 20,
-                    rows: 2,
-                    cells: genderCells,
-                    spacing: 1,
-                    onCellChanged: (cell) {
-                      print('Cell ${cell.id} changed');
-                    },
-                  ),
-                  const Divider(height: 10),
-                  SpannableGrid(
-                    rowHeight: 50,
-                    columns: 5,
-                    rows: 1,
-                    cells: emailCells,
-                    spacing: 1,
-                    onCellChanged: (cell) {
-                      print('Cell ${cell.id} changed');
-                    },
-                  ),
-                  const Divider(height: 10),
-                  SpannableGrid(
-                    rowHeight: 50,
-                    columns: 5,
-                    rows: 1,
-                    cells: phoneCells,
-                    spacing: 1,
-                    onCellChanged: (cell) {
-                      print('Cell ${cell.id} changed');
-                    },
-                  ),
-                  const Divider(height: 10),
-                  SpannableGrid(
-                    rowHeight: 50,
-                    columns: 40,
-                    rows: 1,
-                    cells: birthdayCells,
-                    spacing: 0,
-                    onCellChanged: (cell) {
-                      print('Cell ${cell.id} changed');
-                    },
-                  ),
-                  new Container(
-                      height: 50,
-                      child:
-                          Text('$currentDate', style: TextStyle(fontSize: 20)),
-                      alignment: Alignment(-0.46, 0.0)),
-                  const Divider(height: 10),
-                  SpannableGrid(
-                    rowHeight: 50,
-                    columns: 5,
-                    rows: 5,
-                    cells: addressCellsKanji,
-                    spacing: 1,
-                    onCellChanged: (cell) {
-                      print('Cell ${cell.id} changed');
-                    },
-                  ),
-                  const Divider(height: 10),
-                  SpannableGrid(
-                    rowHeight: 50,
-                    columns: 5,
-                    rows: 5,
-                    cells: addressCellsKana,
-                    spacing: 1,
-                    onCellChanged: (cell) {
-                      print('Cell ${cell.id} changed');
-                    },
-                  ),
-                  const Divider(height: 10),
-                  SpannableGrid(
-                    rowHeight: 50,
-                    columns: 5,
-                    rows: 1,
-                    cells: postcode,
-                    spacing: 1,
-                    onCellChanged: (cell) {
-                      print('Cell ${cell.id} changed');
-                    },
-                  ),
-                  const Divider(height: 10),
-                  SpannableGrid(
-                    rowHeight: 50,
-                    columns: 5,
-                    rows: 2,
-                    cells: bankCells,
-                    spacing: 1,
-                    onCellChanged: (cell) {
-                      print('Cell ${cell.id} changed');
-                    },
-                  ),
-                  const Divider(height: 10),
-                  ButtonTheme(
-                      minWidth: MediaQuery.of(context).size.width,
-                      height: 60,
-                      child: RaisedButton(
-                        onPressed: !widget.active
-                            ? null
-                            : () async {
-                                setState(() {
-                                  _saving = true;
-                                });
-                                print(widget.userAttributes);
-                                print(infoObj);
-                                var response = await http.put(
-                                    "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe",
-                                    headers: <String, String>{
-                                      'Content-Type':
-                                          'application/json; charset=UTF-8',
-                                    },
-                                    body: convert.jsonEncode(infoObj));
-                                print(response.statusCode);
-                                print(response.body);
-                                setState(() async {
-                                  _saving = false;
-                                  if (response.statusCode == 200) {
-                                    _response = "Account Created!";
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            AlertDialogue(
-                                                title: 'Success!',
-                                                content: _response,
-                                                buttonText: 'CLOSE'));
-                                    Navigator.pop(context);
-                                    widget.signUpComplete();
-                                    final List<CognitoUserAttribute>
-                                        attributes = [];
-                                    attributes.add(new CognitoUserAttribute(
-                                        name: 'custom:paymentSignedUp',
-                                        value: 'true'));
-                                    try {
-                                      final response = await widget.cognitoUser
-                                          .updateAttributes(attributes);
-                                      print(response);
-                                    } catch (e) {
-                                      print('Failed to add user attribute $e');
-                                    }
-                                  } else {
-                                    final message = response.body.substring(
-                                        response.body.indexOf(':') + 1,
-                                        response.body.length - 1);
-                                    _response = message;
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            AlertDialogue(
-                                                title: 'Error',
-                                                content: _response,
-                                                buttonText: 'CLOSE'));
-                                  }
-                                });
-                                Future.delayed(
-                                    const Duration(seconds: 4), () {});
-                              },
-                        child: Text(
-                          widget.active ? "Submit" : "Complete",
-                          style: TextStyle(fontSize: 40),
-                        ),
-                        color: widget.active
-                            ? Colors.blueAccent
-                            : Colors.lightGreenAccent[400],
-                        textColor: Colors.white,
+                  Container(
+                      padding: EdgeInsets.all(36),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          blackHeading(
+                              title: "Sign up with ",
+                              underline: false,
+                              purple: false),
+                          blackHeading(
+                              title: "Stripe", underline: true, purple: false)
+                        ],
                       )),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: Colors.purple,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20),
+                        bottomLeft: Radius.zero,
+                        bottomRight: Radius.zero,
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 16),
+                          child: sectionTitle(title: "Personal Information"),
+                        ),
+                        Card(
+                          elevation: 8,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: Column(
+                              children: [
+                                SpannableGrid(
+                                  rowHeight: 50,
+                                  columns: 5,
+                                  rows: 4,
+                                  cells: nameCells,
+                                  spacing: 2,
+                                  onCellChanged: (cell) {
+                                    print('Cell ${cell.id} changed');
+                                  },
+                                ),
+                                const Divider(height: 10),
+                                SpannableGrid(
+                                  rowHeight: 45,
+                                  columns: 20,
+                                  rows: 2,
+                                  cells: genderCells,
+                                  spacing: 1,
+                                  onCellChanged: (cell) {
+                                    print('Cell ${cell.id} changed');
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 16),
+                          child: sectionTitle(title: "Contact Details"),
+                        ),
+                        Card(
+                          elevation: 8,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: Column(
+                              children: [
+                                SpannableGrid(
+                                  rowHeight: 50,
+                                  columns: 5,
+                                  rows: 1,
+                                  cells: emailCells,
+                                  spacing: 1,
+                                  onCellChanged: (cell) {
+                                    print('Cell ${cell.id} changed');
+                                  },
+                                ),
+                                const Divider(height: 10),
+                                SpannableGrid(
+                                  rowHeight: 50,
+                                  columns: 5,
+                                  rows: 1,
+                                  cells: phoneCells,
+                                  spacing: 1,
+                                  onCellChanged: (cell) {
+                                    print('Cell ${cell.id} changed');
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 16),
+                          child: sectionTitle(title: "Birthday Information"),
+                        ),
+                        Card(
+                          elevation: 8,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: Column(
+                              children: [
+                                SpannableGrid(
+                                  rowHeight: 50,
+                                  columns: 40,
+                                  rows: 1,
+                                  cells: birthdayCells,
+                                  spacing: 0,
+                                  onCellChanged: (cell) {
+                                    print('Cell ${cell.id} changed');
+                                  },
+                                ),
+                                new Container(
+                                    height: 50,
+                                    child: Text('$currentDate',
+                                        style: TextStyle(fontSize: 20)),
+                                    alignment: Alignment(-0.46, 0.0)),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 16),
+                          child: sectionTitle(title: "Address Details"),
+                        ),
+                        Card(
+                          elevation: 8,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: Column(
+                              children: [
+                                SpannableGrid(
+                                  rowHeight: 50,
+                                  columns: 5,
+                                  rows: 5,
+                                  cells: addressCellsKanji,
+                                  spacing: 1,
+                                  onCellChanged: (cell) {
+                                    print('Cell ${cell.id} changed');
+                                  },
+                                ),
+                                const Divider(height: 10),
+                                SpannableGrid(
+                                  rowHeight: 50,
+                                  columns: 5,
+                                  rows: 5,
+                                  cells: addressCellsKana,
+                                  spacing: 1,
+                                  onCellChanged: (cell) {
+                                    print('Cell ${cell.id} changed');
+                                  },
+                                ),
+                                const Divider(height: 10),
+                                SpannableGrid(
+                                  rowHeight: 50,
+                                  columns: 5,
+                                  rows: 1,
+                                  cells: postcode,
+                                  spacing: 1,
+                                  onCellChanged: (cell) {
+                                    print('Cell ${cell.id} changed');
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 16),
+                          child: sectionTitle(title: "Bank Details"),
+                        ),
+                        Card(
+                          elevation: 8,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: SpannableGrid(
+                              rowHeight: 50,
+                              columns: 5,
+                              rows: 2,
+                              cells: bankCells,
+                              spacing: 1,
+                              onCellChanged: (cell) {
+                                print('Cell ${cell.id} changed');
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.purple,
+                    ),
+                    child: ButtonTheme(
+                        minWidth: MediaQuery.of(context).size.width,
+                        height: 60,
+                        child: RaisedButton(
+                          onPressed: !widget.active
+                              ? null
+                              : () async {
+                                  setState(() {
+                                    _saving = true;
+                                  });
+                                  print(widget.userAttributes);
+                                  print(infoObj);
+                                  var response = await http.put(
+                                      "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe",
+                                      headers: <String, String>{
+                                        'Content-Type':
+                                            'application/json; charset=UTF-8',
+                                      },
+                                      body: convert.jsonEncode(infoObj));
+                                  print(response.statusCode);
+                                  print(response.body);
+                                  setState(() async {
+                                    _saving = false;
+                                    if (response.statusCode == 200) {
+                                      _response = "Account Created!";
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialogue(
+                                                  title: 'Success!',
+                                                  content: _response,
+                                                  buttonText: 'CLOSE'));
+                                      Navigator.pop(context);
+                                      widget.signUpComplete();
+                                      final List<CognitoUserAttribute>
+                                          attributes = [];
+                                      attributes.add(new CognitoUserAttribute(
+                                          name: 'custom:paymentSignedUp',
+                                          value: 'true'));
+                                      try {
+                                        final response = await widget
+                                            .cognitoUser
+                                            .updateAttributes(attributes);
+                                        print(response);
+                                      } catch (e) {
+                                        print(
+                                            'Failed to add user attribute $e');
+                                      }
+                                    } else {
+                                      final message = response.body.substring(
+                                          response.body.indexOf(':') + 1,
+                                          response.body.length - 1);
+                                      _response = message;
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialogue(
+                                                  title: 'Error',
+                                                  content: _response,
+                                                  buttonText: 'CLOSE'));
+                                    }
+                                  });
+                                  Future.delayed(
+                                      const Duration(seconds: 4), () {});
+                                },
+                          child: Text(
+                            widget.active ? "Submit" : "Complete",
+                            style: TextStyle(fontSize: 40),
+                          ),
+                          color: widget.active
+                              ? Colors.blueAccent
+                              : Colors.lightGreenAccent[400],
+                          textColor: Colors.white,
+                        )),
+                  ),
                 ],
               ),
             ),
