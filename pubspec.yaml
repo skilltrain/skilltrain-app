@@ -45,6 +45,7 @@ dependencies:
   flutter_rating_bar: ^3.2.0+1
   web_socket_channel: ^1.2.0
   share: ^0.5.3
+  transparent_image: ^1.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -80,6 +81,7 @@ flutter:
     - assets/images/skillTrain-logo.png
     - assets/images/signup.png
     - assets/images/login.png
+    - assets/icon/icon.png
     - .env
 
   # The following line ensures that the Material Icons font is
