@@ -106,7 +106,12 @@ class _MyAppState extends State<MyApp> {
                               didProvideVerificationCode:
                                   _authService.verifyCode)),
                     if (snapshot.data.authFlowStatus == AuthFlowStatus.tutorial)
-                      MaterialPage(child: TutorialOne()),
+                      MaterialPage(
+                          child: Tutorial(
+                              // Now, the tutorial page is one big class which has routes to the different
+                              // pages within, on page three, the main app is begun and Auth.FlowStatus.session
+                              // is added
+                              shouldShowSession: _authService.showSession)),
                     if (snapshot.data.authFlowStatus ==
                             AuthFlowStatus.session &&
                         _authService.isTrainer)

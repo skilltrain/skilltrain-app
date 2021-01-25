@@ -5,7 +5,8 @@ import '../../utils/alert_dialogue.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class LoginPage extends StatefulWidget {
-  final Future<List> Function(AuthCredentials login) didProvideCredentials;
+  final Future<List> Function(AuthCredentials login, bool fistTime)
+      didProvideCredentials;
   final VoidCallback shouldShowSignUp;
   LoginPage({Key key, this.didProvideCredentials, this.shouldShowSignUp})
       : super(key: key);
@@ -114,7 +115,8 @@ class _LoginPageState extends State<LoginPage> {
 
     // This is a custom object (list) with a string at index 0 to indicate whether or not the login was successful
     // If the login was unsuccessful, index 0 is 'error' and there are error messages at indexes 1, 2, 3 etc.
-    final loginResponse = await widget.didProvideCredentials(credentials);
+    final loginResponse =
+        await widget.didProvideCredentials(credentials, false);
     setState(() {
       _loggingIn = false;
     });
