@@ -105,7 +105,7 @@ class _TrainerBookedSessionPageState extends State<TrainerBookedSessionPage> {
     final decodedData = await json.decode(data.body);
     setState(() {
       if (decodedData.length > 0) {
-        messages = decodedData["messages"];
+        messages = decodedData["messages"].reversed.toList();
       } else {
         messages = [];
       }
@@ -256,11 +256,13 @@ class _TrainerBookedSessionPageState extends State<TrainerBookedSessionPage> {
                 ),
                 //THIS IS THE CHAT TAB
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     messages != null
                         ? Expanded(
                             child: Container(
                             child: ListView.builder(
+                              reverse: true,
                               itemCount: messages.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return new Bubble(

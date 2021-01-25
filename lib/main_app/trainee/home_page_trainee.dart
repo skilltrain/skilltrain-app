@@ -451,7 +451,7 @@ class SampleStart extends State<HomePageTrainee> {
           if (snapshot.data != null && snapshot.data.length > 0) {
             // If there is data, we want as many items as possible to show
             // as long as it is no more than 3:
-            int itemCount = 3;
+            int itemCount = snapshot.data.length;
             // added by hide
             DateTime _date = new DateTime.now(); //default date value
             if (snapshot.hasData) {
@@ -471,10 +471,10 @@ class SampleStart extends State<HomePageTrainee> {
               }
             }
             // added by hide
-            if (classArray.length < 3) {
-              // The builder will return as many items as are present
-              itemCount = classArray.length;
-            }
+            // if (classArray.length < 3) {
+            //   // The builder will return as many items as are present
+            //   itemCount = classArray.length;
+            // }
             return ListView.builder(
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
@@ -500,16 +500,15 @@ class SampleStart extends State<HomePageTrainee> {
                             context,
                             SlideLeftRoute(
                                 page: TraineeSessionDetailsPage(
-                                    sessionID: snapshot.data[index]['id'],
-                                    trainer: snapshot.data[index]
+                                    sessionID: classArray[index]['id'],
+                                    trainer: classArray[index]
                                         ["trainer_username"],
-                                    sessionCode: snapshot.data[index]
+                                    sessionCode: classArray[index]
                                         ["sessionCode"],
-                                    date: snapshot.data[index]["date"],
-                                    startTime: snapshot.data[index]
-                                        ["start_time"],
-                                    endTime: snapshot.data[index]["end_time"],
-                                    description: snapshot.data[index]
+                                    date: classArray[index]["date"],
+                                    startTime: classArray[index]["start_time"],
+                                    endTime: classArray[index]["end_time"],
+                                    description: classArray[index]
                                         ["description"])),
                           )
                         });
@@ -560,15 +559,6 @@ class SampleStart extends State<HomePageTrainee> {
           children: [
             blackHeading(title: "Welcome", underline: false, purple: true),
             blackHeading(title: '$_user!', underline: true, purple: true),
-            // Row(
-            //   children: [
-            //     Text('Welcome\n$_user!',
-            //         style: TextStyle(
-            //             color: Colors.grey[900],
-            //             fontWeight: FontWeight.w800,
-            //             fontSize: 50)),
-            //   ],
-            // ),
             SizedBox(height: 15),
             Row(
               children: [
