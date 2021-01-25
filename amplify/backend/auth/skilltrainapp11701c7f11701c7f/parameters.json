@@ -1,4 +1,6 @@
 {
+    "identityPoolName": "skilltrainapp11701c7f11701c7f_identitypool_25bbad4c",
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "skillt11701c7f",
     "userPoolName": "skilltrainapp11701c7f_userpool_11701c7f",
     "autoVerifiedAttributes": [
@@ -66,7 +68,7 @@
     "userpoolClientSetAttributes": true,
     "sharedId": "11701c7f",
     "resourceName": "skilltrainapp11701c7f11701c7f",
-    "authSelections": "userPoolOnly",
+    "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",

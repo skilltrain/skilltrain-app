@@ -9,6 +9,14 @@ const amplifyconfig = ''' {
                 "IdentityManager": {
                     "Default": {}
                 },
+                "CredentialsProvider": {
+                    "CognitoIdentity": {
+                        "Default": {
+                            "PoolId": "ap-northeast-1:a5ac4b4a-54d5-4260-8633-41f5d101266a",
+                            "Region": "ap-northeast-1"
+                        }
+                    }
+                },
                 "CognitoUserPool": {
                     "Default": {
                         "PoolId": "ap-northeast-1_oS6Gjckyt",
@@ -22,14 +30,14 @@ const amplifyconfig = ''' {
                         "authenticationFlowType": "USER_SRP_AUTH"
                     }
                 },
-                "S3TransferUtility": {
+                "DynamoDBObjectMapper": {
                     "Default": {
-                        "Bucket": "skilltrain-bucket164607-dev",
                         "Region": "ap-northeast-1"
                     }
                 },
-                "DynamoDBObjectMapper": {
+                "S3TransferUtility": {
                     "Default": {
+                        "Bucket": "skilltrain-final-bucket164607-dev",
                         "Region": "ap-northeast-1"
                     }
                 },
@@ -63,7 +71,7 @@ const amplifyconfig = ''' {
     "storage": {
         "plugins": {
             "awsS3StoragePlugin": {
-                "bucket": "skilltrain-bucket164607-dev",
+                "bucket": "skilltrain-final-bucket164607-dev",
                 "region": "ap-northeast-1",
                 "defaultAccessLevel": "guest"
             },
