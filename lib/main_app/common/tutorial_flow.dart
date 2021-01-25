@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skilltrain/utils/sliders.dart';
 
 class Tutorial extends StatelessWidget {
   final VoidCallback shouldShowSession;
@@ -7,13 +8,19 @@ class Tutorial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(routes: {
+    var routes = {
       '/': (context) => TutorialOne(),
       '/tutorialTwo': (context) => TutorialTwo(),
       '/tutorialThree': (context) => TutorialThree(
             shouldShowSession: shouldShowSession,
           ),
-    });
+    };
+
+    return MaterialApp(
+        initialRoute: '/',
+        onGenerateRoute: (settings) {
+          return SlideLeftRoute(page: routes[settings.name](context));
+        });
   }
 }
 

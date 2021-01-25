@@ -71,7 +71,9 @@ class _LoginPageState extends State<LoginPage> {
                 )
               ]),
             ),
-            inAsyncCall: _loggingIn));
+            inAsyncCall: _loggingIn,
+            color: Colors.deepPurple,
+            progressIndicator: CircularProgressIndicator()));
   }
 
   Widget _loginForm() {
