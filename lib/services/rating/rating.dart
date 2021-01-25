@@ -363,6 +363,7 @@ class _InstructorBioUpdateState extends State<Rating> {
                         child: ElevatedButton(
                             onPressed: () => {
                                   postReviewAndRating(),
+                                  Navigator.pop(context),
                                 },
                             child: Text("Submit")),
                       )
