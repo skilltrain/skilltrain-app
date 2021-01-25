@@ -13,10 +13,10 @@
     },
     "categories": {
       "auth": {
-        "skilltrainapp41770f28": {}
+        "skilltrainapp11701c7f11701c7f": {}
       },
       "function": {
-        "skilltrainapp4b9ed2d7": {}
+        "stripe-payment": {}
       }
     }
   }

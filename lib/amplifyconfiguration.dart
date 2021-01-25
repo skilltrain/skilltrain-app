@@ -12,16 +12,16 @@ const amplifyconfig = ''' {
                 "CredentialsProvider": {
                     "CognitoIdentity": {
                         "Default": {
-                            "PoolId": "ap-northeast-1:37156262-00b5-48c3-a861-2eae5af44608",
+                            "PoolId": "ap-northeast-1:a5ac4b4a-54d5-4260-8633-41f5d101266a",
                             "Region": "ap-northeast-1"
                         }
                     }
                 },
                 "CognitoUserPool": {
                     "Default": {
-                        "PoolId": "ap-northeast-1_4KL7XZGPF",
-                        "AppClientId": "5a3nbv0puvl1kl8u3u640j3a6c",
-                        "AppClientSecret": "is31slj0l8lr36ibr981n5knilcfptthqlelhaj541r6jtpjhtb",
+                        "PoolId": "ap-northeast-1_oS6Gjckyt",
+                        "AppClientId": "4qld7vt53iacu88dakooke0qn8",
+                        "AppClientSecret": "4agum0fsmjjlc0r0mih0n37hq1bh5vdluuc58fane9duo3tkk0p",
                         "Region": "ap-northeast-1"
                     }
                 },
@@ -30,14 +30,14 @@ const amplifyconfig = ''' {
                         "authenticationFlowType": "USER_SRP_AUTH"
                     }
                 },
-                "S3TransferUtility": {
+                "DynamoDBObjectMapper": {
                     "Default": {
-                        "Bucket": "skilltrain-bucket164607-dev",
                         "Region": "ap-northeast-1"
                     }
                 },
-                "DynamoDBObjectMapper": {
+                "S3TransferUtility": {
                     "Default": {
+                        "Bucket": "skilltrain-final-bucket164607-dev",
                         "Region": "ap-northeast-1"
                     }
                 },
@@ -71,7 +71,7 @@ const amplifyconfig = ''' {
     "storage": {
         "plugins": {
             "awsS3StoragePlugin": {
-                "bucket": "skilltrain-bucket164607-dev",
+                "bucket": "skilltrain-final-bucket164607-dev",
                 "region": "ap-northeast-1",
                 "defaultAccessLevel": "guest"
             },

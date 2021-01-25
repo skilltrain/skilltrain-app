@@ -1,6 +1,6 @@
 {
   "auth": {
-    "skilltrainapp41770f28": {
+    "skilltrainapp11701c7f11701c7f": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -83,17 +83,26 @@
           ]
         }
       ]
+    },
+    "S3Trigger54b80c69": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true
     }
   },
   "api": {},
   "storage": {
-    "s3Bucket": {
+    "skilltrainAmplifyDB": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "skillTrainBucket": {
       "service": "S3",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "S3Triggerd4d0985a",
+          "resourceName": "S3Trigger54b80c69",
           "attributes": [
             "Name",
             "Arn",
@@ -101,10 +110,6 @@
           ]
         }
       ]
-    },
-    "skilltrainAmplifyDB": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
     }
   },
   "analytics": {

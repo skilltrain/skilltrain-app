@@ -5,7 +5,7 @@ import '../../utils/alert_dialogue.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class LoginPage extends StatefulWidget {
-  final Future<List> Function(AuthCredentials login, bool fistTime)
+  final Future<List> Function(AuthCredentials login, bool firstTime)
       didProvideCredentials;
   final VoidCallback shouldShowSignUp;
   LoginPage({Key key, this.didProvideCredentials, this.shouldShowSignUp})
