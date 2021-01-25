@@ -5,8 +5,10 @@ import 'package:skilltrain/utils/alert_dialogue.dart';
 class VerificationPage extends StatefulWidget {
   final Future<List> Function(String verificationCode)
       didProvideVerificationCode;
+  final VoidCallback shouldShowTutorial;
 
-  VerificationPage({Key key, this.didProvideVerificationCode})
+  VerificationPage(
+      {Key key, this.shouldShowTutorial, this.didProvideVerificationCode})
       : super(key: key);
 
   @override
@@ -34,6 +36,7 @@ class _VerificationPageState extends State<VerificationPage> {
     setState(() {
       _verifying = false;
     });
+    widget.shouldShowTutorial();
   }
 
   @override

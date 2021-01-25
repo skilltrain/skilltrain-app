@@ -104,7 +104,8 @@ class _MyAppState extends State<MyApp> {
                       MaterialPage(
                           child: VerificationPage(
                               didProvideVerificationCode:
-                                  _authService.verifyCode)),
+                                  _authService.verifyCode,
+                              shouldShowTutorial: _authService.showTutorial)),
                     if (snapshot.data.authFlowStatus == AuthFlowStatus.tutorial)
                       MaterialPage(
                           child: Tutorial(

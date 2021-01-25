@@ -96,9 +96,7 @@ class AuthService {
         this._credentials = credentials;
         await setLocallySavedUser(credentials.username, credentials.password);
         await this.checkTrainer();
-        if (firstTime) {
-          showTutorial();
-        } else {
+        if (!firstTime) {
           showSession();
         }
       } else {
