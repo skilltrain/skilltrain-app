@@ -80,7 +80,7 @@ class SampleStart extends State<BookingStatus> {
                 ),
                 width: double.infinity,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 36.0, bottom: 36),
+                  padding: const EdgeInsets.only(top: 36.0, bottom: 0),
                   child: FutureBuilder<List>(
                     future: sessionResults,
                     builder: (context, snapshot) {
