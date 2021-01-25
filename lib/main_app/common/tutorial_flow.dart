@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:skilltrain/main.dart';
-import '../../utils/sliders.dart';
+
+class Tutorial extends StatelessWidget {
+  final VoidCallback shouldShowSession;
+
+  const Tutorial({Key key, this.shouldShowSession}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(routes: {
+      '/': (context) => TutorialOne(),
+      '/tutorialTwo': (context) => TutorialTwo(),
+      '/tutorialThree': (context) => TutorialThree(
+            shouldShowSession: shouldShowSession,
+          ),
+    });
+  }
+}
 
 class TutorialOne extends StatelessWidget {
   @override
@@ -28,7 +43,10 @@ class TutorialOne extends StatelessWidget {
               new Spacer(),
               RaisedButton(
                 onPressed: () {
-                  Navigator.push(context, SlideRightRoute(page: TutorialTwo()));
+                  Navigator.pushNamed(
+                    context,
+                    '/tutorialTwo',
+                  );
                 },
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0),
@@ -83,8 +101,10 @@ class TutorialTwo extends StatelessWidget {
               new Spacer(),
               RaisedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context, SlideRightRoute(page: TutorialThree()));
+                  Navigator.pushNamed(
+                    context,
+                    '/tutorialThree',
+                  );
                 },
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0),
@@ -114,6 +134,9 @@ class TutorialTwo extends StatelessWidget {
 }
 
 class TutorialThree extends StatelessWidget {
+  final VoidCallback shouldShowSession;
+  const TutorialThree({Key key, this.shouldShowSession}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,14 +161,7 @@ class TutorialThree extends StatelessWidget {
               ),
               new Spacer(),
               RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MyApp(),
-                    ),
-                  );
-                },
+                onPressed: shouldShowSession,
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0),
                 child: Container(
