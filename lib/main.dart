@@ -127,7 +127,8 @@ class _MyAppState extends State<MyApp> {
                         !_authService.isTrainer)
                       MaterialPage(
                           child: HomePageTrainee(
-                              shouldLogOut: _authService.logOut)),
+                              shouldLogOut: _authService.logOut,
+                              userAttributes: _authService.attributes)),
                   ],
                   onPopPage: (route, result) => route.didPop(result),
                 );
