@@ -65,6 +65,14 @@ class SampleStart extends State<HomePageTrainee> {
     }
   }
 
+  Future<void> updateUserSessions() async {
+    setState(() {
+      _trainersLoading = true;
+      _sessionsLoading = true;
+      _upcomingSessions = fetchUserSessions();
+    });
+  }
+
   // Check the state of the other boolean, if both are false, update page
   // This is complicated logic to check if both trainers and sessions are loaded
   void trainersLoaded() {
@@ -180,11 +188,6 @@ class SampleStart extends State<HomePageTrainee> {
           primary: Colors.cyanAccent, // background
           onPrimary: Colors.white, // foreground
         ));
-    // shape: RoundedRectangleBorder(
-    //   borderRadius: BorderRadius.circular(8),
-    // ),
-    // color: Colors.white,
-    // padding: EdgeInsets.all(15.0));
   }
 
   Widget build(BuildContext context) {
@@ -216,6 +219,12 @@ class SampleStart extends State<HomePageTrainee> {
                         Icon(Icons.star, color: Colors.cyanAccent, size: 12));
                   }
 
+                  // If the user isn't signed up yet (the only way they can add a price),
+                  // return an empty container which does nothing
+                  if (snapshot.data[index]['price'] == null) {
+                    return Container();
+                  }
+
                   if (filter) {
                     if (snapshot.data[index]["genre"] == filterType) {
                       return SizedBox(
@@ -225,13 +234,6 @@ class SampleStart extends State<HomePageTrainee> {
                           child: InkWell(
                               splashColor: Colors.purple,
                               onTap: () => {
-                                    // Navigator.push(context,
-                                    //     MaterialPageRoute(builder: (_) {
-                                    //   return InstructorBio(
-                                    //       data: snapshot.data[index],
-                                    //       index: index);
-                                    // }))
-
                                     Navigator.push(
                                       context,
                                       SlideRightRoute(
@@ -340,17 +342,10 @@ class SampleStart extends State<HomePageTrainee> {
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (_) {
                                       return InstructorBio(
+                                          updateParent: updateUserSessions,
                                           data: snapshot.data[index],
                                           index: index);
                                     }))
-
-                                    // Navigator.push(
-                                    //   context,
-                                    //   SlideRightRoute(
-                                    //       page: InstructorBio(
-                                    //           data: snapshot.data[index],
-                                    //           index: index)),
-                                    // )
                                   },
                               child: Column(
                                 children: [
@@ -525,10 +520,7 @@ class SampleStart extends State<HomePageTrainee> {
             // If the user has no sessions yet, call sessionsLoaded
             // This is the difference between no data and data.length == 0
             sessionsLoaded();
-          } else
-          // (snapshot.connectionState == ConnectionState.waiting ??
-          //     snapshot.connectionState == ConnectionState.active)
-          {
+          } else {
             Container(
               height: 100,
             );

@@ -56,6 +56,8 @@ class _PaymentState extends State<PaymentSignup> {
       });
   }
 
+  Map<String, dynamic> priceObj = {"price": "4000"};
+
   Map<String, dynamic> infoObj = {
     "individual": {
       "address_kana": {
@@ -726,6 +728,44 @@ class _PaymentState extends State<PaymentSignup> {
         ),
       ),
     );
+////////////////////////////////////////////////////////////
+    List<SpannableGridCellData> priceCells = [];
+
+    priceCells.add(
+      SpannableGridCellData(
+        column: 1,
+        row: 1,
+        columnSpan: 1,
+        rowSpan: 1,
+        id: "Icon bank",
+        child: Container(
+          child: Center(
+            child: new Icon(Icons.attach_money, size: iconSize),
+          ),
+        ),
+      ),
+    );
+    priceCells.add(
+      SpannableGridCellData(
+        column: 2,
+        row: 1,
+        columnSpan: columnSpan,
+        rowSpan: 1,
+        id: "price per hour",
+        child: Container(
+          child: Center(
+            child: new TextField(
+              onChanged: (text) {
+                priceObj["price"] = text;
+              },
+              decoration: new InputDecoration(
+                hintText: "Price per hour 1時間あたりの価格",
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -943,6 +983,27 @@ class _PaymentState extends State<PaymentSignup> {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 16),
+                          child: sectionTitle(title: "Price per hour"),
+                        ),
+                        Card(
+                          elevation: 8,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: SpannableGrid(
+                              rowHeight: 50,
+                              columns: 5,
+                              rows: 1,
+                              cells: priceCells,
+                              spacing: 1,
+                              onCellChanged: (cell) {
+                                print('Cell ${cell.id} changed');
+                              },
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -960,8 +1021,6 @@ class _PaymentState extends State<PaymentSignup> {
                                   setState(() {
                                     _saving = true;
                                   });
-                                  print(widget.userAttributes);
-                                  print(infoObj);
                                   var response = await http.put(
                                       "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe",
                                       headers: <String, String>{
@@ -994,6 +1053,15 @@ class _PaymentState extends State<PaymentSignup> {
                                             .cognitoUser
                                             .updateAttributes(attributes);
                                         print(response);
+                                        // Update the price column of the user
+                                        await http.put(
+                                          "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/${infoObj['username']}",
+                                          headers: <String, String>{
+                                            'Content-Type':
+                                                'application/json; charset=UTF-8',
+                                          },
+                                          body: convert.jsonEncode(priceObj),
+                                        );
                                       } catch (e) {
                                         print(
                                             'Failed to add user attribute $e');

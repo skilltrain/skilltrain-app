@@ -97,10 +97,14 @@ class SampleStart extends State<HomePageTrainer> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    SlideLeftRoute(page: TutorialOne(firstTime: false,)),
+                    SlideLeftRoute(
+                        page: TutorialOne(
+                      firstTime: false,
+                    )),
                   );
                 },
               ),
+              const Divider(height: 10),
               signedUpPayment
                   ? ListTile(
                       title: Text('Bank details'),
@@ -139,7 +143,10 @@ class SampleStart extends State<HomePageTrainer> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    SlideLeftRoute(page: InstructorBioUpdate()),
+                    SlideLeftRoute(
+                        page: InstructorBioUpdate(
+                      userAttributes: widget.userAttributes,
+                    )),
                   );
                 },
               ),

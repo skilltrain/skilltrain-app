@@ -1,0 +1,70 @@
+{
+    "Sessions": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "S": "2021-01-2119:00hide_trainer"
+                    },
+                    "date": {
+                        "S": "2021-01-21"
+                    },
+                    "description": {
+                        "S": "This is a description of the lesson"
+                    },
+                    "sessionCode": {
+                        "S": "jfoekf"
+                    },
+                    "start_time": {
+                        "S": "19:00"
+                    },
+                    "end_time": {
+                        "S": "19:50"
+                    },
+                    "trainer_username": {
+                        "S": "damiantrainer"
+                    },
+                    "user_username": {
+                        "S": "damianuser"
+                    },
+                    "user_connectionID": {
+                        "S": "ZpyjifdFNjMCIeQ="
+                    }
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {
+                        "S": "2021-01-2119:00hide_trainer"
+                    },
+                    "date": {
+                        "S": "2021-01-21"
+                    },
+                    "description": {
+                        "S": "This is a description of the lesson"
+                    },
+                    "sessionCode": {
+                        "S": "jfoekf"
+                    },
+                    "start_time": {
+                        "S": "19:00"
+                    },
+                    "end_time": {
+                        "S": "19:50"
+                    },
+                    "trainer_username": {
+                        "S": "damiantrainer"
+                    },
+                    "user_username": {
+                        "S": "damianuser"
+                    },
+                    "user_connectionID": {
+                        "S": "ZpyjifdFNjMCIeQ="
+                    }
+                }
+            }
+        }
+    ]
+}

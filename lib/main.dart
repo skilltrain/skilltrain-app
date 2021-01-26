@@ -12,6 +12,7 @@ import './main_app/trainer/home_page_trainer.dart';
 import './main_app/trainee/home_page_trainee.dart';
 import './main_app/common/tutorial_flow.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+import 'package:move_to_background/move_to_background.dart';
 
 void main() async {
   await DotEnv().load('.env');
@@ -74,71 +75,80 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: "skillTrain",
-        theme: ThemeData(
-            primarySwatch: Colors.purple,
-            visualDensity: VisualDensity.adaptivePlatformDensity),
-        home: StreamBuilder<AuthState>(
-            stream: _authService.authStateController.stream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Navigator(
-                  pages: [
-                    if (snapshot.data.authFlowStatus == AuthFlowStatus.login)
-                      MaterialPage(
-                          child: LoginPage(
-                              didProvideCredentials:
-                                  _authService.loginWithCredentials,
-                              shouldShowSignUp: _authService.showSignUp)),
-                    if (snapshot.data.authFlowStatus == AuthFlowStatus.signUp)
-                      MaterialPage(
-                          child: SignUpPage(
-                              didProvideCredentials:
-                                  _authService.signUpWithCredentials,
-                              shouldShowLogin: _authService.showLogin,
-                              setTrainer: setTrainer,
-                              getTrainer: getTrainer)),
-                    if (snapshot.data.authFlowStatus ==
-                        AuthFlowStatus.verification)
-                      MaterialPage(
-                          child: VerificationPage(
-                              didProvideVerificationCode:
-                                  _authService.verifyCode,
-                              shouldShowTutorial: _authService.showTutorial)),
-                    if (snapshot.data.authFlowStatus == AuthFlowStatus.tutorial)
-                      MaterialPage(
-                          child: TutorialOne(
-                        // firstime = must change the authservice state after final page
-                        shouldShowSession: _authService.showSession,
-                        firstTime: true,
-                      )),
-                    if (snapshot.data.authFlowStatus ==
-                            AuthFlowStatus.session &&
-                        _authService.isTrainer)
-                      MaterialPage(
-                          child: HomePageTrainer(
-                        shouldLogOut: _authService.logOut,
-                        userAttributes: _authService.attributes,
-                        cognitoUser: _authService.cognitoUser,
-                      )),
-                    if (snapshot.data.authFlowStatus ==
-                            AuthFlowStatus.session &&
-                        !_authService.isTrainer)
-                      MaterialPage(
-                          child: HomePageTrainee(
-                              shouldLogOut: _authService.logOut,
-                              userAttributes: _authService.attributes)),
-                  ],
-                  onPopPage: (route, result) => route.didPop(result),
-                );
-              } else {
-                return Container(
-                    height: MediaQuery.of(context).size.height - 87,
-                    decoration:
-                        new BoxDecoration(color: Colors.deepPurple[100]),
-                    child: Center(child: CircularProgressIndicator()));
-              }
-            }));
+    return WillPopScope(
+        onWillPop: () async {
+          MoveToBackground.moveTaskToBack();
+          return false;
+        },
+        child: MaterialApp(
+            title: "skillTrain",
+            theme: ThemeData(
+                primarySwatch: Colors.purple,
+                visualDensity: VisualDensity.adaptivePlatformDensity),
+            home: StreamBuilder<AuthState>(
+                stream: _authService.authStateController.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Navigator(
+                      pages: [
+                        if (snapshot.data.authFlowStatus ==
+                            AuthFlowStatus.login)
+                          MaterialPage(
+                              child: LoginPage(
+                                  didProvideCredentials:
+                                      _authService.loginWithCredentials,
+                                  shouldShowSignUp: _authService.showSignUp)),
+                        if (snapshot.data.authFlowStatus ==
+                            AuthFlowStatus.signUp)
+                          MaterialPage(
+                              child: SignUpPage(
+                                  didProvideCredentials:
+                                      _authService.signUpWithCredentials,
+                                  shouldShowLogin: _authService.showLogin,
+                                  setTrainer: setTrainer,
+                                  getTrainer: getTrainer)),
+                        if (snapshot.data.authFlowStatus ==
+                            AuthFlowStatus.verification)
+                          MaterialPage(
+                              child: VerificationPage(
+                                  didProvideVerificationCode:
+                                      _authService.verifyCode,
+                                  shouldShowTutorial:
+                                      _authService.showTutorial)),
+                        if (snapshot.data.authFlowStatus ==
+                            AuthFlowStatus.tutorial)
+                          MaterialPage(
+                              child: TutorialOne(
+                            // firstime = must change the authservice state after final page
+                            shouldShowSession: _authService.showSession,
+                            firstTime: true,
+                          )),
+                        if (snapshot.data.authFlowStatus ==
+                                AuthFlowStatus.session &&
+                            _authService.isTrainer)
+                          MaterialPage(
+                              child: HomePageTrainer(
+                            shouldLogOut: _authService.logOut,
+                            userAttributes: _authService.attributes,
+                            cognitoUser: _authService.cognitoUser,
+                          )),
+                        if (snapshot.data.authFlowStatus ==
+                                AuthFlowStatus.session &&
+                            !_authService.isTrainer)
+                          MaterialPage(
+                              child: HomePageTrainee(
+                                  shouldLogOut: _authService.logOut,
+                                  userAttributes: _authService.attributes)),
+                      ],
+                      onPopPage: (route, result) => route.didPop(result),
+                    );
+                  } else {
+                    return Container(
+                        height: MediaQuery.of(context).size.height - 87,
+                        decoration:
+                            new BoxDecoration(color: Colors.deepPurple[100]),
+                        child: Center(child: CircularProgressIndicator()));
+                  }
+                })));
   }
 }
