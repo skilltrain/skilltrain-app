@@ -1,8 +1,8 @@
 
-<div style="text-align: center;">skillTrain</div>
 <div align="center">
 <img src="./assets/icon/icon.png" width="100">
 </div>
+<div style="text-align: center;">skillTrain</div>
 
 スキルトレインとは、トレーニングインストラクターと生徒とをマッチングさせ、オンラインレッスンを行うためのandroidスマートフォンアプリです。
 
