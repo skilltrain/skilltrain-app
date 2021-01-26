@@ -167,17 +167,16 @@ class SampleStart extends State<BookingStatus> {
                         ));
                       } else if (snapshot.connectionState !=
                           ConnectionState.done) {
-                        return Container(
-                            height: MediaQuery.of(context).size.height - 87,
-                            decoration: new BoxDecoration(
-                                color: Colors.deepPurple[100]),
-                            child: Center(child: CircularProgressIndicator()));
+                        return Center(
+                            child: CircularProgressIndicator(
+                          backgroundColor: Colors.cyanAccent,
+                        ));
                       } else if (snapshot.hasError) {
                         return Text("${snapshot.error}");
                       }
                       return Container(
                         child: Center(
-                          child: Text("You have no upcoming sessions!",
+                          child: Text("You have no upcoming sessions",
                               style: TextStyle(
                                   fontSize: 18,
                                   color: Colors.white,

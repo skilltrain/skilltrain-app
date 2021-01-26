@@ -13,6 +13,7 @@ import '../../../../../utils/sliders.dart';
 import 'instructor_bio_update.dart';
 // ignore: unused_import
 import '../../../../../services/agora/video_session/index_trainer.dart';
+import 'instructor_booked_session_detail_chat.dart';
 import 'instructor_session_update.dart';
 
 String trainerName = "";
@@ -120,9 +121,14 @@ class SampleStart extends State<SessionList> {
                                           (BuildContext context, int index) {
                                         //card
                                         return sessionCard(
-                                            trainer: false,
+                                            trainer: true,
                                             name: classArray[index]
-                                                ["trainer_username"],
+                                                            ["user_username"]
+                                                        .length >
+                                                    0
+                                                ? classArray[index]
+                                                    ["user_username"]
+                                                : "Vacant",
                                             date: classArray[index]["date"],
                                             startTime: classArray[index]
                                                 ["start_time"],
@@ -130,26 +136,60 @@ class SampleStart extends State<SessionList> {
                                                 ["end_time"],
                                             context: context,
                                             function: () => {
-                                                  Navigator.push(
-                                                    context,
-                                                    SlideLeftRoute(
-                                                        page: InstructorSessionUpdate(
-                                                            date: classArray[
-                                                                index]["date"],
-                                                            description: classArray[
-                                                                    index]
-                                                                ["description"],
-                                                            startTime: classArray[
-                                                                    index]
-                                                                ["start_time"],
-                                                            endTime: classArray[
-                                                                    index]
-                                                                ["end_time"],
-                                                            sessionID:
-                                                                classArray[
+                                                  if (classArray[index]
+                                                              ["user_username"]
+                                                          .length >
+                                                      0)
+                                                    {
+                                                      Navigator.push(
+                                                          context,
+                                                          SlideLeftRoute(
+                                                              page: TrainerBookedSessionPage(
+                                                                  id: classArray[index]
+                                                                      ['id'],
+                                                                  trainee: classArray[index][
+                                                                      "user_username"],
+                                                                  date: classArray[index]
+                                                                      ["date"],
+                                                                  startTime:
+                                                                      classArray[index][
+                                                                          "start_time"],
+                                                                  endTime: classArray[
+                                                                          index][
+                                                                      "end_time"],
+                                                                  description:
+                                                                      classArray[index]
+                                                                          [
+                                                                          "description"],
+                                                                  sessionCode:
+                                                                      classArray[index]
+                                                                          ["sessionCode"])))
+                                                    }
+                                                  else
+                                                    {
+                                                      Navigator.push(
+                                                        context,
+                                                        SlideLeftRoute(
+                                                            page: InstructorSessionUpdate(
+                                                                date: classArray[
                                                                         index]
-                                                                    ['id'])),
-                                                  )
+                                                                    ["date"],
+                                                                description: classArray[
+                                                                        index][
+                                                                    "description"],
+                                                                startTime: classArray[
+                                                                        index]
+                                                                    [
+                                                                    "start_time"],
+                                                                endTime: classArray[
+                                                                        index][
+                                                                    "end_time"],
+                                                                sessionID:
+                                                                    classArray[
+                                                                            index]
+                                                                        ['id'])),
+                                                      )
+                                                    }
                                                 });
                                       },
                                       itemCount: classArray.length,

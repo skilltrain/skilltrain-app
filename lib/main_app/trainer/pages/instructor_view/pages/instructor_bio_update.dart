@@ -165,16 +165,16 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                   ],
                 ),
                 Container(
+                    height: 125,
                     width: double.infinity,
                     child: _photo != null
                         ? ClipRRect(
-//                                borderRadius: BorderRadius.circular(16.0),
                             child: FadeInImage.memoryNetwork(
                                 placeholder: kTransparentImage,
                                 image: _photo,
-//                                    height: 80,
-//                                    width: 120,
-                                fit: BoxFit.fill),
+                                height: 125,
+                                width: 150,
+                                fit: BoxFit.contain),
                           )
                         : null),
                 Padding(
