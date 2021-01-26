@@ -24,7 +24,14 @@ class _TrainerFilterState extends State<TrainerFilter> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Filter Results"),
+          centerTitle: true,
+          iconTheme: IconThemeData(color: Colors.black),
+          backgroundColor: Color(0xFFFFFFFF),
+          title: Image.asset(
+            'assets/icon/icon.png',
+            height: 36.0,
+            width: 36.0,
+          ),
         ),
         body: Column(
           children: [

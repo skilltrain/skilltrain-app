@@ -103,7 +103,7 @@ class SampleStart extends State<HomePageTrainer> {
               ),
               signedUpPayment
                   ? ListTile(
-                      title: Text('Add your bank details'),
+                      title: Text('Bank details'),
                       trailing: new Icon(
                         Icons.check_circle_sharp,
                         color: Colors.green,
@@ -135,7 +135,7 @@ class SampleStart extends State<HomePageTrainer> {
                         );
                       }),
               ListTile(
-                title: Text('Bio update'),
+                title: Text('Bio Update'),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -147,7 +147,7 @@ class SampleStart extends State<HomePageTrainer> {
               signedUpPayment
                   ? ListTile(
                       title: Text(
-                        'Class registration',
+                        'Class Registration',
                       ),
                       onTap: () {
                         Navigator.push(
@@ -158,12 +158,12 @@ class SampleStart extends State<HomePageTrainer> {
                     )
                   : ListTile(
                       title: Text(
-                      'Class registration',
+                      'Class Registration',
                       style: (TextStyle(color: Colors.grey)),
                     )),
               signedUpPayment
                   ? ListTile(
-                      title: Text('Update session details'),
+                      title: Text('Update Session Details'),
                       onTap: () {
                         Navigator.push(
                           context,
@@ -179,8 +179,14 @@ class SampleStart extends State<HomePageTrainer> {
             ],
           )),
           appBar: AppBar(
+            centerTitle: true,
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Color(0xFFFFFFFF),
+            title: Image.asset(
+              'assets/icon/icon.png',
+              height: 36.0,
+              width: 36.0,
+            ),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {

@@ -23,8 +23,14 @@ class BookingPage extends StatelessWidget {
     final Future<List> sessionResults = fetchSessionResults(trainerName);
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Color(0xFFFFFFFF),
+          title: Image.asset(
+            'assets/icon/icon.png',
+            height: 36.0,
+            width: 36.0,
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(

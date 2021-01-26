@@ -119,8 +119,14 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Color(0xFFFFFFFF),
+          title: Image.asset(
+            'assets/icon/icon.png',
+            height: 36.0,
+            width: 36.0,
+          ),
         ),
         body: Container(
           child: SingleChildScrollView(
@@ -144,20 +150,19 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                         )),
                   ],
                 ),
-                  Container(
+                Container(
                     width: double.infinity,
-                        child: _photo != null
-                            ? ClipRRect(
+                    child: _photo != null
+                        ? ClipRRect(
 //                                borderRadius: BorderRadius.circular(16.0),
-                                child: FadeInImage.memoryNetwork(
-                                    placeholder: kTransparentImage,
-                                    image: _photo,
+                            child: FadeInImage.memoryNetwork(
+                                placeholder: kTransparentImage,
+                                image: _photo,
 //                                    height: 80,
 //                                    width: 120,
-                                    fit: BoxFit.fill),
-                              )
-                            : null),
-
+                                fit: BoxFit.fill),
+                          )
+                        : null),
                 Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: Column(children: [

@@ -67,7 +67,7 @@ Widget sessionCard(
                               child: Row(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
+                                    padding: const EdgeInsets.only(right: 3.0),
                                     child: Icon(
                                       Icons.calendar_today,
                                       size: 16,
@@ -88,7 +88,7 @@ Widget sessionCard(
                               child: Row(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
+                                    padding: const EdgeInsets.only(right: 3.0),
                                     child: Icon(
                                       Icons.timer,
                                       size: 16,

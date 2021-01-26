@@ -94,7 +94,7 @@ class SampleStart extends State<SessionList> {
                                 final List classArray = [];
                                 for (int i = 0; i < snapshot.data.length; i++) {
                                   if (
-                                    //snapshot.data[i]["user_username"].length == 0 &&
+                                      //snapshot.data[i]["user_username"].length == 0 &&
                                       DateTime.parse(stringDate).isBefore(
                                           DateTime.parse(
                                               snapshot.data[i]["date"]))) {
@@ -104,7 +104,8 @@ class SampleStart extends State<SessionList> {
                                       var bdate = b["date"] + b["start_time"];
                                       return adate.compareTo(bdate);
                                     });
-                                    print( "classArray data inside for loop" + classArray.toString());
+                                    print("classArray data inside for loop" +
+                                        classArray.toString());
                                   } else
                                     print(
                                         "something went wrong with fetched data");
