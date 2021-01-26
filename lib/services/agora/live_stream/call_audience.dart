@@ -317,7 +317,7 @@ class _CallPageState extends State<CallPage> {
         child: Stack(
           children: <Widget>[
             _viewRows(),
-            _panel(),
+            // _panel(),
             _toolbar(),
           ],
         ),
