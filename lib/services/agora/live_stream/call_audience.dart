@@ -303,7 +303,14 @@ class _CallPageState extends State<CallPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('SkillTrain-Session'),
+        centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
+        title: Image.asset(
+          'assets/icon/icon.png',
+          height: 36.0,
+          width: 36.0,
+        ),
       ),
       backgroundColor: Colors.black,
       body: Center(

@@ -59,24 +59,25 @@ class SampleStart extends State<InstructorRegisterCourse> {
           primarySwatch: Colors.purple,
         ),
         home: Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: Image.asset(
-                'assets/icon/icon.png',
-                height: 36.0,
-                width: 36.0,
-              ),
-              backgroundColor: Colors.white,
-              iconTheme:
-                  IconThemeData(color: Colors.black), //change your color here
-              automaticallyImplyLeading: true,
-              leading: IconButton(
-                  onPressed: () => Navigator.pop(context, false),
-                  icon: Icon(Icons.arrow_back)),
+          appBar: AppBar(
+            centerTitle: true,
+            title: Image.asset(
+              'assets/icon/icon.png',
+              height: 36.0,
+              width: 36.0,
             ),
-            body: ListView(
-              children: [
-                Row(
+            backgroundColor: Colors.white,
+            iconTheme:
+                IconThemeData(color: Colors.black), //change your color here
+            automaticallyImplyLeading: true,
+            leading: IconButton(
+                onPressed: () => Navigator.pop(context, false),
+                icon: Icon(Icons.arrow_back)),
+          ),
+          body: SingleChildScrollView(
+            child: Column(mainAxisSize: MainAxisSize.max, children: [
+              Container(
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -97,238 +98,108 @@ class SampleStart extends State<InstructorRegisterCourse> {
                         )),
                   ],
                 ),
-                Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(16),
-                        topLeft: Radius.circular(16),
-                      ),
-                      color: Colors.purple,
+              ),
+              Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(16),
+                      topLeft: Radius.circular(16),
                     ),
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.all(36.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.calendar_today,
-                                  color: Colors.white, size: 18),
-                              sectionTitle(title: " Date"),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(children: [
-                              Flexible(
-                                flex: 1,
-                                child: Container(
-                                  child: Form(
-                                    key: _yearKey,
-                                    child: DropdownButtonFormField<String>(
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none),
-                                      iconEnabledColor: Colors.white,
-                                      isExpanded: true,
-                                      hint: Text(_selectedYear,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold)),
-                                      items: <String>[
-                                        '2021',
-                                        '2022',
-                                        '2023',
-                                        '2024',
-                                        '2025'
-                                      ].map((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Center(
-                                            child: new Text(value,
-                                                textAlign: TextAlign.center),
-                                          ),
-                                        );
-                                      }).toList(),
-                                      validator: (value) => value == null
-                                          ? 'Please select a year'
-                                          : null,
-                                      onChanged: (value) {
-                                        _selectedYear = value;
-                                        year = value;
-                                        print("year is" + value);
-                                        setState(() {
-                                          _selectedYear = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                flex: 1,
-                                child: Container(
-                                  // width: MediaQuery.of(context)
-                                  //         .size
-                                  //         .width *
-                                  //     0.24,
-                                  child: Container(
-                                    child: Form(
-                                      key: _monthKey,
-                                      child: DropdownButtonFormField<String>(
-                                        decoration: InputDecoration(
-                                            border: InputBorder.none),
-                                        iconEnabledColor: Colors.white,
-                                        hint: Text(_selectedMonth,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold)),
-                                        isExpanded: true,
-                                        items: <String>[
-                                          '01',
-                                          '02',
-                                          '03',
-                                          '04',
-                                          '05',
-                                          '06',
-                                          '07',
-                                          '08',
-                                          '09',
-                                          '10',
-                                          '11',
-                                          '12'
-                                        ].map((String value) {
-                                          return new DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Center(
-                                              child: new Text(value,
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black)),
-                                            ),
-                                          );
-                                        }).toList(),
-                                        validator: (value) => value == null
-                                            ? 'Please select a month'
-                                            : null,
-                                        onChanged: (value) {
-                                          month = value;
-                                          print("month is" + value);
-                                          setState(() {
-                                            _selectedMonth = value;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                flex: 1,
-                                child: Container(
-                                    child: Form(
-                                  key: _dayKey,
+                    color: Colors.purple,
+                  ),
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.all(36.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.calendar_today,
+                                color: Colors.white, size: 18),
+                            sectionTitle(title: " Date"),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(children: [
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                child: Form(
+                                  key: _yearKey,
                                   child: DropdownButtonFormField<String>(
                                     decoration: InputDecoration(
                                         border: InputBorder.none),
                                     iconEnabledColor: Colors.white,
                                     isExpanded: true,
-                                    hint: Text(_selectedDate,
+                                    hint: Text(_selectedYear,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold)),
                                     items: <String>[
-                                      '01',
-                                      '02',
-                                      '03',
-                                      '04',
-                                      '05',
-                                      '06',
-                                      '07',
-                                      '08',
-                                      '09',
-                                      '10',
-                                      '11',
-                                      '12',
-                                      '13',
-                                      '14',
-                                      '15',
-                                      '16',
-                                      '17',
-                                      '18',
-                                      '19',
-                                      '20',
-                                      '21',
-                                      '22',
-                                      '23',
-                                      '24',
-                                      '25',
-                                      '26',
-                                      '27',
-                                      '28',
-                                      '29',
-                                      '30',
-                                      '31',
+                                      '2021',
+                                      '2022',
+                                      '2023',
+                                      '2024',
+                                      '2025'
                                     ].map((String value) {
-                                      return new DropdownMenuItem<String>(
+                                      return DropdownMenuItem<String>(
                                         value: value,
                                         child: Center(
                                           child: new Text(value,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black)),
+                                              textAlign: TextAlign.center),
                                         ),
                                       );
                                     }).toList(),
                                     validator: (value) => value == null
-                                        ? 'Please select a day'
+                                        ? 'Please select a year'
                                         : null,
                                     onChanged: (value) {
-                                      day = value;
-                                      print("month is" + day);
+                                      _selectedYear = value;
+                                      year = value;
+                                      print("year is" + value);
                                       setState(() {
-                                        _selectedDate = value;
+                                        _selectedYear = value;
                                       });
                                     },
                                   ),
-                                )),
+                                ),
                               ),
-                              Flexible(
-                                flex: 1,
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                // width: MediaQuery.of(context)
+                                //         .size
+                                //         .width *
+                                //     0.24,
                                 child: Container(
                                   child: Form(
-                                    key: _timeKey,
+                                    key: _monthKey,
                                     child: DropdownButtonFormField<String>(
                                       decoration: InputDecoration(
                                           border: InputBorder.none),
                                       iconEnabledColor: Colors.white,
-                                      isExpanded: true,
-                                      hint: Text(_selectedStartTime,
+                                      hint: Text(_selectedMonth,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold)),
+                                      isExpanded: true,
                                       items: <String>[
-                                        '09:00',
-                                        '10:00',
-                                        '11:00',
-                                        '12:00',
-                                        '13:00',
-                                        '14:00',
-                                        '15:00',
-                                        '16:00',
-                                        '17:00',
-                                        '18:00',
-                                        '19:00',
-                                        '20:00',
-                                        '21:00',
-                                        '22:00',
-                                        '23:00'
+                                        '01',
+                                        '02',
+                                        '03',
+                                        '04',
+                                        '05',
+                                        '06',
+                                        '07',
+                                        '08',
+                                        '09',
+                                        '10',
+                                        '11',
+                                        '12'
                                       ].map((String value) {
                                         return new DropdownMenuItem<String>(
                                           value: value,
@@ -342,86 +213,215 @@ class SampleStart extends State<InstructorRegisterCourse> {
                                         );
                                       }).toList(),
                                       validator: (value) => value == null
-                                          ? 'Please select a time'
+                                          ? 'Please select a month'
                                           : null,
                                       onChanged: (value) {
-                                        startTime = value;
-                                        endTime =
-                                            startTime.substring(0, 3) + "50";
-                                        print("start time is" + startTime);
-                                        print("end time  is" + endTime);
+                                        month = value;
+                                        print("month is" + value);
                                         setState(() {
-                                          startTime = value;
+                                          _selectedMonth = value;
                                         });
                                       },
                                     ),
                                   ),
                                 ),
                               ),
-                            ]),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 18.0),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.calendar_today,
-                                      color: Colors.white, size: 18),
-                                  sectionTitle(title: " Session Description"),
-                                ],
-                              ),
                             ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.purple[500], width: 1),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.white,
-                            ),
-                            child: TextFormField(
-                                controller:
-                                    TextEditingController(text: description),
-                                decoration: InputDecoration(),
-                                maxLines: 8,
-                                minLines: 8,
-                                onChanged: (text) => description = text),
-                          ),
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                ),
-                                primary: Colors.cyanAccent, // background
-                                onPrimary: Colors.white, // foreground
-                              ),
-                              onPressed: () async {
-                                if (_dayKey.currentState.validate() &&
-                                    _yearKey.currentState.validate() &&
-                                    _monthKey.currentState.validate() &&
-                                    _timeKey.currentState.validate()) {
-                                  final dynamic result =
-                                      await postData(context);
-                                  return result;
-                                }
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.fitness_center),
-                                  Text(" Register Session",
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                  child: Form(
+                                key: _dayKey,
+                                child: DropdownButtonFormField<String>(
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
+                                  iconEnabledColor: Colors.white,
+                                  isExpanded: true,
+                                  hint: Text(_selectedDate,
+                                      textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                ],
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold)),
+                                  items: <String>[
+                                    '01',
+                                    '02',
+                                    '03',
+                                    '04',
+                                    '05',
+                                    '06',
+                                    '07',
+                                    '08',
+                                    '09',
+                                    '10',
+                                    '11',
+                                    '12',
+                                    '13',
+                                    '14',
+                                    '15',
+                                    '16',
+                                    '17',
+                                    '18',
+                                    '19',
+                                    '20',
+                                    '21',
+                                    '22',
+                                    '23',
+                                    '24',
+                                    '25',
+                                    '26',
+                                    '27',
+                                    '28',
+                                    '29',
+                                    '30',
+                                    '31',
+                                  ].map((String value) {
+                                    return new DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Center(
+                                        child: new Text(value,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  validator: (value) => value == null
+                                      ? 'Please select a day'
+                                      : null,
+                                  onChanged: (value) {
+                                    day = value;
+                                    print("month is" + day);
+                                    setState(() {
+                                      _selectedDate = value;
+                                    });
+                                  },
+                                ),
                               )),
-                        ],
-                      ),
-                    )),
-              ],
-            )));
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                child: Form(
+                                  key: _timeKey,
+                                  child: DropdownButtonFormField<String>(
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none),
+                                    iconEnabledColor: Colors.white,
+                                    isExpanded: true,
+                                    hint: Text(_selectedStartTime,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold)),
+                                    items: <String>[
+                                      '09:00',
+                                      '10:00',
+                                      '11:00',
+                                      '12:00',
+                                      '13:00',
+                                      '14:00',
+                                      '15:00',
+                                      '16:00',
+                                      '17:00',
+                                      '18:00',
+                                      '19:00',
+                                      '20:00',
+                                      '21:00',
+                                      '22:00',
+                                      '23:00'
+                                    ].map((String value) {
+                                      return new DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Center(
+                                          child: new Text(value,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black)),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    validator: (value) => value == null
+                                        ? 'Please select a time'
+                                        : null,
+                                    onChanged: (value) {
+                                      startTime = value;
+                                      endTime =
+                                          startTime.substring(0, 3) + "50";
+                                      print("start time is" + startTime);
+                                      print("end time  is" + endTime);
+                                      setState(() {
+                                        startTime = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ]),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 18.0),
+                            child: Row(
+                              children: [
+                                Icon(Icons.calendar_today,
+                                    color: Colors.white, size: 18),
+                                sectionTitle(title: " Session Description"),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            border:
+                                Border.all(color: Colors.purple[500], width: 1),
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white,
+                          ),
+                          child: TextFormField(
+                              controller:
+                                  TextEditingController(text: description),
+                              decoration: InputDecoration(),
+                              maxLines: 8,
+                              minLines: 8,
+                              onChanged: (text) => description = text),
+                        ),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                              ),
+                              primary: Colors.cyanAccent, // background
+                              onPrimary: Colors.white, // foreground
+                            ),
+                            onPressed: () async {
+                              if (_dayKey.currentState.validate() &&
+                                  _yearKey.currentState.validate() &&
+                                  _monthKey.currentState.validate() &&
+                                  _timeKey.currentState.validate()) {
+                                final dynamic result = await postData(context);
+                                return result;
+                              }
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.fitness_center),
+                                Text(" Register Session",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                              ],
+                            )),
+                      ],
+                    ),
+                  )),
+            ]),
+          ),
+        ));
   }
 }
 

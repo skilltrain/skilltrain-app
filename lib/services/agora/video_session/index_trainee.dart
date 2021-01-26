@@ -98,34 +98,7 @@ class IndexState extends State<IndexPageTrainee> {
                         ))
                       ],
                     ),
-                    Column(
-                      children: [
-                        // ListTile(
-                        //   title: Text(ClientRole.Broadcaster.toString()),
-                        //   leading: Radio(
-                        //     value: ClientRole.Broadcaster,
-                        //     groupValue: _role,
-                        //     onChanged: (ClientRole value) {
-                        //       setState(() {
-                        //         _role = value;
-                        //       });
-                        //     },
-                        //   ),
-                        // ),
-                        // ListTile(
-                        //   title: Text(ClientRole.Audience.toString()),
-                        //   leading: Radio(
-                        //     value: ClientRole.Audience,
-                        //     groupValue: _role,
-                        //     onChanged: (ClientRole value) {
-                        //       setState(() {
-                        //         _role = value;
-                        //       });
-                        //     },
-                        //   ),
-                        // )
-                      ],
-                    ),
+
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       child: Row(
