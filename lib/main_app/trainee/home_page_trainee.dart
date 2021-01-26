@@ -66,6 +66,8 @@ class SampleStart extends State<HomePageTrainee> {
 
   Future<void> updateUserSessions() async {
     setState(() {
+      _trainersLoading = true;
+      _sessionsLoading = true;
       _upcomingSessions = fetchUserSessions();
     });
   }
