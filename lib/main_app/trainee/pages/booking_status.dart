@@ -176,7 +176,14 @@ class SampleStart extends State<BookingStatus> {
                         return Text("${snapshot.error}");
                       }
                       return Container(
-                          child: Text("You have no upcoming sessions"));
+                        child: Center(
+                          child: Text("You have no upcoming sessions!",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                      );
                     },
                   ),
                 ),
