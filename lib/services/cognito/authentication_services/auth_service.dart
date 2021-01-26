@@ -105,6 +105,10 @@ class AuthService {
     } on AuthError catch (authError) {
       loginResult[0] = 'errors';
       print('Could not login - ${authError.cause}');
+      if (authError.exceptionList[1].detail.length > 1) {
+        //Unaccounted for error
+        return loginResult;
+      }
       final errorDetail = authError.exceptionList[1].detail;
       if (errorDetail.startsWith('Incorrect username or password.')) {
         loginResult.add('Incorrect password');
@@ -221,7 +225,7 @@ class AuthService {
         'lastName': credentials.lastName,
         'bio':
             'As a physiologist and physician, I believe in integrating the scientific aspects of training with the joy and appreciation for the sport I’ve gained over thirty years of running and racing on trails, roads, and track.  My goal is to help build a varied, sensible training plan that fits into your busy lifestyle, and will help you reach the finish line happy, healthy, and enthusiastic for whatever challenges lie ahead.',
-        'price': 35,
+        // 'price': 35, //Wrong - Eliot
         'genre': 'Running',
         "avgRating": 0,
         "numberOfRatings": 0,
