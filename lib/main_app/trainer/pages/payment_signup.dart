@@ -1021,15 +1021,6 @@ class _PaymentState extends State<PaymentSignup> {
                                   setState(() {
                                     _saving = true;
                                   });
-                                  // Update the price column of the user
-                                  await http.put(
-                                    "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/${infoObj['username']}",
-                                    headers: <String, String>{
-                                      'Content-Type':
-                                          'application/json; charset=UTF-8',
-                                    },
-                                    body: convert.jsonEncode(priceObj),
-                                  );
                                   var response = await http.put(
                                       "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/stripe",
                                       headers: <String, String>{
@@ -1062,6 +1053,15 @@ class _PaymentState extends State<PaymentSignup> {
                                             .cognitoUser
                                             .updateAttributes(attributes);
                                         print(response);
+                                        // Update the price column of the user
+                                        await http.put(
+                                          "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/${infoObj['username']}",
+                                          headers: <String, String>{
+                                            'Content-Type':
+                                                'application/json; charset=UTF-8',
+                                          },
+                                          body: convert.jsonEncode(priceObj),
+                                        );
                                       } catch (e) {
                                         print(
                                             'Failed to add user attribute $e');
