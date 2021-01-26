@@ -65,6 +65,12 @@ class SampleStart extends State<HomePageTrainee> {
     }
   }
 
+  Future<void> updateUserSessions() async {
+    setState(() {
+      _upcomingSessions = fetchUserSessions();
+    });
+  }
+
   // Check the state of the other boolean, if both are false, update page
   // This is complicated logic to check if both trainers and sessions are loaded
   void trainersLoaded() {
@@ -334,6 +340,7 @@ class SampleStart extends State<HomePageTrainee> {
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (_) {
                                       return InstructorBio(
+                                          updateParent: updateUserSessions,
                                           data: snapshot.data[index],
                                           index: index);
                                     }))
@@ -511,6 +518,7 @@ class SampleStart extends State<HomePageTrainee> {
             // If the user has no sessions yet, call sessionsLoaded
             // This is the difference between no data and data.length == 0
             sessionsLoaded();
+          } else {
             Container(
               height: 100,
             );

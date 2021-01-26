@@ -10,8 +10,9 @@ import 'package:intl/intl.dart';
 class InstructorBio extends StatefulWidget {
   final Map data;
   final index;
+  final VoidCallback updateParent;
 
-  InstructorBio({this.data, this.index});
+  InstructorBio({this.data, this.index, this.updateParent});
 
   @override
   _InstructorBioState createState() => _InstructorBioState();
@@ -170,6 +171,7 @@ class _InstructorBioState extends State<InstructorBio> {
                             context,
                             SlideLeftRoute(
                                 page: BookingPage(
+                                    updateParent: widget.updateParent,
                                     price: widget.data["price"],
                                     trainerName: widget.data["username"],
                                     index: widget.index,

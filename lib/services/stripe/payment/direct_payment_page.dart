@@ -34,9 +34,11 @@ class DirectPaymentPage extends StatefulWidget {
   final String date;
   final String sessionId;
   final String traineeUsername;
+  final VoidCallback updateParent;
 
   DirectPaymentPage({
     Key key,
+    this.updateParent,
     this.title,
     this.trainerUsername,
     this.date,
@@ -170,8 +172,8 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
               'Payment completed. ¥${paymentIntentX['paymentIntent']['amount'].toString()} succesfully charged';
           showSpinner = false;
         });
+        widget.updateParent();
         updateSession(widget.sessionId);
-        await new Future.delayed(const Duration(seconds: 3));
         Navigator.pop(context);
         Navigator.pop(context);
       } else {
@@ -188,6 +190,8 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
             final statusFinal = paymentIntentResult.status;
             if (statusFinal == 'succeeded') {
               StripePayment.completeNativePayRequest();
+              widget.updateParent();
+              updateSession(widget.sessionId);
               setState(() {
                 showSpinner = false;
               });
@@ -259,7 +263,6 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
     paymentMethod = await StripePayment.paymentRequestWithCardForm(
       CardFormPaymentRequest(),
     ).then((PaymentMethod paymentMethod) {
-      updateSession(widget.sessionId);
       return paymentMethod;
     }).catchError((e) {
       print('Error Card: ${e.toString()}');
