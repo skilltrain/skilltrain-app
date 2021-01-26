@@ -221,7 +221,7 @@ class AuthService {
         'lastName': credentials.lastName,
         'bio':
             'As a physiologist and physician, I believe in integrating the scientific aspects of training with the joy and appreciation for the sport I’ve gained over thirty years of running and racing on trails, roads, and track.  My goal is to help build a varied, sensible training plan that fits into your busy lifestyle, and will help you reach the finish line happy, healthy, and enthusiastic for whatever challenges lie ahead.',
-        'price': 2500,
+        // 'price': 35, //Wrong - Eliot
         'genre': 'Running',
         "avgRating": 0,
         "numberOfRatings": 0,
