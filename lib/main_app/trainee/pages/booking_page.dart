@@ -10,13 +10,20 @@ import '../../../services/stripe/payment/direct_payment_page.dart';
 String traineeName = "";
 
 class BookingPage extends StatelessWidget {
+  final VoidCallback updateParent;
   final String trainerName;
   final String genre;
   final String bio;
   final int price;
   final int index;
   final DateTime stringDate = new DateTime.now().subtract(Duration(days: 1));
-  BookingPage({this.index, this.trainerName, this.price, this.genre, this.bio});
+  BookingPage(
+      {this.index,
+      this.trainerName,
+      this.price,
+      this.genre,
+      this.bio,
+      this.updateParent});
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +124,7 @@ class BookingPage extends StatelessWidget {
                                                   MaterialPageRoute(
                                                       builder: (_) {
                                                 return DirectPaymentPage(
+                                                  updateParent: updateParent,
                                                   trainerUsername: trainerName,
                                                   genre: genre,
                                                   description: classArray[index]
