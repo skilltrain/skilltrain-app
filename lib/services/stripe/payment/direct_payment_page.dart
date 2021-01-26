@@ -387,16 +387,6 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
                                   checkIfNativePayReady(),
                                 }),
                       ),
-                      // FlatButton(
-                      //   onPressed: () {
-                      //     checkIfNativePayReady();
-                      //   },
-                      //   child: Text(
-                      //     'Amount to pay: ¥${amount.toString()}',
-                      //     style: TextStyle(fontSize: 20.0),
-                      //   ),
-                      // ),
-                      // Text(text),
                     ],
                   ),
                 ),

@@ -180,11 +180,6 @@ class SampleStart extends State<HomePageTrainee> {
           primary: Colors.cyanAccent, // background
           onPrimary: Colors.white, // foreground
         ));
-    // shape: RoundedRectangleBorder(
-    //   borderRadius: BorderRadius.circular(8),
-    // ),
-    // color: Colors.white,
-    // padding: EdgeInsets.all(15.0));
   }
 
   Widget build(BuildContext context) {
@@ -231,13 +226,6 @@ class SampleStart extends State<HomePageTrainee> {
                           child: InkWell(
                               splashColor: Colors.purple,
                               onTap: () => {
-                                    // Navigator.push(context,
-                                    //     MaterialPageRoute(builder: (_) {
-                                    //   return InstructorBio(
-                                    //       data: snapshot.data[index],
-                                    //       index: index);
-                                    // }))
-
                                     Navigator.push(
                                       context,
                                       SlideRightRoute(
@@ -349,14 +337,6 @@ class SampleStart extends State<HomePageTrainee> {
                                           data: snapshot.data[index],
                                           index: index);
                                     }))
-
-                                    // Navigator.push(
-                                    //   context,
-                                    //   SlideRightRoute(
-                                    //       page: InstructorBio(
-                                    //           data: snapshot.data[index],
-                                    //           index: index)),
-                                    // )
                                   },
                               child: Column(
                                 children: [
@@ -531,10 +511,6 @@ class SampleStart extends State<HomePageTrainee> {
             // If the user has no sessions yet, call sessionsLoaded
             // This is the difference between no data and data.length == 0
             sessionsLoaded();
-          } else
-          // (snapshot.connectionState == ConnectionState.waiting ??
-          //     snapshot.connectionState == ConnectionState.active)
-          {
             Container(
               height: 100,
             );
