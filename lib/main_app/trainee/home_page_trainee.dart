@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:skilltrain/main_app/common/buttons.dart';
 import 'package:skilltrain/main_app/common/dropdownwidget.dart';
+import 'package:skilltrain/main_app/common/tutorial_flow.dart';
 import 'package:skilltrain/services/agora/live_stream/pre_index_livestream.dart';
 import 'package:skilltrain/main_app/common/sessionCards.dart';
 import './pages/booking_status.dart';
@@ -593,6 +594,18 @@ class SampleStart extends State<HomePageTrainee> {
                     image: DecorationImage(
                         image: AssetImage("assets/images/crossfit.jpg"),
                         fit: BoxFit.cover)),
+              ),
+              ListTile(
+                title: Text('Tutorial'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    SlideLeftRoute(
+                        page: TutorialOne(
+                      firstTime: false,
+                    )),
+                  );
+                },
               ),
               ListTile(
                 title: Text('Booking status'),
