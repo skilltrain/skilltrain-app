@@ -112,81 +112,142 @@ class SampleStart extends State<InstructorRegisterCourse> {
                     padding: const EdgeInsets.all(36.0),
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            Icon(Icons.calendar_today,
-                                color: Colors.white, size: 18),
-                            sectionTitle(title: " Date"),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Icon(Icons.calendar_today,
+                                  color: Colors.white, size: 18),
+                              sectionTitle(title: " Date"),
+                            ],
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Row(children: [
-                            Flexible(
-                              flex: 1,
-                              child: Container(
-                                child: Form(
-                                  key: _yearKey,
-                                  child: DropdownButtonFormField<String>(
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none),
-                                    iconEnabledColor: Colors.white,
-                                    isExpanded: true,
-                                    hint: Text(_selectedYear,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold)),
-                                    items: <String>[
-                                      '2021',
-                                      '2022',
-                                      '2023',
-                                      '2024',
-                                      '2025'
-                                    ].map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Center(
-                                          child: new Text(value,
-                                              textAlign: TextAlign.center),
-                                        ),
-                                      );
-                                    }).toList(),
-                                    validator: (value) => value == null
-                                        ? 'Please select a year'
-                                        : null,
-                                    onChanged: (value) {
-                                      _selectedYear = value;
-                                      year = value;
-                                      print("year is" + value);
-                                      setState(() {
-                                        _selectedYear = value;
-                                      });
-                                    },
+                          child: Container(
+                            width: double.infinity,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(children: [
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                    child: Form(
+                                      key: _yearKey,
+                                      child: DropdownButtonFormField<String>(
+                                        decoration: InputDecoration(
+                                            enabledBorder: InputBorder.none),
+                                        isExpanded: true,
+                                        hint: Text(_selectedYear,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                            )),
+                                        items: <String>[
+                                          '2021',
+                                          '2022',
+                                          '2023',
+                                          '2024',
+                                          '2025'
+                                        ].map((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Center(
+                                              child: new Text(value,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black)),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        validator: (value) =>
+                                            value == null ? 'Missing' : null,
+                                        onChanged: (value) {
+                                          _selectedYear = value;
+                                          year = value;
+                                          print("year is" + value);
+                                          setState(() {
+                                            _selectedYear = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: Container(
-                                // width: MediaQuery.of(context)
-                                //         .size
-                                //         .width *
-                                //     0.24,
-                                child: Container(
-                                  child: Form(
-                                    key: _monthKey,
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                    child: Container(
+                                      child: Form(
+                                        key: _monthKey,
+                                        child: DropdownButtonFormField<String>(
+                                          decoration: InputDecoration(
+                                              enabledBorder: InputBorder.none),
+                                          hint: Text(_selectedMonth,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.black)),
+                                          isExpanded: true,
+                                          items: <String>[
+                                            '01',
+                                            '02',
+                                            '03',
+                                            '04',
+                                            '05',
+                                            '06',
+                                            '07',
+                                            '08',
+                                            '09',
+                                            '10',
+                                            '11',
+                                            '12'
+                                          ].map((String value) {
+                                            return new DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Center(
+                                                child: new Text(value,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black)),
+                                              ),
+                                            );
+                                          }).toList(),
+                                          validator: (value) =>
+                                              value == null ? 'Missing' : null,
+                                          onChanged: (value) {
+                                            month = value;
+                                            print("month is" + value);
+                                            setState(() {
+                                              _selectedMonth = value;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                      child: Form(
+                                    key: _dayKey,
                                     child: DropdownButtonFormField<String>(
                                       decoration: InputDecoration(
-                                          border: InputBorder.none),
-                                      iconEnabledColor: Colors.white,
-                                      hint: Text(_selectedMonth,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold)),
+                                          enabledBorder: InputBorder.none),
                                       isExpanded: true,
+                                      hint: Text(_selectedDate,
+                                          textAlign: TextAlign.center,
+                                          style:
+                                              TextStyle(color: Colors.black)),
                                       items: <String>[
                                         '01',
                                         '02',
@@ -199,7 +260,26 @@ class SampleStart extends State<InstructorRegisterCourse> {
                                         '09',
                                         '10',
                                         '11',
-                                        '12'
+                                        '12',
+                                        '13',
+                                        '14',
+                                        '15',
+                                        '16',
+                                        '17',
+                                        '18',
+                                        '19',
+                                        '20',
+                                        '21',
+                                        '22',
+                                        '23',
+                                        '24',
+                                        '25',
+                                        '26',
+                                        '27',
+                                        '28',
+                                        '29',
+                                        '30',
+                                        '31',
                                       ].map((String value) {
                                         return new DropdownMenuItem<String>(
                                           value: value,
@@ -212,154 +292,79 @@ class SampleStart extends State<InstructorRegisterCourse> {
                                           ),
                                         );
                                       }).toList(),
-                                      validator: (value) => value == null
-                                          ? 'Please select a month'
-                                          : null,
+                                      validator: (value) =>
+                                          value == null ? 'Missing' : null,
                                       onChanged: (value) {
-                                        month = value;
-                                        print("month is" + value);
+                                        day = value;
+                                        print("month is" + day);
                                         setState(() {
-                                          _selectedMonth = value;
+                                          _selectedDate = value;
                                         });
                                       },
                                     ),
-                                  ),
+                                  )),
                                 ),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: Container(
-                                  child: Form(
-                                key: _dayKey,
-                                child: DropdownButtonFormField<String>(
-                                  decoration:
-                                      InputDecoration(border: InputBorder.none),
-                                  iconEnabledColor: Colors.white,
-                                  isExpanded: true,
-                                  hint: Text(_selectedDate,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold)),
-                                  items: <String>[
-                                    '01',
-                                    '02',
-                                    '03',
-                                    '04',
-                                    '05',
-                                    '06',
-                                    '07',
-                                    '08',
-                                    '09',
-                                    '10',
-                                    '11',
-                                    '12',
-                                    '13',
-                                    '14',
-                                    '15',
-                                    '16',
-                                    '17',
-                                    '18',
-                                    '19',
-                                    '20',
-                                    '21',
-                                    '22',
-                                    '23',
-                                    '24',
-                                    '25',
-                                    '26',
-                                    '27',
-                                    '28',
-                                    '29',
-                                    '30',
-                                    '31',
-                                  ].map((String value) {
-                                    return new DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Center(
-                                        child: new Text(value,
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                    child: Form(
+                                      key: _timeKey,
+                                      child: DropdownButtonFormField<String>(
+                                        decoration: InputDecoration(
+                                            enabledBorder: InputBorder.none),
+                                        isExpanded: true,
+                                        hint: Text(_selectedStartTime,
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black)),
+                                            style:
+                                                TextStyle(color: Colors.black)),
+                                        items: <String>[
+                                          '09:00',
+                                          '10:00',
+                                          '11:00',
+                                          '12:00',
+                                          '13:00',
+                                          '14:00',
+                                          '15:00',
+                                          '16:00',
+                                          '17:00',
+                                          '18:00',
+                                          '19:00',
+                                          '20:00',
+                                          '21:00',
+                                          '22:00',
+                                          '23:00'
+                                        ].map((String value) {
+                                          return new DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Center(
+                                              child: Text(value,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black)),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        validator: (value) =>
+                                            value == null ? 'Missing' : null,
+                                        onChanged: (value) {
+                                          startTime = value;
+                                          endTime =
+                                              startTime.substring(0, 3) + "50";
+                                          print("start time is" + startTime);
+                                          print("end time  is" + endTime);
+                                          setState(() {
+                                            startTime = value;
+                                          });
+                                        },
                                       ),
-                                    );
-                                  }).toList(),
-                                  validator: (value) => value == null
-                                      ? 'Please select a day'
-                                      : null,
-                                  onChanged: (value) {
-                                    day = value;
-                                    print("month is" + day);
-                                    setState(() {
-                                      _selectedDate = value;
-                                    });
-                                  },
-                                ),
-                              )),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: Container(
-                                child: Form(
-                                  key: _timeKey,
-                                  child: DropdownButtonFormField<String>(
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none),
-                                    iconEnabledColor: Colors.white,
-                                    isExpanded: true,
-                                    hint: Text(_selectedStartTime,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold)),
-                                    items: <String>[
-                                      '09:00',
-                                      '10:00',
-                                      '11:00',
-                                      '12:00',
-                                      '13:00',
-                                      '14:00',
-                                      '15:00',
-                                      '16:00',
-                                      '17:00',
-                                      '18:00',
-                                      '19:00',
-                                      '20:00',
-                                      '21:00',
-                                      '22:00',
-                                      '23:00'
-                                    ].map((String value) {
-                                      return new DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Center(
-                                          child: new Text(value,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black)),
-                                        ),
-                                      );
-                                    }).toList(),
-                                    validator: (value) => value == null
-                                        ? 'Please select a time'
-                                        : null,
-                                    onChanged: (value) {
-                                      startTime = value;
-                                      endTime =
-                                          startTime.substring(0, 3) + "50";
-                                      print("start time is" + startTime);
-                                      print("end time  is" + endTime);
-                                      setState(() {
-                                        startTime = value;
-                                      });
-                                    },
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ]),
                             ),
-                          ]),
+                          ),
                         ),
                         Container(
                           width: double.infinity,
@@ -398,9 +403,9 @@ class SampleStart extends State<InstructorRegisterCourse> {
                               onPrimary: Colors.white, // foreground
                             ),
                             onPressed: () async {
-                              if (_dayKey.currentState.validate() &&
-                                  _yearKey.currentState.validate() &&
+                              if (_yearKey.currentState.validate() &&
                                   _monthKey.currentState.validate() &&
+                                  _dayKey.currentState.validate() &&
                                   _timeKey.currentState.validate()) {
                                 final dynamic result = await postData(context);
                                 return result;
@@ -459,7 +464,6 @@ Future<Map> postData(BuildContext context) async {
         return SimpleDialog(
           title: Text("New course has been registered"),
           children: <Widget>[
-            // コンテンツ領域
             SimpleDialogOption(
               onPressed: () => Navigator.pop(context),
               child: Text(""),
@@ -468,8 +472,6 @@ Future<Map> postData(BuildContext context) async {
         );
       },
     );
-
-    Navigator.pop(context);
 
     return json.decode(response.body);
   } else {
@@ -489,3 +491,244 @@ class ApiResults {
     );
   }
 }
+
+
+
+
+                   // Flexible(
+                            //   flex: 1,
+                            //   child: Container(
+                            //     child: Form(
+                            //       key: _yearKey,
+                            //       child: DropdownButtonFormField<String>(
+                            //         decoration: InputDecoration(
+                            //             border: InputBorder.none),
+                            //         iconEnabledColor: Colors.white,
+                            //         isExpanded: true,
+                            //         hint: Text(_selectedYear,
+                            //             textAlign: TextAlign.center,
+                            //             style: TextStyle(
+                            //                 color: Colors.white,
+                            //                 fontWeight: FontWeight.bold)),
+                            //         items: <String>[
+                            //           '2021',
+                            //           '2022',
+                            //           '2023',
+                            //           '2024',
+                            //           '2025'
+                            //         ].map((String value) {
+                            //           return DropdownMenuItem<String>(
+                            //             value: value,
+                            //             child: Center(
+                            //               child: new Text(value,
+                            //                   textAlign: TextAlign.center),
+                            //             ),
+                            //           );
+                            //         }).toList(),
+                                    // validator: (value) => value == null
+                                    //     ? 'Please select a year'
+                                    //     : null,
+                            //         onChanged: (value) {
+                            //           _selectedYear = value;
+                            //           year = value;
+                            //           print("year is" + value);
+                            //           setState(() {
+                            //             _selectedYear = value;
+                            //           });
+                            //         },
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            // Flexible(
+                            //   flex: 1,
+                            //   child: Container(
+                            //     // width: MediaQuery.of(context)
+                            //     //         .size
+                            //     //         .width *
+                            //     //     0.24,
+                            //     child: Container(
+                            //       child: Form(
+                            //         key: _monthKey,
+                            //         child: DropdownButtonFormField<String>(
+                            //           decoration: InputDecoration(
+                            //               border: InputBorder.none),
+                            //           iconEnabledColor: Colors.white,
+                            //           hint: Text(_selectedMonth,
+                            //               textAlign: TextAlign.center,
+                            //               style: TextStyle(
+                            //                   color: Colors.white,
+                            //                   fontWeight: FontWeight.bold)),
+                            //           isExpanded: true,
+                            //           items: <String>[
+                            //             '01',
+                            //             '02',
+                            //             '03',
+                            //             '04',
+                            //             '05',
+                            //             '06',
+                            //             '07',
+                            //             '08',
+                            //             '09',
+                            //             '10',
+                            //             '11',
+                            //             '12'
+                            //           ].map((String value) {
+                            //             return new DropdownMenuItem<String>(
+                            //               value: value,
+                            //               child: Center(
+                            //                 child: new Text(value,
+                            //                     textAlign: TextAlign.center,
+                            //                     style: TextStyle(
+                            //                         fontWeight: FontWeight.bold,
+                            //                         color: Colors.black)),
+                            //               ),
+                            //             );
+                            //           }).toList(),
+                                      // validator: (value) => value == null
+                                      //     ? 'Please select a month'
+                                      //     : null,
+                            //           onChanged: (value) {
+                            //             month = value;
+                            //             print("month is" + value);
+                            //             setState(() {
+                            //               _selectedMonth = value;
+                            //             });
+                            //           },
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            // Flexible(
+                            //   flex: 1,
+                            //   child: Container(
+                            //       child: Form(
+                            //     key: _dayKey,
+                            //     child: DropdownButtonFormField<String>(
+                            //       decoration:
+                            //           InputDecoration(border: InputBorder.none),
+                            //       iconEnabledColor: Colors.white,
+                            //       isExpanded: true,
+                            //       hint: Text(_selectedDate,
+                            //           textAlign: TextAlign.center,
+                            //           style: TextStyle(
+                            //               color: Colors.white,
+                            //               fontWeight: FontWeight.bold)),
+                            //       items: <String>[
+                            //         '01',
+                            //         '02',
+                            //         '03',
+                            //         '04',
+                            //         '05',
+                            //         '06',
+                            //         '07',
+                            //         '08',
+                            //         '09',
+                            //         '10',
+                            //         '11',
+                            //         '12',
+                            //         '13',
+                            //         '14',
+                            //         '15',
+                            //         '16',
+                            //         '17',
+                            //         '18',
+                            //         '19',
+                            //         '20',
+                            //         '21',
+                            //         '22',
+                            //         '23',
+                            //         '24',
+                            //         '25',
+                            //         '26',
+                            //         '27',
+                            //         '28',
+                            //         '29',
+                            //         '30',
+                            //         '31',
+                            //       ].map((String value) {
+                            //         return new DropdownMenuItem<String>(
+                            //           value: value,
+                            //           child: Center(
+                            //             child: new Text(value,
+                            //                 textAlign: TextAlign.center,
+                            //                 style: TextStyle(
+                            //                     fontWeight: FontWeight.bold,
+                            //                     color: Colors.black)),
+                            //           ),
+                            //         );
+                            //       }).toList(),
+                                  // validator: (value) => value == null
+                                  //     ? 'Please select a day'
+                                  //     : null,
+                            //       onChanged: (value) {
+                            //         day = value;
+                            //         print("month is" + day);
+                            //         setState(() {
+                            //           _selectedDate = value;
+                            //         });
+                            //       },
+                            //     ),
+                            //   )),
+                            // ),
+                            // Flexible(
+                            //   flex: 1,
+                            //   child: Container(
+                            //     child: Form(
+                            //       key: _timeKey,
+                            //       child: DropdownButtonFormField<String>(
+                            //         decoration: InputDecoration(
+                            //             border: InputBorder.none),
+                            //         iconEnabledColor: Colors.white,
+                            //         isExpanded: true,
+                            //         hint: Text(_selectedStartTime,
+                            //             textAlign: TextAlign.center,
+                            //             style: TextStyle(
+                            //                 color: Colors.white,
+                            //                 fontWeight: FontWeight.bold)),
+                            //         items: <String>[
+                            //           '09:00',
+                            //           '10:00',
+                            //           '11:00',
+                            //           '12:00',
+                            //           '13:00',
+                            //           '14:00',
+                            //           '15:00',
+                            //           '16:00',
+                            //           '17:00',
+                            //           '18:00',
+                            //           '19:00',
+                            //           '20:00',
+                            //           '21:00',
+                            //           '22:00',
+                            //           '23:00'
+                            //         ].map((String value) {
+                            //           return new DropdownMenuItem<String>(
+                            //             value: value,
+                            //             child: Center(
+                            //               child: new Text(value,
+                            //                   textAlign: TextAlign.center,
+                            //                   style: TextStyle(
+                            //                       fontWeight: FontWeight.bold,
+                            //                       color: Colors.black)),
+                            //             ),
+                            //           );
+                            //         }).toList(),
+                                    // validator: (value) => value == null
+                                    //     ? 'Please select a time'
+                                    //     : null,
+                            //         onChanged: (value) {
+                            //           startTime = value;
+                            //           endTime =
+                            //               startTime.substring(0, 3) + "50";
+                            //           print("start time is" + startTime);
+                            //           print("end time  is" + endTime);
+                            //           setState(() {
+                            //             startTime = value;
+                            //           });
+                            //         },
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),

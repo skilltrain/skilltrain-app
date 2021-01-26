@@ -155,8 +155,7 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                             context: context,
                             builder: (context) {
                               return SimpleDialog(
-                                title:
-                                    Text("Cancel request has been accepeted"),
+                                title: Text("Your session has been deleted."),
                                 children: <Widget>[
                                   // コンテンツ領域
                                   SimpleDialogOption(
@@ -377,10 +376,6 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                               Flexible(
                                 flex: 1,
                                 child: Container(
-                                  // width: MediaQuery.of(context)
-                                  //         .size
-                                  //         .width *
-                                  //     0.35,
                                   child: DropdownButton<String>(
                                     isExpanded: true,
                                     hint: Text(_selectedStartTime,

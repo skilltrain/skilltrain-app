@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skilltrain/utils/sliders.dart';
 import '../../common/fetchTrainers.dart';
-import '../../common/headings.dart';
 import 'instructor_bio.dart';
 
 class TrainerFilter extends StatefulWidget {
