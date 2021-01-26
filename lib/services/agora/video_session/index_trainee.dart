@@ -49,119 +49,121 @@ class IndexState extends State<IndexPageTrainee> {
           width: 36.0,
         ),
       ),
-      body: Center(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 36),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 36),
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      blackHeading(
-                          title: "Are you", underline: false, purple: false),
-                      blackHeading(
-                          title: "READY?", underline: true, purple: true),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 60),
-                        child: Text(
-                            "Enter the channel name below to start your video session with your trainer!",
-                            style: TextStyle(fontSize: 25)),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                          child: TextFormField(
-                        controller: _channelController,
-                        // initialValue: widget.sessionCode,
-                        decoration: InputDecoration(
-                          errorText: _validateError
-                              ? 'Channel name is mandatory'
-                              : null,
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(width: 1),
-                          ),
-                          hintText: "Session Code",
-                          helperText:
-                              "Your session code is : " + widget.sessionCode,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 36),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 36),
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        blackHeading(
+                            title: "Are you", underline: false, purple: false),
+                        blackHeading(
+                            title: "READY?", underline: true, purple: true),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 60),
+                          child: Text(
+                              "Enter the channel name below to start your video session with your trainer!",
+                              style: TextStyle(fontSize: 25)),
                         ),
-                      ))
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      // ListTile(
-                      //   title: Text(ClientRole.Broadcaster.toString()),
-                      //   leading: Radio(
-                      //     value: ClientRole.Broadcaster,
-                      //     groupValue: _role,
-                      //     onChanged: (ClientRole value) {
-                      //       setState(() {
-                      //         _role = value;
-                      //       });
-                      //     },
-                      //   ),
-                      // ),
-                      // ListTile(
-                      //   title: Text(ClientRole.Audience.toString()),
-                      //   leading: Radio(
-                      //     value: ClientRole.Audience,
-                      //     groupValue: _role,
-                      //     onChanged: (ClientRole value) {
-                      //       setState(() {
-                      //         _role = value;
-                      //       });
-                      //     },
-                      //   ),
-                      // )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        cyanButton(
-                          text: "Join Session",
-                          function: () {
-                            onJoin();
-                          },
-                        )
                       ],
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(vertical: 10),
-                  //   child: Row(
-                  //     children: <Widget>[
-                  //       Expanded(
-                  //         child: RaisedButton(
-                  //           onPressed: () => {
-                  //             Navigator.pop(context),
-                  //             Navigator.pop(context),
-                  //             // Navigator.push(context,
-                  //             //     SlideLeftRoute(page: HomePageTrainee()))
-                  //           },
-                  //           child: Icon(Icons.home),
-                  //           color: Colors.grey,
-                  //           textColor: Colors.white,
-                  //         ),
-                  //       )
-                  //     ],
-                  //   ),
-                  // )
-                ],
-              ),
-            ],
+                ),
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                            child: TextFormField(
+                          controller: _channelController,
+                          // initialValue: widget.sessionCode,
+                          decoration: InputDecoration(
+                            errorText: _validateError
+                                ? 'Channel name is mandatory'
+                                : null,
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(width: 1),
+                            ),
+                            hintText: "Session Code",
+                            helperText:
+                                "Your session code is : " + widget.sessionCode,
+                          ),
+                        ))
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        // ListTile(
+                        //   title: Text(ClientRole.Broadcaster.toString()),
+                        //   leading: Radio(
+                        //     value: ClientRole.Broadcaster,
+                        //     groupValue: _role,
+                        //     onChanged: (ClientRole value) {
+                        //       setState(() {
+                        //         _role = value;
+                        //       });
+                        //     },
+                        //   ),
+                        // ),
+                        // ListTile(
+                        //   title: Text(ClientRole.Audience.toString()),
+                        //   leading: Radio(
+                        //     value: ClientRole.Audience,
+                        //     groupValue: _role,
+                        //     onChanged: (ClientRole value) {
+                        //       setState(() {
+                        //         _role = value;
+                        //       });
+                        //     },
+                        //   ),
+                        // )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          cyanButton(
+                            text: "Join Session",
+                            function: () {
+                              onJoin();
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(vertical: 10),
+                    //   child: Row(
+                    //     children: <Widget>[
+                    //       Expanded(
+                    //         child: RaisedButton(
+                    //           onPressed: () => {
+                    //             Navigator.pop(context),
+                    //             Navigator.pop(context),
+                    //             // Navigator.push(context,
+                    //             //     SlideLeftRoute(page: HomePageTrainee()))
+                    //           },
+                    //           child: Icon(Icons.home),
+                    //           color: Colors.grey,
+                    //           textColor: Colors.white,
+                    //         ),
+                    //       )
+                    //     ],
+                    //   ),
+                    // )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
