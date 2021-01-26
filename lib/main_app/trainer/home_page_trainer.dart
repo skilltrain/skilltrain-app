@@ -15,6 +15,7 @@ import '../trainer/pages/instructor_view/pages/instructor_bio_update.dart';
 import './pages/payment_signup.dart';
 import '../trainer/pages/instructor_view/pages/instructor_session_list.dart';
 import 'pages/instructor_view/pages/instructor_booked_session_detail_chat.dart';
+import '../common/tutorial_flow.dart';
 
 class HomePageTrainer extends StatefulWidget {
   final VoidCallback shouldLogOut;
@@ -90,6 +91,15 @@ class SampleStart extends State<HomePageTrainer> {
                     image: DecorationImage(
                         image: AssetImage("assets/images/crossfit.jpg"),
                         fit: BoxFit.cover)),
+              ),
+              ListTile(
+                title: Text('Tutorial'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    SlideLeftRoute(page: TutorialOne(firstTime: false,)),
+                  );
+                },
               ),
               signedUpPayment
                   ? ListTile(
