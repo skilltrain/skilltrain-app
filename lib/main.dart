@@ -108,11 +108,11 @@ class _MyAppState extends State<MyApp> {
                               shouldShowTutorial: _authService.showTutorial)),
                     if (snapshot.data.authFlowStatus == AuthFlowStatus.tutorial)
                       MaterialPage(
-                          child: Tutorial(
-                              // Now, the tutorial page is one big class which has routes to the different
-                              // pages within, on page three, the main app is begun and Auth.FlowStatus.session
-                              // is added
-                              shouldShowSession: _authService.showSession)),
+                          child: TutorialOne(
+                        // firstime = must change the authservice state after final page
+                        shouldShowSession: _authService.showSession,
+                        firstTime: true,
+                      )),
                     if (snapshot.data.authFlowStatus ==
                             AuthFlowStatus.session &&
                         _authService.isTrainer)

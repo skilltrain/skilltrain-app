@@ -1,30 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:skilltrain/utils/sliders.dart';
 
-class Tutorial extends StatelessWidget {
-  final VoidCallback shouldShowSession;
-
-  const Tutorial({Key key, this.shouldShowSession}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var routes = {
-      '/': (context) => TutorialOne(),
-      '/tutorialTwo': (context) => TutorialTwo(),
-      '/tutorialThree': (context) => TutorialThree(
-            shouldShowSession: shouldShowSession,
-          ),
-    };
-
-    return MaterialApp(
-        initialRoute: '/',
-        onGenerateRoute: (settings) {
-          return SlideLeftRoute(page: routes[settings.name](context));
-        });
-  }
-}
-
 class TutorialOne extends StatelessWidget {
+  final VoidCallback shouldShowSession;
+  final bool firstTime;
+
+  const TutorialOne({Key key, this.shouldShowSession, this.firstTime})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,10 +33,13 @@ class TutorialOne extends StatelessWidget {
               new Spacer(),
               RaisedButton(
                 onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/tutorialTwo',
-                  );
+                  Navigator.push(
+                      context,
+                      SlideLeftRoute(
+                          page: TutorialTwo(
+                        shouldShowSession: shouldShowSession,
+                        firstTime: firstTime,
+                      )));
                 },
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0),
@@ -83,6 +69,12 @@ class TutorialOne extends StatelessWidget {
 }
 
 class TutorialTwo extends StatelessWidget {
+  final VoidCallback shouldShowSession;
+  final bool firstTime;
+
+  const TutorialTwo({Key key, this.shouldShowSession, this.firstTime})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,10 +100,13 @@ class TutorialTwo extends StatelessWidget {
               new Spacer(),
               RaisedButton(
                 onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/tutorialThree',
-                  );
+                  Navigator.push(
+                      context,
+                      SlideLeftRoute(
+                          page: TutorialThree(
+                        shouldShowSession: shouldShowSession,
+                        firstTime: firstTime,
+                      )));
                 },
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0),
@@ -142,7 +137,10 @@ class TutorialTwo extends StatelessWidget {
 
 class TutorialThree extends StatelessWidget {
   final VoidCallback shouldShowSession;
-  const TutorialThree({Key key, this.shouldShowSession}) : super(key: key);
+  final bool firstTime;
+
+  const TutorialThree({Key key, this.shouldShowSession, this.firstTime})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +166,14 @@ class TutorialThree extends StatelessWidget {
               ),
               new Spacer(),
               RaisedButton(
-                onPressed: shouldShowSession,
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  if (firstTime) {
+                    shouldShowSession();
+                  }
+                },
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0),
                 child: Container(
