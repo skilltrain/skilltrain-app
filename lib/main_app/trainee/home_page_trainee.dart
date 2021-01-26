@@ -216,6 +216,12 @@ class SampleStart extends State<HomePageTrainee> {
                         Icon(Icons.star, color: Colors.cyanAccent, size: 12));
                   }
 
+                  // If the user isn't signed up yet (the only way they can add a price),
+                  // return an empty container which does nothing
+                  if (snapshot.data[index]['price'] == null) {
+                    return Container();
+                  }
+
                   if (filter) {
                     if (snapshot.data[index]["genre"] == filterType) {
                       return SizedBox(

@@ -85,7 +85,7 @@ class _TraineeSessionDetailsPageState extends State<TraineeSessionDetailsPage> {
     // then we can update the local screen with setState, will not receive a response
     // from the stream as it is not necessary, will not do any server calls
     if (message != ' ') {
-      messages.add({
+      messages.insert(0, {
         'msg': message,
         'sessionID': widget.sessionID,
         'isTrainer': false,
