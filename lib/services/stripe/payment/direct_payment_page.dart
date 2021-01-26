@@ -172,8 +172,8 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
               'Payment completed. ¥${paymentIntentX['paymentIntent']['amount'].toString()} succesfully charged';
           showSpinner = false;
         });
+        await updateSession(widget.sessionId);
         widget.updateParent();
-        updateSession(widget.sessionId);
         Navigator.pop(context);
         Navigator.pop(context);
       } else {
@@ -190,8 +190,8 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
             final statusFinal = paymentIntentResult.status;
             if (statusFinal == 'succeeded') {
               StripePayment.completeNativePayRequest();
+              await updateSession(widget.sessionId);
               widget.updateParent();
-              updateSession(widget.sessionId);
               setState(() {
                 showSpinner = false;
               });
