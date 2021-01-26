@@ -54,9 +54,8 @@ class _LoginPageState extends State<LoginPage> {
                         height: 450,
                         child: Center(
                           child: Container(
-                            height: 50,
-                            child: Image.asset(
-                                'assets/images/skillTrain-logo.png'),
+                            height: 100,
+                            child: Image.asset('assets/icon/icon.png'),
                           ),
                         )),
                   ],
@@ -77,31 +76,37 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _loginForm() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        TextField(
-          controller: _usernameController,
-          decoration:
-              InputDecoration(icon: Icon(Icons.person), labelText: 'Username'),
-        ),
-        TextField(
-          controller: _passwordController,
-          decoration: InputDecoration(
-              icon: Icon(Icons.lock_open), labelText: 'Password'),
-          obscureText: true,
-          keyboardType: TextInputType.visiblePassword,
-        ),
-        FlatButton(
-            onPressed: () {
-              setState(() {
-                _loggingIn = true;
-              });
-              _login();
-            },
-            child: Text('Login'),
-            color: Theme.of(context).accentColor)
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextField(
+            controller: _usernameController,
+            decoration: InputDecoration(
+                icon: Icon(Icons.person), labelText: 'Username'),
+          ),
+          TextField(
+            controller: _passwordController,
+            decoration: InputDecoration(
+                icon: Icon(Icons.lock_open), labelText: 'Password'),
+            obscureText: true,
+            keyboardType: TextInputType.visiblePassword,
+          ),
+          FlatButton(
+              onPressed: () {
+                setState(() {
+                  _loggingIn = true;
+                });
+                _login();
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+              child: Text('Login', style: TextStyle(color: Colors.white)),
+              color: Theme.of(context).accentColor)
+        ],
+      ),
     );
   }
 

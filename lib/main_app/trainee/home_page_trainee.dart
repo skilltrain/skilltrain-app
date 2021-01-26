@@ -34,7 +34,6 @@ class SampleStart extends State<HomePageTrainee> {
   Future _trainers;
   Future<List> _upcomingSessions;
   String _genreFilter = "Weights";
-  String _priceFilter = "<¥500";
   bool _trainersLoading = true;
   bool _sessionsLoading = true;
 
@@ -136,15 +135,6 @@ class SampleStart extends State<HomePageTrainee> {
                       onChanged: (String item) {
                         setState(() {
                           _genreFilter = item;
-                        });
-                      },
-                    ),
-                    MyDropdownButton(
-                      value: _priceFilter,
-                      items: ["<¥500", "<¥1000", "<¥1500", "<¥2000", "<¥3000"],
-                      onChanged: (String item) {
-                        setState(() {
-                          _priceFilter = item;
                         });
                       },
                     ),
@@ -735,7 +725,7 @@ class SampleStart extends State<HomePageTrainee> {
                 ),
               ),
               inAsyncCall: (_trainersLoading || _sessionsLoading),
-              color: Colors.deepPurple,
+              color: Colors.purple,
               progressIndicator: CircularProgressIndicator())),
     );
   }

@@ -155,8 +155,7 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                             context: context,
                             builder: (context) {
                               return SimpleDialog(
-                                title:
-                                    Text("Cancel request has been accepeted"),
+                                title: Text("Your session has been deleted."),
                                 children: <Widget>[
                                   // コンテンツ領域
                                   SimpleDialogOption(
@@ -196,10 +195,7 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
             ),
             Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(16),
-                    topLeft: Radius.circular(16),
-                  ),
+                  borderRadius: BorderRadius.circular(18),
                   color: Colors.purple,
                 ),
                 width: double.infinity,
@@ -232,12 +228,12 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                                 flex: 1,
                                 child: Container(
                                   child: DropdownButton<String>(
+                                    underline:
+                                        Container(color: Colors.transparent),
                                     isExpanded: true,
                                     hint: Text(_selectedYear,
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black)),
+                                        style: TextStyle(color: Colors.black)),
                                     items: <String>[
                                       '2021',
                                       '2022',
@@ -269,11 +265,12 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                                 child: Container(
                                   child: Container(
                                     child: DropdownButton<String>(
+                                      underline:
+                                          Container(color: Colors.transparent),
                                       hint: Text(_selectedMonth,
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black)),
+                                          style:
+                                              TextStyle(color: Colors.black)),
                                       isExpanded: true,
                                       items: <String>[
                                         '01',
@@ -295,7 +292,6 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                                             child: new Text(value,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
                                                     color: Colors.black)),
                                           ),
                                         );
@@ -315,12 +311,12 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                                 flex: 1,
                                 child: Container(
                                     child: DropdownButton<String>(
+                                  underline:
+                                      Container(color: Colors.transparent),
                                   isExpanded: true,
                                   hint: Text(_selectedDate,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black)),
+                                      style: TextStyle(color: Colors.black)),
                                   items: <String>[
                                     '01',
                                     '02',
@@ -359,9 +355,8 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                                       child: Center(
                                         child: new Text(value,
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black)),
+                                            style:
+                                                TextStyle(color: Colors.black)),
                                       ),
                                     );
                                   }).toList(),
@@ -377,17 +372,13 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                               Flexible(
                                 flex: 1,
                                 child: Container(
-                                  // width: MediaQuery.of(context)
-                                  //         .size
-                                  //         .width *
-                                  //     0.35,
                                   child: DropdownButton<String>(
+                                    underline:
+                                        Container(color: Colors.transparent),
                                     isExpanded: true,
                                     hint: Text(_selectedStartTime,
-                                        textAlign: TextAlign.center),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.black)),
                                     items: <String>[
                                       '09:00',
                                       '10:00',
@@ -411,7 +402,6 @@ class _InstructorSessionUpdateState extends State<InstructorSessionUpdate> {
                                           child: new Text(value,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
                                                   color: Colors.black)),
                                         ),
                                       );
