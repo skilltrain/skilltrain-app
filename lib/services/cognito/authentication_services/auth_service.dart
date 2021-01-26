@@ -216,12 +216,9 @@ class AuthService {
         "id": date,
         'username': credentials.username,
         'email': credentials.email,
-        'profilePhoto': 'images/trainers/default/profilePhoto/profile.jpg',
-        'instructor': 'Evans Clark',
+        'profilePhoto': 'images/trainers/default/profilePhoto/profile.png',
         'firstName': credentials.firstName,
         'lastName': credentials.lastName,
-        'sessionPhoto':
-            'images/trainers/default/profilePhoto/sessionPhoto4.jpg',
         'bio':
             'As a physiologist and physician, I believe in integrating the scientific aspects of training with the joy and appreciation for the sport I’ve gained over thirty years of running and racing on trails, roads, and track.  My goal is to help build a varied, sensible training plan that fits into your busy lifestyle, and will help you reach the finish line happy, healthy, and enthusiastic for whatever challenges lie ahead.',
         'price': 35,

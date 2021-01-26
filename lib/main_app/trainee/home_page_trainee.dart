@@ -253,7 +253,7 @@ class SampleStart extends State<HomePageTrainee> {
                                                   ["profilePhoto"],
                                               height: 120,
                                               width: 180,
-                                              fit: BoxFit.fill),
+                                              fit: BoxFit.cover),
                                         ),
                                       ),
                                       Container(
@@ -363,7 +363,7 @@ class SampleStart extends State<HomePageTrainee> {
                                                 ["profilePhoto"],
                                             height: 120,
                                             width: 180,
-                                            fit: BoxFit.fill),
+                                            fit: BoxFit.cover),
                                       ),
                                     ),
                                   ),
