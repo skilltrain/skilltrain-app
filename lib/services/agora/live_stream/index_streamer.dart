@@ -1,6 +1,7 @@
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:skilltrain/main_app/common/headings.dart';
 // ignore: unused_import
 import 'package:skilltrain/main_app/trainer/pages/instructor_view/instructor_view.dart';
 
@@ -56,32 +57,49 @@ class IndexState extends State<IndexPageStreamer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
+        centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
+        title: Image.asset(
+          'assets/icon/icon.png',
+          height: 36.0,
+          width: 36.0,
         ),
-        title: Text('Live Stream Session'),
       ),
-      body: Center(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          height: 350,
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                flex: 3,
-                child: Container(
-                  child: Text('Create A Live Stream Room',
-                      style: TextStyle(
-                          fontSize: 28.0,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.purple)),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 36),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 36),
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        blackHeading(
+                            title: "Create a ",
+                            underline: false,
+                            purple: false),
+                        blackHeading(
+                            title: "Livestream?",
+                            underline: true,
+                            purple: true),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 60),
+                          child: Text(
+                              "Create a channel by clicking the button below!",
+                              style: TextStyle(fontSize: 25)),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    RaisedButton(
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      RaisedButton(
                         onPressed: () {
                           setState(() {
                             flag = !flag;
@@ -89,76 +107,60 @@ class IndexState extends State<IndexPageStreamer> {
                           });
                         },
                         child: flag ? Text(code) : Text("Get a token"),
-                        color: flag ? Colors.white : Colors.black87,
-                        textColor: flag ? Colors.black87 : Colors.white,
-                        shape: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(2)))),
-                    IconButton(
-                        icon: Icon(Icons.share),
-                        onPressed: () {
-                          Share.share(
-                              "Join my livestresm session! Here is my Channel session code: " +
-                                  code +
-                                  ".");
-                        })
-                  ]),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                      child: TextField(
-                    controller: _channelController,
-                    decoration: InputDecoration(
-                      errorText:
-                          _validateError ? 'Channel name is mandatory' : null,
-                      border: UnderlineInputBorder(
-                        borderSide: BorderSide(width: 1),
+                        color: flag ? Colors.white : Colors.yellow,
+                        textColor: flag ? Colors.black87 : Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
                       ),
-                      hintText: 'Channel name',
-                    ),
-                  ))
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Row(
+                      IconButton(
+                          icon: Icon(Icons.share),
+                          onPressed: () {
+                            Share.share(
+                                "Join my livestream session! Here is my Channel session code: " +
+                                    code +
+                                    ".");
+                          })
+                    ]),
+                Row(
                   children: <Widget>[
                     Expanded(
-                      child: RaisedButton(
+                        child: TextField(
+                      controller: _channelController,
+                      decoration: InputDecoration(
+                        errorText:
+                            _validateError ? 'Channel name is mandatory' : null,
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(width: 1),
+                        ),
+                        hintText: 'Channel name',
+                      ),
+                    ))
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      RaisedButton(
                         onPressed: () {
                           onJoin();
                         },
                         child: Text('Join'),
-                        color: Colors.blueAccent,
+                        color: Colors.cyanAccent,
                         textColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
                       ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: RaisedButton(
-                        onPressed: () => {
-                          Navigator.pop(context),
-                          Navigator.pop(context),
-                          // Navigator.push(context,
-                          //     SlideLeftRoute(page: HomePageTrainee()))
-                        },
-                        child: Icon(Icons.home),
-                        color: Colors.grey,
-                        textColor: Colors.white,
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
+              ],
+            ),
+            // ],
           ),
-          // ],
         ),
       ),
       // ),
