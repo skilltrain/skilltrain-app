@@ -59,9 +59,9 @@ https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
 
   ### 5-1. Sign up/Log in
   サインアップ時にトレイナーとして登録するかトレイニーとして登録するかを選択します。
-  登録に必要な情報を登録後、トレイナーはトレイナー専用ページへ、トレイニーはトレイニー専用ページへそれぞれ送られます。  
+  登録に必要な情報を登録後、トレイナーはトレイナー専用ページに、トレイニーはトレイニー専用ページに遷移します。  
 
-  ユーザー認証についてはAWSの認証システムをベースに行い、実装にあたっては以下のライブラリを使用しています。  
+  ユーザー認証はAWSの認証システムにより行われます。flutter上での実装にあたっては以下のライブラリを使用しています。  
   amazon_cognito_identity_dart_2: ^0.1.24  
   amplify_core: "<1.0.0"  
   amplify_auth_cognito: "<1.0.0"  
@@ -81,24 +81,29 @@ https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
   ＜トレイニー＞  
   
   ### 5-3. ビデオチャット
-
+  トレイナーとトレイニーはビデオチャットを介してオンラインレッスンを行うことができます。  
+  
+  ビデオチャットには以下のflutterライブラリが使用されています。
+  ```
+  agora_rtc_engine: ^3.1.3
+  ```
   ### 5-4. テキストチャット
+  トレイナーとトレイニーはテキストチャットを介してレッスン開始前に連絡を行うことができます。  
 
+  テキストチャットには以下のflutterライブラリが使用されています。  
+  ```
+  agora_rtc_engine: ^3.1.3
+  permission_handler: ^5.0.1
+  ```
   ### 5-5. 支払い  
+  レッスン予約後にStripeを介してレッスン代を支払うことができます。
+  支払い完了後にレッスン予約の情報が反映されます。
+  
+  支払いには以下のflutterライブラリが使用されています。  
+  ```
+  stripe_payment: ^1.0.6
+  ```
 
 ## 6.ライセンス
 
 androidスマートフォン
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
