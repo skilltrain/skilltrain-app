@@ -105,10 +105,6 @@ class AuthService {
     } on AuthError catch (authError) {
       loginResult[0] = 'errors';
       print('Could not login - ${authError.cause}');
-      if (authError.exceptionList[1].detail.length > 1) {
-        //Unaccounted for error
-        return loginResult;
-      }
       final errorDetail = authError.exceptionList[1].detail;
       if (errorDetail.startsWith('Incorrect username or password.')) {
         loginResult.add('Incorrect password');
