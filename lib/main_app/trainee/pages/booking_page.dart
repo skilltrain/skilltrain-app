@@ -60,7 +60,7 @@ class BookingPage extends StatelessWidget {
               FutureBuilder<List>(
                 future: sessionResults,
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
+                  if (snapshot.hasData && snapshot.data.length > 1) {
                     final List classArray = [];
                     for (int i = 0; i < snapshot.data.length; i++) {
                       if (snapshot.data[i]["trainer_username"] == trainerName &&
@@ -86,8 +86,6 @@ class BookingPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.0),
                           color: Colors.purple,
                         ),
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height,
                         child: Column(
                           children: <Widget>[
                             Padding(
@@ -108,8 +106,11 @@ class BookingPage extends StatelessWidget {
                               physics: const ClampingScrollPhysics(),
                               itemBuilder: (BuildContext context, int index) {
                                 return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 24, vertical: 8),
+                                    padding: const EdgeInsets.only(
+                                        left: 24,
+                                        right: 24,
+                                        bottom: 24,
+                                        top: 8),
                                     child: bookingCard(
                                         genre: genre,
                                         description: classArray[index]
@@ -157,10 +158,14 @@ class BookingPage extends StatelessWidget {
                     return Text("${snapshot.error}");
                   }
                   return Container(
-                      height: MediaQuery.of(context).size.height - 87,
-                      decoration:
-                          new BoxDecoration(color: Colors.deepPurple[100]),
-                      child: Center(child: CircularProgressIndicator()));
+                    child: Center(
+                      child: Text("This trainer has no upcoming sessions",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  );
                 },
               ),
             ],

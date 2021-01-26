@@ -190,7 +190,7 @@ class _InstructorBioState extends State<InstructorBio> {
                     FutureBuilder(
                       future: reviews,
                       builder: (context, snapshot) {
-                        if (snapshot.data != null && snapshot.data.length > 0) {
+                        if (snapshot.hasData && snapshot.data.length > 0) {
                           return Padding(
                             padding:
                                 const EdgeInsets.only(top: 8.0, bottom: 36),
@@ -281,16 +281,17 @@ class _InstructorBioState extends State<InstructorBio> {
                                   }),
                             ),
                           );
-                        } else if (snapshot.connectionState ==
-                                ConnectionState.waiting ??
-                            snapshot.connectionState ==
-                                ConnectionState.active) {
-                          Container(
-                              height: MediaQuery.of(context).size.height - 87,
-                              decoration: new BoxDecoration(
-                                  color: Colors.deepPurple[100]),
-                              child:
-                                  Center(child: CircularProgressIndicator()));
+                        } else if (snapshot.connectionState !=
+                            ConnectionState.done) {
+                          return Container(
+                            height: 150,
+                            child: Center(
+                                child: CircularProgressIndicator(
+                              backgroundColor: Colors.cyanAccent,
+                            )),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
                         }
                         return Container(
                             child: Padding(

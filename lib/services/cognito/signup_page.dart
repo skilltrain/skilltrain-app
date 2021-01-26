@@ -120,9 +120,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         height: 450,
                         child: Center(
                           child: Container(
-                            height: 50,
-                            child: Image.asset(
-                                'assets/images/skillTrain-logo.png'),
+                            height: 100,
+                            child: Image.asset('assets/icon/icon.png'),
                           ),
                         )),
                   ],
@@ -257,6 +256,9 @@ class _SignUpPageState extends State<SignUpPage> {
             Container(
               margin: EdgeInsets.only(top: 8),
               child: FlatButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
                   onPressed: _signUp,
                   child: Text('Sign Up', style: TextStyle(color: Colors.white)),
                   color: Theme.of(context).accentColor),
