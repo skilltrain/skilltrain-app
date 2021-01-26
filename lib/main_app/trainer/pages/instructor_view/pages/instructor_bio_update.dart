@@ -9,22 +9,41 @@ import 'package:skilltrain/main_app/common/buttons.dart';
 import 'dart:convert';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:skilltrain/main_app/common/headings.dart';
+import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 
 class InstructorBioUpdate extends StatefulWidget {
+  final List<CognitoUserAttribute> userAttributes;
+  const InstructorBioUpdate({Key key, this.userAttributes}) : super(key: key);
+
   @override
   _InstructorBioUpdateState createState() => _InstructorBioUpdateState();
 }
 
 class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   int index;
-
-  //Text field state
   String _genre = "Type";
   int _price;
   String _bio;
   String _photo;
+  bool canUpdatePrice = false;
 
   final _priceKey = GlobalKey<FormState>();
+
+  void initState() {
+    super.initState();
+    _getCurrentUser();
+
+    //Check if the user should have the ability to change their price
+    widget.userAttributes.forEach((attribute) {
+      if (attribute.getName() == 'custom:paymentSigned') {
+        if (attribute.getValue() == 'true') {
+          setState(() {
+            canUpdatePrice = true;
+          });
+        }
+      }
+    });
+  }
 
   //Current User
   String _user = "";
@@ -108,11 +127,6 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
     } else {
       throw Exception('Failed to load API params');
     }
-  }
-
-  void initState() {
-    super.initState();
-    _getCurrentUser();
   }
 
   @override
@@ -211,22 +225,28 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                         },
                       ),
                     ),
-                    Container(
-                      width: 100,
-                      child: Form(
-                        key: _priceKey,
-                        child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            controller: TextEditingController(
-                                text: _price != null ? _price.toString() : ""),
-                            decoration: InputDecoration(labelText: 'Price'),
-                            validator: (value) =>
-                                value == null ?? num.tryParse(value) == null
-                                    ? 'Please write a number'
-                                    : null,
-                            onChanged: (text) => _price = int.parse(text)),
-                      ),
-                    ),
+                    canUpdatePrice == true
+                        ? Container(
+                            width: 100,
+                            child: Form(
+                              key: _priceKey,
+                              child: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  controller: TextEditingController(
+                                      text: _price != null
+                                          ? _price.toString()
+                                          : ""),
+                                  decoration:
+                                      InputDecoration(labelText: 'Price'),
+                                  validator: (value) => value == null ??
+                                          num.tryParse(value) == null
+                                      ? 'Please write a number'
+                                      : null,
+                                  onChanged: (text) =>
+                                      _price = int.parse(text)),
+                            ),
+                          )
+                        : Container(),
                     TextFormField(
                         controller: TextEditingController(text: _bio),
                         decoration: InputDecoration(
