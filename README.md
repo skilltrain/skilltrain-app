@@ -157,6 +157,10 @@ https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
 
 ## 4.使い方
 
+生徒側ページ
+<img src = "https://user-images.githubusercontent.com/66049678/105950928-9bd7fa00-60b2-11eb-8a44-502911a09c71.gif">
+
+
 ## 5.各機能について
 
 ### 5-1. Sign up/Log in
