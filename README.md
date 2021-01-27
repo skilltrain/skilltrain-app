@@ -74,6 +74,8 @@ The easiest way to get started is to download our app from the Google Play app s
 
 # 日本語版 README
 
+<img alt="" src="./assets/screenshots/flutter_01.png" width="200">
+
 スキルトレインとは、トレーニングインストラクターと生徒とをマッチングさせ、オンラインレッスンを行うための android スマートフォンアプリです。
 
 ```
