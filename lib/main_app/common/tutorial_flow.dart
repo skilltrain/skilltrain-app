@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skilltrain/main_app/common/buttons.dart';
 import 'package:skilltrain/utils/sliders.dart';
 
 class TutorialOne extends StatelessWidget {
@@ -12,17 +13,13 @@ class TutorialOne extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [Colors.pink[300], Colors.purple[700]])),
+            color: Colors.purple,
             child: Column(children: <Widget>[
               new Spacer(),
               Image.asset('assets/images/browseImage.gif',
                   height: 500, fit: BoxFit.fill),
               Text(
-                'Find your favourite lesson',
+                'Find your favourite trainer!',
                 style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'OpenSans',
@@ -31,37 +28,22 @@ class TutorialOne extends StatelessWidget {
                     height: 2.5),
               ),
               new Spacer(),
-              RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      SlideLeftRoute(
-                          page: TutorialTwo(
-                        shouldShowSession: shouldShowSession,
-                        firstTime: firstTime,
-                      )));
-                },
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(0),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: <Color>[
-                        Colors.black45,
-                        Colors.black45,
-                        Colors.black45,
-                      ],
-                    ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  cyanButton(
+                    text: "Learn More",
+                    function: () {
+                      Navigator.push(
+                          context,
+                          SlideLeftRoute(
+                              page: TutorialTwo(
+                            shouldShowSession: shouldShowSession,
+                            firstTime: firstTime,
+                          )));
+                    },
                   ),
-                  padding: const EdgeInsets.all(10),
-                  child: const Text('Learn more',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                      )),
-                ),
+                ],
               ),
               new Spacer(),
             ])));
@@ -153,7 +135,7 @@ class TutorialThree extends StatelessWidget {
                     colors: [Colors.pink[300], Colors.purple[700]])),
             child: Column(children: <Widget>[
               new Spacer(),
-              Image.asset('assets/images/biosImage.png',
+              Image.asset('assets/images/videoChat.gif',
                   height: 500, fit: BoxFit.fill),
               Text(
                 'Lesson video chat',
