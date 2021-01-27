@@ -90,7 +90,26 @@ The easiest way to get started is to download our app from the Google Play app s
 6. ライセンス情報
 ```
 
-## 1. 必要条件
+## 1. システム概要
+
+## フロントエンド
+
+- <a href="https://flutter.dev/">Flutter</a>
+- <a href="https://dart.dev/">Dart</a>
+- <a href="https://www.agora.io/en/">Agora</a>
+
+## バックエンド
+
+- <a href="https://aws.amazon.com/">Amazon Web Services</a>
+  - AWS Amplify
+  - DynamoDb
+  - S3
+  - API Gateway
+  - AWS Lambda
+  - Cognito
+- <a href="https://stripe.com/">Stripe</a>
+
+## 2. 必要条件
 
 ```
 flutter
@@ -117,29 +136,6 @@ flutter
   web_socket_channel: ^1.2.0
   share: ^0.5.3
   transparent_image: ^1.0.0
-```
-
-## 2. システム概要
-
-## フロントエンド
-
-```
-- <a href="https://flutter.dev/">Flutter</a>
-- <a href="https://dart.dev/">Dart</a>
-- <a href="https://www.agora.io/en/">Agora</a>
-```
-
-## バックエンド
-
-```
-- <a href="https://aws.amazon.com/">Amazon Web Services</a>
-  - AWS Amplify
-  - DynamoDb
-  - S3
-  - API Gateway
-  - AWS Lambda
-  - Cognito
-- <a href="https://stripe.com/">Stripe</a>
 ```
 
 ## 3.インストール方法
