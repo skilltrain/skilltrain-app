@@ -83,6 +83,8 @@ flutter:
     - assets/images/signup.png
     - assets/images/login.png
     - assets/images/videoChat.gif
+    - assets/images/tute1.gif
+    - assets/images/tute2.gif
     - assets/icon/icon.png
     - .env
 

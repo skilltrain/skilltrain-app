@@ -13,15 +13,14 @@ class TutorialOne extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            color: Colors.purple,
+            color: Colors.white,
             child: Column(children: <Widget>[
               new Spacer(),
-              Image.asset('assets/images/browseImage.gif',
-                  height: 500, fit: BoxFit.fill),
+              Image.asset('assets/images/tute1.gif', fit: BoxFit.fill),
               Text(
                 'Find your favourite trainer!',
                 style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontFamily: 'OpenSans',
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
@@ -31,28 +30,6 @@ class TutorialOne extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  RaisedButton(
-                    color: Colors.yellow,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          SlideLeftRoute(
-                              page: TutorialThree(
-                            shouldShowSession: shouldShowSession,
-                            firstTime: firstTime,
-                          )));
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                    ),
-                    textColor: Colors.white,
-                    padding: const EdgeInsets.all(0),
-                    child: const Text('Learn more',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
                   cyanButton(
                     text: "Learn More",
                     function: () {
@@ -83,15 +60,14 @@ class TutorialTwo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            color: Colors.yellow,
+            color: Colors.white,
             child: Column(children: <Widget>[
               new Spacer(),
-              Image.asset('assets/images/biosImage.gif',
-                  height: 500, fit: BoxFit.fill),
+              Image.asset('assets/images/tute2.gif', fit: BoxFit.fill),
               Text(
-                'Reserve the class room',
+                'Reserve a session',
                 style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontFamily: 'OpenSans',
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
@@ -99,9 +75,11 @@ class TutorialTwo extends StatelessWidget {
               ),
               new Spacer(),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  RaisedButton(
-                    onPressed: () {
+                  cyanButton(
+                    text: "Learn More",
+                    function: () {
                       Navigator.push(
                           context,
                           SlideLeftRoute(
@@ -110,16 +88,6 @@ class TutorialTwo extends StatelessWidget {
                             firstTime: firstTime,
                           )));
                     },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                    ),
-                    textColor: Colors.white,
-                    padding: const EdgeInsets.all(0),
-                    child: const Text('Learn more',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        )),
                   ),
                 ],
               ),
@@ -139,55 +107,36 @@ class TutorialThree extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [Colors.pink[300], Colors.purple[700]])),
+            color: Colors.white,
             child: Column(children: <Widget>[
               new Spacer(),
               Image.asset('assets/images/videoChat.gif',
-                  height: 500, fit: BoxFit.fill),
+                  height: 400, fit: BoxFit.fill),
               Text(
-                'Lesson video chat',
+                'Train Remotely',
                 style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontFamily: 'OpenSans',
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                     height: 2.5),
               ),
               new Spacer(),
-              RaisedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  if (firstTime) {
-                    shouldShowSession();
-                  }
-                },
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(0),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: <Color>[
-                        Colors.pink[300],
-                        Colors.purple[500],
-                        Colors.purple[700],
-                      ],
-                    ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  cyanButton(
+                    text: "Learn More",
+                    function: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      if (firstTime) {
+                        shouldShowSession();
+                      }
+                    },
                   ),
-                  padding: const EdgeInsets.all(10),
-                  child: const Text("let's get started",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                      )),
-                ),
+                ],
               ),
               new Spacer(),
             ])));
