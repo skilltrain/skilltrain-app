@@ -82,6 +82,7 @@ flutter:
     - assets/images/skillTrain-logo.png
     - assets/images/signup.png
     - assets/images/login.png
+    - assets/images/videoChat.gif
     - assets/icon/icon.png
     - .env
 
