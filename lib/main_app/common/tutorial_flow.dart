@@ -31,6 +31,28 @@ class TutorialOne extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  RaisedButton(
+                    color: Colors.yellow,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          SlideLeftRoute(
+                              page: TutorialThree(
+                            shouldShowSession: shouldShowSession,
+                            firstTime: firstTime,
+                          )));
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ),
+                    textColor: Colors.white,
+                    padding: const EdgeInsets.all(0),
+                    child: const Text('Learn more',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
                   cyanButton(
                     text: "Learn More",
                     function: () {
@@ -61,11 +83,7 @@ class TutorialTwo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [Colors.pink[300], Colors.purple[700]])),
+            color: Colors.yellow,
             child: Column(children: <Widget>[
               new Spacer(),
               Image.asset('assets/images/biosImage.gif',
@@ -80,37 +98,30 @@ class TutorialTwo extends StatelessWidget {
                     height: 2.5),
               ),
               new Spacer(),
-              RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      SlideLeftRoute(
-                          page: TutorialThree(
-                        shouldShowSession: shouldShowSession,
-                        firstTime: firstTime,
-                      )));
-                },
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(0),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: <Color>[
-                        Colors.black45,
-                        Colors.black45,
-                        Colors.black45,
-                      ],
+              Row(
+                children: [
+                  RaisedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          SlideLeftRoute(
+                              page: TutorialThree(
+                            shouldShowSession: shouldShowSession,
+                            firstTime: firstTime,
+                          )));
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
                     ),
+                    textColor: Colors.white,
+                    padding: const EdgeInsets.all(0),
+                    child: const Text('Learn more',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        )),
                   ),
-                  padding: const EdgeInsets.all(10),
-                  child: const Text('Learn more',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                      )),
-                ),
+                ],
               ),
               new Spacer(),
             ])));

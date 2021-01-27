@@ -54,6 +54,7 @@ class SampleStart extends State<InstructorRegisterCourse> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Class Registration',
         theme: ThemeData(
           primarySwatch: Colors.purple,

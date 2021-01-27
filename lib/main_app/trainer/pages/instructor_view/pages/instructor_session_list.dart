@@ -46,6 +46,7 @@ class SampleStart extends State<SessionList> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'All session list',
       home: Scaffold(
           appBar: AppBar(
