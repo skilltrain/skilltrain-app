@@ -222,7 +222,7 @@ stripe_payment: ^1.0.6
 テキストチャットには以下の flutter ライブラリを使用しています。  
 
 ```
-
+  web_socket_channel: ^1.2.0
 ```
 
 ＜トレイニー＞
@@ -236,15 +236,17 @@ stripe_payment: ^1.0.6
 ビデオチャットには以下の flutter ライブラリを使用しています。
 
 ```
-  web_socket_channel: ^1.2.0
+  agora_rtc_engine: ^3.1.3
+  permission_handler: ^5.0.1
 ```
 
 ### 5-4. 授業風景のライブラリストリーム機能
-  
-  
+授業風景をライブストリームすることができます。授業リンクは、Twitter上で共有することができます。  
+<img src="https://user-images.githubusercontent.com/66049678/105965633-03984000-60c7-11eb-9954-655e238a990c.png">
+
 ```
-agora_rtc_engine: ^3.1.3
-permission_handler: ^5.0.1
+授業リンクのシェア機能には以下のflutterライブラリを使用しています。
+  share: ^0.5.3
 ```
 
 ### 5-5. 授業の管理機能
