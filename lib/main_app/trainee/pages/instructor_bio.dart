@@ -195,7 +195,7 @@ class _InstructorBioState extends State<InstructorBio> {
                             padding:
                                 const EdgeInsets.only(top: 8.0, bottom: 36),
                             child: Container(
-                              height: 150,
+                              height: 180,
                               child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   itemCount: snapshot.data.length,
