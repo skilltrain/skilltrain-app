@@ -1,6 +1,8 @@
-const stripe = require("stripe")(
-  "sk_test_51HyVhmGoiP0exFcuyQvoKyIwfqY9dFAK8WkjRofSK6VjSvjjqtBefGpXr2OCKFNFH7mrJluLanSzoRA3KslKpw2I00kl5ypfAh"
-);
+const https = require('https');
+const stripe = require("stripe")
+(
+  "sk_test_51HyVhmGoiP0exFcuyQvoKyIwfqY9dFAK8WkjRofSK6VjSvjjqtBefGpXr2OCKFNFH7mrJluLanSzoRA3KslKpw2I00kl5ypfAh",
+  httpAgent = new https.Agent({keepAlive: false}));
 
 exports.handler = async (event) => {
   const stripeVendorAccount = event.queryStringParameters["connAccID"];
