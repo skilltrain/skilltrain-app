@@ -72,7 +72,7 @@ The easiest way to get started is to download our app from the Google Play app s
 <br>
 <br>
 
-# Japanese README
+# 日本語版 README
 
 スキルトレインとは、トレーニングインストラクターと生徒とをマッチングさせ、オンラインレッスンを行うための android スマートフォンアプリです。
 
