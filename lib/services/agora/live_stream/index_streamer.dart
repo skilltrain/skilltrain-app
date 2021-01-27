@@ -119,7 +119,8 @@ class IndexState extends State<IndexPageStreamer> {
                             Share.share(
                                 "Join my livestream session! Here is my Channel session code: " +
                                     code +
-                                    ".");
+                                    "." +
+                                    " https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain");
                           })
                     ]),
                 Row(
