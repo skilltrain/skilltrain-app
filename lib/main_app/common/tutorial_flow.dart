@@ -135,7 +135,7 @@ class TutorialThree extends StatelessWidget {
                     colors: [Colors.pink[300], Colors.purple[700]])),
             child: Column(children: <Widget>[
               new Spacer(),
-              Image.asset('assets/images/biosImage.png',
+              Image.asset('assets/images/videoChat.gif',
                   height: 500, fit: BoxFit.fill),
               Text(
                 'Lesson video chat',
