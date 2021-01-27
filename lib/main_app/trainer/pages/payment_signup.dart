@@ -79,10 +79,10 @@ class _PaymentState extends State<PaymentSignup> {
       "dob": {"day": "28", "month": "12", "year": "1993"},
       "email": "",
       "gender": "male",
-      "first_name_kanji": "東",
-      "first_name_kana": "ア",
-      "last_name_kanji": "東",
-      "last_name_kana": "ア",
+      "first_name_kanji": "Eliot",
+      "first_name_kana": "エリオット",
+      "last_name_kanji": "Austin-Forbes",
+      "last_name_kana": "オースティンフォーブス",
       "phone": "+815031362394"
     },
     "external_account": {
