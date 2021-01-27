@@ -238,10 +238,14 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                                           : ""),
                                   decoration:
                                       InputDecoration(labelText: 'Price'),
-                                  validator: (value) => value == null ??
-                                          num.tryParse(value) == null
-                                      ? 'Please write a number'
-                                      : null,
+                                  validator: (value) {
+                                    if (value != null &&
+                                        num.tryParse(value) != null) {
+                                      return null;
+                                    } else {
+                                      return 'Please write a number';
+                                    }
+                                  },
                                   onChanged: (text) =>
                                       _price = int.parse(text)),
                             ),
@@ -258,30 +262,37 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
                     cyanButton(
                         text: "Update Profile",
                         function: () async {
-                          if (_priceKey.currentState.validate()) {
-                            final dynamic result = await updateTrainer();
-                            if (result.statusCode == 201 ||
-                                result.statusCode == 200) {
-                              print("update successful");
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return SimpleDialog(
-                                    title: Text(
-                                        "You have successfully updated your bio. Thank you!"),
-                                    children: <Widget>[
-                                      // コンテンツ領域
-                                      SimpleDialogOption(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: Text(""),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                          bool shouldDie = false;
+                          widget.userAttributes.forEach((attribute) {
+                            if (attribute.getName() == 'custom:paymentSigned' &&
+                                attribute.getValue() == 'true' &&
+                                !_priceKey.currentState.validate()) {
+                              shouldDie = true;
                             }
-                          } else {
-                            print("update unsuccesful");
+                          });
+                          if (shouldDie) {
+                            return;
+                          }
+                          final dynamic result = await updateTrainer();
+                          if (result.statusCode == 201 ||
+                              result.statusCode == 200) {
+                            print("update successful");
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SimpleDialog(
+                                  title: Text(
+                                      "You have successfully updated your bio. Thank you!"),
+                                  children: <Widget>[
+                                    // コンテンツ領域
+                                    SimpleDialogOption(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text(""),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           }
                         })
                   ]),
@@ -293,16 +304,25 @@ class _InstructorBioUpdateState extends State<InstructorBioUpdate> {
   }
 
   Future<http.Response> updateTrainer() {
+    var body;
+    if (_price != null) {
+      body = <String, dynamic>{
+        'bio': _bio,
+        'price': _price,
+        'genre': _genre,
+      };
+    } else {
+      body = <String, dynamic>{
+        'bio': _bio,
+        'genre': _genre,
+      };
+    }
     return http.put(
       "https://7kkyiipjx5.execute-api.ap-northeast-1.amazonaws.com/api-test/trainers/$_user",
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, dynamic>{
-        'bio': _bio,
-        'price': _price,
-        'genre': _genre,
-      }),
+      body: jsonEncode(body),
     );
   }
 }
