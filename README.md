@@ -142,8 +142,8 @@ flutter
 
 ## 3.インストール方法
 
-■androidスマートフォン
-Android ストアより以下のアプリケーションをダウンロードし、インスールしてください。
+■androidスマートフォン  
+Android ストアより以下のアプリケーションをダウンロードし、インスールしてください。  
 https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
 
 ■flutter
