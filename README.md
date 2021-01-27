@@ -243,7 +243,7 @@ agora_rtc_engine: ^3.1.3
 ### 5-4. テキストチャット
   
 トレイナーとトレイニーはテキストチャットを介してレッスン開始前に連絡を行うことができます。  
-<img src = "https://user-images.githubusercontent.com/66049678/105963060-e150f300-60c3-11eb-859c-80e30f309a0e.gif" width = "200">  
+<img src = "https://user-images.githubusercontent.com/66049678/105963416-5290a600-60c4-11eb-85a7-ea4f59e4a168.gif" width = "200">  
 テキストチャットには以下の flutter ライブラリを使用しています。  
   
 ```
