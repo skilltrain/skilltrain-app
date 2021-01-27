@@ -554,6 +554,7 @@ class SampleStart extends State<HomePageTrainee> {
         ));
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),

@@ -14,7 +14,7 @@
 <br>
 <br>
 
-  <img alt="" src="./assets/screenshots/flutter_01.png" width="200">
+  <img alt="" src="./assets/screenshots/flutter_01.jpg" width="200">
 
 # Features
 
@@ -37,10 +37,14 @@ The easiest way to get started is to download our app from the Google Play app s
 <center>
   <table>
     <tr>
-      <td><a href="https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain"><img width="120" alt="" src="./assets/screenshots/flutter_01.png"></a></td>
-      <td><a href="https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain"><img width="120" alt="" src="./assets/screenshots/flutter_02.png"></a></td>
-      <td><a href="https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain"><img width="120" alt="" src="./assets/screenshots/flutter_03.png"></a></td>
-      <td><a href="https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain"><img width="120" alt="" src="./assets/screenshots/flutter_04.png"></a></td>
+      <td><a href="https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain"><img width="120" alt="" src="./assets/screenshots/flutter_01.jpg"></a></td>
+      <td><a href="https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain"><img width="120" alt="" src="./assets/screenshots/flutter_02.jpg"></a></td>
+      <td><a href="https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain"><img width="120" alt="" src="./assets/screenshots/flutter_03.jpg"></a></td>
+     </tr>
+     <tr>
+      <td><a href="https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain"><img width="120" alt="" src="./assets/screenshots/flutter_04.jpg"></a></td>
+      <td><a href="https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain"><img width="120" alt="" src="./assets/screenshots/flutter_05.jpg"></a></td>
+      <td><a href="https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain"><img width="120" alt="" src="./assets/screenshots/flutter_06.jpg"></a></td>
      </tr>
 
   </table>
@@ -142,41 +146,45 @@ flutter
 
 ## 3.インストール方法
 
-■androidスマートフォン  
+■android スマートフォン  
 Android ストアより以下のアプリケーションをダウンロードし、インスールしてください。  
 https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
 
 ■flutter
 エミューレータ上での実行方法は以下の通り
+
 1. プロジェクトファイルをダウンロードする。
-2. ターミナル上で$ flutter get pub　を入力して各種ライブラリーをインストールする。
+2. ターミナル上で$ flutter get pub 　を入力して各種ライブラリーをインストールする。
 3. $ flutter emulator --launch "任意のエミュレータ名"を実行
 4. $ flutter run
 
 ## 4.使い方
 
-### 生徒側ページ  
+### 生徒側ページ
+
 <img src = "https://user-images.githubusercontent.com/66049678/105950928-9bd7fa00-60b2-11eb-8a44-502911a09c71.gif" width="200">
 
 ```
-生徒側ページでは以下の操作を行うことができます。  
-・講義ジャンルからの講師検索  
-・各種レッスン情報の一覧確認  
-・レッスン予約登録  
-・予約済みレッスンの一覧確認  
-・テキストチャット（レッスン前）  
-・ビデオチャット（レッスン中）  
+生徒側ページでは以下の操作を行うことができます。
+・講義ジャンルからの講師検索
+・各種レッスン情報の一覧確認
+・レッスン予約登録
+・予約済みレッスンの一覧確認
+・テキストチャット（レッスン前）
+・ビデオチャット（レッスン中）
 ```
-### 講師側ページ  
+
+### 講師側ページ
+
 <img src="https://user-images.githubusercontent.com/66049678/105969370-84f1d180-60cb-11eb-8b72-9c4f44a356f4.gif" width="200">
 
 ```
 講師側ページでは以下の操作を行うことができます。
-・講義登録  
-・登録済み講義一覧  
-・講義情報変更／キャンセル登録  
-・講師情報登録  
-・受講予約済み講義一覧  
+・講義登録
+・登録済み講義一覧
+・講義情報変更／キャンセル登録
+・講師情報登録
+・受講予約済み講義一覧
 ```
 
 ## 5.各機能について
@@ -185,43 +193,48 @@ https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
 
 サインアップ時にトレイナーとして登録するかトレイニーとして登録するかを選択します。
 登録に必要な情報を登録後、トレイナーはトレイナー専用ページに、トレイニーはトレイニー専用ページに遷移します。
-ユーザー認証は AWS の認証システムにより行われます。flutter 上での実装にあたっては以下のライブラリを使用しています。  
+ユーザー認証は AWS の認証システムにより行われます。flutter 上での実装にあたっては以下のライブラリを使用しています。
+
 ```
- amazon_cognito_identity_dart_2: ^0.1.24  
- amplify_core: "<1.0.0"  
+ amazon_cognito_identity_dart_2: ^0.1.24
+ amplify_core: "<1.0.0"
  amplify_auth_cognito: "<1.0.0"
 ```
 
 ### ＜トレイナー＞
+
 トレイナー専用ページへの遷移後、以下の操作を行います。  
-①支払い情報登録  
+① 支払い情報登録  
 　**注意**
 　**支払い情報登録を完了していない場合、講師は新たに講義登録を行うことができません。**
 
-②レッスン登録  
+② レッスン登録  
 　登録されたレッスンの一覧は、トップページ左上のメニュー内部「Session update」から確認することができます。  
-③レッスン情報変更  
-　生徒が受講を希望していない場合に限り、トレイナーは登録済みの授業内容の変更またはキャンセルを行うことができます。  
-  
+③ レッスン情報変更  
+　生徒が受講を希望していない場合に限り、トレイナーは登録済みの授業内容の変更またはキャンセルを行うことができます。
+
 ### ＜生徒＞
+
 生徒専用ページへの遷移後、以下の操作を行います。  
-①受けたいレッスンのジャンルを選択して講師候補を表示選択する。  
-②受講したい日時のレッスンを選択し支払いを済ませる。
+① 受けたいレッスンのジャンルを選択して講師候補を表示選択する。  
+② 受講したい日時のレッスンを選択し支払いを済ませる。
 
 受講料の支払いは Stripe を介して行われます。
 支払い完了後にレッスン予約の情報が反映されます。
 
 支払い処理には以下の flutter ライブラリを使用しています。
+
 ```
 stripe_payment: ^1.0.6
 ```
-③予約済みのレッスン一覧はトップ画面から確認することができます。
+
+③ 予約済みのレッスン一覧はトップ画面から確認することができます。
 
 ### 5-2. テキストチャット
 
 トレイナーとトレイニーはテキストチャットを介してレッスン開始前に連絡を行うことができます。  
 <img src = "https://user-images.githubusercontent.com/66049678/105963416-5290a600-60c4-11eb-85a7-ea4f59e4a168.gif" width = "200">  
-テキストチャットには以下の flutter ライブラリを使用しています。  
+テキストチャットには以下の flutter ライブラリを使用しています。
 
 ```
   web_socket_channel: ^1.2.0
@@ -230,10 +243,10 @@ stripe_payment: ^1.0.6
 ＜トレイニー＞
 
 ### 5-3. ビデオチャット
-  
-トレイナーとトレイニーはビデオチャットを介してオンラインレッスンを行うことができます。  
-  
-<img src ="https://user-images.githubusercontent.com/66049678/105959855-c8464300-60bf-11eb-98d4-097262724534.gif" width="200">  
+
+トレイナーとトレイニーはビデオチャットを介してオンラインレッスンを行うことができます。
+
+<img src ="https://user-images.githubusercontent.com/66049678/105959855-c8464300-60bf-11eb-98d4-097262724534.gif" width="200">
 
 ビデオチャットには以下の flutter ライブラリを使用しています。
 
@@ -243,7 +256,8 @@ stripe_payment: ^1.0.6
 ```
 
 ### 5-4. 授業風景のライブラリストリーム機能
-授業風景をライブストリームすることができます。授業リンクは、Twitter上で共有することができます。  
+
+授業風景をライブストリームすることができます。授業リンクは、Twitter 上で共有することができます。  
 <img src="https://user-images.githubusercontent.com/66049678/105965633-03984000-60c7-11eb-9954-655e238a990c.png" width="300">
 
 ```

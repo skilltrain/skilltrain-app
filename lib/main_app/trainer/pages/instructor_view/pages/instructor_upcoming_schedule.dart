@@ -61,6 +61,7 @@ class SampleStart extends State<InstructorUpcomingSchedule> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Class registration',
       home: Scaffold(
         appBar: AppBar(
