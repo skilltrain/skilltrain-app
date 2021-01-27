@@ -67,6 +67,8 @@ class _VerificationPageState extends State<VerificationPage> {
         // Verify Button
         FlatButton(
             onPressed: () {
+              FocusScope.of(context).unfocus();
+
               setState(() {
                 _verifying = true;
               });

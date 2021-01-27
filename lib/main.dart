@@ -81,6 +81,7 @@ class _MyAppState extends State<MyApp> {
           return false;
         },
         child: MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: "skillTrain",
             theme: ThemeData(
                 primarySwatch: Colors.purple,
