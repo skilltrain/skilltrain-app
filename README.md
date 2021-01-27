@@ -156,7 +156,7 @@ https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
 ## 4.使い方
 
 ### 生徒側ページ  
-<img src = "https://user-images.githubusercontent.com/66049678/105950928-9bd7fa00-60b2-11eb-8a44-502911a09c71.gif">
+<img src = "https://user-images.githubusercontent.com/66049678/105950928-9bd7fa00-60b2-11eb-8a44-502911a09c71.gif" width="200">
 
 ```
 生徒側ページでは以下の操作を行うことができます。  
@@ -232,7 +232,7 @@ stripe_payment: ^1.0.6
   
 トレイナーとトレイニーはビデオチャットを介してオンラインレッスンを行うことができます。  
   
-<img src ="https://user-images.githubusercontent.com/66049678/105959855-c8464300-60bf-11eb-98d4-097262724534.gif">  
+<img src ="https://user-images.githubusercontent.com/66049678/105959855-c8464300-60bf-11eb-98d4-097262724534.gif" width="200">  
 
 ビデオチャットには以下の flutter ライブラリを使用しています。
 
