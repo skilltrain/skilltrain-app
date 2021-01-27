@@ -195,7 +195,7 @@ class SampleStart extends State<HomePageTrainer> {
               width: 36.0,
             ),
           ),
-          floatingActionButton: FloatingActionButton(
+          floatingActionButton: signedUpPayment ? FloatingActionButton(
             onPressed: () {
               Navigator.push(
                 context,
@@ -204,7 +204,7 @@ class SampleStart extends State<HomePageTrainer> {
             },
             child: Icon(Icons.add),
             backgroundColor: Colors.cyanAccent,
-          ),
+          ) : Container(),
           body: ListView(
             children: <Widget>[
               Container(
