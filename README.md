@@ -168,7 +168,8 @@ https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
 ・ビデオチャット（レッスン中）  
 ```
 ### 講師側ページ  
-<img src="https://user-images.githubusercontent.com/66049678/105969370-84f1d180-60cb-11eb-8b72-9c4f44a356f4.gif">  
+<img src="https://user-images.githubusercontent.com/66049678/105969370-84f1d180-60cb-11eb-8b72-9c4f44a356f4.gif" width="200">
+
 ```
 講師側ページでは以下の操作を行うことができます。
 ・講義登録  
