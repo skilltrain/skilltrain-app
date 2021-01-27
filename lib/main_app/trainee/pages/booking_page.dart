@@ -60,7 +60,20 @@ class BookingPage extends StatelessWidget {
               FutureBuilder<List>(
                 future: sessionResults,
                 builder: (context, snapshot) {
-                  if (snapshot.hasData && snapshot.data.length >= 1) {
+                  bool allBooked = true;
+
+                  if (snapshot.hasData) {
+                    for (int i = 0; i < snapshot.data.length; i++) {
+                      if (snapshot.data[i]["user_username"] == "") {
+                        allBooked = false;
+                      }
+                    }
+                  }
+
+                  if (snapshot.hasData &&
+                      snapshot.data.length > 0 &&
+                      allBooked == false) {
+                    for (int i = 0; i < snapshot.data.length; i++) {}
                     final List classArray = [];
                     for (int i = 0; i < snapshot.data.length; i++) {
                       if (snapshot.data[i]["trainer_username"] == trainerName &&
