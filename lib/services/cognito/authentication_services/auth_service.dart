@@ -134,7 +134,16 @@ class AuthService {
           userAttributes: userAttributes);
       this._credentials = credentials;
       showVerification();
-      return signUpResult;
+    } on CognitoClientException catch (e) {
+      print(e);
+      signUpResult[0] = 'errors';
+      if (e.code == 'UsernameExistsException' ||
+          e.code == 'InvalidParameterException' ||
+          e.code == 'ResourceNotFoundException') {
+        signUpResult.add(e.message);
+      } else {
+        signUpResult.add(e.message);
+      }
     } catch (e) {
       print(e);
       signUpResult[0] = 'errors';
@@ -156,8 +165,8 @@ class AuthService {
         //Fail safe for uncaught error
         signUpResult.add(e.message());
       }
-      return signUpResult;
     }
+    return signUpResult;
   }
 
   Future<List> verifyCode(String verificationCode) async {

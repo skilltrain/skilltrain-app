@@ -56,7 +56,7 @@ class _PaymentState extends State<PaymentSignup> {
       });
   }
 
-  Map<String, dynamic> priceObj = {"price": "4000"};
+  Map<String, dynamic> priceObj = {"price": 4000};
 
   Map<String, dynamic> infoObj = {
     "individual": {
@@ -756,7 +756,7 @@ class _PaymentState extends State<PaymentSignup> {
           child: Center(
             child: new TextField(
               onChanged: (text) {
-                priceObj["price"] = text;
+                priceObj["price"] = int.parse(text);
               },
               decoration: new InputDecoration(
                 hintText: "Price per hour 1時間あたりの価格",

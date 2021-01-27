@@ -27,15 +27,15 @@ class _VerificationPageState extends State<VerificationPage> {
     final verificationCode = _verificationCodeController.text.trim();
     final verifyResult =
         await widget.didProvideVerificationCode(verificationCode);
+    setState(() {
+      _verifying = false;
+    });
     if (verifyResult[0] == "errors") {
-      showDialog(
+      return showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialogue(
               title: 'Error', content: verifyResult[1], buttonText: 'CLOSE'));
     }
-    setState(() {
-      _verifying = false;
-    });
     widget.shouldShowTutorial();
   }
 
