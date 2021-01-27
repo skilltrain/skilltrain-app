@@ -210,18 +210,20 @@ class AuthService {
 
   void deleteEliotsStripeAcc() async {
     //Special function for Eliot so that his stripe always resets for the demo
-    //every time he logs in
-    final userAttributes = [
-      new CognitoUserAttribute(name: 'custom:paymentSigned', value: 'false'),
-    ];
-    cognitoUser = new CognitoUser('athtrainer', userPool);
-    final authDetails = new AuthenticationDetails(
-        username: 'athtrainer', password: 'aeroplane');
-    await cognitoUser.authenticateUser(authDetails);
-    try {
-      await cognitoUser.updateAttributes(userAttributes);
-    } catch (e) {
-      print(e);
+    //every time athtrainer logs in
+    if (this._credentials.username == 'athtrainer') {
+      final userAttributes = [
+        new CognitoUserAttribute(name: 'custom:paymentSigned', value: 'false'),
+      ];
+      cognitoUser = new CognitoUser('athtrainer', userPool);
+      final authDetails = new AuthenticationDetails(
+          username: 'athtrainer', password: 'aeroplane');
+      await cognitoUser.authenticateUser(authDetails);
+      try {
+        await cognitoUser.updateAttributes(userAttributes);
+      } catch (e) {
+        print(e);
+      }
     }
   }
 
