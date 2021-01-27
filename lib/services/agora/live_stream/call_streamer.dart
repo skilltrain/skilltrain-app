@@ -226,6 +226,7 @@ class _CallPageState extends State<CallPage> {
   }
 
   /// Info panel to show logs
+  // ignore: unused_element
   Widget _panel() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 48),
