@@ -9,10 +9,11 @@ var AWS = require("aws-sdk");
 var region = process.env.REGION;
 var ddb_table_name = process.env.STORAGE_SKILLTRAINAMPLIFYDB_NAME;
 AWS.config.update({ region: region });
-const Stripe = require("stripe");
-const stripe = Stripe(
-  "sk_test_51HyVhmGoiP0exFcuyQvoKyIwfqY9dFAK8WkjRofSK6VjSvjjqtBefGpXr2OCKFNFH7mrJluLanSzoRA3KslKpw2I00kl5ypfAh"
-);
+const https = require('https');
+const stripe = require("stripe")
+(
+  "sk_test_51HyVhmGoiP0exFcuyQvoKyIwfqY9dFAK8WkjRofSK6VjSvjjqtBefGpXr2OCKFNFH7mrJluLanSzoRA3KslKpw2I00kl5ypfAh",
+  httpAgent = new https.Agent({keepAlive: false}));
 
 exports.handler = async function (event, context) {
   const data = JSON.parse(event.body);
