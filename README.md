@@ -121,10 +121,39 @@ flutter
 
 ## 2. システム概要
 
+## フロントエンド
+
+```
+- <a href="https://flutter.dev/">Flutter</a>
+- <a href="https://dart.dev/">Dart</a>
+- <a href="https://www.agora.io/en/">Agora</a>
+```
+
+## バックエンド
+
+```
+- <a href="https://aws.amazon.com/">Amazon Web Services</a>
+  - AWS Amplify
+  - DynamoDb
+  - S3
+  - API Gateway
+  - AWS Lambda
+  - Cognito
+- <a href="https://stripe.com/">Stripe</a>
+```
+
 ## 3.インストール方法
 
+■androidスマートフォン
 Android ストアより以下のアプリケーションをダウンロードし、インスールしてください。
 https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
+
+■flutter
+エミューレータ上での実行方法は以下の通り
+1. プロジェクトファイルをダウンロードする。
+2. ターミナル上で$ flutter get pub　を入力して各種ライブラリーをインストールする。
+3. $ flutter emulator --launch "任意のエミュレータ名"を実行
+4. $ flutter run
 
 ## 4.使い方
 
