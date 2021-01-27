@@ -153,9 +153,16 @@ https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
 
 ## 4.使い方
 
-生徒側ページ
+生徒側ページ  
 <img src = "https://user-images.githubusercontent.com/66049678/105950928-9bd7fa00-60b2-11eb-8a44-502911a09c71.gif">
 
+生徒側ページでは以下の操作を行うことができます。
+・講義ジャンルからの講師検索
+・各種レッスン情報の一覧確認
+・レッスン予約登録
+・予約済みレッスンの一覧確認
+・テキストチャット（レッスン前）
+・ビデオチャット（レッスン中）
 
 ## 5.各機能について
 
@@ -165,10 +172,11 @@ https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
 登録に必要な情報を登録後、トレイナーはトレイナー専用ページに、トレイニーはトレイニー専用ページに遷移します。
 
 ユーザー認証は AWS の認証システムにより行われます。flutter 上での実装にあたっては以下のライブラリを使用しています。  
+```
  amazon_cognito_identity_dart_2: ^0.1.24  
  amplify_core: "<1.0.0"  
  amplify_auth_cognito: "<1.0.0"
-
+```
 ### 5-2. トレイナーページ / トレイニーページ
 
 トレイナーとトレイニーの各ページの機能は以下の通り
@@ -179,8 +187,8 @@ https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
  講義情報変更  
  講師情報更新
 
-注意  
- 支払い情報登録を完了していない場合、講師は新たに講義登録を行うことができません。
+# 注意  
+# 支払い情報登録を完了していない場合、講師は新たに講義登録を行うことができません。
 
 ＜トレイニー＞
 
