@@ -72,7 +72,9 @@ The easiest way to get started is to download our app from the Google Play app s
 <br>
 <br>
 
-# Japanese README
+# 日本語版 README
+
+<img alt="" src="./assets/screenshots/flutter_01.png" width="200">
 
 スキルトレインとは、トレーニングインストラクターと生徒とをマッチングさせ、オンラインレッスンを行うための android スマートフォンアプリです。
 
@@ -82,15 +84,34 @@ The easiest way to get started is to download our app from the Google Play app s
 3. インストール方法
 4. 使い方
 5. 各機能について
-  5-1. Sign in/Log in
-  5-2. トレイナーページ / トレイニーページ
-  5-3. ビデオチャット
-  5-4. テキストチャット
-  5-5. 支払い
+5-1.  🛒 オンライン上でのレッスン予約・支払い
+5-2.  💬 インストラクター・生徒間でのテキストチャット機能
+5-3.  📹 ビデオチャット機能
+5-4.  🤳 授業風景のライブストリーム機能
+5-5.  📝 授業の管理機能
 6. ライセンス情報
 ```
 
-## 1. 必要条件
+## 1. システム概要
+
+## フロントエンド
+
+- <a href="https://flutter.dev/">Flutter</a>
+- <a href="https://dart.dev/">Dart</a>
+- <a href="https://www.agora.io/en/">Agora</a>
+
+## バックエンド
+
+- <a href="https://aws.amazon.com/">Amazon Web Services</a>
+  - AWS Amplify
+  - DynamoDb
+  - S3
+  - API Gateway
+  - AWS Lambda
+  - Cognito
+- <a href="https://stripe.com/">Stripe</a>
+
+## 2. 必要条件
 
 ```
 flutter
@@ -119,14 +140,42 @@ flutter
   transparent_image: ^1.0.0
 ```
 
-## 2. システム概要
-
 ## 3.インストール方法
 
+■androidスマートフォン
 Android ストアより以下のアプリケーションをダウンロードし、インスールしてください。
 https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
 
+■flutter
+エミューレータ上での実行方法は以下の通り
+1. プロジェクトファイルをダウンロードする。
+2. ターミナル上で$ flutter get pub　を入力して各種ライブラリーをインストールする。
+3. $ flutter emulator --launch "任意のエミュレータ名"を実行
+4. $ flutter run
+
 ## 4.使い方
+
+### 生徒側ページ  
+<img src = "https://user-images.githubusercontent.com/66049678/105950928-9bd7fa00-60b2-11eb-8a44-502911a09c71.gif">
+
+生徒側ページでは以下の操作を行うことができます。  
+```
+・講義ジャンルからの講師検索  
+・各種レッスン情報の一覧確認  
+・レッスン予約登録  
+・予約済みレッスンの一覧確認  
+・テキストチャット（レッスン前）  
+・ビデオチャット（レッスン中）  
+```
+### 講師側ページ  
+講師側ページでは以下の操作を行うことができます。
+```
+・講義登録  
+・登録済み講義一覧  
+・講義情報変更／キャンセル登録  
+・講師情報登録  
+・受講予約済み講義一覧  
+```
 
 ## 5.各機能について
 
@@ -136,10 +185,11 @@ https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
 登録に必要な情報を登録後、トレイナーはトレイナー専用ページに、トレイニーはトレイニー専用ページに遷移します。
 
 ユーザー認証は AWS の認証システムにより行われます。flutter 上での実装にあたっては以下のライブラリを使用しています。  
+```
  amazon_cognito_identity_dart_2: ^0.1.24  
  amplify_core: "<1.0.0"  
  amplify_auth_cognito: "<1.0.0"
-
+```
 ### 5-2. トレイナーページ / トレイニーページ
 
 トレイナーとトレイニーの各ページの機能は以下の通り
@@ -150,8 +200,8 @@ https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
  講義情報変更  
  講師情報更新
 
-注意  
- 支払い情報登録を完了していない場合、講師は新たに講義登録を行うことができません。
+### 注意  
+### 支払い情報登録を完了していない場合、講師は新たに講義登録を行うことができません。
 
 ＜トレイニー＞
 
@@ -159,7 +209,7 @@ https://play.google.com/store/apps/details?id=com.skillTrain.skillTrain
 
 トレイナーとトレイニーはビデオチャットを介してオンラインレッスンを行うことができます。
 
-ビデオチャットには以下の flutter ライブラリが使用されています。
+ビデオチャットには以下の flutter ライブラリを使用しています。
 
 ```
 agora_rtc_engine: ^3.1.3
@@ -169,7 +219,7 @@ agora_rtc_engine: ^3.1.3
 
 トレイナーとトレイニーはテキストチャットを介してレッスン開始前に連絡を行うことができます。
 
-テキストチャットには以下の flutter ライブラリが使用されています。
+テキストチャットには以下の flutter ライブラリを使用しています。
 
 ```
 agora_rtc_engine: ^3.1.3
@@ -181,7 +231,7 @@ permission_handler: ^5.0.1
 レッスン予約後に Stripe を介してレッスン代を支払うことができます。
 支払い完了後にレッスン予約の情報が反映されます。
 
-支払いには以下の flutter ライブラリが使用されています。
+支払いには以下の flutter ライブラリを使用しています。
 
 ```
 stripe_payment: ^1.0.6
