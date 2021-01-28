@@ -270,7 +270,7 @@ stripe_payment: ^1.0.6
 ### 5-5. 授業の管理機能
 <img src="https://user-images.githubusercontent.com/66049678/105969370-84f1d180-60cb-11eb-8b72-9c4f44a356f4.gif" width="200">
 
-REST apiで講義情報を入力および変更の登録を行っています。
+REST apiで講義情報を入力および変更の登録を行っています。  
 **生徒側の受講登録が行われた講義を変更することはできません**
 
 ```
