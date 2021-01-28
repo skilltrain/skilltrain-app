@@ -77,6 +77,7 @@ class SampleStart extends State<HomePageTrainer> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
@@ -195,16 +196,18 @@ class SampleStart extends State<HomePageTrainer> {
               width: 36.0,
             ),
           ),
-          floatingActionButton: signedUpPayment ? FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                SlideRightRoute(page: InstructorRegisterCourse()),
-              );
-            },
-            child: Icon(Icons.add),
-            backgroundColor: Colors.cyanAccent,
-          ) : Container(),
+          floatingActionButton: signedUpPayment
+              ? FloatingActionButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      SlideRightRoute(page: InstructorRegisterCourse()),
+                    );
+                  },
+                  child: Icon(Icons.add),
+                  backgroundColor: Colors.cyanAccent,
+                )
+              : Container(),
           body: ListView(
             children: <Widget>[
               Container(
