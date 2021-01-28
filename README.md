@@ -98,6 +98,8 @@ The easiest way to get started is to download our app from the Google Play app s
 
 ## 1. システム概要
 
+<img width="700" alt="スクリーンショット 2021-01-28 16 20 09" src="https://user-images.githubusercontent.com/66049678/106103767-c98d7380-6184-11eb-8dcf-f9eef507bacf.png">
+
 ## フロントエンド
 
 - <a href="https://flutter.dev/">Flutter</a>
@@ -266,6 +268,19 @@ stripe_payment: ^1.0.6
 ```
 
 ### 5-5. 授業の管理機能
+<img src="https://user-images.githubusercontent.com/66049678/105969370-84f1d180-60cb-11eb-8b72-9c4f44a356f4.gif" width="200">
+
+REST apiで講義情報を入力および変更の登録を行っています。
+**生徒側の受講登録が行われた講義を変更することはできません**
+
+```
+受講登録にあたりカレンダー機能および画像ファイル登録のためのflutterライブラリを使用しています。
+  amplify_storage_s3: "<1.0.0"
+  amplify_core: "<1.0.0"
+  intl: ^0.16.1
+  date_calc: ^0.1.0
+  file_picker: "^1.8.0+1"
+```
 
 ## 6.ライセンス
 
