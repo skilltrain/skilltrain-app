@@ -12,6 +12,7 @@
 </h1>
 🏋️‍♂️ A remote training platform for gym junkies and gym trainers.
 <br>
+See the demonstration here: https://youtu.be/9_AITMa-fxw?t=4107
 <br>
 
   <img alt="" src="./assets/screenshots/flutter_01.jpg" width="200">
