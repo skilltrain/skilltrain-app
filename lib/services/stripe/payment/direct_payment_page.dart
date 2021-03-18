@@ -71,7 +71,7 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
     StripePayment.setOptions(
       StripeOptions(
         publishableKey:
-            'pk_test_51HyVhmGoiP0exFcuAZepXKFpVGkwfh1ndIeGP8YjHSrMcEheFAs3QHma8AwVuSOZYz0DW4JyBzYlzXt2FriESDC300eRgPaPyv', // add you key as per Stripe dashboard
+            'pk_test_51HyVhmGoiP0exFcuAZepXKFpVGkwfh1ndIeGP8YjHSrMcEheFAs3QHma8AwVuSOZYz0DW4JyBzYlzXt2FriESDC300eRgPaPyv',
         merchantId: 'Test',
         androidPayMode: 'test',
       ),
@@ -112,7 +112,6 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
       label: 'Vendor A',
       amount: (totalCost + tip + tax).toString(),
     ));
-    // amount = (totalCost + tip + tax).toInt();
 
     print('amount in yen which will be charged = ${widget.price}');
     //step 1: add card
@@ -308,8 +307,6 @@ class _DirectPaymentPageState extends State<DirectPaymentPage> {
             width: 36.0,
           ),
         ),
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
 
         body: ModalProgressHUD(
             inAsyncCall: showSpinner,
