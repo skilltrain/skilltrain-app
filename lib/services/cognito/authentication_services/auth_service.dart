@@ -137,13 +137,7 @@ class AuthService {
     } on CognitoClientException catch (e) {
       print(e);
       signUpResult[0] = 'errors';
-      if (e.code == 'UsernameExistsException' ||
-          e.code == 'InvalidParameterException' ||
-          e.code == 'ResourceNotFoundException') {
-        signUpResult.add(e.message);
-      } else {
-        signUpResult.add(e.message);
-      }
+      signUpResult.add(e.message);
     } catch (e) {
       print(e);
       signUpResult[0] = 'errors';
