@@ -193,7 +193,7 @@ class AuthService {
     try {
       await Amplify.Auth.fetchAuthSession(
           options: CognitoSessionOptions(getAWSCredentials: true));
-      await this.checkTrainer(); // Sufficiently blocks line 138 before 141
+      await this.checkTrainer();
       showSession();
     } catch (e) {
       showLogin();
