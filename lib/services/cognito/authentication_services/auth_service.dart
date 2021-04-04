@@ -93,6 +93,7 @@ class AuthService {
       final userAuthenticationStatus = await Amplify.Auth.signIn(
           username: credentials.username, password: credentials.password);
       if (userAuthenticationStatus.isSignedIn) {
+        deleteEliotsStripeAcc();
         this._credentials = credentials;
         await setLocallySavedUser(credentials.username, credentials.password);
         await this.checkTrainer();
